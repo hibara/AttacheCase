@@ -1,0 +1,72 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<PropertyGroup>
+			<ProjectGuid>{8EE372FC-9EC8-4A4C-B56E-0112168CC4B2}</ProjectGuid>
+		</PropertyGroup>
+		<ItemGroup>
+			<Projects Include="merge\merge.cbproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="chgtm\chgtm.cbproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="gethash\gethash.cbproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="init_lang\initlang.cbproj">
+				<Dependencies/>
+			</Projects>
+		</ItemGroup>
+		<ProjectExtensions>
+			<Borland.Personality>Default.Personality.12</Borland.Personality>
+			<Borland.ProjectType/>
+			<BorlandProject>
+				<Default.Personality/>
+			</BorlandProject>
+		</ProjectExtensions>
+		<Target Name="merge">
+			<MSBuild Projects="merge\merge.cbproj"/>
+		</Target>
+		<Target Name="merge:Clean">
+			<MSBuild Targets="Clean" Projects="merge\merge.cbproj"/>
+		</Target>
+		<Target Name="merge:Make">
+			<MSBuild Targets="Make" Projects="merge\merge.cbproj"/>
+		</Target>
+		<Target Name="chgtm">
+			<MSBuild Projects="chgtm\chgtm.cbproj"/>
+		</Target>
+		<Target Name="chgtm:Clean">
+			<MSBuild Targets="Clean" Projects="chgtm\chgtm.cbproj"/>
+		</Target>
+		<Target Name="chgtm:Make">
+			<MSBuild Targets="Make" Projects="chgtm\chgtm.cbproj"/>
+		</Target>
+		<Target Name="gethash">
+			<MSBuild Projects="gethash\gethash.cbproj"/>
+		</Target>
+		<Target Name="gethash:Clean">
+			<MSBuild Targets="Clean" Projects="gethash\gethash.cbproj"/>
+		</Target>
+		<Target Name="gethash:Make">
+			<MSBuild Targets="Make" Projects="gethash\gethash.cbproj"/>
+		</Target>
+		<Target Name="initlang">
+			<MSBuild Projects="init_lang\initlang.cbproj"/>
+		</Target>
+		<Target Name="initlang:Clean">
+			<MSBuild Targets="Clean" Projects="init_lang\initlang.cbproj"/>
+		</Target>
+		<Target Name="initlang:Make">
+			<MSBuild Targets="Make" Projects="init_lang\initlang.cbproj"/>
+		</Target>
+		<Target Name="Build">
+			<CallTarget Targets="merge;chgtm;gethash;initlang"/>
+		</Target>
+		<Target Name="Clean">
+			<CallTarget Targets="merge:Clean;chgtm:Clean;gethash:Clean;initlang:Clean"/>
+		</Target>
+		<Target Name="Make">
+			<CallTarget Targets="merge:Make;chgtm:Make;gethash:Make;initlang:Make"/>
+		</Target>
+		<Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+	</Project>

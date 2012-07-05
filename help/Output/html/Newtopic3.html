@@ -1,0 +1,89 @@
+﻿<html>
+	
+<head>
+	<title>制限</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="generator" content="HelpNDoc Personal Edition 3.5.1.288">
+	<link type="text/css" rel="stylesheet" media="all" href="css/reset.css" />
+	<link type="text/css" rel="stylesheet" media="all" href="css/base.css" />
+	<link type="text/css" rel="stylesheet" media="all" href="css/hnd.css" />
+	<!--[if lte IE 8]>
+		<link type="text/css" rel="stylesheet" media="all" href="css/ielte8.css" />
+	<![endif]-->
+	<style type="text/css">
+		#topic_header
+		{
+			background-color: #EFEFEF;
+		}
+	</style>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/hnd.js"></script>
+	<script type="text/javascript"><!--
+		if (top.frames.length == 0)
+		{
+			var sTopicUrl = top.location.href.substring(top.location.href.lastIndexOf("/") + 1, top.location.href.length);
+			top.location.href = "AttacheCase.html?" + sTopicUrl;
+		}
+		else if (top && top.FrameTOC && top.FrameTOC.SelectTocItem)
+		{
+			top.FrameTOC.SelectTocItem("Newtopic3");
+		}
+	</script>
+</head>
+
+<body>
+
+	<div id="topic_header">
+			<div id="topic_header_content">
+				<h1>制限</h1>
+				
+				</div>
+			<div id="topic_header_nav">
+				<a href="Newtopic2.html"><img src="img/arrow_left.png" alt="Previous"/></a>
+				
+				<a href="Newtopic4.html"><img src="img/arrow_right.png" alt="Next"/></a>
+				
+				</div>
+			<div class="clear"></div>
+		</div>
+	<div id="topic_content">
+		
+<p class="rvps2"><span class="rvts6"><br/></span></p>
+<p class="rvps2"><span class="rvts6">アタッシェケースで作成できるファイルサイズには制限があります。</span><br/><span class="rvts6">とはいっても、ほとんどがWindowsによるOSの制限です。</span><br/><span class="rvts6"></span><br/><span class="rvts6">まず、あなたがお使いのパソコンのファイルシステムによって、ハードディスク上に作れるファイルサイズが決まります。</span></p>
+<p class="rvps2"><span class="rvts6"><br/></span></p>
+<div class="rvps2"><table border="1" cellpadding="1" cellspacing="2">
+<tr valign="top">
+<td valign="top" style="border-style: inset;"><p class="rvps2"><span class="rvts6">FAT16</span></p>
+</td>
+<td valign="middle" style="border-style: inset;"><p class="rvps2"><span class="rvts6">Windows95</span><br/><span class="rvts6">…ハードディスク自体が最大2GBに制限</span></p>
+</td>
+</tr>
+<tr valign="top">
+<td valign="top" style="border-style: inset;"><p class="rvps2"><span class="rvts6">FAT32</span></p>
+</td>
+<td valign="middle" style="border-style: inset;"><p class="rvps2"><span class="rvts6">Windows95 OSR2以降</span><br/><span class="rvts6">…１ファイル4GBまでのサイズ制限</span></p>
+</td>
+</tr>
+<tr valign="top">
+<td valign="top" style="border-style: inset;"><p class="rvps2"><span class="rvts6">NTFS</span></p>
+</td>
+<td valign="middle" style="border-style: inset;"><p class="rvps2"><span class="rvts6">WinodwsNT/2000/XP</span><br/><span class="rvts6">…１ファイル2TB(2000GB）までのサイズに対応</span></p>
+</td>
+</tr>
+</table>
+</div>
+<p class="rvps2"><span class="rvts6"><br/></span></p>
+<p class="rvps2"><span class="rvts6">もし巨大ファイルを扱いたい場合は、Windows2000/XPなどのOSにし、ファイルシステムをNTFSにしないといけません（※Win2000/XPでもFAT32のままのことがあります）。変換の方法は、ネットなどでお調べください。</span><br/><span class="rvts6"></span><br/><span class="rvts6">この制限以上のファイルをアタッシェケースで暗号化ファイルを作成しようとすると、エラーが出て止まるようになっています。また、あまりないとは思いますが、NTFS上で暗号化した後（圧縮がかかります）、FAT32上のハードディスクで4GB以上になるように復号化（解凍・サイズ増加）すると、上記の理由でエラーになることもあります（^^;</span><br/><span class="rvts6"></span><br/><span class="rvts6">さらに、アタッシェケースから正常に出力できる実行形式ファイル（*.exe）のサイズは、4GBまでと制限を受けます。これはメモリを4GB以上搭載できないというWinodwsの仕様からくるもので、4GB以上はWin32アプリケーションとして認識することができません（想定されていません）。</span><br/><span class="rvts6"></span><br/><span class="rvts6">アタッシェケースでは一応4GB以上の実行形式ファイルを作ることはできますが、Windowsの方が認識できませんので注意が必要です。ただ、作成してしまっても、実行形式ファイル（*.exe）をそのままアタッシェケースへ投げ込めば、復号して戻すことができますので、大切なファイルが失われることはありません。</span><br/><span class="rvts6"><br/></span></p>
+<p class="rvps2"><span class="rvts6"><br/></span></p>
+<p class="rvps3"><span class="rvts8">Created with the Personal Edition of HelpNDoc: </span><a class="rvts9" href="http://www.helpndoc.com/feature-tour">Full featured Help generator</a></p>
+</div>
+	
+	<div id="topic_footer">
+
+			<div id="topic_footer_content">
+				Copyright &copy; 2002-2012  by M.Hibara. All Rights Reserved.</div>
+		</div>
+	</body>
+	
+</html>
+

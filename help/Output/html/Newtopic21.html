@@ -1,0 +1,74 @@
+﻿<html>
+	
+<head>
+	<title>アタッシェケースの弱点</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="generator" content="HelpNDoc Personal Edition 3.5.1.288">
+	<link type="text/css" rel="stylesheet" media="all" href="css/reset.css" />
+	<link type="text/css" rel="stylesheet" media="all" href="css/base.css" />
+	<link type="text/css" rel="stylesheet" media="all" href="css/hnd.css" />
+	<!--[if lte IE 8]>
+		<link type="text/css" rel="stylesheet" media="all" href="css/ielte8.css" />
+	<![endif]-->
+	<style type="text/css">
+		#topic_header
+		{
+			background-color: #EFEFEF;
+		}
+	</style>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/hnd.js"></script>
+	<script type="text/javascript"><!--
+		if (top.frames.length == 0)
+		{
+			var sTopicUrl = top.location.href.substring(top.location.href.lastIndexOf("/") + 1, top.location.href.length);
+			top.location.href = "AttacheCase.html?" + sTopicUrl;
+		}
+		else if (top && top.FrameTOC && top.FrameTOC.SelectTocItem)
+		{
+			top.FrameTOC.SelectTocItem("Newtopic21");
+		}
+	</script>
+</head>
+
+<body>
+
+	<div id="topic_header">
+			<div id="topic_header_content">
+				<h1>アタッシェケースの弱点</h1>
+				
+				<div id="topic_breadcrumb">
+					<a href="Newtopic19.html">技術情報</a> &rsaquo;&rsaquo; </div>
+				</div>
+			<div id="topic_header_nav">
+				<a href="Newtopic19.html"><img src="img/arrow_up.png" alt="Parent"/></a>
+				
+				<a href="Newtopic20.html"><img src="img/arrow_left.png" alt="Previous"/></a>
+				
+				<a href="Newtopic22.html"><img src="img/arrow_right.png" alt="Next"/></a>
+				
+				</div>
+			<div class="clear"></div>
+		</div>
+	<div id="topic_content">
+		
+<p class="rvps2"><span class="rvts6">強力な暗号アルゴリズムを使っているとはいっても、「アタッシェケース」には弱点があります。その辺を十分に考慮した上で、ご使用ください。</span><br/><span class="rvts6"></span><br/><span class="rvts6">社外秘など、漏洩してはまずいファイルなどは、「アタッシェケース」を使わず、あなたの会社のしかるべきセキュリティー規則で運用するのが無難です。作者自身が言うのもなんですが、完全なセキュリティー保証はできません。それがフリーソフトウェアの限界ですし、作者は一切の責任を負いません。</span><br/><span class="rvts6"></span><br/><span class="rvts6">ただ、以下の弱点を考慮した上で運用する分には、ある程度のセキュリティーを保って、アタッシェケースを使うことができます。暗号の仕組み自体は強力なものですから。</span></p>
+<ul style="text-indent: 0px; margin-left: 0px; list-style-position: inside;">
+<li class="rvps2"><span class="rvts6">パスワードが漏れる</span><br/><span class="rvts6"></span><br/><span class="rvts6">アタッシェケースでパックしたファイル（*.atc）は、まず破られることはありません。暗号アルゴリズムのRijndael（またはBlowfish）はそれだけ信頼性があります。暗号化したファイルをフロッピーディスクや、ＭＯディスクに入れて持ち歩いていて、万一紛失してしまっても、拾った人が解読することはまず不可能です。</span><br/><span class="rvts6"></span><br/><span class="rvts6">しかし、拾った（あるいは盗んだ）人がアタッシェケースをインストールしていて、かつあなたが入力したパスワードを知っていれば別です。当たり前ですけども（^^;）。 基本的なことですが、パスワードの管理には十分に気をつけましょう。</span><br/><span class="rvts6"></span><br/><span class="rvts6"><br/></span></li>
+<li class="rvps2"><span class="rvts6">別のアプリケーションが編集中に作ったバックアップファイルから漏洩する</span><br/><span class="rvts6"></span><br/><span class="rvts6">他のアプリケーションで編集中に、アタッシェケースを使って暗号化したとき、バックアップファイルを残してしまう場合があります。バックアップ機能があるワープロソフトや、テキストエディタなどをお使いの場合には要注意です。アタッシェケースには、別アプリケーションの動作を監視するまでの機能はありません。暗号化する前に、それらが残っていないかを確認する必要があります。</span><br/><span class="rvts6"></span><br/><span class="rvts6"><br/></span></li>
+<li class="rvps2"><span class="rvts6">ハードディスクを盗まれファイル復旧ユーティリティーで復活される</span><br/><span class="rvts6"></span><br/><span class="rvts6">暗号化しても、ハードディスクを盗まれるかして、いわゆる市販のファイル復旧ユーティリティーなどが使われれば、暗号化される前のファイルを復活される可能性があります。ただ、それに対する対策は一応施してはありますが、万全ではありません。（→</span><a class="rvts7" href="Newtopic22.html">元ファイルの削除方法について</a><span class="rvts6">）</span><br/><span class="rvts6"></span><br/><span class="rvts6"><br/></span></li>
+<li class="rvps2"><span class="rvts6">パソコンが第三者によって監視されている</span><br/><span class="rvts6"></span><br/><span class="rvts6">あなたが打ち込んだキーや、マウス操作などを監視するソフトを第三者によって密かにインストールされていれば、容易にパスワードは漏洩します。そうそうあることではないと思いますが、そのようなツールがネット上で入手可能であるということも知っておいた方がいいでしょう。</span><br/><span class="rvts6"></span><br/><span class="rvts6"><br/></span></li>
+</ul>
+<p class="rvps2"><span class="rvts6"><br/></span></p>
+<p class="rvps3"><span class="rvts8">Created with the Personal Edition of HelpNDoc: </span><a class="rvts9" href="http://www.helpndoc.com">Free HTML Help documentation generator</a></p>
+</div>
+	
+	<div id="topic_footer">
+
+			<div id="topic_footer_content">
+				Copyright &copy; 2002-2012  by M.Hibara. All Rights Reserved.</div>
+		</div>
+	</body>
+	
+</html>
+

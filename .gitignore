@@ -1,12 +1,23 @@
-# Compiled Object files
-*.slo
-*.lo
-*.o
+# Debug directory
+Debug/
 
-# Compiled Dynamic libraries
-*.so
+# Debug directory
+Debug/
 
-# Compiled Static libraries
-*.lai
-*.la
-*.a
+# history directory
+_histroy/
+
+# private temporary directory and files
+_*/
+_*
+
+# C++Builder temporary file
+*.cbproj.local
+*.tds
+*.map
+*.ilc
+*.ild
+*.ilf
+*.ils
+
+

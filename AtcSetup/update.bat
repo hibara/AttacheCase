@@ -1,0 +1,7 @@
+
+
+
+copy AtcSetup.exe ..\
+
+
+

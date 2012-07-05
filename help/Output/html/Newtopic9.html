@@ -1,0 +1,201 @@
+﻿<html>
+	
+<head>
+	<title>起動時のコマンドラインオプション</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="generator" content="HelpNDoc Personal Edition 3.5.1.288">
+	<link type="text/css" rel="stylesheet" media="all" href="css/reset.css" />
+	<link type="text/css" rel="stylesheet" media="all" href="css/base.css" />
+	<link type="text/css" rel="stylesheet" media="all" href="css/hnd.css" />
+	<!--[if lte IE 8]>
+		<link type="text/css" rel="stylesheet" media="all" href="css/ielte8.css" />
+	<![endif]-->
+	<style type="text/css">
+		#topic_header
+		{
+			background-color: #EFEFEF;
+		}
+	</style>
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/hnd.js"></script>
+	<script type="text/javascript"><!--
+		if (top.frames.length == 0)
+		{
+			var sTopicUrl = top.location.href.substring(top.location.href.lastIndexOf("/") + 1, top.location.href.length);
+			top.location.href = "AttacheCase.html?" + sTopicUrl;
+		}
+		else if (top && top.FrameTOC && top.FrameTOC.SelectTocItem)
+		{
+			top.FrameTOC.SelectTocItem("Newtopic9");
+		}
+	</script>
+</head>
+
+<body>
+
+	<div id="topic_header">
+			<div id="topic_header_content">
+				<h1>起動時のコマンドラインオプション</h1>
+				
+				<div id="topic_breadcrumb">
+					<a href="Newtopic4.html">使用方法</a> &rsaquo;&rsaquo; </div>
+				</div>
+			<div id="topic_header_nav">
+				<a href="Newtopic4.html"><img src="img/arrow_up.png" alt="Parent"/></a>
+				
+				<a href="Newtopic8.html"><img src="img/arrow_left.png" alt="Previous"/></a>
+				
+				<a href="Newtopic10.html"><img src="img/arrow_right.png" alt="Next"/></a>
+				
+				</div>
+			<div class="clear"></div>
+		</div>
+	<div id="topic_content">
+		
+<p class="rvps2"><span class="rvts6">「起動時のコマンドオプション」が何のことか分からないユーザーさんには、まったく関係ありません。読み飛ばしてください（^^;　</span><br/><span class="rvts6"></span><br/><span class="rvts6">このページでは、アタッシェケースをより高度に使いこなしたい人向けに、カスタマイズの方法を説明しています。</span><br/><span class="rvts6"></span><br/><span class="rvts6">アタッシェケースでは、起動時に引数を渡すことで、暗号/復号化処理を行うことが可能です。他のアプリケーションから扱ったり、バッチファイルなどから操作できます。たとえば、アタッシェケースのショートカットを作成し、「リンク先」に書き込むことでパスワードを使い分けて暗号/復号するなんて使い方も便利かもしれません。</span><br/><span class="rvts6"></span><br/><span class="rvts6">ただ、この使い方は、パスワード文字列は隠されることなくそのまま記録、表示されることになるので、設定は十分注意して行ってください。あくまでこれも自己責任でお願いします。</span></p>
+<p class="rvps2"><span class="rvts6"></span><br/><span class="rvts6">【注意点】</span></p>
+<ul style="text-indent: 0px; margin-left: 0px; list-style-position: inside;">
+<li class="rvps2"><span class="rvts6">特に引数を指定しない場合は、すでに設定されている内容でアタッシェケースは起動します。たとえば「フォルダの場合、復号後に開く」の設定にふだんはONにしていると、引数でOFFと特に指定しないかぎり、復号後にフォルダを開く動作となります。</span></li>
+<li class="rvps2"><span class="rvts6">引数の大文字小文字は区別しません。ただし、パスワードなど設定の中身は区別します。</span></li>
+<li class="rvps2"><span class="rvts6">引数と"="（イーコール）の間に空白やTabなどの制御文字を入れると正しく認識できません。</span></li>
+<li class="rvps2"><span class="rvts6">設定内容のパスワードに空白を入れたり、ファイルパスに空白が含まれる場合は、""（ダブルコーテーション）で引数全体を括ると正しく認識できます。</span></li>
+<li class="rvps2"><span class="rvts6">コマンドライン引数を指定して実行した場合は、終了時にその設定を保存しません。ユーザーキャンセルなどで処理を中止した際に、改めて動作設定を行っても反映されません。</span></li>
+<li class="rvps2"><span class="rvts6">アタッシェケースが出力した実行形式（*.exe）ファイルの暗号化ファイルに対して、コマンドラインでの指定はできません。できるのは本体（AtchCase.exe）へのみです。</span></li>
+<li class="rvps2"><span class="rvts6">コマンドラインオプションでアタッシェケースのすべての設定項目を指定できません（一部設定できないものもあります）。設定できる項目は以下の通りです。</span></li>
+<hr style="height: 2px;"/></li>
+</ul>
+<p class="rvps2"><span class="rvts6"><br/></span></p>
+<div class="rvps2"><table border="0" cellpadding="1" cellspacing="2" style="border-width: 0px;">
+<tr valign="top">
+<td valign="middle" style="width: 17px;"><p class="rvps2"><img align="absbottom" width="11" height="11" alt="" src="lib/point.gif"/></p>
+</td>
+<td valign="middle" style="width: 672px;"><p class="rvps2"><span class="rvts6">基本設定</span></p>
+</td>
+</tr>
+<tr valign="top">
+<td valign="middle" style="width: 17px;"><p class="rvps2"><span class="rvts6"><br/></span></p>
+</td>
+<td valign="middle" style="width: 672px;"><p class="rvps2"><span class="rvts6"><br/></span></p>
+</td>
+</tr>
+<tr valign="top">
+<td valign="middle" style="width: 17px;"><p class="rvps2"><span class="rvts6"><br/></span></p>
+</td>
+<td valign="middle" style="width: 672px;"><p class="rvps2"><span class="rvts6">/p=[PASSWORD]</span><br/><span class="rvts6">パスワード</span><br/><span class="rvts6">ex). /p=hirakegoma ※パスに空白を含む場合は、ex). "/p=hirake goma"</span><br/><span class="rvts6"></span><br/><span class="rvts6">/mempexe=[0,1]</span><br/><span class="rvts6">記憶パスワードで確認なく実行する</span><br/><span class="rvts6">ex). /mempexe=1 ※実行せず確認を行いたい場合は、ex). /mempexe=0</span><br/><span class="rvts6"></span><br/><span class="rvts6">/opd=[0,1]</span><br/><span class="rvts6">フォルダの場合、復号後に開く</span><br/><span class="rvts6">ex). /opd=1 ※フォルダを開きたくない場合は、ex). /opd=0</span><br/><span class="rvts6"></span><br/><span class="rvts6">/opf=[0,1]</span><br/><span class="rvts6">復号したファイルを関連付けられたソフトで開く</span><br/><span class="rvts6">ex). /opf=1 ※フォルダを開きたくない場合は、ex). /opf=0</span><br/><span class="rvts6"></span><br/><span class="rvts6">/exit=[0,1]</span><br/><span class="rvts6">処理後、アタッシェケースを終了する</span><br/><span class="rvts6">ex). /exit=1 ※終了したくない場合は、ex). /exit=0</span><br/><span class="rvts6"></span><br/><span class="rvts6">/front=[0,1]</span><br/><span class="rvts6">デスクトップで最前面にウィンドウを表示する</span><br/><span class="rvts6">ex). /front=1 ※前面にしたくない場合は、ex). /front=0</span><br/><span class="rvts6"></span><br/><span class="rvts6">/nohide=[0,1]</span><br/><span class="rvts6">「*」で隠さずパスワードを確認しながら入力する</span><br/><span class="rvts6">ex). /nohide=1 ※隠して入力したい場合は、ex). /nohide=0</span><br/><span class="rvts6"></span><br/><span class="rvts6">/exeout=[0,1]</span><br/><span class="rvts6">常に自己実行形式で出力する</span><br/><span class="rvts6">ex). /exeout=1 ※実行形式で出力したくない場合は、ex). /exeout=0</span><br/><span class="rvts6"></span><br/><span class="rvts6">/chkexeout=[0,1]</span><br/><span class="rvts6">メインフォームにそのチェックボックスを表示する</span><br/><span class="rvts6">ex). /chkexeout=1 ※チェックボックスを表示したくない場合は、ex). /chkexeout=0</span><br/><span class="rvts6"></span><br/><span class="rvts6">/askende=[0,1]</span><br/><span class="rvts6">暗号/復号処理かを問い合わせる</span><br/><span class="rvts6">ex). /askende=1 ※問い合わせをしたくないときは、ex). /askende=0</span><br/><span class="rvts6"></span><br/><span class="rvts6">/en=1</span><br/><span class="rvts6">明示的に暗号化を指定する</span><br/><span class="rvts6">※このオプションを指定すると起動時に「暗号化」処理に移行します。</span><br/><span class="rvts6"></span><br/><span class="rvts6">問い合わせオプションが指定されていても無視されます。</span><br/><span class="rvts6"></span><br/><span class="rvts6">/de=1</span><br/><span class="rvts6">明示的に復号化を指定する</span><br/><span class="rvts6">※このオプションを指定すると起動時に「復号化」処理に移行します。</span><br/><span class="rvts6"></span><br/><span class="rvts6">問い合わせオプションが指定されていても無視されます。</span><br/><span class="rvts6"></span><br/><span class="rvts6">/nomulti=[0,1]</span><br/><span class="rvts6">複数起動しない</span><br/><span class="rvts6">ex). /nomulti=1 ※複数起動するときは、ex). /nomulti=0</span><br/><span class="rvts6"><br/></span></p>
+</td>
+</tr>
+<tr valign="top">
+<td valign="middle" style="width: 17px;"><p class="rvps2"><img align="absbottom" width="11" height="11" alt="" src="lib/point.gif"/></p>
+</td>
+<td valign="middle" style="width: 672px;"><p class="rvps2"><span class="rvts6">保存設定</span></p>
+</td>
+</tr>
+<tr valign="top">
+<td valign="middle" style="width: 17px;"><p class="rvps2"><span class="rvts6"><br/></span></p>
+</td>
+<td valign="middle" style="width: 672px;"><p class="rvps2"><span class="rvts6"><br/></span></p>
+</td>
+</tr>
+<tr valign="top">
+<td valign="middle" style="width: 17px;"><p class="rvps2"><span class="rvts6"><br/></span></p>
+</td>
+<td valign="middle" style="width: 672px;"><p class="rvps2"><span class="rvts6">/saveto=[PATH]</span><br/><span class="rvts6">常に同じ場所へ暗号化ファイルを保存する</span><br/><span class="rvts6">ex). /saveto=MyData</span><br/><span class="rvts6">※パスに空白が含まれる場合は、</span><br/><span class="rvts6">"/saveto=C:\Documents and Settings\User1\My Documents"</span><br/><span class="rvts6"></span><br/><span class="rvts6">/dsaveto=[PATH]</span><br/><span class="rvts6">常に同じ場所へファイルを復号化する</span><br/><span class="rvts6">ex). /dsaveto=MyData</span><br/><span class="rvts6">※パスに空白が含まれる場合は、</span><br/><span class="rvts6">"/saveto=C:\Documents and Settings\User1\My Documents"</span><br/><span class="rvts6"></span><br/><span class="rvts6">/ow=[0,1]</span><br/><span class="rvts6">同名ファイルの場合、確認無しに上書きする</span><br/><span class="rvts6">ex). /ow=1 ※上書きを確認する場合は、ex). /ow=0</span><br/><span class="rvts6"></span><br/><span class="rvts6">/orgdt=[0,1]</span><br/><span class="rvts6">暗号化ファイルのタイムスタンプを元ファイルに合わせる</span><br/><span class="rvts6">ex). /orgdt=1 ※タイムスタンプを生成時のままにしておくのは、ex). /orgdt=0</span><br/><span class="rvts6"></span><br/><span class="rvts6">/now=[0,1]</span><br/><span class="rvts6">復号したファイルのタイムスタンプを生成日時にする</span><br/><span class="rvts6">ex). /now=1 ※元のタイムスタンプのままは、ex). /now=0</span><br/><span class="rvts6"></span><br/><span class="rvts6">/allpack=[0,1]</span><br/><span class="rvts6">複数ファイルは一つの暗号化ファイルにまとめる</span><br/><span class="rvts6">ex). /allpack=1 ※まとめない場合は、ex). /allpack=0</span><br/><span class="rvts6"></span><br/><span class="rvts6">/oneby=[0,1]</span><br/><span class="rvts6">フォルダ内のファイルは個別に暗号化/復号する</span><br/><span class="rvts6">ex). /oneby=1 ※個別に処理しない場合は、ex). /oneby=0</span><br/><span class="rvts6"></span><br/><span class="rvts6">/nopfldr=[0,1]</span><br/><span class="rvts6">復号するときに親フォルダを生成しない</span><br/><span class="rvts6">ex). /nopfldr=1 ※復号するときに親フォルダを生成する場合は、ex). /oneby=0</span><br/><span class="rvts6"></span><br/><span class="rvts6">/withext=[0,1]</span><br/><span class="rvts6">暗号化ファイル名に拡張子を含める</span><br/><span class="rvts6">ex). /withext=1 ※含めない場合は、ex). /withext=0</span><br/><span class="rvts6"></span><br/><span class="rvts6">/autoname=[FORMAT]</span><br/><span class="rvts6">自動で暗号化ファイル名を付加する</span><br/><span class="rvts6">ex). /autoname=&lt;filename&gt;_&lt;date:yymmdd&gt;&lt;ext&gt;</span><br/><span class="rvts6"></span><br/><span class="rvts6">※autonameが指定されないと、この機能はOFFとなります。</span><br/><span class="rvts6"></span><br/><span class="rvts6">※パスに空白が含まれる場合は、</span><br/><span class="rvts6"></span><br/><span class="rvts6">ex). "/autoname=&lt;filename&gt;_&lt;date:yymmdd&gt;&lt;ext&gt;"</span><br/><span class="rvts6"><br/></span></p>
+</td>
+</tr>
+<tr valign="top">
+<td valign="middle" style="width: 17px;"><p class="rvps2"><img align="absbottom" width="11" height="11" alt="" src="lib/point.gif"/></p>
+</td>
+<td valign="middle" style="width: 672px;"><p class="rvps2"><span class="rvts6">削除設定</span></p>
+</td>
+</tr>
+<tr valign="top">
+<td valign="middle" style="width: 17px;"><p class="rvps2"><span class="rvts6"><br/></span></p>
+</td>
+<td valign="middle" style="width: 672px;"><p class="rvps2"><span class="rvts6"><br/></span></p>
+</td>
+</tr>
+<tr valign="top">
+<td valign="middle" style="width: 17px;"><p class="rvps2"><span class="rvts6"><br/></span></p>
+</td>
+<td valign="middle" style="width: 672px;"><p class="rvps2"><span class="rvts6">/del=[0,1,2,3]</span><br/><span class="rvts6">暗号化した後、元ファイルを削除する</span><br/><span class="rvts6">0: 削除しない</span><br/><span class="rvts6">1: 通常削除</span><br/><span class="rvts6">2: 完全削除</span><br/><span class="rvts6">3: ごみ箱への削除</span><br/><span class="rvts6">ex). /del=1 ※元ファイル削除しない場合は、ex). /del=0</span><br/><span class="rvts6"></span><br/><span class="rvts6">/delenc=[0,1,2,3]</span><br/><span class="rvts6">復号化した後、暗号化ファイルを削除する</span><br/><span class="rvts6">0: 削除しない</span><br/><span class="rvts6">1: 通常削除</span><br/><span class="rvts6">2: 完全削除</span><br/><span class="rvts6">3: ごみ箱への削除</span><br/><span class="rvts6">ex). /delenc=1 ※元ファイル削除しない場合は、ex). /delenc=0</span><br/><span class="rvts6"></span><br/><span class="rvts6">/chkdel=[0,1]</span><br/><span class="rvts6">メインフォームにそのチェックボックスを表示する</span><br/><span class="rvts6">ex). /chkdel=1 ※チェックボックスを表示したくない場合は、ex). /chkdel=0</span><br/><span class="rvts6"></span><br/><span class="rvts6">/delrand=[0-99]</span><br/><span class="rvts6">乱数を何回書き込み消去するか</span><br/><span class="rvts6">0-99: 書き込み回数を指定します。</span><br/><span class="rvts6">ex). /delrand=3 ※乱数書き込みしない場合は、ex). /delrand=0</span><br/><span class="rvts6"></span><br/><span class="rvts6">/delnull=[0-99]</span><br/><span class="rvts6">NULLを何回書き込み消去するか</span><br/><span class="rvts6">0-99: 書き込み回数を指定します。</span><br/><span class="rvts6">ex). /delnull=3 ※乱数書き込みしない場合は、ex). /delnull=0</span><br/><span class="rvts6"><br/></span></p>
+</td>
+</tr>
+<tr valign="top">
+<td valign="middle" style="width: 17px;"><p class="rvps2"><img align="absbottom" width="11" height="11" alt="" src="lib/point.gif"/></p>
+</td>
+<td valign="middle" style="width: 672px;"><p class="rvps2"><span class="rvts6">動作設定</span></p>
+</td>
+</tr>
+<tr valign="top">
+<td valign="middle" style="width: 17px;"><p class="rvps2"><span class="rvts6"><br/></span></p>
+</td>
+<td valign="middle" style="width: 672px;"><p class="rvps2"><span class="rvts6"><br/></span></p>
+</td>
+</tr>
+<tr valign="top">
+<td valign="middle" style="width: 17px;"><p class="rvps2"><span class="rvts6"><br/></span></p>
+</td>
+<td valign="middle" style="width: 672px;"><p class="rvps2"><span class="rvts6">/comprate=[0-9]</span><br/><span class="rvts6">圧縮設定（圧縮率）</span><br/><span class="rvts6">0-9: 圧縮率を指定します。</span><br/><span class="rvts6">ex). /comprate=6 ※圧縮しない場合は、ex). /comprate=0</span><br/><span class="rvts6"></span><br/><span class="rvts6">/cmp=[0,1]</span><br/><span class="rvts6">暗号化した後にデータのコンペアを行う</span><br/><span class="rvts6">ex). /cmp=1 ※コンペアしない場合は、ex). /cmp=0</span><br/><span class="rvts6"><br/></span></p>
+</td>
+</tr>
+<tr valign="top">
+<td valign="middle" style="width: 17px;"><p class="rvps2"><img align="absbottom" width="11" height="11" alt="" src="lib/point.gif"/></p>
+</td>
+<td valign="middle" style="width: 672px;"><p class="rvps2"><span class="rvts6">高度設定</span></p>
+</td>
+</tr>
+<tr valign="top">
+<td valign="middle" style="width: 17px;"><p class="rvps2"><span class="rvts6"><br/></span></p>
+</td>
+<td valign="middle" style="width: 672px;"><p class="rvps2"><span class="rvts6"><br/></span></p>
+</td>
+</tr>
+<tr valign="top">
+<td valign="middle" style="width: 17px;"><p class="rvps2"><span class="rvts6"><br/></span></p>
+</td>
+<td valign="middle" style="width: 672px;"><p class="rvps2"><span class="rvts6">/pf=[0,1]</span><br/><span class="rvts6">パスワードにファイルの指定を許可する</span><br/><span class="rvts6">ex). /pf=1 ※許可しない場合は、ex). /pf=0</span><br/><span class="rvts6"></span><br/><span class="rvts6">/pfile=[PATH]</span><br/><span class="rvts6">暗号時のパスワードファイルパス</span><br/><span class="rvts6">ex). /pfile=C:\Temp\pass.txt</span><br/><span class="rvts6">※パスに空白が含まれる場合は、</span><br/><span class="rvts6">"/pfile=C:\Documents and Settings\User1\My Documents\pass.txt"</span><br/><span class="rvts6"></span><br/><span class="rvts6">/dpfile=[PATH]</span><br/><span class="rvts6">復号時のパスワードファイルパス</span><br/><span class="rvts6">ex). /dpfile=C:\Temp\pass.txt</span><br/><span class="rvts6">※パスに空白が含まれる場合は、</span><br/><span class="rvts6">"/dpfile=C:\Documents and Settings\User1\My Documents\pass.txt"</span><br/><span class="rvts6"></span><br/><span class="rvts6">/nomsgp=[0,1]</span><br/><span class="rvts6">パスワードファイルがない場合エラーを出さない</span><br/><span class="rvts6">ex). /nomsgp=1 ※エラーを出す場合は、ex). /nomsgp=0</span><br/><span class="rvts6"></span><br/><span class="rvts6">/camoext=[EXT]</span><br/><span class="rvts6">暗号化ファイルの拡張子を偽装する</span><br/><span class="rvts6">ex). /camoext=.jpg ※偽装しない場合は、ex). /camoext=null</span><br/><span class="rvts6"><br/></span></p>
+</td>
+</tr>
+<tr valign="top">
+<td valign="middle" style="width: 17px;"><p class="rvps2"><img align="absbottom" width="11" height="11" alt="" src="lib/point.gif"/></p>
+</td>
+<td valign="middle" style="width: 672px;"><p class="rvps2"><span class="rvts6">その他（コマンドラインからのみ）</span></p>
+</td>
+</tr>
+<tr valign="top">
+<td valign="middle" style="width: 17px;"><p class="rvps2"><span class="rvts6"><br/></span></p>
+</td>
+<td valign="middle" style="width: 672px;"><p class="rvps2"><span class="rvts6"><br/></span></p>
+</td>
+</tr>
+<tr valign="top">
+<td valign="middle" style="width: 17px;"><p class="rvps2"><span class="rvts6"><br/></span></p>
+</td>
+<td valign="middle" style="width: 672px;"><p class="rvps2"><span class="rvts6">/4gbok=[0,1]</span><br/><span class="rvts6">実行形式のときに出力ファイルが4GBを超えても警告メッセージを出さない</span><br/><span class="rvts6">※実行形式出力以外のとき、このオプションは無視されます。</span><br/><span class="rvts6">ex). /4gbok=1 ※出す場合は、ex). /4gbok=0</span><br/><span class="rvts6"><br/></span></p>
+</td>
+</tr>
+<tr valign="top">
+<td valign="middle" style="width: 17px;"><p class="rvps2"><span class="rvts6"><br/></span></p>
+</td>
+<td valign="middle" style="width: 672px;"><p class="rvps2"><span class="rvts6">/list=[PATH]</span><br/><span class="rvts6">別テキストファイルで暗号/復号処理するファイルリストを指定</span><br/><span class="rvts6">ex). /list=C:\Temp\list.txt</span><br/><span class="rvts6">※パスに空白が含まれる場合は、</span><br/><span class="rvts6">"/list=C:\Documents and Settings\User1\My Documents\list.txt"</span><br/><span class="rvts6"></span><br/><span class="rvts6">指定するファイルリストの書式は、1行1ファイルパスです。</span></p>
+<p class="rvps2"><span class="rvts6"></span><br/><span class="rvts6">ex).上記のパスに指定したlist.txtの中身↓</span><br/><span class="rvts6">hogehoge.bmp</span><br/><span class="rvts6">hogehoge1.bmp</span><br/><span class="rvts6">hogehoge2.bmp</span><br/><span class="rvts6">hogehoge3.bmp</span><br/><span class="rvts6">tmp\temporary.htm</span><br/><span class="rvts6">C:\Documents and Settings\User1\My Documents\test.doc</span></p>
+<p class="rvps2"><span class="rvts6"></span><br/><span class="rvts6">※別途実行引数にファイルパスを直接入れても、併用できます（というか一緒に処理されちゃいます）。</span><br/><span class="rvts6">※当然ですが、存在しないパスがあると処理中にエラーが発生します。</span><br/><span class="rvts6"><br/></span></p>
+</td>
+</tr>
+</table>
+</div>
+<hr style="height: 2px;"/>
+<p class="rvps2"><span class="rvts6">こうして見ると、引数指定はけっこう煩雑ですが、既存の設定をそのままに、変えたいところだけ一時的に引数指定すると考えて使うとわかりやすく便利かと思います。</span><br/><span class="rvts6"></span><br/><span class="rvts6">たとえば、</span><br/><span class="rvts6"></span><br/><span class="rvts6">"C:\Program Files\アタッシェケース\AtchCase.exe" 企画文書１.doc /p=hirakegoma /ow=1 /exit=1 /saveto=encrypt</span><br/><span class="rvts6"></span><br/><span class="rvts6">とすれば、</span><br/><span class="rvts6"></span><br/><span class="rvts6">「企画文書１.doc」を暗号化するとして、パスワードは「hirakegoma」、上書きの確認無し、処理後終了、保存先は、「encrypt」フォルダとなります。それ以外の未指定の動作設定については、既存の設定が適用されます。</span><br/><span class="rvts6"></span><br/><span class="rvts6"><br/></span></p>
+<p class="rvps2"><span class="rvts6"><br/></span></p>
+<p class="rvps3"><span class="rvts8">Created with the Personal Edition of HelpNDoc: </span><a class="rvts9" href="http://www.helpndoc.com">Full featured Documentation generator</a></p>
+</div>
+	
+	<div id="topic_footer">
+
+			<div id="topic_footer_content">
+				Copyright &copy; 2002-2012  by M.Hibara. All Rights Reserved.</div>
+		</div>
+	</body>
+	
+</html>
+
