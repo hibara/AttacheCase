@@ -54,7 +54,7 @@ for (int i = 0; i < 32; i++) {
 	key[i] = 0;
 }
 
-fCompare = false;        //コンペア
+fCompare = false;        // コンペア
 
 ProgressPercentNum = -1; // 進捗パーセント
 ProgressStatusText = ""; // 進捗ステータス内容
@@ -62,9 +62,13 @@ ProgressStatusText = ""; // 進捗ステータス内容
 AtcFilePath = "";        // 入力する暗号化ファイル
 OutDirPath = "";         // 出力するディレクトリ
 
-StatusNum = -1;          // ステータス表示内容番号
-DetailNum = -1;
-MsgStringNum = -1;
+NumOfTrials = 1;         // パスワード入力試行回数
+
+StatusNum = -1;          // 処理結果ステータス
+												 //   1: 復号成功
+												 //   0: ユーザーキャンセル
+												 //  -1: パスワード入力エラー
+												 //  -2: 復号エラー
 
 }
 //===========================================================================
@@ -107,9 +111,10 @@ int ret;	//バッファ出力の返値
 int FileIndex = 0;
 
 char token[16];
-const char charTokenString[16] = "_AttacheCaseData";  //復号の正否に使う
-String AtcFileTokenString;                            //暗号化ファイルのトークン（文字列）
-String AtcFileCreateDateString;                       //暗号化ファイルの生成日時（文字列）
+const char charTokenString[16] = "_AttacheCaseData";         //復号の正否に使う
+const char charDestroyTokenString[16] = "_Atc_Broken_Data";  //破壊されているとき
+String AtcFileTokenString;                                   //暗号化ファイルのトークン（文字列）
+String AtcFileCreateDateString;                              //暗号化ファイルの生成日時（文字列）
 
 //同名ファイル/フォルダーはすべて上書きして復号する
 //（ユーザーがダイアログで「すべてはい」を選択したとき = true ）
@@ -164,7 +169,14 @@ try {
 #ifdef EXE_OUT //自己実行形式（自身を開く）
 	fsIn = new TFileStream(AtcFilePath, fmShareDenyNone);
 #else
-	fsIn = new TFileStream(AtcFilePath, fmOpenRead);
+	if ( fDestroy == true && NumOfTrials > TypeLimits ) {
+		//試行回数がミスタイプ設定数を超えたので破壊の可能性を考え書き込みでオープン
+		fsIn = new TFileStream(AtcFilePath, fmOpenReadWrite);
+	}
+	else{
+		//読み込み用でオープン
+		fsIn = new TFileStream(AtcFilePath, fmOpenRead);
+	}
 #endif
 }
 catch(...) {
@@ -358,6 +370,19 @@ delete pms;
 // 復号正否（復号できたか）
 //-----------------------------------
 if (DataList->Count == 0 || DataList->Strings[0].Pos("AttacheCase") == 0) {
+
+	if ( fDestroy == true && NumOfTrials > TypeLimits ) {
+		//試行回数が設定されたミスタイプ数を超えたのでIVを破壊する
+		ZeroMemory(source_buffer, BUF_SIZE);
+		fsIn->Write(source_buffer, BUF_SIZE);
+		//遡ってヘッダ部分のIVも破壊する
+		fsIn->Seek((__int64)-BUF_SIZE-EncryptHeaderSize, TSeekOrigin::soCurrent);
+		fsIn->Write(source_buffer, BUF_SIZE);
+		//破壊されたことを示すトークンを埋め込む
+		fsIn->Seek((__int64)-BUF_SIZE-sizeof(int)*3-16, TSeekOrigin::soCurrent);
+		fsIn->Write(charDestroyTokenString, 16);	//"_Atc_Broken_Data"
+	}
+
 	//'パスワードがちがいます。復号できません。'+#13+
 	//'場合によってはファイルが壊れている可能性もあります。';
 	MsgText = LoadResourceString(&Msgdecrypt::_MSG_ERROR_PASSWORD_WRONG);
@@ -370,7 +395,8 @@ if (DataList->Count == 0 || DataList->Strings[0].Pos("AttacheCase") == 0) {
 	MsgDefaultButton = mbOK;
 	Synchronize(&PostConfirmMessageForm);
 	delete DataList;
-	goto LabelError;
+	goto LabelTypeMiss;
+
 }
 
 //-----------------------------------
@@ -691,7 +717,42 @@ delete [] FileDtCreateList;  // 5: 作成日
 delete [] FileTmCreateList;  // 6: 作成時
 
 //復号成功
+StatusNum = 1;
 return;
+
+
+//-----------------------------------
+//パスワード入力ミスの後始末
+//-----------------------------------
+LabelTypeMiss:
+
+	ProgressPercentNum = 0;
+
+	//'エラー'
+	ProgressStatusText = LoadResourceString(&Msgdecrypt::_LABEL_STATUS_TITLE_ERROR);
+	//'復号に失敗しました。'
+	ProgressMsgText = LoadResourceString(&Msgdecrypt::_LABEL_STATUS_DETAIL_FAILED);
+
+	if ( fInputFileOpen == true ) {
+		delete fsIn;
+		fInputFileOpen = false;
+	}
+	if ( fOutputFileOpen == true ) {
+		delete fsOut;
+		fOutputFileOpen = false;
+	}
+
+	delete FileList;
+	delete [] FileSizeList;
+	delete [] FileAttrList;
+	delete [] FileDtChangeList;
+	delete [] FileTmChangeList;
+	delete [] FileDtCreateList;
+	delete [] FileTmCreateList;
+
+	StatusNum = -1;
+	return;
+
 
 //-----------------------------------
 //エラーの後始末
@@ -736,6 +797,7 @@ LabelError:
 	delete [] FileDtCreateList;
 	delete [] FileTmCreateList;
 
+	StatusNum = -2;
 	return;
 
 
@@ -767,6 +829,7 @@ LabelStop:
 	delete [] FileDtCreateList;
 	delete [] FileTmCreateList;
 
+	StatusNum = 0;
 	return;
 
 }

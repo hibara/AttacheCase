@@ -1146,14 +1146,17 @@ if(ptl){
 	ptl = NULL;
 }
 
+TimerDecrypt->Enabled = false;
+
 //復号に成功
 if ( decrypt->StatusNum > 0 ) {
+
+	decrypt = NULL;
 
 	//コンペアしてきた
 	if (decrypt->fCompare == true) {
 		//デバッグメッセージ
 		//ShowMessage("コンペア処理スレッドが終了しました。");
-		decrypt = NULL;
 		//元の暗号化処理スレッドへ戻る
 		EncryptThreadTerminated(Sender);
 		return;
@@ -1161,11 +1164,10 @@ if ( decrypt->StatusNum > 0 ) {
 
 	//個別に暗号化するオプションでまだ処理するファイルが残っている
 	if (FileListPosition < FileList->Count) {
+		FileListPosition++;
 		FileDecrypt();
 		return;
 	}
-
-	TimerDecrypt->Enabled = false;
 
 	//デバッグメッセージ
 	//ShowMessage("復号処理スレッドが終了しました。");
@@ -1184,8 +1186,27 @@ if ( decrypt->StatusNum > 0 ) {
 
 }
 else{
+
+	//パスワード入力エラーで抜けてきた
+	if ( decrypt->StatusNum == -1 ) {
+		//パスワード入力パネルへ戻る
+		PageControl1->ActivePage = TabSheetInputDecPass;
+		txtDecryptPassword->SetFocus();
+		txtDecryptPassword->SelectAll();
+		return;
+	}
+	//エラー
+	else if ( decrypt->StatusNum == -2 ) {
+
+	}
+	//ユーザーキャンセル
+	else{
+
+	}
+
 	//エラーで終了してきた
 	decrypt = NULL;
+
 }
 
 }
@@ -1873,23 +1894,34 @@ if ( DirectoryExists(OutDirPath) == false ) {
 // 復号処理の開始
 //-----------------------------------
 
-FileListPosition = 0;
-
 if ( FileList->Count > 0) {
 
-	AtcFilePath = FileList->Strings[FileListPosition];
+	if ( decrypt == NULL ) {
 
-	//復号処理インスタンスの作成
-	decrypt = new TAttacheCaseFileDecrypt2(true);
-	decrypt->OnTerminate = DecryptThreadTerminated;
-	decrypt->FreeOnTerminate = true;
-	decrypt->AppExeFilePath = Application->ExeName;  //アタッシェケース本体の場所（実行形式出力のときに参照する）
-	decrypt->AtcFilePath = AtcFilePath;              //入力する暗号化ファイルパス
-	decrypt->OutDirPath = OutDirPath;                //出力するディレクトリ
+		//-----------------------------------
+		//復号処理インスタンスの作成
+		//-----------------------------------
 
-	decrypt->fOpenFolder = opthdl->fOpenFolder;             //フォルダの場合に復号後に開くか
-	decrypt->fOpenFile = opthdl->fOpenFile;                 //復号したファイルを関連付けされたソフトで開く
-	decrypt->fConfirmOverwirte = opthdl->fConfirmOverwirte; //同名ファイルの上書きを確認するか
+		AtcFilePath = FileList->Strings[FileListPosition];
+
+		decrypt = new TAttacheCaseFileDecrypt2(true);
+		decrypt->OnTerminate = DecryptThreadTerminated;
+		decrypt->FreeOnTerminate = true;
+		decrypt->AppExeFilePath = Application->ExeName;  //アタッシェケース本体の場所（実行形式出力のときに参照する）
+		decrypt->AtcFilePath = AtcFilePath;              //入力する暗号化ファイルパス
+		decrypt->OutDirPath = OutDirPath;                //出力するディレクトリ
+
+		decrypt->fOpenFolder = opthdl->fOpenFolder;             //フォルダの場合に復号後に開くか
+		decrypt->fOpenFile = opthdl->fOpenFile;                 //復号したファイルを関連付けされたソフトで開く
+		decrypt->fConfirmOverwirte = opthdl->fConfirmOverwirte; //同名ファイルの上書きを確認するか
+
+	}
+	else{
+		//復号処理インスタンスがすでにあるなら
+		//試行回数を増やして再チャレンジ
+		decrypt->NumOfTrials++;
+
+	}
 
 	//-----------------------------------
 	//パスワードのセット

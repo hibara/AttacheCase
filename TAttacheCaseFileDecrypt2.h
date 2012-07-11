@@ -107,9 +107,7 @@ public:
 	char key[32];
 	char old_key[32];	//下位互換維持のため
 
-	int StatusNum;                     //ステータスメッセージ番号（エラー内容も含む）
-	int DetailNum;                     //処理詳細メッセージ番号（エラー内容も含む）
-	int MsgStringNum;                  //メッセージボックスに表示するテキスト番号
+	int StatusNum;                     //ステータス
 	String MsgAppendString;            //メッセージボックスに表示する付加テキスト
 	String StatusMsg;                  //追加ステータス内容（ファイル名など翻訳不要のもの）
 
@@ -128,8 +126,9 @@ public:
 	String AtcFilePath;                //入力する暗号化ファイルパス
 	String OutDirPath;                 //出力するディレクトリ
 
-	int TypeLimits;                    // ミスタイプ回数 0～10
-	bool fDestroy;                     // 破壊するか否か 0 or 1
+	int NumOfTrials;                   //試行回数
+	int TypeLimits;                    //ミスタイプ回数 0～10
+	bool fDestroy;                     //破壊するか否か 0 or 1
 
 
 
