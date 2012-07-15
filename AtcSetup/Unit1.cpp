@@ -25,7 +25,7 @@ if ( ParamCount() > 0 ){
 	AtcExeFilePath = pReg->ReadString( "AttacheCase\\AppInfo", "AppPath", "");
 
 	if ( AtcExeFilePath == "" ){
-		AtcExeFilePath = ExtractFileDir(Application->ExeName)+"\\AtchCase.exe";
+		AtcExeFilePath = ExtractFileDir(ExpandUNCFileName(Application->ExeName))+"\\AtchCase.exe";
 	}
 
 	if ( FileExists(AtcExeFilePath) == false ){
@@ -97,66 +97,61 @@ Reg->Access = KEY_ALL_ACCESS;
 //（※Win2000/XPなどで制限ユーザーである可能性）
 if ( Reg->OpenKey( "AttacheCase.DataFile\\Shell", true)){
 
-  //openコマンド
-  //古いキーがあるなら削除（ver.2.21～）
-  if ( Reg->KeyExists( "open"))  Reg->EraseSection( "open");
+	//openコマンド
+	//古いキーがあるなら削除（ver.2.21～）
+	if ( Reg->KeyExists( "open"))  Reg->EraseSection( "open");
 
-  Reg->OpenKey("open\\command", true);
-  Reg->WriteExpandString( "", RegData);
-  Reg->CloseKey();
+	Reg->OpenKey("open\\command", true);
+	Reg->WriteExpandString( "", RegData);
+	Reg->CloseKey();
 
-  //decodeコマンド
-  Reg->RootKey = HKEY_CLASSES_ROOT;
-  Reg->Access = KEY_ALL_ACCESS;
-  Reg->OpenKey( "AttacheCase.DataFile\\Shell", true);
+	//decodeコマンド
+	Reg->RootKey = HKEY_CLASSES_ROOT;
+	Reg->Access = KEY_ALL_ACCESS;
+	Reg->OpenKey( "AttacheCase.DataFile\\Shell", true);
 	Reg->WriteExpandString("", "");  // Shell直下をクリア（前のバージョンで残る場合が有り）
 
-  if ( !Reg->KeyExists( "decode")){
+	if ( !Reg->KeyExists( "decode")){
 
 		Reg->OpenKey("decode", true);
 		//'アタッシェケースファイルを復号する'
 		Reg->WriteExpandString( "", LoadResourceString(&Msgmain::_SYSTEM_CONTEXT_MENU_DECYPTION));
 
-    if ( !Reg->KeyExists( "command")){
-      Reg->OpenKey("command", true);
+		if ( !Reg->KeyExists( "command")){
+			Reg->OpenKey("command", true);
 			Reg->WriteExpandString( "", RegData);
 		}
 
-  }
+	}
 	else{
 
-    //レジストリの登録がちがう
-    if (Reg->ReadString("decode\\command","","") != RegData ){
-      Reg->OpenKey("decode\\command", true);
+		//レジストリの登録がちがう
+		if (Reg->ReadString("decode\\command","","") != RegData ){
+			Reg->OpenKey("decode\\command", true);
 			Reg->WriteExpandString( "", RegData);
-    }
+		}
 
-  }
+	}
 
-  Reg->CloseKey();
+	Reg->CloseKey();
 
 }
 else{
 
-  //レジストリが読み出せない？
+	//レジストリが読み出せない？
 	delete Reg;
-  return(false);
+	return(false);
 
 }
-
 
 //-----------------------------------
 //関連付けアイコンの設定
 if ( FileExists(UserRegIconFilePath)){  //ユーザー指定
 	RegIconData = "\""+UserRegIconFilePath+"\"";
-//  LongPath(ExpandUNCFileName(strvalue));
-
 }
 else{ //既存アイコン
 	RegIconData = "\""+AtcExeFilePath+"\","+IntToStr(AtcsFileIconIndex);
-}//end if;
-
-
+}
 
 if ( Reg->OpenKey("AttacheCase.DataFile\\DefaultIcon", true) == true ){
 	Reg->WriteExpandString( "", RegIconData);
@@ -164,10 +159,9 @@ if ( Reg->OpenKey("AttacheCase.DataFile\\DefaultIcon", true) == true ){
 }
 else{
 	//レジストリが読み出せない？
-  delete Reg;
-  return(false);
+	delete Reg;
+	return(false);
 }
-
 
 //-----------------------------------
 // .atc拡張子の関連付け
@@ -227,7 +221,7 @@ else{
 		return(false);
 	}
 
-}//end if;
+}
 
 delete Reg;
 
@@ -245,6 +239,7 @@ delete DelReg;
 
 //-----------------------------------
 //アタッシェケース各設定の削除
+//※アンインストーラーがきれいにしてくれるのでここではやらない。
 /*
 DelReg = new TRegIniFile("Software\\Hibara");
 //レジストリ削除

@@ -11,7 +11,7 @@ DefaultGroupName=アタッシェケース
 OutputBaseFilename=atcs{#MyAppVerNum}{#BetaVerNum}
 DefaultDirName={pf}\AttacheCase
 UsePreviousAppDir=yes
-AppendDefaultDirName=no 
+AppendDefaultDirName=yes 
 OutputDir=.\
 
 ;-----------------------------------
@@ -44,33 +44,33 @@ AppContact=m@hibara.org
 ;サポートサイトURL
 AppSupportURL=http://hibara.org/software/
 ;ReadMeファイルパス
-AppReadmeFile="{pf}\AttacheCase\readme.txt"
+AppReadmeFile="{app}\AttacheCase\readme.txt"
 ;製品更新先のURL
 AppUpdatesURL=http://hibara.org/software/attachecase/
 ;アプリケーションの説明
 AppComments=ファイル/フォルダー暗号化ソフトウェア
 
 [Files]
-Source: "bin\AttacheCase.exe"; DestDir: "{pf}\AttacheCase"; Flags: ignoreversion
-Source: "bin\AtcSetup.exe"; DestDir: "{pf}\AttacheCase"; Flags: ignoreversion
-Source: "bin\AttacheCase.chm"; DestDir: "{pf}\AttacheCase"; Flags: ignoreversion
-Source: "bin\readme.txt"; DestDir: "{pf}\AttacheCase"; Flags: isreadme  ignoreversion
+Source: "bin\AttacheCase.exe"; DestDir: "{app}\AttacheCase"; Flags: ignoreversion
+Source: "bin\AtcSetup.exe"; DestDir: "{app}\AttacheCase"; Flags: ignoreversion
+Source: "bin\AttacheCase.chm"; DestDir: "{app}\AttacheCase"; Flags: ignoreversion
+Source: "bin\readme.txt"; DestDir: "{app}\AttacheCase"; Flags: isreadme  ignoreversion
 
 [Languages]
 Name: japanese; MessagesFile: compiler:Languages\Japanese.isl
 
 [Icons]
-Name: "{group}\アタッシェケース"; Filename: "{pf}\AttacheCase\AttacheCase.exe"; WorkingDir: "{pf}"
-Name: "{group}\ヘルプファイル"; Filename: "{pf}\AttacheCase\AttacheCase.chm"; WorkingDir: "{pf}"
+Name: "{group}\アタッシェケース"; Filename: "{app}\AttacheCase\AttacheCase.exe"; WorkingDir: "{app}"
+Name: "{group}\ヘルプファイル"; Filename: "{app}\AttacheCase\AttacheCase.chm"; WorkingDir: "{app}"
 Name: "{group}\アンインストール"; Filename: "{uninstallexe}"
-Name: "{commondesktop}\アタッシェケース"; Filename: "{pf}\AttacheCase\AttacheCase.exe"; WorkingDir: "{pf}"; Tasks: desktopicon
+Name: "{commondesktop}\アタッシェケース"; Filename: "{app}\AttacheCase\AttacheCase.exe"; WorkingDir: "{app}"; Tasks: desktopicon
 
 [Tasks]
 Name: desktopicon; Description: "デスクトップにショートカットアイコンを作成する"
 Name: association; Description: "*.ATCファイルをアタッシェケースに関連付けする";
 
 [Run]
-Filename: "{pf}\AttacheCase\AtcSetup.exe"; Parameters: "0"; Tasks: association; Flags: nowait skipifsilent runascurrentuser
+Filename: "{app}\AttacheCase\AtcSetup.exe"; Parameters: "0"; Tasks: association; Flags: nowait skipifsilent runascurrentuser
 
 [Registry]
 ;（アンインストール時に）アタッシェケースの動作設定を削除

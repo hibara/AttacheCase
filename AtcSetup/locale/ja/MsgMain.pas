@@ -4,7 +4,6 @@ interface
 
 resourcestring
 
-
 	SYSTEM_CONTEXT_MENU_DECYPTION             = 'アタッシェケースファイルを復号する';
 
   MSG_ERROR_DO_NOT_READ_REGISTRY            = '理由はわかりませんが、レジストリからの読み込みに失敗しました。';

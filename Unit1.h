@@ -164,6 +164,11 @@ private:	// ユーザー宣言
 	//ファイルがどこまで処理されたか
 	int FileListPosition;
 
+	//パスワードの再入力
+	String RetryAtcFilePath;
+	int RetryNum;
+
+
 	//ユーザーにより投げ込まれたパスワードファイルからのデータ
 	// ver.1: 先頭                      32byte
 	AnsiString PasswordFileHeader;

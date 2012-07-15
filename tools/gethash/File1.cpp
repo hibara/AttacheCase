@@ -10,7 +10,7 @@
 #include "md5.h"
 #include "sha1.h"
 
-#define BUF_SIZE 1024
+#define BUF_SIZE 20480
 
 #pragma hdrstop
 

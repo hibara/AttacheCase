@@ -169,14 +169,9 @@ try {
 #ifdef EXE_OUT //自己実行形式（自身を開く）
 	fsIn = new TFileStream(AtcFilePath, fmShareDenyNone);
 #else
-	if ( fDestroy == true && NumOfTrials > TypeLimits ) {
-		//試行回数がミスタイプ設定数を超えたので破壊の可能性を考え書き込みでオープン
-		fsIn = new TFileStream(AtcFilePath, fmOpenReadWrite);
-	}
-	else{
-		//読み込み用でオープン
-		fsIn = new TFileStream(AtcFilePath, fmOpenRead);
-	}
+	//試行回数がミスタイプ設定数を超えたので破壊の可能性があるので
+	//書き込みでオープン
+	fsIn = new TFileStream(AtcFilePath, fmOpenReadWrite);
 #endif
 }
 catch(...) {

@@ -173,6 +173,9 @@ else{
 	opthdl->WinStyle = 0;
 }
 
+//全設定を保存する
+opthdl->SaveOptionData();
+
 delete opthdl;
 
 delete FileList;  //処理するファイルリスト
@@ -839,6 +842,9 @@ ZeroMemory(token, 17);
 
 FileListPosition = 0;
 
+RetryAtcFilePath = "";
+RetryNum = 0;
+
 //-----------------------------------
 //暗号/復号処理かを問い合わせる
 //-----------------------------------
@@ -1193,7 +1199,10 @@ else{
 		PageControl1->ActivePage = TabSheetInputDecPass;
 		txtDecryptPassword->SetFocus();
 		txtDecryptPassword->SelectAll();
-		return;
+
+		RetryAtcFilePath = decrypt->AtcFilePath;
+		RetryNum++;
+
 	}
 	//エラー
 	else if ( decrypt->StatusNum == -2 ) {
@@ -1896,31 +1905,26 @@ if ( DirectoryExists(OutDirPath) == false ) {
 
 if ( FileList->Count > 0) {
 
-	if ( decrypt == NULL ) {
 
-		//-----------------------------------
-		//復号処理インスタンスの作成
-		//-----------------------------------
+	//-----------------------------------
+	//復号処理インスタンスの作成
+	//-----------------------------------
 
-		AtcFilePath = FileList->Strings[FileListPosition];
+	AtcFilePath = FileList->Strings[FileListPosition];
 
-		decrypt = new TAttacheCaseFileDecrypt2(true);
-		decrypt->OnTerminate = DecryptThreadTerminated;
-		decrypt->FreeOnTerminate = true;
-		decrypt->AppExeFilePath = Application->ExeName;  //アタッシェケース本体の場所（実行形式出力のときに参照する）
-		decrypt->AtcFilePath = AtcFilePath;              //入力する暗号化ファイルパス
-		decrypt->OutDirPath = OutDirPath;                //出力するディレクトリ
+	decrypt = new TAttacheCaseFileDecrypt2(true);
+	decrypt->OnTerminate = DecryptThreadTerminated;
+	decrypt->FreeOnTerminate = false;
+	decrypt->AppExeFilePath = Application->ExeName;  //アタッシェケース本体の場所（実行形式出力のときに参照する）
+	decrypt->AtcFilePath = AtcFilePath;              //入力する暗号化ファイルパス
+	decrypt->OutDirPath = OutDirPath;                //出力するディレクトリ
 
-		decrypt->fOpenFolder = opthdl->fOpenFolder;             //フォルダの場合に復号後に開くか
-		decrypt->fOpenFile = opthdl->fOpenFile;                 //復号したファイルを関連付けされたソフトで開く
-		decrypt->fConfirmOverwirte = opthdl->fConfirmOverwirte; //同名ファイルの上書きを確認するか
+	decrypt->fOpenFolder = opthdl->fOpenFolder;             //フォルダの場合に復号後に開くか
+	decrypt->fOpenFile = opthdl->fOpenFile;                 //復号したファイルを関連付けされたソフトで開く
+	decrypt->fConfirmOverwirte = opthdl->fConfirmOverwirte; //同名ファイルの上書きを確認するか
 
-	}
-	else{
-		//復号処理インスタンスがすでにあるなら
-		//試行回数を増やして再チャレンジ
-		decrypt->NumOfTrials++;
-
+	if (AtcFilePath == RetryAtcFilePath) {
+		decrypt->NumOfTrials = RetryNum;
 	}
 
 	//-----------------------------------

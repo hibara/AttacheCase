@@ -377,7 +377,7 @@ else{
 //アプリケーション情報
 //-----------------------------------
 //実行ファイルパス
-pOpt->WriteString( "AppInfo", "AppPath", Application->ExeName);
+pOpt->WriteString( "AppInfo", "AppPath", ExpandUNCFileName(Application->ExeName));
 
 //バージョン番号
 TGetAppInfoString *pAppInfoString = new TGetAppInfoString();
