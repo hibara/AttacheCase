@@ -30,6 +30,7 @@
 
 #define TYPE_CRYPT_ENCRYPT 1	//暗号化
 #define TYPE_CRYPT_DECRYPT 2  //復号
+#define TYPE_CRYPT_ERROR -1   //エラー
 
 
 //---------------------------------------------------------------------------
@@ -168,7 +169,6 @@ private:	// ユーザー宣言
 	String RetryAtcFilePath;
 	int RetryNum;
 
-
 	//ユーザーにより投げ込まれたパスワードファイルからのデータ
 	// ver.1: 先頭                      32byte
 	AnsiString PasswordFileHeader;
@@ -198,6 +198,8 @@ private:	// ユーザー宣言
 	// 暗号化ファイルのヘッダ判定（すべてATCファイルなら真を返す）
 	bool __fastcall CheckAtcFileHeader(TStringList *FileList);
 
+	//暗号化ファイルを破壊する
+	bool __fastcall DestroyAtcFile(String AtcFilePath);
 
 
 
@@ -216,7 +218,6 @@ public:		// ユーザー宣言
 	void __fastcall FilesDragOver(POINTL ptl);
 	void __fastcall FilesDragLeave(void);
 	void __fastcall FilesDragEnd(POINTL ptl, String FileListText);
-
 
 	//メッセージダイアログの表示（スレッドオブジェクトから呼ばれる）
 	int __fastcall ShowConfirmMassageForm(String MsgText, TMsgDlgType MsgType, TMsgDlgButtons MsgButtons, TMsgDlgBtn MsgDefaultButton);

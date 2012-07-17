@@ -51,26 +51,26 @@ AppUpdatesURL=http://hibara.org/software/attachecase/
 AppComments=ファイル/フォルダー暗号化ソフトウェア
 
 [Files]
-Source: "bin\AttacheCase.exe"; DestDir: "{app}\AttacheCase"; Flags: ignoreversion
-Source: "bin\AtcSetup.exe"; DestDir: "{app}\AttacheCase"; Flags: ignoreversion
-Source: "bin\AttacheCase.chm"; DestDir: "{app}\AttacheCase"; Flags: ignoreversion
-Source: "bin\readme.txt"; DestDir: "{app}\AttacheCase"; Flags: isreadme  ignoreversion
+Source: "bin\AttacheCase.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\AtcSetup.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\AttacheCase.chm"; DestDir: "{app}"; Flags: ignoreversion
+Source: "bin\readme.txt"; DestDir: "{app}"; Flags: isreadme  ignoreversion
 
 [Languages]
 Name: japanese; MessagesFile: compiler:Languages\Japanese.isl
 
 [Icons]
-Name: "{group}\アタッシェケース"; Filename: "{app}\AttacheCase\AttacheCase.exe"; WorkingDir: "{app}"
-Name: "{group}\ヘルプファイル"; Filename: "{app}\AttacheCase\AttacheCase.chm"; WorkingDir: "{app}"
+Name: "{group}\アタッシェケース"; Filename: "{app}\AttacheCase.exe"; WorkingDir: "{app}"
+Name: "{group}\ヘルプファイル"; Filename: "{app}\AttacheCase.chm"; WorkingDir: "{app}"
 Name: "{group}\アンインストール"; Filename: "{uninstallexe}"
-Name: "{commondesktop}\アタッシェケース"; Filename: "{app}\AttacheCase\AttacheCase.exe"; WorkingDir: "{app}"; Tasks: desktopicon
+Name: "{commondesktop}\アタッシェケース"; Filename: "{app}\AttacheCase.exe"; WorkingDir: "{app}"; Tasks: desktopicon
 
 [Tasks]
 Name: desktopicon; Description: "デスクトップにショートカットアイコンを作成する"
 Name: association; Description: "*.ATCファイルをアタッシェケースに関連付けする";
 
 [Run]
-Filename: "{app}\AttacheCase\AtcSetup.exe"; Parameters: "0"; Tasks: association; Flags: nowait skipifsilent runascurrentuser
+Filename: "{app}\AtcSetup.exe"; Parameters: "0"; Tasks: association; Flags: nowait skipifsilent runascurrentuser
 
 [Registry]
 ;（アンインストール時に）アタッシェケースの動作設定を削除

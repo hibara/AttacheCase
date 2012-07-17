@@ -43,40 +43,57 @@ a.rvts7, span.rvts7
  text-decoration: underline;
 }
 a.rvts7:hover { color: #000000; background-color: #ffcccc; }
-span.rvts8 /* Font Style */
+a.rvts8, span.rvts8
+{
+ color: #0000ff;
+ text-decoration: underline;
+}
+a.rvts8:hover { color: #0000ff; }
+span.rvts9 /* Font Style */
 {
  font-family: 'Tahoma', 'Geneva', sans-serif;
  font-style: italic;
  color: #c0c0c0;
 }
-a.rvts9, span.rvts9 /* Font Style */
+a.rvts10, span.rvts10 /* Font Style */
 {
  font-family: 'Tahoma', 'Geneva', sans-serif;
  font-style: italic;
  color: #6666ff;
  text-decoration: underline;
 }
-span.rvts10
-{
- font-size: 9pt;
- font-family: 'Times New Roman', 'Times', serif;
- color: #333333;
-}
-a.rvts11, span.rvts11
-{
- font-size: 9pt;
- font-family: 'Times New Roman', 'Times', serif;
- color: #006600;
- text-decoration: underline;
-}
-a.rvts11:hover { color: #000000; background-color: #ffcccc; }
-span.rvts12
+span.rvts11
 {
  font-size: 12pt;
  font-family: 'Times New Roman', 'Times', serif;
  font-weight: bold;
  color: #333333;
 }
+span.rvts12
+{
+ font-size: 9pt;
+ font-family: 'Times New Roman', 'Times', serif;
+ color: #333333;
+}
+a.rvts13, span.rvts13
+{
+ font-size: 9pt;
+ font-family: 'Times New Roman', 'Times', serif;
+ color: #006600;
+ text-decoration: underline;
+}
+a.rvts13:hover { color: #000000; background-color: #ffcccc; }
+span.rvts14
+{
+ font-weight: bold;
+ color: #ff0000;
+}
+a.rvts15, span.rvts15
+{
+ color: #0000ff;
+ text-decoration: underline;
+}
+a.rvts15:hover { color: #0000ff; }
 /* ========== Para Styles ========== */
 p,ul,ol /* Paragraph Style */
 {
@@ -92,7 +109,11 @@ p,ul,ol /* Paragraph Style */
 .rvps2 /* Paragraph Style */
 {
 }
-.rvps3 /* Paragraph Style */
+.rvps3
+{
+ text-align: center;
+}
+.rvps4 /* Paragraph Style */
 {
  text-align: center;
  border-color: #c0c0c0;
@@ -103,15 +124,7 @@ p,ul,ol /* Paragraph Style */
  padding: 2px 0px 2px 0px;
  margin: 7px 0px 7px 0px;
 }
-.rvps4
-{
- margin: 10px 0px 10px 0px;
-}
 .rvps5
-{
- margin: 7px 0px 7px 0px;
-}
-.rvps6
 {
  text-align: left;
  text-indent: 0px;
@@ -123,4 +136,12 @@ p,ul,ol /* Paragraph Style */
  border-bottom: none;
  padding: 0px 0px 4px 8px;
  margin: 15px 0px 15px 0px;
+}
+.rvps6
+{
+ margin: 10px 0px 10px 0px;
+}
+.rvps7
+{
+ margin: 7px 0px 7px 0px;
 }

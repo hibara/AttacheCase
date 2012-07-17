@@ -5788,7 +5788,7 @@ object Form1: TForm1
     Margins.Top = 4
     Margins.Right = 4
     Margins.Bottom = 4
-    ActivePage = TabSheetInputDecPass
+    ActivePage = TabSheetMain
     DoubleBuffered = False
     ParentDoubleBuffered = False
     TabOrder = 1
@@ -6134,6 +6134,10 @@ object Form1: TForm1
     object TabSheetInputEncPass: TTabSheet
       Caption = 'InputEncPass'
       ImageIndex = 1
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       DesignSize = (
         440
         157)
@@ -6494,6 +6498,10 @@ object Form1: TForm1
     object TabSheetInputEncPassConfirm: TTabSheet
       Caption = 'InputEncPassConfirm'
       ImageIndex = 2
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       DesignSize = (
         440
         157)
@@ -6560,6 +6568,10 @@ object Form1: TForm1
     object TabSheetInputDecPass: TTabSheet
       Caption = 'InputDecPass'
       ImageIndex = 3
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       DesignSize = (
         440
         157)
@@ -6617,6 +6629,10 @@ object Form1: TForm1
     object TabSheetExecute: TTabSheet
       Caption = 'Execute'
       ImageIndex = 4
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       DesignSize = (
         440
         157)

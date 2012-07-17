@@ -830,7 +830,14 @@ int i;
 String MsgText;
 String FilePath;
 
-int CryptTypeNum = 0;	// 1:暗号化(TYPE_CRYPT_ENCRYPT), 2:復号(TYPE_CRYPT_DECRYPT)
+//-----------------------------------
+// 処理内容
+//-----------------------------------
+//  1:暗号化(TYPE_CRYPT_ENCRYPT),
+//  2:復号(TYPE_CRYPT_DECRYPT)
+// -1:エラー（TYPE_CRYPT_ERROR）
+
+int CryptTypeNum = 0;
 
 int res;
 TForm* dlgconf;
@@ -912,6 +919,8 @@ else{
 				//'ファイルを開けません。他のアプリケーションで使用中の可能性があります。';
 				MsgText = LoadResourceString(&Msgunit1::_MSG_FILE_OPEN_ERROR) + "\n" + FilePath;
 				MessageDlg(MsgText, mtError, TMsgDlgButtons() << mbOK, 0);
+
+				CryptTypeNum = TYPE_CRYPT_ERROR;
 				break;
 			}
 
@@ -925,9 +934,10 @@ else{
 			}
 			//破壊されたファイル
 			else if ( StrComp(token, "_Atc_Broken_Data") == 0 ) {
-				// 'この暗号化ファイルはパスワード入力に失敗して破壊されているようです。'
+				// 'この暗号化ファイルはパスワード入力に失敗して破壊されているようです。復号できません。'
 				MsgText = LoadResourceString(&Msgunit1::_MSG_BROKEN_ATC_FILE) + "\n" + FilePath;
 				MessageDlg(MsgText, mtInformation, TMsgDlgButtons() << mbOK, 0);
+				CryptTypeNum = TYPE_CRYPT_ERROR;
 				break;
 			}
 			//通常のファイル
@@ -946,10 +956,12 @@ else{
 
 }//end if ( opthdl->fAskEncDecode == true );
 
+
 //-----------------------------------
 // 暗号化/復号それぞれの処理実行
 //-----------------------------------
-//暗号化
+// 暗号化
+//-----------------------------------
 if ( CryptTypeNum == TYPE_CRYPT_ENCRYPT ) {
 
 	//記憶パスワードで即座に実行する
@@ -994,7 +1006,8 @@ if ( CryptTypeNum == TYPE_CRYPT_ENCRYPT ) {
 
 }
 //-----------------------------------
-//復号
+// 復号
+//-----------------------------------
 else if ( CryptTypeNum == TYPE_CRYPT_DECRYPT) {
 
 	//記憶パスワードで即座に実行する
@@ -1034,6 +1047,15 @@ else if ( CryptTypeNum == TYPE_CRYPT_DECRYPT) {
 		return;
 	}
 
+}
+//-----------------------------------
+// エラー
+//-----------------------------------
+else {
+	//メインへ戻る
+	PageControl1->ActivePage = TabSheetMain;
+	FileList->Clear();
+	return;
 }
 
 
@@ -1175,10 +1197,6 @@ if ( decrypt->StatusNum > 0 ) {
 		return;
 	}
 
-	//デバッグメッセージ
-	//ShowMessage("復号処理スレッドが終了しました。");
-	decrypt = NULL;
-
 	//暗号化ファイルの削除処理
 	if ( opthdl->fDelEncFile == true ) {
 		DoDeleteFile(FileList);
@@ -1200,8 +1218,26 @@ else{
 		txtDecryptPassword->SetFocus();
 		txtDecryptPassword->SelectAll();
 
-		RetryAtcFilePath = decrypt->AtcFilePath;
 		RetryNum++;
+
+		if ( RetryAtcFilePath == decrypt->AtcFilePath ) {
+			//パスワード入力回数制限を超えた
+			if ( RetryNum > decrypt->TypeLimits ) {
+				//破壊するオプション
+				if ( decrypt->fDestroy == true ) {
+					//破壊する
+					DestroyAtcFile(RetryAtcFilePath);
+				}
+				else{
+					decrypt = NULL;
+					Application->Terminate();
+        }
+			}
+		}
+		else{
+			RetryAtcFilePath = decrypt->AtcFilePath;
+		}
+
 
 	}
 	//エラー
@@ -2337,6 +2373,113 @@ if (ret == mrNo) { //別名で保存する（いいえ）
 
 delete dlg;
 return(ret);
+
+}
+//---------------------------------------------------------------------------
+//暗号化ファイルを破壊する
+//---------------------------------------------------------------------------
+bool __fastcall TForm1::DestroyAtcFile(String AtcFilePath)
+{
+
+int i;
+int fh;
+
+String MsgText;
+
+char buffer[BUF_SIZE];
+
+for ( i = 0; i < BUF_SIZE; i++ ){
+	buffer[i]=NULL;
+}
+
+TFileStream *fsIn;
+
+char token[16];
+const char charTokenString[16] = "_AttacheCaseData";         //復号の正否に使う
+const char charDestroyTokenString[16] = "_Atc_Broken_Data";  //破壊されているとき
+String AtcFileTokenString;                                   //暗号化ファイルのトークン（文字列）
+String AtcFileCreateDateString;                              //暗号化ファイルの生成日時（文字列）
+
+__int64 AllTotalSize;
+int PlaneHeaderSize;
+int HeaderBufSize;
+
+try {
+#ifdef EXE_OUT //自己実行形式（自身を開く）
+	fsIn = new TFileStream(AtcFilePath, fmShareDenyNone);
+#else
+	fsIn = new TFileStream(AtcFilePath, fmOpenReadWrite);
+#endif
+}
+catch(...) {
+	//'ファイルを開けません。他のアプリケーションで使用中の可能性があります。'
+	MsgText = LoadResourceString(&Msgunit1::_MSG_FILE_OPEN_ERROR);
+	ShowConfirmMassageForm(MsgText, mtError, TMsgDlgButtons()<<mbOK, mbOK);
+	return(false);
+}
+
+//総サイズ取得
+AllTotalSize = fsIn->Seek((__int64)0, TSeekOrigin::soEnd);
+fsIn->Seek((__int64)0, TSeekOrigin::soBeginning);
+
+//-----------------------------------
+//ヘッダ情報のチェック
+//-----------------------------------
+
+// 平文ヘッダサイズを取得
+fsIn->Read(&PlaneHeaderSize, sizeof(int));
+// トークンを取得
+fsIn->Read(token, 16);
+
+if (memcmp(token, charTokenString, 16) != 0 ) {
+
+	//--------------------------------------------------------
+	//実は自己実行形式ファイル？（拡張子偽装されている場合も）
+	//--------------------------------------------------------
+	// サイズを再取得
+	fsIn->Seek(-(__int64)sizeof(__int64), TSeekOrigin::soEnd);
+	fsIn->Read(&AllTotalSize, sizeof(__int64));
+	// 位置を戻す
+	fsIn->Seek(-(AllTotalSize + sizeof(__int64)), TSeekOrigin::soEnd);
+	// もう一度、平文ヘッダサイズを読み込む
+	fsIn->Read(&PlaneHeaderSize, sizeof(int));
+	// もう一度、トークンを取得
+	fsIn->Read(token, 16);
+
+	// トークンを再チェック
+	if (memcmp(token, charTokenString, 16) != 0 ) {
+		//すでに壊れている？　サイレントに処理終了
+		delete fsIn;
+		return(true);
+	}
+	else{
+		fsIn->Seek((__int64)-16, TSeekOrigin::soCurrent);
+		//"_Atc_Broken_Data"を書き込む
+		fsIn->Write(charDestroyTokenString, 16);
+	}
+
+}
+else{
+	fsIn->Seek((__int64)-16, TSeekOrigin::soCurrent);
+	//"_Atc_Broken_Data"を書き込む
+	fsIn->Write(charDestroyTokenString, 16);
+}
+
+//「データバージョン」「アルゴリズムの種類」分だけ進める
+fsIn->Seek((__int64)(sizeof(int)*2), TSeekOrigin::soCurrent);
+//暗号部ヘッダサイズを取得する
+fsIn->Read(&HeaderBufSize, sizeof(int));
+//暗号部ヘッダのIVを書き換えて破壊する
+fsIn->Write(buffer, BUF_SIZE);
+//「暗号部ヘッダサイズ」分だけ進める
+fsIn->Seek((__int64)(HeaderBufSize-BUF_SIZE), TSeekOrigin::soCurrent);
+// IV部分を書き換えて破壊する
+fsIn->Write(buffer, BUF_SIZE);
+
+delete fsIn;
+
+return(true);
+
 
 }
 //---------------------------------------------------------------------------

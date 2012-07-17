@@ -2,7 +2,7 @@
 
 
 
-..\..\tools\init_lang\initlang.exe MsgExeOut.pas
+..\..\..\tools\init_lang\initlang.exe MsgExeOut.pas
 
 
 

@@ -39,7 +39,7 @@ resourcestring
 	MSG_CAPTION_CONFIRMATION                  = '確認';
 
   //メッセージ
-  MSG_BROKEN_ATC_FILE                       = 'この暗号化ファイルはパスワード入力に失敗して破壊されているようです。';
+  MSG_BROKEN_ATC_FILE                       = 'この暗号化ファイルはパスワード入力に失敗して破壊されているようです。復号できません。';
   MSG_FILE_OPEN_ERROR                       = 'ファイルを開けません。他のアプリケーションで使用中の可能性があります。';
 	MSG_CONFIRM_ENCRYPT_OR_DECRYPT            = 'ドラッグ＆ドロップされたファイルまたはフォルダーをどのように処理しますか？';
 	MSG_ERROR_SAVE_ENC_TO_FOLDER_NOT_EXISTS   = '保存する先のフォルダーが見つかりません。保存設定を再確認してください。'+#13+

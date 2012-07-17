@@ -1,12 +1,11 @@
 object Form1: TForm1
   Left = 403
   Top = 326
-  Caption = 'Form1'
-  ClientHeight = 202
-  ClientWidth = 372
+  ClientHeight = 162
+  ClientWidth = 384
   Color = clBtnFace
-  Constraints.MinHeight = 240
-  Constraints.MinWidth = 360
+  Constraints.MinHeight = 200
+  Constraints.MinWidth = 400
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
   Font.Height = -11
@@ -58,13 +57,13 @@ object Form1: TForm1
   OnResize = FormResize
   OnShow = FormShow
   DesignSize = (
-    372
-    202)
+    384
+    162)
   PixelsPerInch = 96
   TextHeight = 13
   object lblAbout: TLabel
-    Left = 16
-    Top = 159
+    Left = 12
+    Top = 123
     Width = 53
     Height = 14
     Anchors = [akLeft, akBottom]
@@ -82,15 +81,15 @@ object Form1: TForm1
     OnMouseLeave = lblAboutMouseLeave
   end
   object lblMsgInputPassword: TLabel
-    Left = 46
-    Top = 84
+    Left = 42
+    Top = 75
     Width = 101
     Height = 13
     Caption = 'lblMsgInputPassword'
   end
   object imgKeyIcon: TImage
-    Left = 16
-    Top = 99
+    Left = 12
+    Top = 70
     Width = 24
     Height = 24
     Anchors = [akLeft]
@@ -174,11 +173,12 @@ object Form1: TForm1
       F0007F00F8001F00F8000F00FC000700FE000300FE000300FC070100FC0F8100
       FC1F8100FC0F8100FC0F8100FC020300FE000300FE000700FF000700FF800F00
       FFE03F00}
+    ExplicitTop = 90
   end
   object lblProgressPercentNum: TLabel
-    Left = 16
-    Top = 56
-    Width = 343
+    Left = 12
+    Top = 52
+    Width = 355
     Height = 13
     Alignment = taCenter
     Anchors = [akLeft, akRight]
@@ -187,9 +187,9 @@ object Form1: TForm1
     Visible = False
   end
   object lblMsg: TLabel
-    Left = 16
-    Top = 23
-    Width = 343
+    Left = 12
+    Top = 22
+    Width = 355
     Height = 13
     Anchors = [akLeft, akRight]
     AutoSize = False
@@ -197,18 +197,20 @@ object Form1: TForm1
     Visible = False
   end
   object lblStatus: TLabel
-    Left = 16
-    Top = 5
-    Width = 343
+    Left = 12
+    Top = 8
+    Width = 355
     Height = 13
+    Anchors = [akLeft, akTop, akRight]
     AutoSize = False
     Caption = 'lblStatus'
     Visible = False
+    ExplicitWidth = 346
   end
   object txtInputPassword: TEdit
-    Left = 46
-    Top = 101
-    Width = 313
+    Left = 42
+    Top = 72
+    Width = 325
     Height = 21
     Anchors = [akLeft, akRight]
     PasswordChar = '*'
@@ -216,8 +218,8 @@ object Form1: TForm1
     Text = 'txtInputPassword'
   end
   object cmdExit: TButton
-    Left = 284
-    Top = 155
+    Left = 292
+    Top = 112
     Width = 75
     Height = 25
     Anchors = [akRight, akBottom]
@@ -227,17 +229,17 @@ object Form1: TForm1
     OnClick = cmdExitClick
   end
   object ProgressBar1: TProgressBar
-    Left = 16
-    Top = 37
-    Width = 343
+    Left = 12
+    Top = 36
+    Width = 355
     Height = 17
     Anchors = [akLeft, akRight]
     TabOrder = 2
     Visible = False
   end
   object cmdOK: TButton
-    Left = 203
-    Top = 155
+    Left = 211
+    Top = 112
     Width = 75
     Height = 25
     Anchors = [akRight, akBottom]
@@ -246,9 +248,9 @@ object Form1: TForm1
     OnClick = cmdOKClick
   end
   object chkSaveToOtherDirectory: TCheckBox
-    Left = 46
-    Top = 129
-    Width = 313
+    Left = 42
+    Top = 95
+    Width = 325
     Height = 17
     Anchors = [akLeft, akRight]
     Caption = 'chkSaveToOtherDirectory'
@@ -258,7 +260,7 @@ object Form1: TForm1
     Enabled = False
     Interval = 100
     OnTimer = TimerDecryptTimer
-    Left = 124
-    Top = 156
+    Left = 132
+    Top = 107
   end
 end

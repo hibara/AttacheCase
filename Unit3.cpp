@@ -180,6 +180,28 @@ else{
 }
 
 //-----------------------------------
+switch(PageControl1->ActivePageIndex){
+case 1:
+	imgFocusLight->BoundsRect = imgSave->BoundsRect;
+	break;
+case 2:
+	imgFocusLight->BoundsRect = imgDelete->BoundsRect;
+	break;
+case 3:
+	imgFocusLight->BoundsRect = imgMovement->BoundsRect;
+	break;
+case 4:
+	imgFocusLight->BoundsRect = imgSystem->BoundsRect;
+	break;
+case 5:
+	imgFocusLight->BoundsRect = imgAdvanced->BoundsRect;
+	break;
+default:
+	imgFocusLight->BoundsRect = imgBasic->BoundsRect;
+	break;
+}
+
+//-----------------------------------
 //•\Ž¦”½‰f
 PanelMenuRefresh();
 

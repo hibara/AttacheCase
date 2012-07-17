@@ -112,7 +112,6 @@ int FileIndex = 0;
 
 char token[16];
 const char charTokenString[16] = "_AttacheCaseData";         //復号の正否に使う
-const char charDestroyTokenString[16] = "_Atc_Broken_Data";  //破壊されているとき
 String AtcFileTokenString;                                   //暗号化ファイルのトークン（文字列）
 String AtcFileCreateDateString;                              //暗号化ファイルの生成日時（文字列）
 
@@ -169,9 +168,7 @@ try {
 #ifdef EXE_OUT //自己実行形式（自身を開く）
 	fsIn = new TFileStream(AtcFilePath, fmShareDenyNone);
 #else
-	//試行回数がミスタイプ設定数を超えたので破壊の可能性があるので
-	//書き込みでオープン
-	fsIn = new TFileStream(AtcFilePath, fmOpenReadWrite);
+	fsIn = new TFileStream(AtcFilePath, fmOpenRead);
 #endif
 }
 catch(...) {
@@ -366,18 +363,6 @@ delete pms;
 //-----------------------------------
 if (DataList->Count == 0 || DataList->Strings[0].Pos("AttacheCase") == 0) {
 
-	if ( fDestroy == true && NumOfTrials > TypeLimits ) {
-		//試行回数が設定されたミスタイプ数を超えたのでIVを破壊する
-		ZeroMemory(source_buffer, BUF_SIZE);
-		fsIn->Write(source_buffer, BUF_SIZE);
-		//遡ってヘッダ部分のIVも破壊する
-		fsIn->Seek((__int64)-BUF_SIZE-EncryptHeaderSize, TSeekOrigin::soCurrent);
-		fsIn->Write(source_buffer, BUF_SIZE);
-		//破壊されたことを示すトークンを埋め込む
-		fsIn->Seek((__int64)-BUF_SIZE-sizeof(int)*3-16, TSeekOrigin::soCurrent);
-		fsIn->Write(charDestroyTokenString, 16);	//"_Atc_Broken_Data"
-	}
-
 	//'パスワードがちがいます。復号できません。'+#13+
 	//'場合によってはファイルが壊れている可能性もあります。';
 	MsgText = LoadResourceString(&Msgdecrypt::_MSG_ERROR_PASSWORD_WRONG);
@@ -396,7 +381,10 @@ if (DataList->Count == 0 || DataList->Strings[0].Pos("AttacheCase") == 0) {
 
 //-----------------------------------
 // 暗号化ファイルの生成日時
-//（※特に今は使用していない）
+//-----------------------------------
+//※特に今は使用していないが、将来的に
+//  期限付きでファイルを復号できなくなる
+//  などの機能を追加しても良いかも。
 //-----------------------------------
 AtcFileCreateDateString = DataList->Strings[1];
 
@@ -414,10 +402,10 @@ FileTmCreateList = new int[DataList->Count];  // 6: 作成時
 
 DataList->NameValueSeparator = ':';
 
-PrefixString = "Fn_";		
+PrefixString = "Fn_";
 for (i = 0; i < DataList->Count; i++) {
 	if ( DataList->IndexOfName("U_"+IntToStr(i)) > -1){
-		PrefixString = "U_";	//新バージョン（ver.2.8.0～）で暗号化されているようだ	
+		PrefixString = "U_";	//新バージョン（ver.2.8.0～）で暗号化されているようだ
 		break;
 	}
 }

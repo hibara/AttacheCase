@@ -18,6 +18,8 @@
 #include "TDragAndDrop.h"
 #include "sha1.h"
 
+//バッファサイズ
+#define BUF_SIZE 32
 
 //SHA-1ハッシュサイズ（160bit）
 //#define BUF_SHA1_SIZE 20
@@ -63,8 +65,13 @@ private:	// ユーザー宣言
 
 	TAttacheCaseFileDecrypt2 *decrypt; // 復号クラスのインスタンス
 	unsigned char password_hash[32];   // パスワードハッシュ
+
 	int TypeLimits;                    // ミスタイプ回数 0～10
 	bool fDestroy;                     // 破壊するか否か 0 or 1
+
+	//パスワードの再入力回数
+	int RetryNum;
+
 
 	// フォーム状態の切り替え
 	void __fastcall ChangeFormStatus(int opt);	// 0:メイン, 1:実行中
@@ -72,6 +79,8 @@ private:	// ユーザー宣言
 	void __fastcall FileDecrypt(void);
 	// ファイルからSHA-1ハッシュ値を取得する
 	bool __fastcall GetSHA1HashFromFile(String FilePath, unsigned char *sha1buffer);
+	//暗号化ファイルを破壊する
+	bool __fastcall DestroyAtcFile(void);
 
 
 
