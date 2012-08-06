@@ -960,6 +960,8 @@ else{
 //-----------------------------------
 // 暗号化/復号それぞれの処理実行
 //-----------------------------------
+
+//-----------------------------------
 // 暗号化
 //-----------------------------------
 if ( CryptTypeNum == TYPE_CRYPT_ENCRYPT ) {
@@ -998,10 +1000,21 @@ if ( CryptTypeNum == TYPE_CRYPT_ENCRYPT ) {
 
 	}
 	else{
-		//パスワード入力パネルへ進む
-		PageControl1->ActivePage = TabSheetInputEncPass;
-		txtEncryptPassword->SetFocus();
-		return;
+		//パスワード記憶が行われているのなら
+		if (opthdl->fMyEncodePasswordKeep == true) {
+			//パスワード再確認パネルまで進む
+			PageControl1->ActivePage = TabSheetInputEncPassConfirm;
+			txtEncryptPassword->Text = opthdl->MyEncodePassword;
+			txtPasswordConfirm->Text = opthdl->MyEncodePassword;
+			txtPasswordConfirm->SetFocus();
+		}
+		else{
+			//パスワード入力パネルへ進む
+			PageControl1->ActivePage = TabSheetInputEncPass;
+			txtEncryptPassword->SetFocus();
+			return;
+		}
+
 	}
 
 }
@@ -1014,6 +1027,7 @@ else if ( CryptTypeNum == TYPE_CRYPT_DECRYPT) {
 	if ( opthdl->fMemPasswordExe == true && opthdl->fMyDecodePasswordKeep == true) {
 		//実行パネル表示
 		PageControl1->ActivePage = TabSheetExecute;
+		txtDecryptPassword->Text = opthdl->MyDecodePassword;
 		FileDecrypt();
 		return;
 	}
@@ -1041,6 +1055,10 @@ else if ( CryptTypeNum == TYPE_CRYPT_DECRYPT) {
 
 	}
 	else{
+		//パスワード記憶設定が行われているのなら値を入力しておく
+		if (opthdl->fMyDecodePasswordKeep == true) {
+			txtDecryptPassword->Text = opthdl->MyDecodePassword;
+		}
 		//パスワード入力パネルへ進む
 		PageControl1->ActivePage = TabSheetInputDecPass;
 		txtDecryptPassword->SetFocus();
@@ -1542,6 +1560,7 @@ if (OpenDialogDecrypt->Execute() == true) {
 
 	//記憶パスワードで即座に実行する
 	if ( opthdl->fMemPasswordExe == true && opthdl->fMyDecodePasswordKeep == true) {
+    txtDecryptPassword->Text = opthdl->MyDecodePassword;
 		//実行パネル表示
 		PageControl1->ActivePage = TabSheetExecute;
 		FileDecrypt();

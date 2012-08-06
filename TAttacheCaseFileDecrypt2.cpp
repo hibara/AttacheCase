@@ -1029,6 +1029,7 @@ while (buff_size > 0 && !Terminated) {
 						//同名ファイルの上書き確認メッセージダイアログ
 						MsgText = LoadResourceString(&Msgdecrypt::_MSG_CONFIRM_OVER_WRITE_SAME_FILE)+"\n"+FilePath;
 						Synchronize(&PostConfirmOverwriteMessageForm);
+
 						if ( MsgReturnVal == mrYes ) {
 							//上書きOKなのでFilePathはそのまま
 						}

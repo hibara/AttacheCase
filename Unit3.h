@@ -15,6 +15,7 @@
 #include <ImgList.hpp>
 #include <Dialogs.hpp>
 #include <Menus.hpp>
+#include <Buttons.hpp>;
 
 #include "Unit1.h"
 #include "Unit4.h"
@@ -24,7 +25,6 @@
 #include "MsgUnit3.hpp"
 
 #include "TDragAndDrop.h"
-#include <Buttons.hpp>;
 
 
 #define FILE_ICON_NUM 4
@@ -215,6 +215,7 @@ __published:	// IDE 管理のコンポーネント
 	void __fastcall chkDelEncFileClick(TObject *Sender);
 	void __fastcall chkShowDeleteChkBoxClick(TObject *Sender);
 	void __fastcall cmdHelpClick(TObject *Sender);
+	void __fastcall btneditAutoNameFormatTextChange(TObject *Sender);
 
 private:	// ユーザー宣言
 

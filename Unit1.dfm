@@ -2,7 +2,7 @@ object Form1: TForm1
   Left = 320
   Top = 149
   Caption = 'AttacheCase'
-  ClientHeight = 413
+  ClientHeight = 434
   ClientWidth = 598
   Color = clBtnFace
   Constraints.MinHeight = 340
@@ -5772,11 +5772,12 @@ object Form1: TForm1
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 394
+    Top = 415
     Width = 598
     Height = 19
     Panels = <>
     OnDblClick = StatusBar1DblClick
+    ExplicitTop = 394
   end
   object PageControl1: TPageControl
     AlignWithMargins = True
@@ -5788,7 +5789,7 @@ object Form1: TForm1
     Margins.Top = 4
     Margins.Right = 4
     Margins.Bottom = 4
-    ActivePage = TabSheetMain
+    ActivePage = TabSheetInputEncPass
     DoubleBuffered = False
     ParentDoubleBuffered = False
     TabOrder = 1
@@ -6134,10 +6135,6 @@ object Form1: TForm1
     object TabSheetInputEncPass: TTabSheet
       Caption = 'InputEncPass'
       ImageIndex = 1
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       DesignSize = (
         440
         157)
@@ -6456,13 +6453,12 @@ object Form1: TForm1
       end
       object txtEncryptPassword: TLabeledEdit
         Left = 29
-        Top = 41
+        Top = 33
         Width = 204
         Height = 21
         EditLabel.Width = 97
         EditLabel.Height = 13
         EditLabel.Caption = 'txtEncryptPassword'
-        PasswordChar = '*'
         TabOrder = 0
         OnKeyDown = txtEncryptPasswordKeyDown
       end
@@ -6498,10 +6494,6 @@ object Form1: TForm1
     object TabSheetInputEncPassConfirm: TTabSheet
       Caption = 'InputEncPassConfirm'
       ImageIndex = 2
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       DesignSize = (
         440
         157)
@@ -6533,7 +6525,6 @@ object Form1: TForm1
         EditLabel.Width = 97
         EditLabel.Height = 13
         EditLabel.Caption = 'txtPasswordConfirm'
-        PasswordChar = '*'
         TabOrder = 0
         OnKeyDown = txtPasswordConfirmKeyDown
       end
@@ -6568,10 +6559,6 @@ object Form1: TForm1
     object TabSheetInputDecPass: TTabSheet
       Caption = 'InputDecPass'
       ImageIndex = 3
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       DesignSize = (
         440
         157)
@@ -6602,7 +6589,6 @@ object Form1: TForm1
         EditLabel.Width = 98
         EditLabel.Height = 13
         EditLabel.Caption = 'txtDecryptPassword'
-        PasswordChar = '*'
         TabOrder = 0
         OnKeyDown = txtDecryptPasswordKeyDown
       end
@@ -6629,10 +6615,6 @@ object Form1: TForm1
     object TabSheetExecute: TTabSheet
       Caption = 'Execute'
       ImageIndex = 4
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       DesignSize = (
         440
         157)

@@ -691,6 +691,18 @@ Form1->opthdl->fOpenFile = chkOpenFile->Checked;
 Form1->opthdl->fEndToExit = chkEndToExit->Checked;
 Form1->opthdl->fWindowForeground = chkWindowForeground->Checked;
 Form1->opthdl->fNoHidePassword = chkNoHidePassword->Checked;
+
+if (Form1->opthdl->fNoHidePassword == true ) {
+	Form1->txtEncryptPassword->PasswordChar = NULL;
+	Form1->txtPasswordConfirm->PasswordChar = NULL;
+	Form1->txtDecryptPassword->PasswordChar = NULL;
+}
+else{
+	Form1->txtEncryptPassword->PasswordChar = '*';
+	Form1->txtPasswordConfirm->PasswordChar = '*';
+	Form1->txtDecryptPassword->PasswordChar = '*';
+}
+
 Form1->opthdl->fSaveToExeout = chkSaveToExeout->Checked;
 Form1->opthdl->fShowExeoutChkBox = chkShowExeoutChkBox->Checked;
 Form1->opthdl->fAskEncDecode = chkAskEncDecode->Checked;
@@ -963,7 +975,6 @@ Form4->Release();
 }
 //---------------------------------------------------------------------------
 // 暗号化/復号パスワード記憶のテキストボックスにファイルをドラッグ＆ドロップ
-
 //---------------------------------------------------------------------------
 void __fastcall TForm3::btneditSaveToSameFldrPathLeftButtonClick(TObject *Sender)
 {
@@ -1102,12 +1113,14 @@ else{
 //---------------------------------------------------------------------------
 void __fastcall TForm3::pmnuInsertFileNameClick(TObject *Sender)
 {
-//
+//ファイル名タグを挿入
+btneditAutoNameFormatText->SelText = "<filename>";
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm3::pmnuInsertFileExtClick(TObject *Sender)
 {
-//
+//拡張子タグを挿入
+btneditAutoNameFormatText->SelText = "<ext>";
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm3::pmnuInsertDatetimeClick(TObject *Sender)
@@ -1324,7 +1337,9 @@ if ( chkAutoName->Checked == true ) {
 	btneditAutoNameFormatText->ReadOnly = false;
 	btneditAutoNameFormatText->Color = clWindow;
 	btneditAutoNameFormatText->RightButton->Enabled = true;
-	btneditAutoNameFormatText->SetFocus();
+	if (this->Visible == true) {
+		btneditAutoNameFormatText->SetFocus();
+	}
 }
 else{
 	btneditAutoNameFormatText->ReadOnly = true;
@@ -1938,6 +1953,16 @@ else if ( PageControl1->ActivePage == TabAdvanced ) {
 else {
 
 }
+
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm3::btneditAutoNameFormatTextChange(TObject *Sender)
+{
+
+//「自動で暗号化ファイル名を付加する」が変更されたとき
+String FilePath =
+	Form1->opthdl->InterpretFormatTextToFilePath("c:\\sample.atc", btneditAutoNameFormatText->Text);
+lblAutoFormatExample->Caption = "ex)." + ExtractFileName(FilePath);
 
 }
 //---------------------------------------------------------------------------

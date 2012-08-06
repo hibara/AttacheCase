@@ -129,12 +129,12 @@ MyDecodePassword = ReadMyPasswordFromRegistry(TYPE_DECODE_FILE);
 //記憶するにチェックが入っているのにパスワードが空文字の場合は
 //非チェックにする
 if ( fMyEncodePasswordKeep == true ) {
-	if (MyEncodePassword.Length() < 1) {
+	if (MyEncodePassword == "") {
 		fMyEncodePasswordKeep = false;
 	}
 }
 if ( fMyDecodePasswordKeep == true ) {
-	if (MyDecodePassword.Length() < 1) {
+	if (MyDecodePassword == "") {
 		fMyDecodePasswordKeep = false;
 	}
 }
@@ -881,7 +881,6 @@ for ( i = 1; i < ParamCount()+1 ; i++){
 //w_char filepath[];
 //size = GetFileTitle("新しい~1.txt",NULL,0);
 
-
 if (ParamCount() > 0) {
 	OptType = 2;
 }
@@ -943,12 +942,12 @@ pOpt->OpenKey("MyKey", false);
 AnsiString MyKeyPass;
 
 //コンピュータ名を取得
-wchar_t UserName[255];
+char UserName[255];
 DWORD  BufferLen = sizeof(UserName)-1;
-GetComputerNameW(UserName, &BufferLen);
+GetComputerName(UserName, &BufferLen);
 
 //「ドライブのボリュームラベルID + コンピュータ名」をパスワードに設定
-MyKeyPass = GetVolumeLabelIDNumber() + "_" + (AnsiString)UserName;
+MyKeyPass = (AnsiString)GetVolumeLabelIDNumber() + "_" + (AnsiString)UserName;
 // ex).  818980454_HIBARA
 
 //バッファの初期化
@@ -1008,6 +1007,8 @@ else{
 
 }
 
+//デバッグ
+//ShowMessage(Password);
 
 //保存のパスワードを返す
 return(Password);
@@ -1077,12 +1078,12 @@ Password = Password + PassToken;
 AnsiString MyKeyPass;
 
 //保存する先のコンピュータ名を取得
-wchar_t UserName[255];
+char UserName[255];
 DWORD  BufferLen = sizeof(UserName)-1;
-GetComputerNameW(UserName, &BufferLen);
+GetComputerName(UserName, &BufferLen);
 
 //「ドライブのボリュームラベルID + コンピュータ名」をパスワードに設定
-MyKeyPass = GetVolumeLabelIDNumber() + "_" + (AnsiString)UserName;
+MyKeyPass = (AnsiString)GetVolumeLabelIDNumber() + "_" + (AnsiString)UserName;
 // ex).  818980454_HIBARA
 
 //-----------------------------------
