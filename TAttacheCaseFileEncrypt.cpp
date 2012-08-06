@@ -826,7 +826,12 @@ for (i = 0; i < HeaderDataList->Count; i++) {
 	HeaderDataList->Strings[i] =
 		StringReplace(HeaderDataList->Strings[i], "Fn_", "U_", TReplaceFlags() << rfIgnoreCase );
 }
-HeaderDataList->SaveToStream(tpms, TEncoding::UTF8); //UTF-8
+
+//HeaderDataList->SaveToStream(tpms, TEncoding::UTF8); //UTF-8
+
+//UTF-8‚Æ‚µ‚Ä‘‚«ž‚Þ‚æ‚è‚àTBytes‚Å‘‚«ž‚ñ‚¾•û‚ª³‚µ‚­•œ†‚³‚ê‚é‚æ‚¤‚¾B
+TBytes ByteArray = HeaderDataList->Text.BytesOf();
+tpms->Write(&ByteArray[0], ByteArray.Length);
 
 delete HeaderDataList;
 

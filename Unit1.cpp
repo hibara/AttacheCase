@@ -1197,7 +1197,7 @@ TimerDecrypt->Enabled = false;
 //復号に成功
 if ( decrypt->StatusNum > 0 ) {
 
-	decrypt = NULL;
+	FileListPosition++;
 
 	//コンペアしてきた
 	if (decrypt->fCompare == true) {
@@ -1207,6 +1207,8 @@ if ( decrypt->StatusNum > 0 ) {
 		EncryptThreadTerminated(Sender);
 		return;
 	}
+
+	decrypt = NULL;
 
 	//個別に暗号化するオプションでまだ処理するファイルが残っている
 	if (FileListPosition < FileList->Count) {

@@ -5777,7 +5777,6 @@ object Form1: TForm1
     Height = 19
     Panels = <>
     OnDblClick = StatusBar1DblClick
-    ExplicitTop = 394
   end
   object PageControl1: TPageControl
     AlignWithMargins = True
