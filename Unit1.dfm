@@ -5788,10 +5788,11 @@ object Form1: TForm1
     Margins.Top = 4
     Margins.Right = 4
     Margins.Bottom = 4
-    ActivePage = TabSheetInputEncPass
+    ActivePage = TabSheetInputDecPass
     DoubleBuffered = False
     ParentDoubleBuffered = False
     TabOrder = 1
+    OnChange = PageControl1Change
     object TabSheetMain: TTabSheet
       Caption = 'Main'
       DoubleBuffered = False

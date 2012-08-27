@@ -3,6 +3,8 @@
 #define TAttacheCaseOptionHandleH
 
 
+#include <System.hpp>
+
 #include <IniFiles.hpp>     //INIファイル操作用
 #include <Registry.hpp>     //レジストリ操作用
 #include <Math.hpp>
@@ -180,8 +182,8 @@ public:
 	bool __fastcall GetSHA1HashFromFile(
 		String FilePath,              //パスワードファイル
 		unsigned char *sha1buffer,    //SHA-1ハッシュ値（160bit）
-		AnsiString &SHA1HashString,   //SHA-1ハッシュ値（文字列32文字）
-		AnsiString &HeaderString );   //ヘッダデータ（先頭文字列32文字）
+		AnsiStringT<932> &SHA1HashString,   //SHA-1ハッシュ値（文字列32文字）
+		AnsiStringT<932> &HeaderString );   //ヘッダデータ（先頭文字列32文字）
 
 	//「送る」フォルダーまでのアプリケーションフルパスを生成する
 	String __fastcall CreateSendToFolderAppFullPath(void);

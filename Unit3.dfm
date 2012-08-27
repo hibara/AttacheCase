@@ -219,7 +219,7 @@ object Form3: TForm3
     Margins.Top = 4
     Margins.Right = 4
     Margins.Bottom = 4
-    ActivePage = TabSave
+    ActivePage = TabSystem
     MultiLine = True
     TabOrder = 2
     object TabBasic: TTabSheet
@@ -1033,6 +1033,7 @@ object Form3: TForm3
           Height = 25
           Caption = 'cmdOutputOptionData'
           TabOrder = 0
+          OnClick = cmdOutputOptionDataClick
         end
         object cmdChangeTempOptionData: TButton
           Left = 21
@@ -1041,6 +1042,7 @@ object Form3: TForm3
           Height = 25
           Caption = 'cmdChangeTempOptionData'
           TabOrder = 1
+          OnClick = cmdChangeTempOptionDataClick
         end
       end
     end
@@ -3856,7 +3858,7 @@ object Form3: TForm3
     Left = 188
     Top = 496
     Bitmap = {
-      494C010104005800A40020001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C010104005800B80020001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000800000002000000001002000000000000040
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -4452,7 +4454,7 @@ object Form3: TForm3
     Left = 312
     Top = 496
     Bitmap = {
-      494C01010500080080001C001C00FFFFFFFF1910FFFFFFFFFFFFFFFF424D3600
+      494C01010500080094001C001C00FFFFFFFF1910FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000700000003800000001001800000000008049
       000000000000000000000000000000000000000000000000000000FFFFFFFFFF
       FFFFFFFFFEFEFEFEFEFEFEFEFEFEFEFEFFFFFFFFFFFFFFFFFF00000000000000

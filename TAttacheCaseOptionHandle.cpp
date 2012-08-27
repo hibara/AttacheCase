@@ -47,34 +47,36 @@ __fastcall TAttacheCaseOptionHandle::TAttacheCaseOptionHandle() : TObject()
 __fastcall TAttacheCaseOptionHandle::~TAttacheCaseOptionHandle()
 {
 
-TRegIniFile *pOpt;
+TCustomIniFile *pOpt;
 
-if ( FileExists(OptionPath) == true ){
-	//通常なら読み込んだ先へ保存する
-	pOpt = new TRegIniFile(OptionPath);
+try{
+
+	if ( FileExists(OptionPath) == true ){
+		//通常なら読み込んだ先へ保存する
+		pOpt = new TIniFile(OptionPath);
+	}
+	else{
+		//なければレジストリへ
+		pOpt = new TRegistryIniFile("Software\\Hibara\\AttacheCase");
+	}
+
+	//-----------------------------------
+	// フォームポジションだけは記憶する
+	//-----------------------------------
+	pOpt->WriteInteger( "WindowPos", "WindowWidth", FormWidth);
+	pOpt->WriteInteger( "WindowPos", "WindowHeight", FormHeight);
+	pOpt->WriteInteger( "WindowPos", "WindowTop", FormTop);
+	pOpt->WriteInteger( "WindowPos", "WindowLeft", FormLeft);
+	pOpt->WriteInteger( "WindowPos", "FormStyle", WinStyle);
+
 }
-else{
-	//なければレジストリへ
-	pOpt = new TRegIniFile("Software\\Hibara\\AttacheCase");
+__finally{
+
+	delete pOpt;
+
 }
 
-//-----------------------------------
-// フォームポジションだけは記憶する
-//-----------------------------------
-pOpt->WriteInteger( "WindowPos", "WindowWidth", FormWidth);
-pOpt->WriteInteger( "WindowPos", "WindowHeight", FormHeight);
-pOpt->WriteInteger( "WindowPos", "WindowTop", FormTop);
-pOpt->WriteInteger( "WindowPos", "WindowLeft", FormLeft);
-pOpt->WriteInteger( "WindowPos", "FormStyle", WinStyle);
 
-//-----------------------------------
-// クローズ
-//-----------------------------------
-if ( FileExists(OptionPath) == false ){
-	pOpt->CloseKey();
-}
-
-delete pOpt;
 
 }
 //===========================================================================
@@ -83,142 +85,144 @@ delete pOpt;
 bool __fastcall TAttacheCaseOptionHandle::LoadOptionData(String IniFilePath)
 {
 
-TRegIniFile *pOpt;
+TCustomIniFile *pOpt;
+TGetAppInfoString *pAppInfoString;
 
-if ( FileExists(IniFilePath) == true ){
-	// INIファイルから読み込み
-	OptionPath = IniFilePath;
-	pOpt = new TRegIniFile(OptionPath);
-	OptType = 1;
-}
-else{
-	// レジストリから読み込み
-	OptionPath = ATTACHE_CASE_REGISTRY_PATH;	//"Software\\Hibara\\AttacheCase"
-	pOpt = new TRegIniFile(OptionPath);
-	OptType = 0;
-}
+try{
 
-//-----------------------------------
-//アプリケーション情報
-//-----------------------------------
-AppPath = Application->ExeName;
-
-//バージョン番号
-TGetAppInfoString *pAppInfoString = new TGetAppInfoString();
-VersionNum = StrToIntDef(StringReplace(pAppInfoString->FileVersion, ".", "", TReplaceFlags()<<rfReplaceAll), -1);
-delete pAppInfoString;
-
-//-----------------------------------
-// フォームポジションなど
-//-----------------------------------
-FormWidth = pOpt->ReadInteger( "WindowPos", "WindowWidth", 350);
-FormHeight = pOpt->ReadInteger( "WindowPos", "WindowHeight", 290);
-FormTop = pOpt->ReadInteger( "WindowPos", "WindowTop", Screen->Height/2-FormHeight/2);
-FormLeft = pOpt->ReadInteger( "WindowPos", "WindowLeft", Screen->Width/2-FormWidth/2);
-WinStyle = pOpt->ReadInteger( "WindowPos", "FormStyle", 0);
-
-//-----------------------------------
-// 基本設定
-//-----------------------------------
-//記憶復号化パスワード
-fMyEncodePasswordKeep = pOpt->ReadBool( "MyKey", "fKeep", false);
-fMyDecodePasswordKeep = pOpt->ReadBool( "MyKey", "fKeep01", false);
-MyEncodePassword = ReadMyPasswordFromRegistry(TYPE_ENCODE_FILE);
-MyDecodePassword = ReadMyPasswordFromRegistry(TYPE_DECODE_FILE);
-
-//記憶するにチェックが入っているのにパスワードが空文字の場合は
-//非チェックにする
-if ( fMyEncodePasswordKeep == true ) {
-	if (MyEncodePassword == "") {
-		fMyEncodePasswordKeep = false;
+	if ( FileExists(IniFilePath) == true ){
+		// INIファイルから読み込み
+		OptionPath = IniFilePath;
+		pOpt = new TIniFile(OptionPath);
+		OptType = 1;
 	}
-}
-if ( fMyDecodePasswordKeep == true ) {
-	if (MyDecodePassword == "") {
-		fMyDecodePasswordKeep = false;
+	else{
+		// レジストリから読み込み
+		OptionPath = ATTACHE_CASE_REGISTRY_PATH;	//"Software\\Hibara\\AttacheCase"
+		pOpt = new TRegistryIniFile(OptionPath);
+		OptType = 0;
 	}
+
+	//-----------------------------------
+	//アプリケーション情報
+	//-----------------------------------
+	AppPath = Application->ExeName;
+
+	//バージョン番号
+	pAppInfoString = new TGetAppInfoString();
+	VersionNum = StrToIntDef(StringReplace(pAppInfoString->FileVersion, ".", "", TReplaceFlags()<<rfReplaceAll), -1);
+
+	//-----------------------------------
+	// フォームポジションなど
+	//-----------------------------------
+	FormWidth = pOpt->ReadInteger( "WindowPos", "WindowWidth", 350);
+	FormHeight = pOpt->ReadInteger( "WindowPos", "WindowHeight", 290);
+	FormTop = pOpt->ReadInteger( "WindowPos", "WindowTop", Screen->Height/2-FormHeight/2);
+	FormLeft = pOpt->ReadInteger( "WindowPos", "WindowLeft", Screen->Width/2-FormWidth/2);
+	WinStyle = pOpt->ReadInteger( "WindowPos", "FormStyle", 0);
+
+	//-----------------------------------
+	// 基本設定
+	//-----------------------------------
+	//記憶復号化パスワード
+	fMyEncodePasswordKeep = pOpt->ReadBool( "MyKey", "fKeep", false);
+	fMyDecodePasswordKeep = pOpt->ReadBool( "MyKey", "fKeep01", false);
+	MyEncodePassword = ReadMyPasswordFromRegistry(TYPE_ENCODE_FILE);
+	MyDecodePassword = ReadMyPasswordFromRegistry(TYPE_DECODE_FILE);
+
+	//記憶するにチェックが入っているのにパスワードが空文字の場合は
+	//非チェックにする
+	if ( fMyEncodePasswordKeep == true ) {
+		if (MyEncodePassword == "") {
+			fMyEncodePasswordKeep = false;
+		}
+	}
+	if ( fMyDecodePasswordKeep == true ) {
+		if (MyDecodePassword == "") {
+			fMyDecodePasswordKeep = false;
+		}
+	}
+
+	fMemPasswordExe = pOpt->ReadBool( "Option", "fMemPasswordExe", true);        //記憶パスワードで確認なく実行する
+	fOpenFolder = pOpt->ReadBool( "Option", "fOpenFolder", false);               //フォルダを開く
+	fOpenFile = pOpt->ReadBool( "Option", "fOpenFile", false);                   //復号したファイルを関連付けされたソフトで開く
+	fEndToExit = pOpt->ReadBool( "Option", "fEndToExit", false);                 //処理後、アプリを終了する
+	fWindowForeground = pOpt->ReadBool( "Option", "fWindowForeground", true);    //デスクトップで最前面にウィンドウを表示する
+	fNoHidePassword = pOpt->ReadBool( "Option", "fNoHidePassword", false);       //「*」で隠さずパスワードを確認しながら入力する
+	fSaveToExeout = pOpt->ReadBool( "Option", "fSaveToExeout", false);           //常に自己実行形式で出力する
+	fShowExeoutChkBox = pOpt->ReadBool( "Option", "fShowExeoutChkBox", true);    //メインフォームにチェックボックスを表示する
+	fAskEncDecode = pOpt->ReadBool( "Option", "fAskEncDecode", false);           //暗号/復号処理かを問い合わせる
+	fNoMultipleInstance = pOpt->ReadBool( "Option", "fNoMultipleInstance", true);//複数起動しない
+
+	ProcTypeWithoutAsk = -1;     //明示的な暗号/復号処理か（コマンドラインからのみ）
+
+	//-----------------------------------
+	// 保存設定
+	//-----------------------------------
+	fSaveToSameFldr = pOpt->ReadBool( "Option", "fSaveToSameFldr", false);          //常に同じ場所に保存するか
+	SaveToSameFldrPath = pOpt->ReadString( "Option", "SaveToSameFldrPath", "");
+	fDecodeToSameFldr = pOpt->ReadInteger( "Option", "fDecodeToSameFldr", false);   //常に同じ場所へファイルを復号化するか
+	DecodeToSameFldrPath = pOpt->ReadString( "Option", "DecodeToSameFldrPath", ""); //その保存場所
+	fConfirmOverwirte = pOpt->ReadBool( "Option", "ConfirmOverwite", true);         //同名ファイルの上書きを確認するか
+	fKeepTimeStamp = pOpt->ReadBool( "Option", "fKeepTimeStamp", false);            //暗号化ファイルのタイムスタンプを元ファイルに合わせる
+	fSameTimeStamp = pOpt->ReadBool( "Option", "fSameTimeStamp", false);            //復号したファイルのタイムスタンプを生成日時にする
+	fAllFilePack = pOpt->ReadBool( "Option", "fAllFilePack", false);                //複数のファイルを暗号化する際は一つにまとめる
+	fFilesOneByOne = pOpt->ReadBool( "Option", "fFilesOneByOne", false);            //フォルダ内のファイルは個別に暗号化/復号する
+	fNoParentFldr = pOpt->ReadBool( "Option", "fNoParentFldr", false);              //復号するときに親フォルダを生成しない
+	fExtInAtcFileName = pOpt->ReadBool( "Option", "fExtInAtcFileName", false);      //暗号化ファイル名に拡張子を含める
+	fAutoName = pOpt->ReadBool( "Option", "fAutoName", false);                      //自動で暗号化ファイル名を付加する
+	AutoNameFormatText = pOpt->ReadString("Option", "AutoNameFormatText", "<filename>_<date:yyyy_mm_dd><ext>");//自動で付加するファイル名書式
+
+	//-----------------------------------
+	// 削除設定
+	//-----------------------------------
+	fDelOrgFile = pOpt->ReadBool( "Option", "fDelOrgFile", false);        //元ファイルを削除する
+	fDelEncFile = pOpt->ReadBool( "Option", "fDelEncFile", false);        //暗号化ファイルを削除する
+	fShowDeleteChkBox = pOpt->ReadBool( "Option", "fShowDeleteChkBox", false); //メインフォームにチェックボックスを表示する
+	fCompleteDelete = pOpt->ReadInteger( "Option", "fCompleteDelFile", 1);//完全の方法(0:通常，1:完全削除，2:ごみ箱）
+	DelRandNum = pOpt->ReadInteger( "Option", "DelRandNum", 0);           //乱数の書き込み回数
+	DelZeroNum = pOpt->ReadInteger( "Option", "DelZeroNum", 1);           //ゼロ書き込み回数
+
+	//-----------------------------------
+	// 動作設定
+	//-----------------------------------
+	CompressRate = pOpt->ReadInteger( "Option", "CompressRate", 6); //圧縮率
+	fCompareFile = pOpt->ReadInteger( "Option", "fCompareFile", 0); //暗号処理後にファイルコンペアを行うか
+
+	//-----------------------------------
+	// システム
+	//-----------------------------------
+	fAssociationFile = pOpt->ReadInteger( "Option", "fAssociationFile", 1);      //関連付け設定
+	AtcsFileIconIndex = pOpt->ReadInteger( "Option", "AtcsFileIconIndex", 2);    //ファイルアイコン番号
+	UserRegIconFilePath = pOpt->ReadString( "Option", "UserRegIconFilePath", "");//ユーザー指定のファイルアイコンパス
+
+	//-----------------------------------
+	// 高度設定
+	//-----------------------------------
+	fAllowPassFile = pOpt->ReadBool( "Option", "fAllowPassFile", false);               //パスワードファイルを許可する
+	fCheckPassFile = pOpt->ReadBool( "Option", "fCheckPassFile", false);               //暗号時にパスワードファイルを自動チェックする
+	PassFilePath = pOpt->ReadString( "Option", "PassFilePath", "");                    //暗号時のパスワードファイルパス
+	fCheckPassFileDecrypt = pOpt->ReadBool( "Option", "fCheckPassFileDecrypt", false); //復号時にパスワードファイルを自動チェックする
+	PassFilePathDecrypt = pOpt->ReadString( "Option", "PassFilePathDecrypt", "");      //復号時のパスワードファイルパス
+	fNoErrMsgOnPassFile = pOpt->ReadBool( "Option", "fNoErrMsgOnPassFile", false);     //パスワードファイルがない場合エラーを出さない
+	fAddCamoExt = pOpt->ReadBool( "Option", "fAddCamoExt", false);                     //暗号化ファイルの拡張子を偽装する
+	CamoExt = pOpt->ReadString( "Option", "CamoExt", ".jpg");                          //その拡張子
+	MissTypeLimitsNum = pOpt->ReadInteger( "Option", "MissTypeLimitsNum", 3);          //パスワードのタイプミス制限回数（ver.2.70～）
+	fBroken = pOpt->ReadBool( "Option", "fBroken", false);                             //タイプミス回数を超えたときにファイルを破壊するか否か（ver.2.70～）
+
+	//-----------------------------------
+	// その他（コマンドラインからのみ）
+	//-----------------------------------
+	fOver4GBok = false;     //4GB超えを容認
+
+
 }
+__finally{
 
-fMemPasswordExe = pOpt->ReadBool( "Option", "fMemPasswordExe", true);        //記憶パスワードで確認なく実行する
-fOpenFolder = pOpt->ReadBool( "Option", "fOpenFolder", false);               //フォルダを開く
-fOpenFile = pOpt->ReadBool( "Option", "fOpenFile", false);                   //復号したファイルを関連付けされたソフトで開く
-fEndToExit = pOpt->ReadBool( "Option", "fEndToExit", false);                 //処理後、アプリを終了する
-fWindowForeground = pOpt->ReadBool( "Option", "fWindowForeground", true);    //デスクトップで最前面にウィンドウを表示する
-fNoHidePassword = pOpt->ReadBool( "Option", "fNoHidePassword", false);       //「*」で隠さずパスワードを確認しながら入力する
-fSaveToExeout = pOpt->ReadBool( "Option", "fSaveToExeout", false);           //常に自己実行形式で出力する
-fShowExeoutChkBox = pOpt->ReadBool( "Option", "fShowExeoutChkBox", true);    //メインフォームにチェックボックスを表示する
-fAskEncDecode = pOpt->ReadBool( "Option", "fAskEncDecode", false);           //暗号/復号処理かを問い合わせる
-fNoMultipleInstance = pOpt->ReadBool( "Option", "fNoMultipleInstance", true);//複数起動しない
+	delete pOpt;
+	delete pAppInfoString;
 
-ProcTypeWithoutAsk = -1;     //明示的な暗号/復号処理か（コマンドラインからのみ）
-
-//-----------------------------------
-// 保存設定
-//-----------------------------------
-fSaveToSameFldr = pOpt->ReadBool( "Option", "fSaveToSameFldr", false);          //常に同じ場所に保存するか
-SaveToSameFldrPath = pOpt->ReadString( "Option", "SaveToSameFldrPath", "");
-fDecodeToSameFldr = pOpt->ReadInteger( "Option", "fDecodeToSameFldr", false);   //常に同じ場所へファイルを復号化するか
-DecodeToSameFldrPath = pOpt->ReadString( "Option", "DecodeToSameFldrPath", ""); //その保存場所
-fConfirmOverwirte = pOpt->ReadBool( "Option", "ConfirmOverwite", true);         //同名ファイルの上書きを確認するか
-fKeepTimeStamp = pOpt->ReadBool( "Option", "fKeepTimeStamp", false);            //暗号化ファイルのタイムスタンプを元ファイルに合わせる
-fSameTimeStamp = pOpt->ReadBool( "Option", "fSameTimeStamp", false);            //復号したファイルのタイムスタンプを生成日時にする
-fAllFilePack = pOpt->ReadBool( "Option", "fAllFilePack", false);                //複数のファイルを暗号化する際は一つにまとめる
-fFilesOneByOne = pOpt->ReadBool( "Option", "fFilesOneByOne", false);            //フォルダ内のファイルは個別に暗号化/復号する
-fNoParentFldr = pOpt->ReadBool( "Option", "fNoParentFldr", false);              //復号するときに親フォルダを生成しない
-fExtInAtcFileName = pOpt->ReadBool( "Option", "fExtInAtcFileName", false);      //暗号化ファイル名に拡張子を含める
-fAutoName = pOpt->ReadBool( "Option", "fAutoName", false);                      //自動で暗号化ファイル名を付加する
-AutoNameFormatText = pOpt->ReadString("Option", "AutoNameFormatText", "<filename>_<date:yyyy_mm_dd><ext>");//自動で付加するファイル名書式
-
-//-----------------------------------
-// 削除設定
-//-----------------------------------
-fDelOrgFile = pOpt->ReadBool( "Option", "fDelOrgFile", false);        //元ファイルを削除する
-fDelEncFile = pOpt->ReadBool( "Option", "fDelEncFile", false);        //暗号化ファイルを削除する
-fShowDeleteChkBox = pOpt->ReadBool( "Option", "fShowDeleteChkBox", false); //メインフォームにチェックボックスを表示する
-fCompleteDelete = pOpt->ReadInteger( "Option", "fCompleteDelFile", 1);//完全の方法(0:通常，1:完全削除，2:ごみ箱）
-DelRandNum = pOpt->ReadInteger( "Option", "DelRandNum", 0);           //乱数の書き込み回数
-DelZeroNum = pOpt->ReadInteger( "Option", "DelZeroNum", 1);           //ゼロ書き込み回数
-
-//-----------------------------------
-// 動作設定
-//-----------------------------------
-CompressRate = pOpt->ReadInteger( "Option", "CompressRate", 6); //圧縮率
-fCompareFile = pOpt->ReadInteger( "Option", "fCompareFile", 0); //暗号処理後にファイルコンペアを行うか
-
-//-----------------------------------
-// システム
-//-----------------------------------
-fAssociationFile = pOpt->ReadInteger( "Option", "fAssociationFile", 1);      //関連付け設定
-AtcsFileIconIndex = pOpt->ReadInteger( "Option", "AtcsFileIconIndex", 2);    //ファイルアイコン番号
-UserRegIconFilePath = pOpt->ReadString( "Option", "UserRegIconFilePath", "");//ユーザー指定のファイルアイコンパス
-
-//-----------------------------------
-// 高度設定
-//-----------------------------------
-fAllowPassFile = pOpt->ReadBool( "Option", "fAllowPassFile", false);               //パスワードファイルを許可する
-fCheckPassFile = pOpt->ReadBool( "Option", "fCheckPassFile", false);               //暗号時にパスワードファイルを自動チェックする
-PassFilePath = pOpt->ReadString( "Option", "PassFilePath", "");                    //暗号時のパスワードファイルパス
-fCheckPassFileDecrypt = pOpt->ReadBool( "Option", "fCheckPassFileDecrypt", false); //復号時にパスワードファイルを自動チェックする
-PassFilePathDecrypt = pOpt->ReadString( "Option", "PassFilePathDecrypt", "");      //復号時のパスワードファイルパス
-fNoErrMsgOnPassFile = pOpt->ReadBool( "Option", "fNoErrMsgOnPassFile", false);     //パスワードファイルがない場合エラーを出さない
-fAddCamoExt = pOpt->ReadBool( "Option", "fAddCamoExt", false);                     //暗号化ファイルの拡張子を偽装する
-CamoExt = pOpt->ReadString( "Option", "CamoExt", ".jpg");                          //その拡張子
-MissTypeLimitsNum = pOpt->ReadInteger( "Option", "MissTypeLimitsNum", 3);          //パスワードのタイプミス制限回数（ver.2.70～）
-fBroken = pOpt->ReadBool( "Option", "fBroken", false);                             //タイプミス回数を超えたときにファイルを破壊するか否か（ver.2.70～）
-
-//-----------------------------------
-// その他（コマンドラインからのみ）
-//-----------------------------------
-fOver4GBok = false;     //4GB超えを容認
-
-//-----------------------------------
-// クローズ
-//-----------------------------------
-if ( FileExists(IniFilePath) == false ){
-	pOpt->CloseKey();
 }
-
-delete pOpt;
 
 return(true);
 
@@ -229,131 +233,134 @@ return(true);
 void __fastcall TAttacheCaseOptionHandle::GetKeyValueData(TStringList *KeyValueList)
 {
 
-TRegIniFile *pOpt;
+TCustomIniFile *pOpt;
+TGetAppInfoString *pAppInfoString;
 
-if ( FileExists(OptionPath) == true ){
-	// INIファイルから読み込み
-	pOpt = new TRegIniFile(OptionPath);
-	OptType = 1;
+try{
+
+	if ( FileExists(OptionPath) == true ){
+		// INIファイルから読み込み
+		pOpt = new TIniFile(OptionPath);
+		OptType = 1;
+	}
+	else{
+		// レジストリから読み込み
+		pOpt = new TRegistryIniFile(ATTACHE_CASE_REGISTRY_PATH);
+		OptType = 0;
+	}
+
+	KeyValueList->Clear();
+
+	//-----------------------------------
+	//アプリケーション情報
+	//-----------------------------------
+	AppPath = Application->ExeName;
+
+	//バージョン番号
+	pAppInfoString = new TGetAppInfoString();
+	VersionNum = StrToIntDef(StringReplace(pAppInfoString->FileVersion, ".", "", TReplaceFlags()<<rfReplaceAll), -1);
+	delete pAppInfoString;
+
+	KeyValueList->Add(String().Format("%s=%s", ARRAYOFCONST(("AppPath", AppPath))));
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("VersionNum", VersionNum))));
+
+	//-----------------------------------
+	// フォームポジションなど
+	//-----------------------------------
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("FormWidth", FormWidth))));
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("FormHeight", FormHeight))));
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("FormTop", FormTop))));
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("FormLeft", FormLeft))));
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("WinStyle", WinStyle))));
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("ActiveTabNum", ActiveTabNum))));
+
+	//-----------------------------------
+	// 基本設定
+	//-----------------------------------
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fMyEncodePasswordKeep", (int)fMyEncodePasswordKeep))));
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fMyDecodePasswordKeep", (int)fMyDecodePasswordKeep))));
+	KeyValueList->Add(String().Format("%s=%s", ARRAYOFCONST(("MyEncodePassword", MyEncodePassword))));
+	KeyValueList->Add(String().Format("%s=%s", ARRAYOFCONST(("MyDecodePassword", MyDecodePassword))));
+
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fMemPasswordExe", (int)fMemPasswordExe))));
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fOpenFolder", (int)fOpenFolder))));
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fOpenFile", (int)fOpenFile))));
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fEndToExit", (int)fEndToExit))));
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fWindowForeground", (int)fWindowForeground))));
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fNoHidePassword", (int)fNoHidePassword))));
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fSaveToExeout", (int)fSaveToExeout))));
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fShowExeoutChkBox", (int)fShowExeoutChkBox))));
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fAskEncDecode", (int)fAskEncDecode))));
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fNoMultipleInstance", (int)fNoMultipleInstance))));
+
+	//-----------------------------------
+	// 保存設定
+	//-----------------------------------
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fSaveToSameFldr", (int)fSaveToSameFldr))));
+	KeyValueList->Add(String().Format("%s=%s", ARRAYOFCONST(("SaveToSameFldrPath", SaveToSameFldrPath))));
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fDecodeToSameFldr", (int)fDecodeToSameFldr))));
+	KeyValueList->Add(String().Format("%s=%s", ARRAYOFCONST(("DecodeToSameFldrPath", DecodeToSameFldrPath))));
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fConfirmOverwirte", (int)fConfirmOverwirte))));
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fKeepTimeStamp", (int)fKeepTimeStamp))));
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fSameTimeStamp", (int)fSameTimeStamp))));
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fAllFilePack", (int)fAllFilePack))));
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fFilesOneByOne", (int)fFilesOneByOne))));
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fNoParentFldr", (int)fNoParentFldr))));
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fExtInAtcFileName", (int)fExtInAtcFileName))));
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fAutoName", (int)fAutoName))));
+	KeyValueList->Add(String().Format("%s=%s", ARRAYOFCONST(("AutoNameFormatText", AutoNameFormatText))));
+
+	//-----------------------------------
+	// 削除設定
+	//-----------------------------------
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fDelOrgFile", (int)fDelOrgFile))));
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fDelEncFile", (int)fDelEncFile))));
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fShowDeleteChkBox", (int)fShowDeleteChkBox))));
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fCompleteDelete", (int)fCompleteDelete))));
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("DelRandNum", DelRandNum))));
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("DelZeroNum", DelZeroNum))));
+
+	//-----------------------------------
+	// 動作設定
+	//-----------------------------------
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("CompressRate", CompressRate))));
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fCompareFile", (int)fCompareFile))));
+
+	//-----------------------------------
+	// システム
+	//-----------------------------------
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fAssociationFile", (int)fAssociationFile))));
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("AtcsFileIconIndex", AtcsFileIconIndex))));
+	KeyValueList->Add(String().Format("%s=%s", ARRAYOFCONST(("UserRegIconFilePath", UserRegIconFilePath))));
+
+	//-----------------------------------
+	// 高度設定
+	//-----------------------------------
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fAllowPassFile", (int)fAllowPassFile))));
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fCheckPassFile", (int)fCheckPassFile))));
+	KeyValueList->Add(String().Format("%s=%s", ARRAYOFCONST(("PassFilePath", PassFilePath))));
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fCheckPassFileDecrypt", (int)fCheckPassFileDecrypt))));
+	KeyValueList->Add(String().Format("%s=%s", ARRAYOFCONST(("PassFilePathDecrypt", PassFilePathDecrypt))));
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fNoErrMsgOnPassFile", (int)fNoErrMsgOnPassFile))));
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fAddCamoExt", (int)fAddCamoExt))));
+	KeyValueList->Add(String().Format("%s=%s", ARRAYOFCONST(("CamoExt", CamoExt))));
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("MissTypeLimitsNum", MissTypeLimitsNum))));
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fBroken", (int)fBroken))));
+
+	//-----------------------------------
+	// その他（コマンドラインからのみ）
+	//-----------------------------------
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fOver4GBok", (int)fOver4GBok))));
+
+
 }
-else{
-	// レジストリから読み込み
-	pOpt = new TRegIniFile(ATTACHE_CASE_REGISTRY_PATH);
-	OptType = 0;
+__finally{
+
+	delete pAppInfoString;
+	delete pOpt;
+
 }
 
-KeyValueList->Clear();
-
-//-----------------------------------
-//アプリケーション情報
-//-----------------------------------
-AppPath = Application->ExeName;
-
-//バージョン番号
-TGetAppInfoString *pAppInfoString = new TGetAppInfoString();
-VersionNum = StrToIntDef(StringReplace(pAppInfoString->FileVersion, ".", "", TReplaceFlags()<<rfReplaceAll), -1);
-delete pAppInfoString;
-
-KeyValueList->Add(String().Format("%s=%s", ARRAYOFCONST(("AppPath", AppPath))));
-KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("VersionNum", VersionNum))));
-
-//-----------------------------------
-// フォームポジションなど
-//-----------------------------------
-KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("FormWidth", FormWidth))));
-KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("FormHeight", FormHeight))));
-KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("FormTop", FormTop))));
-KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("FormLeft", FormLeft))));
-KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("WinStyle", WinStyle))));
-KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("ActiveTabNum", ActiveTabNum))));
-
-//-----------------------------------
-// 基本設定
-//-----------------------------------
-KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fMyEncodePasswordKeep", (int)fMyEncodePasswordKeep))));
-KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fMyDecodePasswordKeep", (int)fMyDecodePasswordKeep))));
-KeyValueList->Add(String().Format("%s=%s", ARRAYOFCONST(("MyEncodePassword", MyEncodePassword))));
-KeyValueList->Add(String().Format("%s=%s", ARRAYOFCONST(("MyDecodePassword", MyDecodePassword))));
-
-KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fMemPasswordExe", (int)fMemPasswordExe))));
-KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fOpenFolder", (int)fOpenFolder))));
-KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fOpenFile", (int)fOpenFile))));
-KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fEndToExit", (int)fEndToExit))));
-KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fWindowForeground", (int)fWindowForeground))));
-KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fNoHidePassword", (int)fNoHidePassword))));
-KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fSaveToExeout", (int)fSaveToExeout))));
-KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fShowExeoutChkBox", (int)fShowExeoutChkBox))));
-KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fAskEncDecode", (int)fAskEncDecode))));
-KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fNoMultipleInstance", (int)fNoMultipleInstance))));
-
-//-----------------------------------
-// 保存設定
-//-----------------------------------
-KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fSaveToSameFldr", (int)fSaveToSameFldr))));
-KeyValueList->Add(String().Format("%s=%s", ARRAYOFCONST(("SaveToSameFldrPath", SaveToSameFldrPath))));
-KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fDecodeToSameFldr", (int)fDecodeToSameFldr))));
-KeyValueList->Add(String().Format("%s=%s", ARRAYOFCONST(("DecodeToSameFldrPath", DecodeToSameFldrPath))));
-KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fConfirmOverwirte", (int)fConfirmOverwirte))));
-KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fKeepTimeStamp", (int)fKeepTimeStamp))));
-KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fSameTimeStamp", (int)fSameTimeStamp))));
-KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fAllFilePack", (int)fAllFilePack))));
-KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fFilesOneByOne", (int)fFilesOneByOne))));
-KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fNoParentFldr", (int)fNoParentFldr))));
-KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fExtInAtcFileName", (int)fExtInAtcFileName))));
-KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fAutoName", (int)fAutoName))));
-KeyValueList->Add(String().Format("%s=%s", ARRAYOFCONST(("AutoNameFormatText", AutoNameFormatText))));
-
-//-----------------------------------
-// 削除設定
-//-----------------------------------
-KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fDelOrgFile", (int)fDelOrgFile))));
-KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fDelEncFile", (int)fDelEncFile))));
-KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fShowDeleteChkBox", (int)fShowDeleteChkBox))));
-KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fCompleteDelete", (int)fCompleteDelete))));
-KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("DelRandNum", DelRandNum))));
-KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("DelZeroNum", DelZeroNum))));
-
-//-----------------------------------
-// 動作設定
-//-----------------------------------
-KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("CompressRate", CompressRate))));
-KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fCompareFile", (int)fCompareFile))));
-
-//-----------------------------------
-// システム
-//-----------------------------------
-KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fAssociationFile", (int)fAssociationFile))));
-KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("AtcsFileIconIndex", AtcsFileIconIndex))));
-KeyValueList->Add(String().Format("%s=%s", ARRAYOFCONST(("UserRegIconFilePath", UserRegIconFilePath))));
-
-//-----------------------------------
-// 高度設定
-//-----------------------------------
-KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fAllowPassFile", (int)fAllowPassFile))));
-KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fCheckPassFile", (int)fCheckPassFile))));
-KeyValueList->Add(String().Format("%s=%s", ARRAYOFCONST(("PassFilePath", PassFilePath))));
-KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fCheckPassFileDecrypt", (int)fCheckPassFileDecrypt))));
-KeyValueList->Add(String().Format("%s=%s", ARRAYOFCONST(("PassFilePathDecrypt", PassFilePathDecrypt))));
-KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fNoErrMsgOnPassFile", (int)fNoErrMsgOnPassFile))));
-KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fAddCamoExt", (int)fAddCamoExt))));
-KeyValueList->Add(String().Format("%s=%s", ARRAYOFCONST(("CamoExt", CamoExt))));
-KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("MissTypeLimitsNum", MissTypeLimitsNum))));
-KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fBroken", (int)fBroken))));
-
-//-----------------------------------
-// その他（コマンドラインからのみ）
-//-----------------------------------
-KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fOver4GBok", (int)fOver4GBok))));
-
-
-//-----------------------------------
-// クローズ
-//-----------------------------------
-if ( FileExists(OptionPath) == false ){
-	pOpt->CloseKey();
-}
-
-delete pOpt;
 
 }
 //===========================================================================
@@ -362,120 +369,120 @@ delete pOpt;
 bool __fastcall TAttacheCaseOptionHandle::SaveOptionData(void)
 {
 
-TRegIniFile *pOpt;
+TCustomIniFile *pOpt;
+TGetAppInfoString *pAppInfoString;
 
-if ( FileExists(OptionPath) == true ){
-	//通常なら読み込んだ先へ保存する
-	pOpt = new TRegIniFile(OptionPath);
+try{
+
+	if ( FileExists(OptionPath) == true ){
+		//通常なら読み込んだ先へ保存する
+		pOpt = new TIniFile(OptionPath);
+	}
+	else{
+		//なければレジストリへ
+		pOpt = new TRegistryIniFile("Software\\Hibara\\AttacheCase");
+	}
+
+	//-----------------------------------
+	//アプリケーション情報
+	//-----------------------------------
+	//実行ファイルパス
+	pOpt->WriteString( "AppInfo", "AppPath", ExpandUNCFileName(Application->ExeName));
+
+	//バージョン番号
+	pAppInfoString = new TGetAppInfoString();
+	VersionNum = StrToIntDef(StringReplace(pAppInfoString->FileVersion, ".", "", TReplaceFlags()<<rfReplaceAll), -1);
+
+	//-----------------------------------
+	// フォームポジションなど
+	//-----------------------------------
+	pOpt->WriteInteger( "WindowPos", "WindowWidth", FormWidth);
+	pOpt->WriteInteger( "WindowPos", "WindowHeight", FormHeight);
+	pOpt->WriteInteger( "WindowPos", "WindowTop", FormTop);
+	pOpt->WriteInteger( "WindowPos", "WindowLeft", FormLeft);
+	pOpt->WriteInteger( "WindowPos", "FormStyle", WinStyle);
+
+	//-----------------------------------
+	// 基本設定
+	//-----------------------------------
+	pOpt->WriteBool( "MyKey", "fKeep", fMyEncodePasswordKeep);   //パスワードを記録するか
+	pOpt->WriteBool( "MyKey", "fKeep01", fMyDecodePasswordKeep);
+	//記憶するパスワードを記録する
+	SaveMyPasswordToRegistry(MyEncodePassword, 0);	//暗号化
+	SaveMyPasswordToRegistry(MyDecodePassword, 1);	//復号
+
+	pOpt->WriteInteger( "Option", "fMemPasswordExe", fMemPasswordExe);     //記憶パスワードで確認なく実行する
+	pOpt->WriteInteger( "Option", "fOpenFolder", fOpenFolder);             //フォルダを開く
+	pOpt->WriteInteger( "Option", "fOpenFile", fOpenFile);                 //復号したファイルを関連付けされたソフトで開く
+	pOpt->WriteInteger( "Option", "fEndToExit", fEndToExit);               //処理後、アタッシェケースを終了する
+	pOpt->WriteBool( "Option", "fWindowForeground", fWindowForeground);    //デスクトップで最前面にウィンドウを表示する
+	pOpt->WriteBool( "Option", "fNoHidePassword", fNoHidePassword);        //「*」で隠さずパスワードを確認しながら入力する
+	pOpt->WriteBool( "Option", "fSaveToExeout", fSaveToExeout);            //常に自己実行形式で出力する
+	pOpt->WriteBool( "Option", "fShowExeoutChkBox", fShowExeoutChkBox);    //メインフォームにチェックボックスを表示する
+	pOpt->WriteBool( "Option", "fAskEncDecode", fAskEncDecode);            //暗号/復号処理かを問い合わせる
+	pOpt->WriteBool( "Option", "fNoMultipleInstance", fNoMultipleInstance);//複数起動しない
+
+	//-----------------------------------
+	// 保存設定
+	//-----------------------------------
+	pOpt->WriteInteger( "Option", "fSaveToSameFldr", fSaveToSameFldr);          //常に同じ場所に保存するか
+	pOpt->WriteString( "Option", "SaveToSameFldrPath", SaveToSameFldrPath);     //その保存場所
+	pOpt->WriteInteger( "Option", "fDecodeToSameFldr", fDecodeToSameFldr);      //常に同じ場所へファイルを復号化するか
+	pOpt->WriteString( "Option", "DecodeToSameFldrPath", DecodeToSameFldrPath); //その保存場所
+	pOpt->WriteInteger( "Option", "ConfirmOverwite", fConfirmOverwirte);        //同名ファイルの上書きを確認するか
+	pOpt->WriteInteger( "Option", "fKeepTimeStamp", fKeepTimeStamp);            //暗号化ファイルのタイムスタンプを元ファイルに合わせる
+	pOpt->WriteInteger( "Option", "fSameTimeStamp", fSameTimeStamp);            //復号したファイルのタイムスタンプを生成日時にする
+	pOpt->WriteInteger( "Option", "fAllFilePack", fAllFilePack);                //複数のファイルを暗号化する際は一つにまとめる
+	pOpt->WriteInteger( "Option", "fFilesOneByOne", fFilesOneByOne);            //フォルダ内のファイルは個別に暗号化/復号する
+	pOpt->WriteInteger( "Option", "fNoParentFldr", fNoParentFldr);              //復号するときに親フォルダを生成しない
+	pOpt->WriteInteger( "Option", "fExtInAtcFileName", fExtInAtcFileName);      //暗号化ファイル名に拡張子を含める
+	pOpt->WriteInteger( "Option", "fAutoName", fAutoName);                      //自動で暗号化ファイル名を付加する
+	pOpt->WriteString( "Option", "AutoNameFormatText", AutoNameFormatText);     //自動で付加するファイル名書式
+
+	//-----------------------------------
+	// 削除設定
+	//-----------------------------------
+	pOpt->WriteInteger( "Option", "fDelOrgFile", fDelOrgFile); //元ファイルを削除する
+	pOpt->WriteInteger( "Option", "fDelEncFile", fDelEncFile); //暗号化ファイルを削除する
+	pOpt->WriteInteger( "Option", "fShowDeleteChkBox", fShowDeleteChkBox); //メインフォームにチェックボックスを表示する
+	pOpt->WriteInteger( "Option", "fCompleteDelFile", fCompleteDelete);//削除の方法（ 0: 通常削除、1: 完全削除、2: ごみ箱へ）
+	pOpt->WriteInteger( "Option", "DelRandNum", DelRandNum);   //乱数の書き込み回数
+	pOpt->WriteInteger( "Option", "DelZeroNum", DelZeroNum);   //ゼロ書き込み回数
+
+	//-----------------------------------
+	// 動作設定
+	//-----------------------------------
+	pOpt->WriteInteger( "Option", "CompressRate", CompressRate); //圧縮率
+	pOpt->WriteInteger( "Option", "fCompareFile", fCompareFile); //暗号処理後にファイルコンペアを行うか
+
+	//-----------------------------------
+	// システム
+	//-----------------------------------
+	pOpt->WriteInteger( "Option", "fAssociationFile", fAssociationFile);      //関連付け設定
+	pOpt->WriteInteger( "Option", "AtcsFileIconIndex", AtcsFileIconIndex);    //ファイルアイコン番号
+	pOpt->WriteString( "Option", "UserRegIconFilePath", UserRegIconFilePath); //ユーザー指定のファイルアイコンパス
+
+	//-----------------------------------
+	// 高度設定
+	//-----------------------------------
+	pOpt->WriteBool( "Option", "fAllowPassFile", fAllowPassFile);               //パスワードファイルを許可する
+	pOpt->WriteBool( "Option", "fCheckPassFile", fCheckPassFile);               //暗号時にパスワードファイルを自動チェックする
+	pOpt->WriteString( "Option", "PassFilePath", PassFilePath);                 //暗号時のパスワードファイルパス
+	pOpt->WriteBool( "Option", "fCheckPassFileDecrypt", fCheckPassFileDecrypt); //復号時にパスワードファイルを自動チェックする
+	pOpt->WriteString( "Option", "PassFilePathDecrypt", PassFilePathDecrypt);   //復号時のパスワードファイルパス
+	pOpt->WriteBool( "Option", "fNoErrMsgOnPassFile", fNoErrMsgOnPassFile);     //パスワードファイルがない場合エラーを出さない
+	pOpt->WriteBool( "Option", "fAddCamoExt", fAddCamoExt);                     //暗号化ファイルの拡張子を偽装する
+	pOpt->WriteString( "Option", "CamoExt", CamoExt);                           //その拡張子
+	pOpt->WriteInteger( "Option", "MissTypeLimitsNum", MissTypeLimitsNum);      //パスワードのタイプミス制限回数（ver.2.70～）
+	pOpt->WriteBool( "Option", "fBroken", fBroken);                             //タイプミス回数を超えたときにファイルを破壊するか否か（ver.2.70～）
+
 }
-else{
-	//なければレジストリへ
-	pOpt = new TRegIniFile("Software\\Hibara\\AttacheCase");
+__finally{
+
+	delete pAppInfoString;
+	delete pOpt;
+
 }
-
-//-----------------------------------
-//アプリケーション情報
-//-----------------------------------
-//実行ファイルパス
-pOpt->WriteString( "AppInfo", "AppPath", ExpandUNCFileName(Application->ExeName));
-
-//バージョン番号
-TGetAppInfoString *pAppInfoString = new TGetAppInfoString();
-VersionNum = StrToIntDef(StringReplace(pAppInfoString->FileVersion, ".", "", TReplaceFlags()<<rfReplaceAll), -1);
-delete pAppInfoString;
-
-//-----------------------------------
-// フォームポジションなど
-//-----------------------------------
-pOpt->WriteInteger( "WindowPos", "WindowWidth", FormWidth);
-pOpt->WriteInteger( "WindowPos", "WindowHeight", FormHeight);
-pOpt->WriteInteger( "WindowPos", "WindowTop", FormTop);
-pOpt->WriteInteger( "WindowPos", "WindowLeft", FormLeft);
-pOpt->WriteInteger( "WindowPos", "FormStyle", WinStyle);
-
-//-----------------------------------
-// 基本設定
-//-----------------------------------
-pOpt->WriteBool( "MyKey", "fKeep", fMyEncodePasswordKeep);   //パスワードを記録するか
-pOpt->WriteBool( "MyKey", "fKeep01", fMyDecodePasswordKeep);
-//記憶するパスワードを記録する
-SaveMyPasswordToRegistry(MyEncodePassword, 0);	//暗号化
-SaveMyPasswordToRegistry(MyDecodePassword, 1);	//復号
-
-pOpt->WriteInteger( "Option", "fMemPasswordExe", fMemPasswordExe);     //記憶パスワードで確認なく実行する
-pOpt->WriteInteger( "Option", "fOpenFolder", fOpenFolder);             //フォルダを開く
-pOpt->WriteInteger( "Option", "fOpenFile", fOpenFile);                 //復号したファイルを関連付けされたソフトで開く
-pOpt->WriteInteger( "Option", "fEndToExit", fEndToExit);               //処理後、アタッシェケースを終了する
-pOpt->WriteBool( "Option", "fWindowForeground", fWindowForeground);    //デスクトップで最前面にウィンドウを表示する
-pOpt->WriteBool( "Option", "fNoHidePassword", fNoHidePassword);        //「*」で隠さずパスワードを確認しながら入力する
-pOpt->WriteBool( "Option", "fSaveToExeout", fSaveToExeout);            //常に自己実行形式で出力する
-pOpt->WriteBool( "Option", "fShowExeoutChkBox", fShowExeoutChkBox);    //メインフォームにチェックボックスを表示する
-pOpt->WriteBool( "Option", "fAskEncDecode", fAskEncDecode);            //暗号/復号処理かを問い合わせる
-pOpt->WriteBool( "Option", "fNoMultipleInstance", fNoMultipleInstance);//複数起動しない
-
-//-----------------------------------
-// 保存設定
-//-----------------------------------
-pOpt->WriteInteger( "Option", "fSaveToSameFldr", fSaveToSameFldr);          //常に同じ場所に保存するか
-pOpt->WriteString( "Option", "SaveToSameFldrPath", SaveToSameFldrPath);     //その保存場所
-pOpt->WriteInteger( "Option", "fDecodeToSameFldr", fDecodeToSameFldr);      //常に同じ場所へファイルを復号化するか
-pOpt->WriteString( "Option", "DecodeToSameFldrPath", DecodeToSameFldrPath); //その保存場所
-pOpt->WriteInteger( "Option", "ConfirmOverwite", fConfirmOverwirte);        //同名ファイルの上書きを確認するか
-pOpt->WriteInteger( "Option", "fKeepTimeStamp", fKeepTimeStamp);            //暗号化ファイルのタイムスタンプを元ファイルに合わせる
-pOpt->WriteInteger( "Option", "fSameTimeStamp", fSameTimeStamp);            //復号したファイルのタイムスタンプを生成日時にする
-pOpt->WriteInteger( "Option", "fAllFilePack", fAllFilePack);                //複数のファイルを暗号化する際は一つにまとめる
-pOpt->WriteInteger( "Option", "fFilesOneByOne", fFilesOneByOne);            //フォルダ内のファイルは個別に暗号化/復号する
-pOpt->WriteInteger( "Option", "fNoParentFldr", fNoParentFldr);              //復号するときに親フォルダを生成しない
-pOpt->WriteInteger( "Option", "fExtInAtcFileName", fExtInAtcFileName);      //暗号化ファイル名に拡張子を含める
-pOpt->WriteInteger( "Option", "fAutoName", fAutoName);                      //自動で暗号化ファイル名を付加する
-pOpt->WriteString( "Option", "AutoNameFormatText", AutoNameFormatText);     //自動で付加するファイル名書式
-
-//-----------------------------------
-// 削除設定
-//-----------------------------------
-pOpt->WriteInteger( "Option", "fDelOrgFile", fDelOrgFile); //元ファイルを削除する
-pOpt->WriteInteger( "Option", "fDelEncFile", fDelEncFile); //暗号化ファイルを削除する
-pOpt->WriteInteger( "Option", "fShowDeleteChkBox", fShowDeleteChkBox); //メインフォームにチェックボックスを表示する
-pOpt->WriteInteger( "Option", "fCompleteDelFile", fCompleteDelete);//削除の方法（ 0: 通常削除、1: 完全削除、2: ごみ箱へ）
-pOpt->WriteInteger( "Option", "DelRandNum", DelRandNum);   //乱数の書き込み回数
-pOpt->WriteInteger( "Option", "DelZeroNum", DelZeroNum);   //ゼロ書き込み回数
-
-//-----------------------------------
-// 動作設定
-//-----------------------------------
-pOpt->WriteInteger( "Option", "CompressRate", CompressRate); //圧縮率
-pOpt->WriteInteger( "Option", "fCompareFile", fCompareFile); //暗号処理後にファイルコンペアを行うか
-
-//-----------------------------------
-// システム
-//-----------------------------------
-pOpt->WriteInteger( "Option", "fAssociationFile", fAssociationFile);      //関連付け設定
-pOpt->WriteInteger( "Option", "AtcsFileIconIndex", AtcsFileIconIndex);    //ファイルアイコン番号
-pOpt->WriteString( "Option", "UserRegIconFilePath", UserRegIconFilePath); //ユーザー指定のファイルアイコンパス
-
-//-----------------------------------
-// 高度設定
-//-----------------------------------
-pOpt->WriteBool( "Option", "fAllowPassFile", fAllowPassFile);               //パスワードファイルを許可する
-pOpt->WriteBool( "Option", "fCheckPassFile", fCheckPassFile);               //暗号時にパスワードファイルを自動チェックする
-pOpt->WriteString( "Option", "PassFilePath", PassFilePath);                 //暗号時のパスワードファイルパス
-pOpt->WriteBool( "Option", "fCheckPassFileDecrypt", fCheckPassFileDecrypt); //復号時にパスワードファイルを自動チェックする
-pOpt->WriteString( "Option", "PassFilePathDecrypt", PassFilePathDecrypt);   //復号時のパスワードファイルパス
-pOpt->WriteBool( "Option", "fNoErrMsgOnPassFile", fNoErrMsgOnPassFile);     //パスワードファイルがない場合エラーを出さない
-pOpt->WriteBool( "Option", "fAddCamoExt", fAddCamoExt);                     //暗号化ファイルの拡張子を偽装する
-pOpt->WriteString( "Option", "CamoExt", CamoExt);                           //その拡張子
-pOpt->WriteInteger( "Option", "MissTypeLimitsNum", MissTypeLimitsNum);      //パスワードのタイプミス制限回数（ver.2.70～）
-pOpt->WriteBool( "Option", "fBroken", fBroken);                             //タイプミス回数を超えたときにファイルを破壊するか否か（ver.2.70～）
-
-//-----------------------------------
-// クローズ
-//-----------------------------------
-if ( FileExists(OptionPath) == false ){
-	pOpt->CloseKey();
-}
-
-delete pOpt;
-
 
 return(true);
 
@@ -925,85 +932,90 @@ AnsiString Password;
 char buffer[BUF_PASSWORD_SIZE];
 char newbuffer[BUF_PASSWORD_SIZE];
 
-TRegIniFile *pOpt;
-
-if ( FileExists(OptionPath) == true ){
-	pOpt = new TRegIniFile(OptionPath);
-}
-else{
-	//なければレジストリ
-	pOpt = new TRegIniFile(ATTACHE_CASE_REGISTRY_PATH);  //"Software\\Hibara\\AttacheCase"
-}
-
-pOpt->OpenKey("MyKey", false);
-
-//-----------------------------------
-//固定パスワードの生成
-AnsiString MyKeyPass;
-
-//コンピュータ名を取得
-char UserName[255];
-DWORD  BufferLen = sizeof(UserName)-1;
-GetComputerName(UserName, &BufferLen);
-
-//「ドライブのボリュームラベルID + コンピュータ名」をパスワードに設定
-MyKeyPass = (AnsiString)GetVolumeLabelIDNumber() + "_" + (AnsiString)UserName;
-// ex).  818980454_HIBARA
-
-//バッファの初期化
-for ( i = 0; i < BUF_PASSWORD_SIZE; i++ ){
-	buffer[i] = NULL;
-	newbuffer[i] = NULL;
-}
-
-//暗号化パスワード
-if ( Type == TYPE_ENCODE_FILE ){
-	pOpt->ReadBinaryData( "Passcode", buffer, BUF_PASSWORD_SIZE);
-}
-//復号パスワード
-else if ( Type == TYPE_DECODE_FILE ){
-	pOpt->ReadBinaryData( "Passcode01", buffer, BUF_PASSWORD_SIZE);
-}
-
-if ( FileExists(OptionPath) == false ){
-	pOpt->CloseKey();
-}
-
-delete pOpt;
-
-//-----------------------------------
-//
-//復号
-//
-//※実はver.1の仕様を引きずっていてBlowfishで暗号化されています。
-//
-
+TCustomIniFile *pOpt;
+TMemoryStream *ms = new TMemoryStream();
 CBlowFish *bf = new CBlowFish;
-bf->Initialize( MyKeyPass.c_str(), MyKeyPass.Length() );   //初期化
-bf->Decode( buffer, newbuffer, BUF_PASSWORD_SIZE);         //復号
-delete bf;
 
-//取得したパスワードが正しいかチェック
-ResultString = (AnsiString)newbuffer;
+try{
 
-//トークンを抜き出す
-if ( ResultString.Length() > 4 ){  //パスコードが巧く抜き出せなかったときのエラー防止
-
-	TokenString = ResultString.SubString( ResultString.Length()-3, 4 );
-
-	if ( TokenString == "_atc" ){
-		Password = ResultString.SubString( 1, ResultString.Length()-4);
+	if ( FileExists(OptionPath) == true ){
+		pOpt = new TIniFile(OptionPath);
 	}
 	else{
+		//なければレジストリ
+		pOpt = new TRegistryIniFile(ATTACHE_CASE_REGISTRY_PATH);  //"Software\\Hibara\\AttacheCase"
+	}
+
+	//-----------------------------------
+	//固定パスワードの生成
+	AnsiString MyKeyPass;
+
+	//コンピュータ名を取得
+	char UserName[255];
+	DWORD  BufferLen = sizeof(UserName)-1;
+	GetComputerName(UserName, &BufferLen);
+
+	//「ドライブのボリュームラベルID + コンピュータ名」をパスワードに設定
+	MyKeyPass = (AnsiString)GetVolumeLabelIDNumber() + "_" + (AnsiString)UserName;
+	// ex).  818980454_HIBARA
+
+	//バッファの初期化
+	for ( i = 0; i < BUF_PASSWORD_SIZE; i++ ){
+		buffer[i] = NULL;
+		newbuffer[i] = NULL;
+	}
+
+	//暗号化パスワード
+	if ( Type == TYPE_ENCODE_FILE ){
+		pOpt->ReadBinaryStream("MyKey", "Passcode", ms);
+	}
+	//復号パスワード
+	else if ( Type == TYPE_DECODE_FILE ){
+		pOpt->ReadBinaryStream( "MyKey", "Passcode01", ms);
+	}
+
+	ms->Write(buffer, BUF_PASSWORD_SIZE);
+
+
+	//-----------------------------------
+	//
+	//復号
+	//
+	//※実はver.1の仕様を引きずっていてBlowfishで暗号化されています。
+	//
+
+	bf->Initialize( MyKeyPass.c_str(), MyKeyPass.Length() );   //初期化
+	bf->Decode( buffer, newbuffer, BUF_PASSWORD_SIZE);         //復号
+
+	//取得したパスワードが正しいかチェック
+	ResultString = (AnsiString)newbuffer;
+
+	//トークンを抜き出す
+	if ( ResultString.Length() > 4 ){  //パスコードが巧く抜き出せなかったときのエラー防止
+
+		TokenString = ResultString.SubString( ResultString.Length()-3, 4 );
+
+		if ( TokenString == "_atc" ){
+			Password = ResultString.SubString( 1, ResultString.Length()-4);
+		}
+		else{
+			//読み出せないときはキーを削除しておく
+			SaveMyPasswordToRegistry("", Type);
+		}
+
+	}
+	else{
+
 		//読み出せないときはキーを削除しておく
 		SaveMyPasswordToRegistry("", Type);
+
 	}
 
 }
-else{
-
-	//読み出せないときはキーを削除しておく
-	SaveMyPasswordToRegistry("", Type);
+__finally	 {
+	delete bf;
+	delete ms;
+	delete pOpt;
 
 }
 
@@ -1033,91 +1045,100 @@ int i;
 char buffer[BUF_PASSWORD_SIZE];
 char newbuffer[BUF_PASSWORD_SIZE];
 
-TRegIniFile *pOpt;
+TCustomIniFile *pOpt;
+CBlowFish *bf = new CBlowFish;
+TMemoryStream *ms = new TMemoryStream();
 
-if ( FileExists(OptionPath) == true ){
-	//通常なら読み込んだ先へ保存する
-	pOpt = new TRegIniFile(OptionPath);
-}
-else{
-	//なければレジストリへ
-	pOpt = new TRegIniFile(ATTACHE_CASE_REGISTRY_PATH);  //"Software\\Hibara\\AttacheCase"
-}
+try{
 
-pOpt->OpenKey("MyKey", true);
-
-//パスコードをクリアする
-if ( Password == "" ){
-
-	if ( Type == TYPE_ENCODE_FILE){
-		pOpt->DeleteKey( "MyKey", "Passcode");
-	}
-	else if ( Type == TYPE_DECODE_FILE){
-		pOpt->DeleteKey( "MyKey", "Passcode01");
+	if ( FileExists(OptionPath) == true ){
+		//通常なら読み込んだ先へ保存する
+		pOpt = new TIniFile(OptionPath);
 	}
 	else{
-		delete pOpt;
+		//なければレジストリへ
+		pOpt = new TRegistryIniFile(ATTACHE_CASE_REGISTRY_PATH);  //"Software\\Hibara\\AttacheCase"
+	}
+
+	//パスコードをクリアする
+	if ( Password == "" ){
+
+		if ( Type == TYPE_ENCODE_FILE){
+			pOpt->DeleteKey( "MyKey", "Passcode");
+		}
+		else if ( Type == TYPE_DECODE_FILE){
+			pOpt->DeleteKey( "MyKey", "Passcode01");
+		}
+		else{
+			return(false);
+		}
+
+		return(true);
+
+	}
+
+	//長すぎるときはBlowfishパスワード文字列MAXに切る
+	if ( Password.Length() > 32 ){
+		Password.SetLength(32);
+	}
+
+	//-----------------------------------
+	//パスワードトークンと連結
+	String PassToken = "_atc";
+	Password = Password + PassToken;
+
+	//-----------------------------------
+	//固定パスワードの生成
+	AnsiString MyKeyPass;
+
+	//保存する先のコンピュータ名を取得
+	char UserName[255];
+	DWORD  BufferLen = sizeof(UserName)-1;
+	GetComputerName(UserName, &BufferLen);
+
+	//「ドライブのボリュームラベルID + コンピュータ名」をパスワードに設定
+	MyKeyPass = (AnsiString)GetVolumeLabelIDNumber() + "_" + (AnsiString)UserName;
+	// ex).  818980454_HIBARA
+
+	//-----------------------------------
+	//
+	//暗号化
+	//
+	//※実はver.1の仕様を引きずっていてBlowfishで暗号化されています。
+	//
+
+	//バッファの初期化
+	for ( i = 0; i < BUF_PASSWORD_SIZE; i++ ){
+		buffer[i] = NULL;
+		newbuffer[i] = NULL;
+	}
+
+	bf->Initialize( MyKeyPass.c_str(), MyKeyPass.Length() );   //初期化
+	StrCopy( buffer, AnsiString(Password).c_str());  	 //パスワードをバッファに
+	bf->Encode( buffer, newbuffer, BUF_PASSWORD_SIZE); //暗号化
+
+	if ( Type == TYPE_ENCODE_FILE){
+		pOpt->WriteBinaryStream( "MyKey", "Passcode", ms);
+		ms->Write(newbuffer, BUF_PASSWORD_SIZE);
+	}
+	else if ( Type == TYPE_DECODE_FILE){
+		pOpt->WriteBinaryStream( "MyKey", "Passcode01", ms);
+		ms->Write(newbuffer, BUF_PASSWORD_SIZE);
+	}
+	else{
 		return(false);
 	}
-	return(true);
 
 }
+__finally{
 
-//長すぎるときはBlowfishパスワード文字列MAXに切る
-if ( Password.Length() > 32 ){
-	Password.SetLength(32);
-}
-
-//-----------------------------------
-//パスワードトークンと連結
-String PassToken = "_atc";
-Password = Password + PassToken;
-
-//-----------------------------------
-//固定パスワードの生成
-AnsiString MyKeyPass;
-
-//保存する先のコンピュータ名を取得
-char UserName[255];
-DWORD  BufferLen = sizeof(UserName)-1;
-GetComputerName(UserName, &BufferLen);
-
-//「ドライブのボリュームラベルID + コンピュータ名」をパスワードに設定
-MyKeyPass = (AnsiString)GetVolumeLabelIDNumber() + "_" + (AnsiString)UserName;
-// ex).  818980454_HIBARA
-
-//-----------------------------------
-//
-//暗号化
-//
-//※実はver.1の仕様を引きずっていてBlowfishで暗号化されています。
-//
-
-//バッファの初期化
-for ( i = 0; i < BUF_PASSWORD_SIZE; i++ ){
-	buffer[i] = NULL;
-	newbuffer[i] = NULL;
-}
-
-CBlowFish *bf = new CBlowFish;
-bf->Initialize( MyKeyPass.c_str(), MyKeyPass.Length() );   //初期化
-StrCopy( buffer, AnsiString(Password).c_str());  	 //パスワードをバッファに
-bf->Encode( buffer, newbuffer, BUF_PASSWORD_SIZE); //暗号化
-delete bf;
-
-if ( Type == TYPE_ENCODE_FILE){
-	pOpt->WriteBinaryData( "Passcode", newbuffer, BUF_PASSWORD_SIZE);
-}
-else if ( Type == TYPE_DECODE_FILE){
-	pOpt->WriteBinaryData( "Passcode01", newbuffer, BUF_PASSWORD_SIZE);
-}
-else{
+	delete bf;
+	delete ms;
 	delete pOpt;
-	return(false);
+
 }
 
 return(true);
-
 
 }
 //===========================================================================
@@ -1386,9 +1407,11 @@ bool __fastcall TAttacheCaseOptionHandle::
 	GetSHA1HashFromFile(
 		String FilePath,              //パスワードファイル
 		unsigned char *sha1buffer,    //SHA-1ハッシュ値（160bit）
-		AnsiString &SHA1HashString,   //SHA-1ハッシュ値（文字列32文字）
-		AnsiString &HeaderString )    //ヘッダデータ（先頭文字列32文字）
+		AnsiStringT<932> &SHA1HashString,   //SHA-1ハッシュ値（文字列32文字）
+		AnsiStringT<932> &HeaderString )    //ヘッダデータ（先頭文字列32文字）
 {
+
+// TODO: パスワード文字列がshift-jisで処理されているのが問題ありか。
 
 int i;
 
@@ -1399,52 +1422,54 @@ char sha1_hash_string[BUF_SHA1_SIZE];
 
 if ( !FileExists(FilePath) ) return(false);
 
-if ( (fh = FileOpen(FilePath, fmShareDenyNone)) == -1 ){
-	//パスワードファイルが開けない？
-	return(false);
-}
+try{
 
-//ヘッダを読む
-FileRead(fh, buffer, 256);
-HeaderString = (AnsiString)buffer;
-
-//ポインタを先頭に戻す
-FileSeek(fh, 0, 0);
-
-SHA1Context sha;
-unsigned char Message_Digest[BUF_SHA1_SIZE];
-ZeroMemory(Message_Digest, BUF_SHA1_SIZE);
-
-//初期化（リセット）
-if ( SHA1Reset(&sha)){
-	FileClose(fh);
-	return(false);
-}
-
-//ファイルを読み出してSHA-1へ入力していく
-while ((bytes = FileRead (fh, buffer, READ_FILE_BUF_SIZE)) != 0){
-	if ( SHA1Input(&sha, (const unsigned char *)buffer, bytes) ){
-		FileClose(fh);
+	if ( (fh = FileOpen(FilePath, fmShareDenyNone)) == -1 ){
+		//パスワードファイルが開けない？
 		return(false);
 	}
-}
 
-//出力
-if(SHA1Result(&sha, Message_Digest)){
+	//ヘッダを読む
+	FileRead(fh, buffer, 256);
+	HeaderString = (AnsiString)buffer;
+
+	//ポインタを先頭に戻す
+	FileSeek(fh, 0, 0);
+
+	SHA1Context sha;
+	unsigned char Message_Digest[BUF_SHA1_SIZE];
+	ZeroMemory(Message_Digest, BUF_SHA1_SIZE);
+
+	//初期化（リセット）
+	if ( SHA1Reset(&sha)){
+		return(false);
+	}
+
+	//ファイルを読み出してSHA-1へ入力していく
+	while ((bytes = FileRead (fh, buffer, READ_FILE_BUF_SIZE)) != 0){
+		if ( SHA1Input(&sha, (const unsigned char *)buffer, bytes) ){
+			return(false);
+		}
+	}
+
+	//出力
+	if(SHA1Result(&sha, Message_Digest)){
+		return(false);
+	}
+
+	for (i = 0; i < BUF_SHA1_SIZE; i++){
+		sha1buffer[i] = Message_Digest[i];
+		sha1_hash_string[i] = Message_Digest[i];
+	}
+
+	SHA1HashString = (AnsiString)sha1_hash_string;
+
+}
+__finally{
+
 	FileClose(fh);
-	return(false);
+
 }
-
-//ファイルを閉じる
-FileClose(fh);
-
-for (i = 0; i < BUF_SHA1_SIZE; i++){
-	sha1buffer[i] = Message_Digest[i];
-	sha1_hash_string[i] = Message_Digest[i];
-}
-
-SHA1HashString = (AnsiString)sha1_hash_string;
-
 return(true);
 
 

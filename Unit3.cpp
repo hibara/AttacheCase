@@ -16,6 +16,9 @@ __fastcall TForm3::TForm3(TComponent* Owner)
 
 TRegIniFile *pOpt;
 
+//オプションロード開始
+fOptionLoading = true;
+
 //-----------------------------------
 //すべてのタブを消去
 PageControl1->Align = alClient;
@@ -204,6 +207,10 @@ default:
 //-----------------------------------
 //表示反映
 PanelMenuRefresh();
+
+//-----------------------------------
+//オプションデータロード完了
+fOptionLoading = false;
 
 
 }
@@ -1041,22 +1048,46 @@ else{
 
 }
 //---------------------------------------------------------------------------
+//暗号時にパスワードファイルを自動チェックする
 void __fastcall TForm3::chkCheckPassFileClick(TObject *Sender)
 {
 
-//'暗号化時にパスワードファイルを自動チェックする(&H)'
-if ( chkCheckPassFile->Checked == true) {
-	btneditPassFilePathLeftButtonClick(Sender);
+if (fOptionLoading == true) {
+	return;	//最初のロード時は抜ける
+}
+
+if ( chkCheckPassFile->Checked == true ){
+	btneditPassFilePath->ReadOnly = false;
+	btneditPassFilePath->Color = clWindow;
+	if (FileExists(btneditPassFilePath->Text) == false) {
+		btneditPassFilePathLeftButtonClick(Sender);
+	}
+}
+else{
+	btneditPassFilePath->ReadOnly = true;
+	btneditPassFilePath->Color = clBtnFace;
 }
 
 }
 //---------------------------------------------------------------------------
+//復号時にパスワードファイルを自動チェックする
 void __fastcall TForm3::chkCheckPassFileDecryptClick(TObject *Sender)
 {
 
-//'復号時にパスワードファイルを自動チェックする(&K)';
-if ( chkCheckPassFileDecrypt->Checked == true) {
-	btneditPassFilePathDecryptLeftButtonClick(Sender);
+if (fOptionLoading == true) {
+	return;	//最初のロード時は抜ける
+}
+
+if ( chkCheckPassFileDecrypt->Checked == true ){
+	btneditPassFilePathDecrypt->ReadOnly = false;
+	btneditPassFilePathDecrypt->Color = clWindow;
+	if (FileExists(btneditPassFilePathDecrypt->Text) == false) {
+		btneditPassFilePathDecryptLeftButtonClick(Sender);
+	}
+}
+else{
+	btneditPassFilePathDecrypt->ReadOnly = true;
+	btneditPassFilePathDecrypt->Color = clBtnFace;
 }
 
 }
@@ -1071,7 +1102,6 @@ OpenDialog1->Filter = LoadResourceString(&Msgunit3::_DIALOG_SELECT_PASSWORD_FILE
 
 if ( OpenDialog1->Execute() == true ) {
 	btneditPassFilePath->Text = OpenDialog1->FileName;
-	chkCheckPassFile->Checked = true;
 }
 else{
 	chkCheckPassFile->Checked = false;
@@ -1089,7 +1119,6 @@ OpenDialog1->Filter = LoadResourceString(&Msgunit3::_DIALOG_SELECT_PASSWORD_FILE
 
 if ( OpenDialog1->Execute() == true ) {
 	btneditPassFilePathDecrypt->Text = OpenDialog1->FileName;
-	chkCheckPassFileDecrypt->Checked = true;
 }
 else{
 	chkCheckPassFileDecrypt->Checked = false;
@@ -1711,7 +1740,7 @@ if ( PageControl1->ActivePage == TabBasic ){
 
 		//SHA-1ハッシュを求める
 		if ( Form1->opthdl->GetSHA1HashFromFile(
-			FilePath, (unsigned char*)NULL, SHA1HashPassword, (AnsiString)NULL) == true ){
+			FilePath, (unsigned char*)NULL, (AnsiStringT<932>)SHA1HashPassword, (AnsiStringT<932>)NULL) == true ){
 			//仮の記憶暗号化パスワード
 			TempMyEncodePassword = SHA1HashPassword;
 			btneditMyEncPassword->Text = String::StringOfChar('*', 32);
@@ -1763,7 +1792,7 @@ if ( PageControl1->ActivePage == TabBasic ){
 
 		//SHA-1ハッシュを求める
 		if ( Form1->opthdl->GetSHA1HashFromFile(
-			FilePath, (unsigned char*)NULL, SHA1HashPassword, (AnsiString)NULL) == true ){
+			FilePath, (unsigned char*)NULL, (AnsiStringT<932>)SHA1HashPassword, (AnsiStringT<932>)NULL) == true ){
 			//仮の記憶暗号化パスワード
 			TempMyDecodePassword = SHA1HashPassword;
 			btneditMyDecPassword->Text = String::StringOfChar('*', 32);
@@ -1963,6 +1992,24 @@ void __fastcall TForm3::btneditAutoNameFormatTextChange(TObject *Sender)
 String FilePath =
 	Form1->opthdl->InterpretFormatTextToFilePath("c:\\sample.atc", btneditAutoNameFormatText->Text);
 lblAutoFormatExample->Caption = "ex)." + ExtractFileName(FilePath);
+
+}
+//---------------------------------------------------------------------------
+//「現在の動作設定を出力する」
+void __fastcall TForm3::cmdOutputOptionDataClick(TObject *Sender)
+{
+
+//
+ShowMessage("Sorry...Under Construction.");
+
+}
+//---------------------------------------------------------------------------
+//「一時設定をメイン設定と置き換える」
+void __fastcall TForm3::cmdChangeTempOptionDataClick(TObject *Sender)
+{
+
+//
+ShowMessage("Sorry...Under Construction.");
 
 }
 //---------------------------------------------------------------------------

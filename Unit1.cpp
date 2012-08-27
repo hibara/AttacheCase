@@ -595,8 +595,8 @@ TStringList *DropFileList = new TStringList;
 DropFileList->Text = FileListText;
 
 //再確認用のパスワードハッシュ
-AnsiString TempPasswordFileHeader;
-AnsiString TempPasswordFileHash;
+AnsiStringT<932> TempPasswordFileHeader;
+AnsiStringT<932> TempPasswordFileHash;
 
 //-----------------------------------
 // メインパネル
@@ -641,8 +641,10 @@ else if ( PageControl1->ActivePage == TabSheetInputEncPass ) {
 
 			//SHA-1ハッシュを求める
 			if ( opthdl->GetSHA1HashFromFile(
-				DropFileList->Strings[0], password_hash, PasswordFileHeader, PasswordFileHash ) == true ){
+				DropFileList->Strings[0], password_hash, PasswordFileHash, PasswordFileHeader ) == true ){
+
 				txtEncryptPassword->Text = PasswordFileHash.SetLength(32);
+
 				//'パスワードに以下のファイルのハッシュ値が入力されました'
 				BalloonHint1->Title = LoadResourceString(&Msgunit1::_BALLOON_HINT_PASSWORD_HASH_TITLE);
 				//そのファイルパスを表示する
@@ -686,12 +688,18 @@ else if ( PageControl1->ActivePage == TabSheetInputEncPassConfirm ) {
 		rcTarget = Rect(ClientToScreen(TPoint(px, py)), ClientToScreen(TPoint(pr, pb)));
 
 		if (IntersectRect(rcResult, rcMouse, rcTarget) == true && DropFileList->Count > 0) {
+
+
 			//SHA-1ハッシュを求める
+
+			
 			if ( opthdl->GetSHA1HashFromFile(
-				DropFileList->Strings[0], temp_password_hash, TempPasswordFileHeader, TempPasswordFileHash ) == true ){
+				DropFileList->Strings[0], temp_password_hash, TempPasswordFileHash, TempPasswordFileHeader ) == true ){
+
 				txtPasswordConfirm->Text = TempPasswordFileHash.SetLength(32);
 				//即座に実行（実行先でパスワードの正否チェックが行われる）
 				cmdConfirmOKClick((TObject*)0);
+
 			}
 			else{
 				//'パスワードファイルを開けません。他のアプリケーションで使用中の可能性があります。';
@@ -728,9 +736,12 @@ else if ( PageControl1->ActivePage == TabSheetInputDecPass ) {
 		rcTarget = Rect(ClientToScreen(TPoint(px, py)), ClientToScreen(TPoint(pr, pb)));
 
 		if (IntersectRect(rcResult, rcMouse, rcTarget) == true && DropFileList->Count > 0) {
+
 			//SHA-1ハッシュを求める
+
+
 			if ( opthdl->GetSHA1HashFromFile(
-				DropFileList->Strings[0], password_hash, PasswordFileHeader, PasswordFileHash ) == true ){
+				DropFileList->Strings[0], password_hash, PasswordFileHash, PasswordFileHeader ) == true ){
 				txtDecryptPassword->Text = PasswordFileHash;
 				cmdDecryptPasswordOKClick((TObject*)0);
 			}
@@ -980,7 +991,7 @@ if ( CryptTypeNum == TYPE_CRYPT_ENCRYPT ) {
 	else if ( opthdl->fAllowPassFile == true && opthdl->fCheckPassFile == true ) {
 
 		if ( FileExists(opthdl->PassFilePath) == false ) {
-			//パスワードファイルがない場合エラーを出さない
+			//パスワードファイルがない場合エラーを出さない？（オプション）
 			if ( opthdl->fNoErrMsgOnPassFile == true ) {
 				//メッセージを出さずにパスワード入力パネルへ
 				PageControl1->ActivePage = TabSheetInputEncPass;
@@ -994,6 +1005,29 @@ if ( CryptTypeNum == TYPE_CRYPT_ENCRYPT ) {
 									opthdl->PassFilePath;
 				MessageDlg(MsgText, mtInformation, TMsgDlgButtons() << mbOK, 0);
 				return;
+			}
+		}
+		else{
+			//TODO: 暗号化の際にパスワードファイルをチェックしていない（未実装）
+			//SHA-1ハッシュを求める
+			if ( opthdl->GetSHA1HashFromFile(
+				opthdl->PassFilePath, password_hash, PasswordFileHash, PasswordFileHeader ) == true ){
+
+				//実行パネル表示
+				PageControl1->ActivePage = TabSheetExecute;
+				//そのまま暗号化へ
+				FileEncrypt();
+
+			}
+			else{
+				//オプションでパスワードファイルがない場合エラーを出すように設定している
+				if ( opthdl->fNoErrMsgOnPassFile == false ) {
+					//'パスワードファイルを開けません。他のアプリケーションで使用中の可能性があります。';
+					MsgText = LoadResourceString(&Msgunit1::_MSG_ERROR_OPEN_PASSWORD_FILE)+"\n"+
+																			 opthdl->PassFilePath;
+					MessageDlg(MsgText, mtError, TMsgDlgButtons() << mbOK, 0);
+				}
+
 			}
 
 		}
@@ -1052,6 +1086,30 @@ else if ( CryptTypeNum == TYPE_CRYPT_DECRYPT) {
 			}
 
 		}
+		else{
+
+			// TODO: 復号の際にパスワードファイルをチェックいていない（未実装）
+			//SHA-1ハッシュを求める
+			if ( opthdl->GetSHA1HashFromFile(
+				opthdl->PassFilePathDecrypt, password_hash, PasswordFileHash, PasswordFileHeader ) == true ){
+
+				//実行パネル表示
+				PageControl1->ActivePage = TabSheetExecute;
+				//そのまま暗号化へ
+				FileDecrypt();
+
+			}
+			else{
+				//オプションでパスワードファイルがない場合エラーを出すように設定している
+				if ( opthdl->fNoErrMsgOnPassFile == false ) {
+					//'パスワードファイルを開けません。他のアプリケーションで使用中の可能性があります。';
+					MsgText = LoadResourceString(&Msgunit1::_MSG_ERROR_OPEN_PASSWORD_FILE)+"\n"+
+										opthdl->PassFilePathDecrypt;
+					MessageDlg(MsgText, mtError, TMsgDlgButtons() << mbOK, 0);
+				}
+			}
+
+    }
 
 	}
 	else{
@@ -2501,6 +2559,29 @@ delete fsIn;
 
 return(true);
 
+
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::PageControl1Change(TObject *Sender)
+{
+
+int i;
+
+//メイン画面に戻ったとき
+if (PageControl1->ActivePage == TabSheetMain) {
+
+	txtEncryptPassword->Text = "";
+  txtPasswordConfirm->Text = "";
+  txtDecryptPassword->Text = "";
+
+	//パスワードファイルの変数を初期化する
+	PasswordFileHeader = "";
+	PasswordFileHash = "";
+	for (i = 0; i < 32; i++) {
+		password_hash[i] = 0;
+		temp_password_hash[i] = 0;
+	}
+}
 
 }
 //---------------------------------------------------------------------------

@@ -16,51 +16,59 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 int opt;
 String MsgText;
 
-//引数が指定されてきた場合のみ起動～
-if ( ParamCount() > 0 ){
+TRegistryIniFile *pReg;
 
-	TRegIniFile *pReg = new TRegIniFile("Software\\Hibara");
 
-	//アタッシェケース本体のパス
-	AtcExeFilePath = pReg->ReadString( "AttacheCase\\AppInfo", "AppPath", "");
+try{
 
-	if ( AtcExeFilePath == "" ){
-		AtcExeFilePath = ExtractFileDir(ExpandUNCFileName(Application->ExeName))+"\\AtchCase.exe";
+	//引数が指定されてきた場合のみ起動～
+	if ( ParamCount() > 0 ){
+
+		pReg = new TRegistryIniFile ("Software\\Hibara");
+
+		//アタッシェケース本体のパス
+		AtcExeFilePath = pReg->ReadString( "AttacheCase\\AppInfo", "AppPath", "");
+
+		if ( AtcExeFilePath == "" ){
+			AtcExeFilePath = ExtractFileDir(ExpandUNCFileName(Application->ExeName))+"\\AtchCase.exe";
+		}
+
+		if ( FileExists(AtcExeFilePath) == false ){
+			exit(0);
+		}
+
+		//ファイルアイコン番号
+		AtcsFileIconIndex = pReg->ReadInteger( "AttacheCase\\Option", "AtcsFileIconIndex", 1);
+		//ユーザー指定のファイルアイコンパス
+		UserRegIconFilePath = pReg->ReadString( "AttacheCase\\Option", "UserRegIconFilePath", "");
+
+		//-----------------------------------
+
+		opt = StrToIntDef(ParamStr(1), 0);
+
+		if ( opt == 0 ){
+			//関連付け設定
+			RegistDataFileAssociation();
+		}
+		else{
+			//関連付け解除
+			DeleteDataFileAssociation();
+		}
+
 	}
-
-	if ( FileExists(AtcExeFilePath) == false ){
-		delete pReg;
-		exit(0);
-	}
-
-	//ファイルアイコン番号
-	AtcsFileIconIndex = pReg->ReadInteger( "AttacheCase\\Option", "AtcsFileIconIndex", 2);
-	//ユーザー指定のファイルアイコンパス
-	UserRegIconFilePath = pReg->ReadString( "AttacheCase\\Option", "UserRegIconFilePath", "");
-
-	pReg->CloseKey();
-	delete pReg;
-
-	//-----------------------------------
-
-	opt = StrToIntDef(ParamStr(1), 0);
-
-	if ( opt == 0 ){
-		//関連付け設定
-		RegistDataFileAssociation();
-	}
+	//引数無し起動の場合はメッセージで通知
 	else{
-		//関連付け解除
-		DeleteDataFileAssociation();
+		//'このプログラムは単体では動作しません。'+#13+
+		//'アタッシェケースからファイルの関連付け設定で呼び出されるときのみ使用されます。';
+		MsgText = LoadResourceString(&Msgmain::_MSG_ERROR_THIS_APP_DOES_NOT_EXECUTE_ALONE);
+		MessageDlg(MsgText, mtWarning   , TMsgDlgButtons() << mbOK, 0);
 	}
 
 }
-//引数無し起動の場合はメッセージで通知
-else{
-	//'このプログラムは単体では動作しません。'+#13+
-	//'アタッシェケースからファイルの関連付け設定で呼び出されるときのみ使用されます。';
-	MsgText = LoadResourceString(&Msgmain::_MSG_ERROR_THIS_APP_DOES_NOT_EXECUTE_ALONE);
-	MessageDlg(MsgText, mtWarning   , TMsgDlgButtons() << mbOK, 0);
+__finally{
+
+		delete pReg;
+
 }
 
 //Application->Terminate();
@@ -79,108 +87,114 @@ void __fastcall TForm1::FormCreate(TObject *Sender)
 bool __fastcall TForm1::RegistDataFileAssociation(void)
 {
 
-TRegIniFile *Reg = new TRegIniFile("");
 
-//登録内容
-String RegData = "\"" + AtcExeFilePath + "\" \"%1\"";
-String RegIconData;
+TRegistry *pReg;
 
-//-----------------------------------
-//ルートキー指定
-Reg->RootKey = HKEY_CLASSES_ROOT;
-Reg->Access = KEY_ALL_ACCESS;
 
-//-----------------------------------
-//コンテキストメニュー登録
+try{
 
-//一回開いてみて、レジストリが開けないようならエラー
-//（※Win2000/XPなどで制限ユーザーである可能性）
-if ( Reg->OpenKey( "AttacheCase.DataFile\\Shell", true)){
+	pReg = new TRegistry();
 
-	//openコマンド
-	//古いキーがあるなら削除（ver.2.21～）
-	if ( Reg->KeyExists( "open"))  Reg->EraseSection( "open");
+	//登録内容
+	String RegData = "\"" + AtcExeFilePath + "\" \"%1\"";
+	String RegIconData;
 
-	Reg->OpenKey("open\\command", true);
-	Reg->WriteExpandString( "", RegData);
-	Reg->CloseKey();
+	//-----------------------------------
+	//ルートキー指定
+	pReg->RootKey = HKEY_CLASSES_ROOT;
+	pReg->Access = KEY_ALL_ACCESS;
 
-	//decodeコマンド
-	Reg->RootKey = HKEY_CLASSES_ROOT;
-	Reg->Access = KEY_ALL_ACCESS;
-	Reg->OpenKey( "AttacheCase.DataFile\\Shell", true);
-	Reg->WriteExpandString("", "");  // Shell直下をクリア（前のバージョンで残る場合が有り）
+	//-----------------------------------
+	//コンテキストメニュー登録
 
-	if ( !Reg->KeyExists( "decode")){
+	//一回開いてみて、レジストリが開けないようならエラー
+	//（※Win2000/XPなどで制限ユーザーである可能性）
+	if ( pReg->OpenKey( "AttacheCase.DataFile\\Shell", true)){
 
-		Reg->OpenKey("decode", true);
-		//'アタッシェケースファイルを復号する'
-		Reg->WriteExpandString( "", LoadResourceString(&Msgmain::_SYSTEM_CONTEXT_MENU_DECYPTION));
+		//openコマンド
+		//古いキーがあるなら削除（ver.2.21～）
+		if ( pReg->KeyExists( "open"))  pReg->DeleteKey("open");
 
-		if ( !Reg->KeyExists( "command")){
-			Reg->OpenKey("command", true);
-			Reg->WriteExpandString( "", RegData);
+		pReg->OpenKey("open\\command", true);
+		pReg->WriteExpandString( "", RegData);
+		pReg->CloseKey();
+
+		//decodeコマンド
+		pReg->RootKey = HKEY_CLASSES_ROOT;
+		pReg->Access = KEY_ALL_ACCESS;
+		pReg->OpenKey( "AttacheCase.DataFile\\Shell", true);
+		pReg->WriteExpandString("", "");  // Shell直下をクリア（前のバージョンで残る場合が有り）
+
+		if ( !pReg->KeyExists( "decode")){
+
+			pReg->OpenKey("decode", true);
+			//'アタッシェケースファイルを復号する'
+			pReg->WriteExpandString( "", LoadResourceString(&Msgmain::_SYSTEM_CONTEXT_MENU_DECYPTION));
+
+			if ( !pReg->KeyExists( "command")){
+				pReg->OpenKey("command", true);
+				pReg->WriteExpandString( "", RegData);
+			}
+
 		}
+		else{
+
+			//レジストリの登録がちがう
+			if (pReg->ReadString("decode\\command") != RegData ){
+				pReg->OpenKey("decode\\command", true);
+				pReg->WriteExpandString( "", RegData);
+			}
+
+		}
+
 
 	}
 	else{
 
-		//レジストリの登録がちがう
-		if (Reg->ReadString("decode\\command","","") != RegData ){
-			Reg->OpenKey("decode\\command", true);
-			Reg->WriteExpandString( "", RegData);
-		}
+		//レジストリが読み出せない？
+		return(false);
 
 	}
 
-	Reg->CloseKey();
+	//-----------------------------------
+	//関連付けアイコンの設定
+	if ( FileExists(UserRegIconFilePath)){  //ユーザー指定
+		RegIconData = "\""+UserRegIconFilePath+"\"";
+	}
+	else{ //既存アイコン
+		RegIconData = "\""+AtcExeFilePath+"\","+IntToStr(AtcsFileIconIndex);
+	}
+
+	if ( pReg->OpenKey("AttacheCase.DataFile\\DefaultIcon", true) == true ){
+		pReg->WriteExpandString( "", RegIconData);
+		pReg->CloseKey();
+	}
+	else{
+		//レジストリが読み出せない？
+		return(false);
+	}
+
+	//-----------------------------------
+	// .atc拡張子の関連付け
+
+	if ( pReg->OpenKey(".atc", true)){
+		pReg->WriteExpandString( "", "AttacheCase.DataFile");
+		pReg->CloseKey();
+	}
+	else{
+		return(false);	//失敗
+	}
+
+	//-----------------------------------
+	//システムからアイコンの表示更新
+	SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, 0, 0);
 
 }
-else{
+__finally{
 
-	//レジストリが読み出せない？
-	delete Reg;
-	return(false);
+	delete  pReg;
 
 }
-
-//-----------------------------------
-//関連付けアイコンの設定
-if ( FileExists(UserRegIconFilePath)){  //ユーザー指定
-	RegIconData = "\""+UserRegIconFilePath+"\"";
-}
-else{ //既存アイコン
-	RegIconData = "\""+AtcExeFilePath+"\","+IntToStr(AtcsFileIconIndex);
-}
-
-if ( Reg->OpenKey("AttacheCase.DataFile\\DefaultIcon", true) == true ){
-	Reg->WriteExpandString( "", RegIconData);
-	Reg->CloseKey();
-}
-else{
-	//レジストリが読み出せない？
-	delete Reg;
-	return(false);
-}
-
-//-----------------------------------
-// .atc拡張子の関連付け
-
-if ( Reg->OpenKey(".atc", true)){
-	Reg->WriteExpandString( "", "AttacheCase.DataFile");
-	Reg->CloseKey();
-}
-else{
-	delete Reg;
-	return(false);	//失敗
-}
-
-delete Reg;
-
-//-----------------------------------
-//システムからアイコンの表示更新
-SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, 0, 0);
-
 
 return(true);
 

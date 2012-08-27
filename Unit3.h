@@ -216,8 +216,13 @@ __published:	// IDE 管理のコンポーネント
 	void __fastcall chkShowDeleteChkBoxClick(TObject *Sender);
 	void __fastcall cmdHelpClick(TObject *Sender);
 	void __fastcall btneditAutoNameFormatTextChange(TObject *Sender);
+	void __fastcall cmdOutputOptionDataClick(TObject *Sender);
+	void __fastcall cmdChangeTempOptionDataClick(TObject *Sender);
 
 private:	// ユーザー宣言
+
+	//オプションローディング中
+	bool fOptionLoading;
 
 	//ユーザー指定のアイコンファイルパス（OKボタンが押されるまでのテンポラリ）
 	String TempUserRegIconFilePath;

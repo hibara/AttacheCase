@@ -140,6 +140,7 @@ __published:	// IDE 管理のコンポーネント
 	void __fastcall imgBackOnClick(TObject *Sender);
 	void __fastcall PaintBoxMainMouseEnter(TObject *Sender);
 	void __fastcall PaintBoxMainMouseLeave(TObject *Sender);
+	void __fastcall PageControl1Change(TObject *Sender);
 
 
 
@@ -171,9 +172,9 @@ private:	// ユーザー宣言
 
 	//ユーザーにより投げ込まれたパスワードファイルからのデータ
 	// ver.1: 先頭                      32byte
-	AnsiString PasswordFileHeader;
+	AnsiStringT<932> PasswordFileHeader;
 	// ver.2: SHA-1ハッシュ文字列の先頭 32byte
-	AnsiString PasswordFileHash;
+	AnsiStringT<932> PasswordFileHash;
 	//　↓
 	//本来はこうすべきでした。すみません・・・
 	// 内、20byteにSHA-1ハッシュ値。
