@@ -4,7 +4,6 @@
 #pragma hdrstop
 
 
-
 #include "Unit1.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
@@ -35,14 +34,6 @@ PaintBoxDecrypt->Align = alClient;
 
 //“®ìİ’èƒCƒ“ƒXƒ^ƒ“ƒX‚Ìì¬
 opthdl = new TAttacheCaseOptionHandle();
-
-//ƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹ŠÖŒW
-PasswordFileHeader = "";
-PasswordFileHash = "";
-for (i = 0; i < 32; i++) {
-	password_hash[i] = 0;
-	temp_password_hash[i] = 0;
-}
 
 //ŠeƒRƒ“ƒ|[ƒlƒ“ƒg‚Ì”z’u
 SetFormComponent(NULL);
@@ -595,8 +586,8 @@ TStringList *DropFileList = new TStringList;
 DropFileList->Text = FileListText;
 
 //ÄŠm”F—p‚ÌƒpƒXƒ[ƒhƒnƒbƒVƒ…
-AnsiStringT<932> TempPasswordFileHeader;
-AnsiStringT<932> TempPasswordFileHash;
+AnsiString TempPasswordFileHeader;
+AnsiString TempPasswordFileHash;
 
 //-----------------------------------
 // ƒƒCƒ“ƒpƒlƒ‹
@@ -639,26 +630,17 @@ else if ( PageControl1->ActivePage == TabSheetInputEncPass ) {
 
 		if (IntersectRect(rcResult, rcMouse, rcTarget) == true && DropFileList->Count > 0) {
 
-			//SHA-1ƒnƒbƒVƒ…‚ğ‹‚ß‚é
-			if ( opthdl->GetSHA1HashFromFile(
-				DropFileList->Strings[0], password_hash, PasswordFileHash, PasswordFileHeader ) == true ){
+			PasswordFilePath = DropFileList->Strings[0];
+			txtEncryptPassword->Text = PasswordFilePath;
 
-				txtEncryptPassword->Text = PasswordFileHash.SetLength(32);
+			//'ƒpƒXƒ[ƒh‚ÉˆÈ‰º‚Ìƒtƒ@ƒCƒ‹‚ÌƒnƒbƒVƒ…’l‚ª“ü—Í‚³‚ê‚Ü‚µ‚½'
+			BalloonHint1->Title = LoadResourceString(&Msgunit1::_BALLOON_HINT_PASSWORD_HASH_TITLE);
+			//‚»‚Ìƒtƒ@ƒCƒ‹ƒpƒX‚ğ•\¦‚·‚é
+			BalloonHint1->Description = DropFileList->Strings[0];
+			BalloonHint1->ShowHint(txtEncryptPassword->ClientToScreen(CenterPoint(txtEncryptPassword->ClientRect)));
+			txtEncryptPassword->SetFocus();
+			txtEncryptPassword->SelectAll();
 
-				//'ƒpƒXƒ[ƒh‚ÉˆÈ‰º‚Ìƒtƒ@ƒCƒ‹‚ÌƒnƒbƒVƒ…’l‚ª“ü—Í‚³‚ê‚Ü‚µ‚½'
-				BalloonHint1->Title = LoadResourceString(&Msgunit1::_BALLOON_HINT_PASSWORD_HASH_TITLE);
-				//‚»‚Ìƒtƒ@ƒCƒ‹ƒpƒX‚ğ•\¦‚·‚é
-				BalloonHint1->Description = DropFileList->Strings[0];
-				BalloonHint1->ShowHint(txtEncryptPassword->ClientToScreen(CenterPoint(txtEncryptPassword->ClientRect)));
-				txtEncryptPassword->SetFocus();
-				txtEncryptPassword->SelectAll();
-			}
-			else{
-				//'ƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚ğŠJ‚¯‚Ü‚¹‚ñB‘¼‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Åg—p’†‚Ì‰Â”\«‚ª‚ ‚è‚Ü‚·B';
-				MsgText = LoadResourceString(&Msgunit1::_MSG_ERROR_OPEN_PASSWORD_FILE)+"\n"+
-																		 DropFileList->Strings[0];
-				MessageDlg(MsgText, mtError, TMsgDlgButtons() << mbOK, 0);
-			}
 		}
 
 	}
@@ -689,24 +671,9 @@ else if ( PageControl1->ActivePage == TabSheetInputEncPassConfirm ) {
 
 		if (IntersectRect(rcResult, rcMouse, rcTarget) == true && DropFileList->Count > 0) {
 
-
-			//SHA-1ƒnƒbƒVƒ…‚ğ‹‚ß‚é
-
-			
-			if ( opthdl->GetSHA1HashFromFile(
-				DropFileList->Strings[0], temp_password_hash, TempPasswordFileHash, TempPasswordFileHeader ) == true ){
-
-				txtPasswordConfirm->Text = TempPasswordFileHash.SetLength(32);
-				//‘¦À‚ÉÀsiÀsæ‚ÅƒpƒXƒ[ƒh‚Ì³”Ûƒ`ƒFƒbƒN‚ªs‚í‚ê‚éj
-				cmdConfirmOKClick((TObject*)0);
-
-			}
-			else{
-				//'ƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚ğŠJ‚¯‚Ü‚¹‚ñB‘¼‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Åg—p’†‚Ì‰Â”\«‚ª‚ ‚è‚Ü‚·B';
-				MsgText = LoadResourceString(&Msgunit1::_MSG_ERROR_OPEN_PASSWORD_FILE)+"\n"+
-																		 DropFileList->Strings[0];
-				MessageDlg(MsgText, mtError, TMsgDlgButtons() << mbOK, 0);
-			}
+			ConfirmPasswordFilePath = DropFileList->Strings[0];
+			txtPasswordConfirm->Text = ConfirmPasswordFilePath;
+			cmdConfirmOKClick((TObject*)0);
 		}
 
 	}
@@ -736,21 +703,10 @@ else if ( PageControl1->ActivePage == TabSheetInputDecPass ) {
 		rcTarget = Rect(ClientToScreen(TPoint(px, py)), ClientToScreen(TPoint(pr, pb)));
 
 		if (IntersectRect(rcResult, rcMouse, rcTarget) == true && DropFileList->Count > 0) {
-
-			//SHA-1ƒnƒbƒVƒ…‚ğ‹‚ß‚é
-
-
-			if ( opthdl->GetSHA1HashFromFile(
-				DropFileList->Strings[0], password_hash, PasswordFileHash, PasswordFileHeader ) == true ){
-				txtDecryptPassword->Text = PasswordFileHash;
-				cmdDecryptPasswordOKClick((TObject*)0);
-			}
-			else{
-				//'ƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚ğŠJ‚¯‚Ü‚¹‚ñB‘¼‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Åg—p’†‚Ì‰Â”\«‚ª‚ ‚è‚Ü‚·B';
-				MsgText = LoadResourceString(&Msgunit1::_MSG_ERROR_OPEN_PASSWORD_FILE)+"\n"+
-																		 DropFileList->Strings[0];
-				MessageDlg(MsgText, mtError, TMsgDlgButtons() << mbOK, 0);
-			}
+			//ƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹
+			PasswordFilePath = DropFileList->Strings[0];
+			txtDecryptPassword->Text = PasswordFilePath;
+			cmdDecryptPasswordOKClick((TObject*)0);
 		}
 
 	}
@@ -991,6 +947,7 @@ if ( CryptTypeNum == TYPE_CRYPT_ENCRYPT ) {
 	else if ( opthdl->fAllowPassFile == true && opthdl->fCheckPassFile == true ) {
 
 		if ( FileExists(opthdl->PassFilePath) == false ) {
+
 			//ƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚ª‚È‚¢ê‡ƒGƒ‰[‚ğo‚³‚È‚¢HiƒIƒvƒVƒ‡ƒ“j
 			if ( opthdl->fNoErrMsgOnPassFile == true ) {
 				//ƒƒbƒZ[ƒW‚ğo‚³‚¸‚ÉƒpƒXƒ[ƒh“ü—Íƒpƒlƒ‹‚Ö
@@ -1008,28 +965,12 @@ if ( CryptTypeNum == TYPE_CRYPT_ENCRYPT ) {
 			}
 		}
 		else{
-			//TODO: ˆÃ†‰»‚ÌÛ‚ÉƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚ğƒ`ƒFƒbƒN‚µ‚Ä‚¢‚È‚¢i–¢À‘•j
-			//SHA-1ƒnƒbƒVƒ…‚ğ‹‚ß‚é
-			if ( opthdl->GetSHA1HashFromFile(
-				opthdl->PassFilePath, password_hash, PasswordFileHash, PasswordFileHeader ) == true ){
-
-				//Àsƒpƒlƒ‹•\¦
-				PageControl1->ActivePage = TabSheetExecute;
-				//‚»‚Ì‚Ü‚ÜˆÃ†‰»‚Ö
-				FileEncrypt();
-
-			}
-			else{
-				//ƒIƒvƒVƒ‡ƒ“‚ÅƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚ª‚È‚¢ê‡ƒGƒ‰[‚ğo‚·‚æ‚¤‚Éİ’è‚µ‚Ä‚¢‚é
-				if ( opthdl->fNoErrMsgOnPassFile == false ) {
-					//'ƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚ğŠJ‚¯‚Ü‚¹‚ñB‘¼‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Åg—p’†‚Ì‰Â”\«‚ª‚ ‚è‚Ü‚·B';
-					MsgText = LoadResourceString(&Msgunit1::_MSG_ERROR_OPEN_PASSWORD_FILE)+"\n"+
-																			 opthdl->PassFilePath;
-					MessageDlg(MsgText, mtError, TMsgDlgButtons() << mbOK, 0);
-				}
-
-			}
-
+			PasswordFilePath = opthdl->PassFilePath;
+			txtEncryptPassword->Text = PasswordFilePath;
+			//Àsƒpƒlƒ‹•\¦
+			PageControl1->ActivePage = TabSheetExecute;
+			//‚»‚Ì‚Ü‚ÜˆÃ†‰»‚Ö
+			FileEncrypt();
 		}
 
 	}
@@ -1088,28 +1029,16 @@ else if ( CryptTypeNum == TYPE_CRYPT_DECRYPT) {
 		}
 		else{
 
-			// TODO: •œ†‚ÌÛ‚ÉƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚ğƒ`ƒFƒbƒN‚¢‚Ä‚¢‚È‚¢i–¢À‘•j
-			//SHA-1ƒnƒbƒVƒ…‚ğ‹‚ß‚é
-			if ( opthdl->GetSHA1HashFromFile(
-				opthdl->PassFilePathDecrypt, password_hash, PasswordFileHash, PasswordFileHeader ) == true ){
+			//ƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹
+			PasswordFilePath = opthdl->PassFilePathDecrypt;
+			txtPasswordConfirm->Text = PasswordFilePath;
 
-				//Àsƒpƒlƒ‹•\¦
-				PageControl1->ActivePage = TabSheetExecute;
-				//‚»‚Ì‚Ü‚ÜˆÃ†‰»‚Ö
-				FileDecrypt();
+			//Àsƒpƒlƒ‹•\¦
+			PageControl1->ActivePage = TabSheetExecute;
+			//‚»‚Ì‚Ü‚ÜˆÃ†‰»‚Ö
+			FileDecrypt();
 
-			}
-			else{
-				//ƒIƒvƒVƒ‡ƒ“‚ÅƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚ª‚È‚¢ê‡ƒGƒ‰[‚ğo‚·‚æ‚¤‚Éİ’è‚µ‚Ä‚¢‚é
-				if ( opthdl->fNoErrMsgOnPassFile == false ) {
-					//'ƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚ğŠJ‚¯‚Ü‚¹‚ñB‘¼‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Åg—p’†‚Ì‰Â”\«‚ª‚ ‚è‚Ü‚·B';
-					MsgText = LoadResourceString(&Msgunit1::_MSG_ERROR_OPEN_PASSWORD_FILE)+"\n"+
-										opthdl->PassFilePathDecrypt;
-					MessageDlg(MsgText, mtError, TMsgDlgButtons() << mbOK, 0);
-				}
-			}
-
-    }
+		}
 
 	}
 	else{
@@ -1224,6 +1153,9 @@ if ( encrypt->StatusNum > 0 ) {
 		Application->Terminate();
 	}
 
+	// "Cancel" ¨ "OK"
+	cmdCancel->Caption = "&OK";
+
 }
 else{
 	//ƒGƒ‰[‚ÅI—¹‚µ‚Ä‚«‚½
@@ -1252,6 +1184,7 @@ if(ptl){
 
 TimerDecrypt->Enabled = false;
 
+//-----------------------------------
 //•œ†‚É¬Œ÷
 if ( decrypt->StatusNum > 0 ) {
 
@@ -1286,7 +1219,13 @@ if ( decrypt->StatusNum > 0 ) {
 		Application->Terminate();
 	}
 
+	// "Cancel" ¨ "OK"
+	cmdCancel->Caption = "&OK";
+
+
 }
+//-----------------------------------
+//•œ†‚É¸”s
 else{
 
 	//ƒpƒXƒ[ƒh“ü—ÍƒGƒ‰[‚Å”²‚¯‚Ä‚«‚½
@@ -1680,7 +1619,7 @@ else{
 void __fastcall TForm1::mnuSettingClick(TObject *Sender)
 {
 //ƒIƒvƒVƒ‡ƒ“ƒpƒlƒ‹‚Ì•\¦
-Form3 = new TForm3(this);
+Form3 = new TForm3(this, opthdl);
 Form3->PopupParent = Screen->ActiveForm;
 Form3->ShowModal();
 Form3->Release();
@@ -1754,11 +1693,29 @@ void __fastcall TForm1::cmdConfirmOKClick(TObject *Sender)
 
 String MsgText;
 
+AnsiString PasswordFileHash[2] = {"", ""};
+AnsiString PasswordFileHeader[2] = {"", ""};
+
+
 //-----------------------------------
 //ƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚ªg‚í‚ê‚Ä‚¢‚é
-if (password_hash[0] != 0 ){
+if ( PasswordFilePath != "" ){
 
-	if ( memcmp( password_hash, temp_password_hash, 32) != 0) {
+	bool fCheckPasswordFile = false;
+
+	//Å‰‚É“Š‚°‚Ü‚ê‚½ƒtƒ@ƒCƒ‹‚ÌSHA-1ƒnƒbƒVƒ…‚ğ‹‚ß‚é
+	if ( opthdl->GetSHA1HashFromFile(PasswordFilePath, PasswordFileHash[0], PasswordFileHeader[0] ) == true ){
+		//‚Q”Ô–Ú‚Ìƒtƒ@ƒCƒ‹
+		if ( opthdl->GetSHA1HashFromFile(ConfirmPasswordFilePath, PasswordFileHash[1], PasswordFileHeader[1] ) == true ){
+
+			if (PasswordFileHash[0] == PasswordFileHash[1]) {
+				//“¯ˆê‚ÌƒnƒbƒVƒ…’l‚Ì‚æ‚¤‚¾
+				fCheckPasswordFile = true;
+			}
+		}
+	}
+
+	if ( fCheckPasswordFile == false ) {
 		//'æ‚É“ü—Í‚³‚ê‚½ƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚Æ‚¿‚ª‚¢‚Ü‚·BSHA-1ƒnƒbƒVƒ…’l‚ªˆê’v‚µ‚Ü‚¹‚ñ‚Å‚µ‚½B'+#13+
 		//'ˆÃ†‰»‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚¹‚ñB';
 		MsgText = LoadResourceString(&Msgunit1::_MSG_ERROR_MISMATCH_PASSWORD_FILE);
@@ -1771,6 +1728,7 @@ if (password_hash[0] != 0 ){
 //-----------------------------------
 //‘O‚É“ü—Í‚³‚ê‚½ƒpƒXƒ[ƒh‚Æ•sˆê’v
 else if (txtEncryptPassword->Text != txtPasswordConfirm->Text){
+
 	txtPasswordConfirm->SelectAll();
 	//'æ‚É“ü—Í‚³‚ê‚½ƒpƒXƒ[ƒh‚Æ‚¿‚ª‚¢‚Ü‚·B'
 	BalloonHint1->Title = LoadResourceString(&Msgunit1::_BALLOON_HINT_PASSWOED_MISMATCH);
@@ -1799,7 +1757,17 @@ FileEncrypt();
 void __fastcall TForm1::FileEncrypt(void)
 {
 
+int i;
+
 AnsiString Password;
+char password[32];
+
+for (i = 0; i < 32; i++) {
+	password[i] = NULL;
+}
+
+AnsiString PasswordFileHash, PasswordFileHeader;
+
 String MsgText;
 String DirPath, FilePath, FileName, Extension;
 TStringList *InputFileList = new TStringList;
@@ -1945,15 +1913,31 @@ encrypt->fConfirmOverwirte = opthdl->fConfirmOverwirte;            //“¯–¼ƒtƒ@ƒCƒ
 encrypt->intOptMissTypeLimitsNumOption = opthdl->MissTypeLimitsNum;//ƒ^ƒCƒvƒ~ƒX‚Å‚«‚é‰ñ”
 encrypt->AppExeFilePath = Application->ExeName;	                   //ƒAƒ^ƒbƒVƒFƒP[ƒX–{‘Ì‚ÌêŠiÀsŒ`®o—Í‚Ì‚Æ‚«‚ÉQÆ‚·‚éj
 
-//ƒpƒXƒ[ƒh
-if ( password_hash[0] == 0) {
-	//ƒpƒXƒ[ƒh‚É•¶š—ñ‚ğƒZƒbƒg
-	Password = AnsiString(txtPasswordConfirm->Text);
-	encrypt->SetPasswordString(Password);;
+//ƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚ğg—p‚·‚é‚©
+if ( PasswordFilePath != "") {
+
+	//SHA-1ƒnƒbƒVƒ…‚ğ‹‚ß‚é
+	if ( opthdl->GetSHA1HashFromFile(PasswordFilePath, PasswordFileHash, PasswordFileHeader ) == true ){
+		StrLCopy(password, PasswordFileHash.c_str(), 32);
+		encrypt->SetPasswordBinary(password);
+	}
+	else{
+		//ƒIƒvƒVƒ‡ƒ“‚ÅƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚ª‚È‚¢ê‡ƒGƒ‰[‚ğo‚·‚æ‚¤‚Éİ’è‚µ‚Ä‚¢‚é
+		if ( opthdl->fNoErrMsgOnPassFile == false ) {
+			//'ƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚ğŠJ‚¯‚Ü‚¹‚ñB‘¼‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Åg—p’†‚Ì‰Â”\«‚ª‚ ‚è‚Ü‚·B';
+			MsgText = LoadResourceString(&Msgunit1::_MSG_ERROR_OPEN_PASSWORD_FILE)+"\n"+
+								opthdl->PassFilePathDecrypt;
+			MessageDlg(MsgText, mtError, TMsgDlgButtons() << mbOK, 0);
+		}
+		return;
+	}
+
 }
 else{
-	//ƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚ÌSHA-1’l‚ğƒZƒbƒg
-	encrypt->SetPasswordBinary(password_hash);
+	//ƒeƒLƒXƒgƒ{ƒbƒNƒX‚Ì“à—e‚ğƒpƒXƒ[ƒh‚É‚·‚é
+	Password = (AnsiString)txtPasswordConfirm->Text;
+	StrLCopy(password, Password.c_str(), 32);
+	encrypt->SetPasswordBinary(password);
 }
 
 //ˆÃ†‰»‚ÌÀs
@@ -1979,9 +1963,17 @@ int i;
 
 String MsgText;
 
+AnsiString Password;
+char password[32];
+
+for (i = 0; i < 32; i++) {
+	password[i] = NULL;
+}
+
+AnsiString PasswordFileHash, PasswordFileHeader;
+
 String AtcFilePath;
 String OutDirPath;
-
 
 //eƒtƒHƒ‹ƒ_‚ğ¶¬‚µ‚È‚¢
 //if ( fNoParentFldr == true  )
@@ -2020,7 +2012,6 @@ if ( DirectoryExists(OutDirPath) == false ) {
 
 if ( FileList->Count > 0) {
 
-
 	//-----------------------------------
 	//•œ†ˆ—ƒCƒ“ƒXƒ^ƒ“ƒX‚Ìì¬
 	//-----------------------------------
@@ -2046,16 +2037,30 @@ if ( FileList->Count > 0) {
 	//ƒpƒXƒ[ƒh‚ÌƒZƒbƒg
 	//-----------------------------------
 
-	//ƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚ğg—p‚·‚é
-	if ( opthdl->fCheckPassFileDecrypt == true &&
-			 FileExists(opthdl->PassFilePathDecrypt) == true) {
-		//ƒpƒXƒ[ƒh‚ğƒoƒCƒiƒŠ’l‚ÅƒZƒbƒg
-		decrypt->SetPasswordBinary(password_hash);
-		//ƒpƒXƒ[ƒh•¶š—ñ‚ğƒoƒCƒiƒŠ’l‚ÅƒZƒbƒgiver.2.75ˆÈ‘Oj
-		decrypt->SetPasswordStringToBinary(PasswordFileHash);
+	//ƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚ğg—p‚·‚é‚©
+	if ( PasswordFilePath != "") {
+
+		//SHA-1ƒnƒbƒVƒ…‚ğ‹‚ß‚é
+		if ( opthdl->GetSHA1HashFromFile(PasswordFilePath, PasswordFileHash, PasswordFileHeader ) == true ){
+			StrLCopy(password, PasswordFileHash.c_str(), 32);
+			decrypt->SetPasswordBinary(password);
+		}
+		else{
+			//ƒIƒvƒVƒ‡ƒ“‚ÅƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚ª‚È‚¢ê‡ƒGƒ‰[‚ğo‚·‚æ‚¤‚Éİ’è‚µ‚Ä‚¢‚é
+			if ( opthdl->fNoErrMsgOnPassFile == false ) {
+				//'ƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚ğŠJ‚¯‚Ü‚¹‚ñB‘¼‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Åg—p’†‚Ì‰Â”\«‚ª‚ ‚è‚Ü‚·B';
+				MsgText = LoadResourceString(&Msgunit1::_MSG_ERROR_OPEN_PASSWORD_FILE)+"\n"+
+									opthdl->PassFilePathDecrypt;
+				MessageDlg(MsgText, mtError, TMsgDlgButtons() << mbOK, 0);
+			}
+		}
+
 	}
 	else{
-		decrypt->SetPasswordString(txtDecryptPassword->Text);
+		//ƒeƒLƒXƒgƒ{ƒbƒNƒX‚Ì“à—e‚ğƒpƒXƒ[ƒh‚É‚·‚é
+		Password = (AnsiString)txtDecryptPassword->Text;
+		StrLCopy(password, Password.c_str(), 32);
+		decrypt->SetPasswordBinary(password);
 	}
 
 	//•œ†‚ÌÀs
@@ -2081,6 +2086,11 @@ void __fastcall TForm1::FileCompare(void)
 {
 
 int i;
+char password[32];
+
+for (i = 0; i < 32; i++) {
+	password[i] = NULL;
+}
 
 String MsgText;
 
@@ -2125,7 +2135,8 @@ decrypt->OutDirPath = "";                        //o—Í‚·‚éƒfƒBƒŒƒNƒgƒŠ
 //-----------------------------------
 //ƒpƒXƒ[ƒh‚ÌƒZƒbƒg
 //-----------------------------------
-memcpy(decrypt->key, encrypt->key, 32);
+encrypt->GetPasswordBinary(password);
+decrypt->SetPasswordBinary(password);
 
 //ƒRƒ“ƒyƒAi•œ†j‚ÌÀs
 decrypt->Start();
@@ -2145,6 +2156,10 @@ TimerDecrypt->Enabled = true;
 //---------------------------------------------------------------------------
 void __fastcall TForm1::cmdConfirmCancelClick(TObject *Sender)
 {
+
+//Šm”F‚ÌƒeƒLƒXƒgƒ{ƒbƒNƒXEƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹ƒpƒX‚ğƒNƒŠƒA
+txtPasswordConfirm->Text = "";
+ConfirmPasswordFilePath = "";
 
 //ƒpƒXƒ[ƒh“ü—Íƒpƒlƒ‹‚Ö–ß‚é
 PageControl1->ActivePage = TabSheetInputEncPass;
@@ -2204,19 +2219,6 @@ else{
 	//ƒƒCƒ“ƒpƒlƒ‹‚Ö–ß‚é
 	PageControl1->ActivePage = TabSheetMain;
 }
-
-}
-//---------------------------------------------------------------------------
-void __fastcall TForm1::StatusBar1DblClick(TObject *Sender)
-{
-
-//ƒfƒoƒbƒO
-
-//ƒIƒvƒVƒ‡ƒ“ƒpƒlƒ‹‚Ì•\¦
-Form3 = new TForm3(Application);
-Form3->PopupParent = Screen->ActiveForm;
-Form3->ShowModal();
-Form3->Release();
 
 }
 //---------------------------------------------------------------------------
@@ -2322,10 +2324,24 @@ void __fastcall TForm1::imgOptionPanelClick(TObject *Sender)
 {
 
 //ƒIƒvƒVƒ‡ƒ“ƒpƒlƒ‹‚Ì•\¦
-Form3 = new TForm3(this);
+Form3 = new TForm3(this, opthdl);
 Form3->PopupParent = Screen->ActiveForm;
 Form3->ShowModal();
 Form3->Release();
+
+/*
+if (pOpt->fNoHidePassword == true ) {
+	Form1->txtEncryptPassword->PasswordChar = NULL;
+	Form1->txtPasswordConfirm->PasswordChar = NULL;
+	Form1->txtDecryptPassword->PasswordChar = NULL;
+}
+else{
+	Form1->txtEncryptPassword->PasswordChar = '*';
+	Form1->txtPasswordConfirm->PasswordChar = '*';
+	Form1->txtDecryptPassword->PasswordChar = '*';
+}
+*/
+
 
 }
 //---------------------------------------------------------------------------
@@ -2357,26 +2373,6 @@ void __fastcall TForm1::imgBackMouseLeave(TObject *Sender)
 
 TImage *img = dynamic_cast<TImage *>(Sender);
 img->Picture = imgBackNormal->Picture;
-
-}
-//---------------------------------------------------------------------------
-void __fastcall TForm1::imgBackOnClick(TObject *Sender)
-{
-
-TImage *img = dynamic_cast<TImage *>(Sender);
-
-if ( img->Name == "imgBackFromInputEncPass") {
-	PageControl1->ActivePage = TabSheetMain;
-}
-else if ( img->Name == "imgBackFromInputEncPassConfirm") {
-	PageControl1->ActivePage = TabSheetInputEncPass;
-}
-else if ( img->Name == "imgBackFromInputDecPass") {
-	PageControl1->ActivePage = TabSheetMain;
-}
-else if ( img->Name == "imgBackFromExecute") {
-	PageControl1->ActivePage = TabSheetMain;
-}
 
 }
 //---------------------------------------------------------------------------
@@ -2571,16 +2567,57 @@ int i;
 if (PageControl1->ActivePage == TabSheetMain) {
 
 	txtEncryptPassword->Text = "";
-  txtPasswordConfirm->Text = "";
-  txtDecryptPassword->Text = "";
+	txtPasswordConfirm->Text = "";
+	txtDecryptPassword->Text = "";
 
 	//ƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚Ì•Ï”‚ğ‰Šú‰»‚·‚é
-	PasswordFileHeader = "";
-	PasswordFileHash = "";
-	for (i = 0; i < 32; i++) {
-		password_hash[i] = 0;
-		temp_password_hash[i] = 0;
-	}
+	PasswordFilePath = "";
+	ConfirmPasswordFilePath = "";
+
+	//Às’†ƒpƒlƒ‹‚Ìƒ{ƒ^ƒ“‚ğuƒLƒƒƒ“ƒZƒ‹v‚É–ß‚·
+	cmdCancel->Caption = "&Cancel";
+
+}
+
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::txtDecryptPasswordChange(TObject *Sender)
+{
+
+if (PasswordFilePath == "") {
+	return;
+}
+
+//•œ†ƒpƒXƒ[ƒh‚ÌÄ“ü—Í‚ª‚ ‚Á‚½‚Æ‚«‚ÍƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹ƒpƒX‚ğƒNƒŠƒA‚·‚é
+if (txtDecryptPassword->Text != PasswordFilePath) {
+	PasswordFilePath = "";
+}
+
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::txtEncryptPasswordChange(TObject *Sender)
+{
+
+if (PasswordFilePath == "") {
+	return;
+}
+
+//ˆÃ†‰»ƒpƒXƒ[ƒh‚ÌÄ“ü—Í‚ª‚ ‚Á‚½‚Æ‚«‚ÍƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹ƒpƒX‚ğƒNƒŠƒA‚·‚é
+if (txtEncryptPassword->Text != PasswordFilePath) {
+	PasswordFilePath = "";
+}
+
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::txtPasswordConfirmChange(TObject *Sender)
+{
+
+if (ConfirmPasswordFilePath == "") {
+	return;
+}
+
+if (txtPasswordConfirm->Text != ConfirmPasswordFilePath) {
+	ConfirmPasswordFilePath = "";
 }
 
 }

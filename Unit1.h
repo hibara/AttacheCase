@@ -126,7 +126,6 @@ __published:	// IDE 管理のコンポーネント
 	void __fastcall txtDecryptPasswordKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
 	void __fastcall cmdCancelClick(TObject *Sender);
 	void __fastcall TimerDeleteTimer(TObject *Sender);
-	void __fastcall StatusBar1DblClick(TObject *Sender);
 	void __fastcall cmdDecryptPasswordOKClick(TObject *Sender);
 	void __fastcall chkExeFileOutClick(TObject *Sender);
 	void __fastcall PaintBoxMainPaint(TObject *Sender);
@@ -137,10 +136,12 @@ __published:	// IDE 管理のコンポーネント
 	void __fastcall mnuOptionClick(TObject *Sender);
 	void __fastcall imgBackMouseEnter(TObject *Sender);
 	void __fastcall imgBackMouseLeave(TObject *Sender);
-	void __fastcall imgBackOnClick(TObject *Sender);
 	void __fastcall PaintBoxMainMouseEnter(TObject *Sender);
 	void __fastcall PaintBoxMainMouseLeave(TObject *Sender);
 	void __fastcall PageControl1Change(TObject *Sender);
+	void __fastcall txtDecryptPasswordChange(TObject *Sender);
+	void __fastcall txtEncryptPasswordChange(TObject *Sender);
+	void __fastcall txtPasswordConfirmChange(TObject *Sender);
 
 
 
@@ -170,17 +171,9 @@ private:	// ユーザー宣言
 	String RetryAtcFilePath;
 	int RetryNum;
 
-	//ユーザーにより投げ込まれたパスワードファイルからのデータ
-	// ver.1: 先頭                      32byte
-	AnsiStringT<932> PasswordFileHeader;
-	// ver.2: SHA-1ハッシュ文字列の先頭 32byte
-	AnsiStringT<932> PasswordFileHash;
-	//　↓
-	//本来はこうすべきでした。すみません・・・
-	// 内、20byteにSHA-1ハッシュ値。
-	// 将来的な256bitへの拡張を見越しておく
-	unsigned char password_hash[32];
-	unsigned char temp_password_hash[32];    //暗号化時再入力確認用
+	//パスワードファイルパス
+	String PasswordFilePath;
+	String ConfirmPasswordFilePath;
 
 	// ファイル/フォルダの暗号化処理
 	void __fastcall FileEncrypt(void);

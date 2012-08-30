@@ -1122,6 +1122,7 @@ return(FreeSpace);
 //===========================================================================
 //パスワード文字列をセットする
 //===========================================================================
+/*
 void __fastcall TAttacheCaseFileEncrypt::SetPasswordString(AnsiString Password)
 {
 
@@ -1132,10 +1133,11 @@ for (int i = 0; i < 32; i++) {
 StrCopy(key, Password.c_str());
 
 }
+*/
 //===========================================================================
 //パスワードにバイナリ値をセットする
 //===========================================================================
-void __fastcall TAttacheCaseFileEncrypt::SetPasswordBinary(unsigned char *password)
+void __fastcall TAttacheCaseFileEncrypt::SetPasswordBinary(char *password)
 {
 
 for (int i = 0; i < 32; i++) {
@@ -1143,6 +1145,15 @@ for (int i = 0; i < 32; i++) {
 }
 
 memcpy(key, password, 32);
+
+}
+//===========================================================================
+//現在設定されているパスワードを取得する
+//===========================================================================
+void __fastcall TAttacheCaseFileEncrypt::GetPasswordBinary(char *password)
+{
+
+memcpy(password, key, 32);
 
 }
 //===========================================================================

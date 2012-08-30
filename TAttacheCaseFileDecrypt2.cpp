@@ -51,7 +51,7 @@ __fastcall TAttacheCaseFileDecrypt2::TAttacheCaseFileDecrypt2
 {
 
 for (int i = 0; i < 32; i++) {
-	key[i] = 0;
+	key[i] = NULL;
 }
 
 fCompare = false;        // コンペア
@@ -86,7 +86,7 @@ __fastcall TAttacheCaseFileDecrypt2::~TAttacheCaseFileDecrypt2(void)
 void __fastcall TAttacheCaseFileDecrypt2::Execute()
 {
 
-int i, len;
+int i, c, len;
 
 // バッファ
 char source_buffer[BUF_SIZE];
@@ -94,6 +94,10 @@ char temp_buffer[BUF_SIZE];
 char chain_buffer[BUF_SIZE];
 char output_buffer[LARGE_BUF_SIZE];
 char *headerbuffer;
+
+//パスワード
+bool fPasswordOk = false;
+//const int KeyArrayNum = sizeof(key)/sizeof(key[0]);
 
 String FilePath, FileName;
 
@@ -104,7 +108,7 @@ bool fInputFileOpen = false;
 bool fOutputFileOpen = false;
 
 float free_space_required;
-__int64 TotalSize, AllTotalSize;
+__int64 CurrentPos, TotalSize, AllTotalSize;
 __int64 CurrentDriveFreeSpaceSize;
 
 int ret;	//バッファ出力の返値
@@ -127,7 +131,7 @@ fOpenFolderOnce = false;
 OutDirPath = IncludeTrailingPathDelimiter(OutDirPath);
 
 // 平文ヘッダサイズ（データサブバージョン、破壊設定など）
-int PlaneHeaderSize = 0;
+int PlainHeaderSize = 0;
 // 暗号化部分のヘッダサイズ
 int EncryptHeaderSize = 0;
 
@@ -161,7 +165,7 @@ int *FileTmCreateList = 0;               // 6: 作成時
 int rest;
 int buf_size;
 
-//-----------------------------------
+//----------------------------------------------------------------------
 // 平文のヘッダ内容チェック
 
 try {
@@ -184,7 +188,7 @@ catch(...) {
 fInputFileOpen = true;
 
 // 平文ヘッダサイズを取得
-fsIn->Read(&PlaneHeaderSize, sizeof(int));
+fsIn->Read(&PlainHeaderSize, sizeof(int));
 // トークンを取得
 fsIn->Read(token, 16);
 
@@ -199,7 +203,7 @@ if (memcmp(token, charTokenString, 16) != 0 ) {
 	// 位置を戻す
 	fsIn->Seek(-(AllTotalSize + sizeof(__int64)), TSeekOrigin::soEnd);
 	// もう一度、平文ヘッダサイズを読み込む
-	fsIn->Read(&PlaneHeaderSize, sizeof(int));
+	fsIn->Read(&PlainHeaderSize, sizeof(int));
 	// もう一度、トークンを取得
 	fsIn->Read(token, 16);
 
@@ -270,9 +274,9 @@ else {
 	// ヘッダサイズを読み込む
 	fsIn->Read(&EncryptHeaderSize, sizeof(int));
 	// int型からポインタキャストでchar配列を取り出す
-	headerbuffer = (char*) & PlaneHeaderSize;
+	headerbuffer = (char*) & PlainHeaderSize;
 	// データサブバージョンチェック（ver.2.70～）
-	if (headerbuffer[0] == 6) {
+	if (headerbuffer[0] >= 6) {
 		TypeLimits = (int)headerbuffer[2];
 		fDestroy = (bool)headerbuffer[3];
 		// 有効範囲（1～10）かチェック
@@ -286,6 +290,7 @@ else {
 	}
 }
 
+
 //-----------------------------------
 // 復号の準備
 //-----------------------------------
@@ -293,20 +298,8 @@ else {
 // テーブル生成
 gentables();
 
-//パスワードセット
-if (DataVersion == 105) {  //ver.2.75
-
-	if ( old_key[0] != 0) {  //古い形式のパスワードファイルを使っている
-		gkey(8, 8, old_key);
-	}
-	else{
-		gkey(8, 8, key);
-	}
-
-}
-else if( DataVersion == 106 ){
-	gkey(8, 8, key);
-}
+// パスワードのセット
+gkey(8, 8, key);
 
 //-----------------------------------
 // 暗号部ヘッダの復号
@@ -322,28 +315,27 @@ len = 0;
 while (len < EncryptHeaderSize) {
 
 	// 読み出しバッファ
-	for (i = 0; i < BUF_SIZE; i++) {
-		source_buffer[i] = 0;
+	for (c = 0; c < BUF_SIZE; c++) {
+		source_buffer[c] = 0;
 	}
 	// 暗号化されたデータブロックの読み出し
 	len += fsIn->Read(source_buffer, BUF_SIZE);
 
-	for (i = 0; i < BUF_SIZE; i++) {
+	for (c = 0; c < BUF_SIZE; c++) {
 		// あとのxorのためによけておく
-		temp_buffer[i] = source_buffer[i];
+		temp_buffer[c] = source_buffer[c];
 	}
 
 	// 復号処理
 	rijndael_decrypt(source_buffer);
 
 	// xor
-	for (i = 0; i < BUF_SIZE; i++) {
-		source_buffer[i] ^= chain_buffer[i];
-		chain_buffer[i] = temp_buffer[i]; // CBC
+	for (c = 0; c < BUF_SIZE; c++) {
+		source_buffer[c] ^= chain_buffer[c];
+		chain_buffer[c] = temp_buffer[c]; // CBC
 	}
 
 	pms->Write(source_buffer, BUF_SIZE);
-
 
 }
 
@@ -351,9 +343,7 @@ pms->Seek((__int64)0, TSeekOrigin::soBeginning);  //ポインタを先頭へ戻す
 DataList = new TStringList;
 
 DataList->LoadFromStream(pms);                                 // default encoding
-
 //DataList->LoadFromStream(pms, TEncoding::UTF8);              // TEncoding::UTF8
-
 //DataList->LoadFromStream(pms, TEncoding::GetEncoding(932));  // shift-jis
 
 delete pms;
@@ -362,21 +352,26 @@ delete pms;
 // 復号正否（復号できたか）
 //-----------------------------------
 if (DataList->Count == 0 || DataList->Strings[0].Pos("AttacheCase") == 0) {
+	fPasswordOk = false;
+}
+else{
+	fPasswordOk = true;   //パスワード合致
+}
 
-	//'パスワードがちがいます。復号できません。'+#13+
-	//'場合によってはファイルが壊れている可能性もあります。';
-	MsgText = LoadResourceString(&Msgdecrypt::_MSG_ERROR_PASSWORD_WRONG);
-	if ( fCompare == true ) {
-		//メッセージに'コンペアに失敗しました。'を追加
-		MsgText += "\n" + LoadResourceString(&Msgdecrypt::_MSG_ERROR_COMPARE_FILE);
-	}
-	MsgType = mtError;
-	MsgButtons = TMsgDlgButtons() << mbOK;
-	MsgDefaultButton = mbOK;
-	Synchronize(&PostConfirmMessageForm);
-	delete DataList;
-	goto LabelTypeMiss;
-
+if ( fPasswordOk == false ) {
+		//'パスワードがちがいます。復号できません。'+#13+
+		//'場合によってはファイルが壊れている可能性もあります。';
+		MsgText = LoadResourceString(&Msgdecrypt::_MSG_ERROR_PASSWORD_WRONG);
+		if ( fCompare == true ) {
+			//メッセージに'コンペアに失敗しました。'を追加
+			MsgText += "\n" + LoadResourceString(&Msgdecrypt::_MSG_ERROR_COMPARE_FILE);
+		}
+		MsgType = mtError;
+		MsgButtons = TMsgDlgButtons() << mbOK;
+		MsgDefaultButton = mbOK;
+		Synchronize(&PostConfirmMessageForm);
+		delete DataList;
+		goto LabelTypeMiss;
 }
 
 //-----------------------------------
@@ -565,6 +560,7 @@ while (Terminated == false) {
 	if ( status == Z_OK ){
 	}
 	else if ( status == Z_BUF_ERROR ) { //入力が尽きた可能性
+
 		//出力バッファをクリアにして継続させる
 		len = LARGE_BUF_SIZE - z.avail_out;
 		ret = OutputBuffer(output_buffer, len,
@@ -573,7 +569,11 @@ while (Terminated == false) {
 											 FileSizeList, FileAttrList,
 											 FileDtChangeList, FileTmChangeList,
 											 FileDtCreateList, FileTmCreateList);
-		if (ret == 0) {
+		if (len == 0) {
+			z.avail_out = 0;
+			break;
+		}
+		else if (ret == 0) {
 			z.next_out = output_buffer;
 			z.avail_out = LARGE_BUF_SIZE;
 		}
@@ -642,6 +642,11 @@ while (Terminated == false) {
 	ProgressStatusText = LoadResourceString(&Msgdecrypt::_LABEL_STATUS_TITLE_DECRYPTING);
 	ProgressMsgText = ExtractFileName(AtcFilePath);
 
+	if ( z.avail_in == 0 && z.avail_out == 0 ) {
+  	break;
+	}
+
+
 
 }//while (!Terminated);
 
@@ -655,13 +660,13 @@ if (Terminated == true) {
 //----------------------------------------------------------------------
 if (z.avail_out > 0) {
 
-		len = LARGE_BUF_SIZE - z.avail_out;
-		ret = OutputBuffer(output_buffer, len,
-										 fsOut, fOutputFileOpen,
-										 FileList, FileIndex,
-										 FileSizeList, FileAttrList,
-										 FileDtChangeList, FileTmChangeList,
-										 FileDtCreateList, FileTmCreateList);
+	len = LARGE_BUF_SIZE - z.avail_out;
+	ret = OutputBuffer(output_buffer, len,
+									 fsOut, fOutputFileOpen,
+									 FileList, FileIndex,
+									 FileSizeList, FileAttrList,
+									 FileDtChangeList, FileTmChangeList,
+									 FileDtCreateList, FileTmCreateList);
 	if ( ret < 0 ) {
 		if ( ret == -2 ){
 			goto LabelStop;
@@ -1490,8 +1495,21 @@ for(i = 0; i < len; ++i){
 
 }
 //===========================================================================
+//パスワードにバイナリ値でセットする
+//===========================================================================
+void __fastcall TAttacheCaseFileDecrypt2::SetPasswordBinary(char *password)
+{
+
+for ( int i = 0; i < 32; i++){
+	key[i] = NULL;
+}
+memcpy(key, password, 32);
+
+}
+//===========================================================================
 //パスワード文字列をセットする
 //===========================================================================
+/*
 void __fastcall TAttacheCaseFileDecrypt2::SetPasswordString(AnsiString Password)
 {
 
@@ -1500,33 +1518,23 @@ for ( int i = 0; i < 32; i++){
 }
 StrCopy(key, Password.c_str());
 
-
 }
+*/
 //===========================================================================
-//パスワードにバイナリ値をセットする（ver.2.80～）
+//パスワード文字列からバイナリ値をセットする：ver.1.* ～（別クラスで実装予定）
 //===========================================================================
-void __fastcall TAttacheCaseFileDecrypt2::SetPasswordBinary(unsigned char *password)
-{
-
-for ( int i = 0; i < 32; i++){
-	key[i]=0;
-}
-memcpy(key, password, 32);
-
-}
-//===========================================================================
-//パスワード文字列からバイナリ値をセットする（下位互換）
-//===========================================================================
+/*
 void __fastcall TAttacheCaseFileDecrypt2::SetPasswordStringToBinary(AnsiString Password)
 {
 
 //つまりは先頭の32バイトしかpasswordに代入されない
 for ( int i = 0; i < 32; i++){
-	old_key[i]=0;
+	key[1][i]=0;
 }
-strcpy( old_key, Password.c_str() );
+strcpy( key[1], Password.c_str() );
 
 }
+*/
 //===========================================================================
 //メインフォームに確認メッセージを投げて処理を中断する
 //===========================================================================
@@ -1539,7 +1547,6 @@ void __fastcall TAttacheCaseFileDecrypt2::PostConfirmMessageForm()
 //TMsgDlgType MsgType;
 //TMsgDlgButtons MsgButtons;
 //TMsgDlgBtn MsgDefaultButton;
-
 MsgReturnVal =
 	Form1->ShowConfirmMassageForm(MsgText, MsgType, MsgButtons, MsgDefaultButton);
 
@@ -1555,7 +1562,6 @@ void __fastcall TAttacheCaseFileDecrypt2::PostConfirmOverwriteMessageForm()
 
 //String MsgText;
 //String MsgReturnPath;
-
 MsgReturnVal = Form1->ShowConfirmOverwriteMassageForm(MsgText, MsgReturnPath);
 
 }

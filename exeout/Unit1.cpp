@@ -14,11 +14,6 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 	: TForm(Owner)
 {
 
-//パスワードの初期化
-for (int i = 0; i < 32; i++) {
-	password_hash[i] = 0;
-}
-
 txtInputPassword->Text = "";
 
 this->Caption = ExtractFileName(Application->ExeName);
@@ -211,16 +206,11 @@ if (IntersectRect(rcResult, rcMouse, rcTarget) == true && DropFileList->Count > 
 
 	txtInputPassword->Color = TColor(0xDBEBF7);  //オレンジ色
 
-	//SHA-1ハッシュを求める
-	if ( GetSHA1HashFromFile(	DropFileList->Strings[0], password_hash ) == true ){
-		FileDecrypt();
-	}
-	else{
-		//'パスワードファイルを開けません。他のアプリケーションで使用中の可能性があります。';
-		MsgText = LoadResourceString(&Msgexeout::_MSG_ERROR_OPEN_PASSWORD_FILE)+"\n"+
-																 DropFileList->Strings[0];
-		MessageDlg(MsgText, mtError, TMsgDlgButtons() << mbOK, 0);
-	}
+	PasswordFilePath = DropFileList->Strings[0];
+	txtInputPassword->Text = PasswordFilePath;
+
+	FileDecrypt();
+
 }
 
 txtInputPassword->Color = clWindow;
@@ -267,6 +257,15 @@ void __fastcall TForm1::FileDecrypt(void)
 
 int i;
 String MsgText;
+
+char password[32];
+for (i = 0; i < 32; i++) {
+	password[i] = NULL;
+}
+
+AnsiString Password;
+AnsiString PasswordFileHash, PasswordFileHeader;
+
 
 String AtcFilePath;
 String OutDirPath;
@@ -329,13 +328,26 @@ decrypt->fConfirmOverwirte = true;               //上書きの確認
 //-----------------------------------
 
 //パスワードファイルを使用する
-if (password_hash[0] != 0) {
-	//バイナリ値でセット
-	decrypt->SetPasswordBinary(password_hash);
+if (PasswordFilePath != "") {
+
+	//SHA-1ハッシュを求める
+	if ( GetSHA1HashFromFile(PasswordFilePath, PasswordFileHash, PasswordFileHeader) == true ){
+		StrLCopy(password, PasswordFileHash.c_str(), 32);
+		decrypt->SetPasswordBinary(password);
+		FileDecrypt();
+	}
+	else{
+		//'パスワードファイルを開けません。他のアプリケーションで使用中の可能性があります。';
+		MsgText = LoadResourceString(&Msgexeout::_MSG_ERROR_OPEN_PASSWORD_FILE)+"\n"+PasswordFilePath;
+		MessageDlg(MsgText, mtError, TMsgDlgButtons() << mbOK, 0);
+	}
+
 }
 else{
 	//文字列をセット
-	decrypt->SetPasswordString(txtInputPassword->Text);
+	Password = (AnsiString)txtInputPassword->Text;
+	StrLCopy(password, Password.c_str(), 32);
+	decrypt->SetPasswordBinary(password);
 }
 
 //復号の実行
@@ -350,63 +362,93 @@ if (ptl) ptl->SetProgressState(Application->Handle, TBPF_NORMAL);
 //進捗をTimerで監視
 TimerDecrypt->Enabled = true;
 
-
-
 }
-//---------------------------------------------------------------------------
+//===========================================================================
 // ファイルからSHA-1ハッシュ値を取得する
-//---------------------------------------------------------------------------
-bool __fastcall TForm1::GetSHA1HashFromFile(String FilePath, unsigned char *sha1buffer)
+//===========================================================================
+bool __fastcall TForm1::GetSHA1HashFromFile(
+	String FilePath,              // パスワードファイルパス
+	AnsiString &HashDataVer2,     // ver.2.*  ～：SHA-1ハッシュ値（20byte + 12byte）
+	AnsiString &HashDataVer1 )    // ver.1.*  ～：ヘッダデータ（先頭文字列32文字）
 {
 
 int i;
 
 int fh;
-int bytes;
-char buffer[READ_FILE_BUF_SIZE];
-char sha1_hash_string[BUF_SHA1_SIZE];
+int bytes, rest;
+char buffer[255];	                               //読み込みバッファ
+char sha1_hash_data_mixed_padding[BUF_HASH_DATA];// 32byte
 
-if ( !FileExists(FilePath) ){
- return(false);
+for (i = 0; i < BUF_HASH_DATA; i++) {
+	sha1_hash_data_mixed_padding[i] = NULL;
 }
 
-if ( (fh = FileOpen(FilePath, fmShareDenyNone)) == -1 ){
-	//パスワードファイルが開けない？
-	return(false);
-}
+if ( !FileExists(FilePath) ) return(false);
 
-SHA1Context sha;
-unsigned char Message_Digest[BUF_SHA1_SIZE];
-ZeroMemory(Message_Digest, BUF_SHA1_SIZE);
+try{
 
-//初期化（リセット）
-if ( SHA1Reset(&sha)){
-	FileClose(fh);
-	return(false);
-}
-
-//ファイルを読み出してSHA-1へ入力していく
-while ((bytes = FileRead (fh, buffer, READ_FILE_BUF_SIZE)) != 0){
-	if ( SHA1Input(&sha, (const unsigned char *)buffer, bytes) ){
-		FileClose(fh);
+	if ( (fh = FileOpen(FilePath, fmShareDenyNone)) == -1 ){
+		//パスワードファイルが開けない？
 		return(false);
 	}
-}
 
-//出力
-if(SHA1Result(&sha, Message_Digest)){
+	//ヘッダ先頭の255byteを読む（ver.1.* ～）
+	FileRead(fh, buffer, 255);
+	HashDataVer1 = (AnsiString)buffer;
+
+	//SHA-1ハッシュの計算
+	FileSeek(fh, 0, 0);
+	SHA1Context sha;
+	unsigned char Message_Digest[20];
+	ZeroMemory(Message_Digest, 20);
+
+	//初期化（リセット）
+	if ( SHA1Reset(&sha)){
+		return(false);
+	}
+
+	//ファイルを読み出してSHA-1へ入力していく
+	while ((bytes = FileRead (fh, buffer, 255)) != 0){
+		rest = bytes;
+		if ( SHA1Input(&sha, (const unsigned char *)buffer, bytes) ){
+			return(false);
+		}
+	}
+
+	if ( FileSeek(fh, -rest, 2) > 0 ){
+		FileRead(fh, buffer, 255);
+	}
+	else{
+		FileSeek(fh, 0, 0);
+		FileRead(fh, buffer, 255);
+	}
+
+	//出力
+	if(SHA1Result(&sha, Message_Digest)){
+		return(false);
+	}
+	for (i = 0; i < BUF_SHA1_SIZE; i++){   // 20byte
+		sha1_hash_data_mixed_padding[i] = Message_Digest[i];
+	}
+
+	//残りの12byteを補填
+	for (i = 0; i < 12; i++) {             // 12byte
+		 sha1_hash_data_mixed_padding[BUF_SHA1_SIZE+i] = buffer[i];
+	}
+
+	HashDataVer2 = "";
+	for (i = 0; i < BUF_HASH_DATA; i++){   // 32byte
+		//適切にキャストされるように1byteずつ代入
+		HashDataVer2 += (AnsiString)sha1_hash_data_mixed_padding[i];
+	}
+	HashDataVer2.SetLength(32);
+
+}
+__finally{
+
 	FileClose(fh);
-	return(false);
+
 }
-
-//ファイルを閉じる
-FileClose(fh);
-
-for (i = 0; i < BUF_SHA1_SIZE; i++){
-	sha1buffer[i] = Message_Digest[i];
-	sha1_hash_string[i] = Message_Digest[i];
-}
-
 return(true);
 
 
@@ -665,5 +707,18 @@ return(true);
 
 }
 //---------------------------------------------------------------------------
+void __fastcall TForm1::txtInputPasswordChange(TObject *Sender)
+{
 
+if (PasswordFilePath == "") {
+	return;
+}
+
+//暗号化パスワードの再入力があったときはパスワードファイルパスをクリアする
+if (txtInputPassword->Text != PasswordFilePath) {
+	PasswordFilePath = "";
+}
+
+}
+//---------------------------------------------------------------------------
 

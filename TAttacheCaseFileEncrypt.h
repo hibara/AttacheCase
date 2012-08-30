@@ -17,11 +17,14 @@
 #define FOOTER_BUF_SIZE 16
 #define PASSWORD_BUF_SIZE 264 //MyPasscode + "_atc"
 
-//データバージョン
+//-----------------------------------
+//データバージョン（ここをいじると
+// 下位バージョンで復号できないエラーが発生する）
 #define ATC_DATA_FILE_VERSION 105
+//-----------------------------------
+
 //データサブバージョン
 #define ATC_DATA_SUB_VERSION 6     //ver.2.70～
-//#define ATC_DATA_SUB_VERSION 7       //ver.2.80～
 
 //制限サイズ4GB (4294967296-230=4294967066)
 #define SIZE_4GB 4294967066
@@ -41,6 +44,9 @@ private:
 	//-----------------------------------
 	// 変数
 	//-----------------------------------
+
+	//パスワードキー
+	char key[32];
 
 	//出力する暗号化ファイルのタイムスタンプを元ファイルに合わせるために格納する構造体
 	_WIN32_FIND_DATAW first_fd;
@@ -104,9 +110,6 @@ public:
 	// 変数
 	//-----------------------------------
 
-	//パスワードキー
-	char key[32];
-
 	int StatusNum;                     //ステータスメッセージ番号（エラー内容も含む）
 
 	String MsgErrorString;             //エラーメッセージ
@@ -133,9 +136,12 @@ public:
 	//-----------------------------------
 
 	//パスワード文字列をセットする
-	void __fastcall SetPasswordString(AnsiString Password);
+	//void __fastcall SetPasswordString(AnsiString Password);
 	//パスワードにバイナリ値をセットする
-	void __fastcall SetPasswordBinary(unsigned char *password);
+	void __fastcall SetPasswordBinary(char *password);
+  //現在設定されているパスワードを取得する
+	void __fastcall GetPasswordBinary(char *password);
+
 
 
 };

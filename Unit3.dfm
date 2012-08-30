@@ -22,8 +22,8 @@ object Form3: TForm3
   PixelsPerInch = 96
   TextHeight = 13
   object imgBat: TImage
-    Left = 184
-    Top = 486
+    Left = 93
+    Top = 0
     Width = 16
     Height = 16
     AutoSize = True
@@ -68,8 +68,8 @@ object Form3: TForm3
     Visible = False
   end
   object imgReg: TImage
-    Left = 206
-    Top = 486
+    Left = 115
+    Top = 0
     Width = 16
     Height = 16
     AutoSize = True
@@ -114,8 +114,8 @@ object Form3: TForm3
     Visible = False
   end
   object imgIni: TImage
-    Left = 228
-    Top = 486
+    Left = 137
+    Top = 0
     Width = 16
     Height = 16
     AutoSize = True
@@ -159,67 +159,17 @@ object Form3: TForm3
       801F0000}
     Visible = False
   end
-  object Panel1: TPanel
-    Left = 0
-    Top = 494
-    Width = 610
-    Height = 41
-    Align = alBottom
-    BevelOuter = bvNone
-    TabOrder = 0
-    DesignSize = (
-      610
-      41)
-    object cmdOK: TButton
-      Left = 432
-      Top = 10
-      Width = 75
-      Height = 25
-      Anchors = [akRight, akBottom]
-      Caption = '&OK'
-      TabOrder = 0
-      OnClick = cmdOKClick
-    end
-    object cmdCancel: TButton
-      Left = 521
-      Top = 10
-      Width = 75
-      Height = 25
-      Anchors = [akRight, akBottom]
-      Cancel = True
-      Caption = '&Cancel'
-      TabOrder = 1
-      OnClick = cmdCancelClick
-    end
-    object cmdHelp: TButton
-      Left = 12
-      Top = 10
-      Width = 75
-      Height = 25
-      Anchors = [akLeft, akBottom]
-      Caption = '&Help'
-      TabOrder = 2
-      OnClick = cmdHelpClick
-    end
-  end
-  object StatusBar1: TStatusBar
-    Left = 0
-    Top = 535
-    Width = 610
-    Height = 19
-    Panels = <>
-  end
   object PageControl1: TPageControl
     AlignWithMargins = True
     Left = 99
-    Top = 5
+    Top = 19
     Width = 502
-    Height = 484
+    Height = 454
     Margins.Left = 4
     Margins.Top = 4
     Margins.Right = 4
     Margins.Bottom = 4
-    ActivePage = TabSystem
+    ActivePage = TabSave
     MultiLine = True
     TabOrder = 2
     object TabBasic: TTabSheet
@@ -1382,7 +1332,7 @@ object Form3: TForm3
       object Memo1: TMemo
         AlignWithMargins = True
         Left = 4
-        Top = 374
+        Top = 344
         Width = 486
         Height = 78
         Margins.Left = 4
@@ -1399,6 +1349,56 @@ object Form3: TForm3
         ExplicitTop = 387
       end
     end
+  end
+  object Panel1: TPanel
+    Left = 0
+    Top = 494
+    Width = 610
+    Height = 41
+    Align = alBottom
+    BevelOuter = bvNone
+    TabOrder = 0
+    DesignSize = (
+      610
+      41)
+    object cmdOK: TButton
+      Left = 432
+      Top = 10
+      Width = 75
+      Height = 25
+      Anchors = [akRight, akBottom]
+      Caption = '&OK'
+      TabOrder = 0
+      OnClick = cmdOKClick
+    end
+    object cmdCancel: TButton
+      Left = 521
+      Top = 10
+      Width = 75
+      Height = 25
+      Anchors = [akRight, akBottom]
+      Cancel = True
+      Caption = '&Cancel'
+      TabOrder = 1
+      OnClick = cmdCancelClick
+    end
+    object cmdHelp: TButton
+      Left = 12
+      Top = 10
+      Width = 75
+      Height = 25
+      Anchors = [akLeft, akBottom]
+      Caption = '&Help'
+      TabOrder = 2
+      OnClick = cmdHelpClick
+    end
+  end
+  object StatusBar1: TStatusBar
+    Left = 0
+    Top = 535
+    Width = 610
+    Height = 19
+    Panels = <>
   end
   object PanelMenu: TPanel
     Left = 0
@@ -3856,9 +3856,9 @@ object Form3: TForm3
     ColorDepth = cd32Bit
     Width = 32
     Left = 188
-    Top = 496
+    Top = 504
     Bitmap = {
-      494C010104005800B80020001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C010104005800CC0020001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000800000002000000001002000000000000040
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -4400,16 +4400,16 @@ object Form3: TForm3
     Masked = False
     Width = 32
     Left = 252
-    Top = 496
+    Top = 504
   end
   object OpenDialog1: TOpenDialog
-    Left = 188
-    Top = 444
+    Left = 260
+    Top = 448
   end
   object PopupMenu1: TPopupMenu
     Images = ImageList3
-    Left = 268
-    Top = 444
+    Left = 112
+    Top = 504
     object pmnuInsertFileName: TMenuItem
       Caption = 'pmnuInsertFileName'
       OnClick = pmnuInsertFileNameClick
@@ -4452,9 +4452,9 @@ object Form3: TForm3
     Height = 28
     Width = 28
     Left = 312
-    Top = 496
+    Top = 504
     Bitmap = {
-      494C01010500080094001C001C00FFFFFFFF1910FFFFFFFFFFFFFFFF424D3600
+      494C010105000800A8001C001C00FFFFFFFF1910FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000700000003800000001001800000000008049
       000000000000000000000000000000000000000000000000000000FFFFFFFFFF
       FFFFFFFFFEFEFEFEFEFEFEFEFEFEFEFEFFFFFFFFFFFFFFFFFF00000000000000
@@ -5078,7 +5078,11 @@ object Form3: TForm3
       000000000000}
   end
   object BalloonHint1: TBalloonHint
-    Left = 116
-    Top = 444
+    Left = 156
+    Top = 448
+  end
+  object SaveDialog1: TSaveDialog
+    Left = 332
+    Top = 448
   end
 end

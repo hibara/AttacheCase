@@ -29,11 +29,9 @@
 //256 + 8（パスワード＋トークン）
 #define BUF_PASSWORD_SIZE 264
 
-//SHA-1ハッシュサイズ（160bit）
-//#define BUF_SHA1_SIZE 20
-#define BUF_SHA1_SIZE 32
-//ハッシュ値を計算するときの読み込みバッファ
-#define READ_FILE_BUF_SIZE 2048
+//SHA-1ハッシュ計算（160bit＝20byte）
+#define BUF_SHA1_SIZE 20
+#define BUF_HASH_DATA 32
 
 
 //----------------------------------------------------------------------
@@ -69,7 +67,7 @@ public:
 	// 変数
 	//===================================
 
-	// 読み込んだ先のパス（レジストリ or INIファイル）
+	// 読み込んだ先のパス（INIファイルパス）
 	String OptionPath;
 	int OptType;                    // 0:レジストリ, 1:INIファイル, 2:コマンドライン引数
 
@@ -180,10 +178,9 @@ public:
 	String __fastcall MakeRandomFileName(int MojiNum, bool fNum, bool fKigo);
 	//ファイルからSHA-1ハッシュ値を取得する
 	bool __fastcall GetSHA1HashFromFile(
-		String FilePath,              //パスワードファイル
-		unsigned char *sha1buffer,    //SHA-1ハッシュ値（160bit）
-		AnsiStringT<932> &SHA1HashString,   //SHA-1ハッシュ値（文字列32文字）
-		AnsiStringT<932> &HeaderString );   //ヘッダデータ（先頭文字列32文字）
+		String FilePath,              //パスワードファイルパス
+		AnsiString &HashDataVer2,     //ver.2.*  ～：SHA-1ハッシュ値（足りないデータを補填した不完全な32byte）
+		AnsiString &HashDataVer1 );   //ver.1.*  ～：ヘッダデータ（先頭文字列32文字）
 
 	//「送る」フォルダーまでのアプリケーションフルパスを生成する
 	String __fastcall CreateSendToFolderAppFullPath(void);

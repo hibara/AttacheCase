@@ -20,11 +20,14 @@
 //制限サイズ4GB (4294967296-230=4294967066)
 #define SIZE_4GB 4294967066
 
-//データバージョン
+//-----------------------------------
+//データバージョン（ここをいじると
+// 下位バージョンで復号できないエラーが発生する）
 #define ATC_DATA_FILE_VERSION 105
+//-----------------------------------
 //データサブバージョン
 #define ATC_DATA_SUB_VERSION 6     //ver.2.70～
-//#define ATC_DATA_SUB_VERSION 7       //ver.2.80～
+
 
 //アルゴリズムタイプ
 #define TYPE_ALGORISM_BLOWFISH 0  // Blowfish
@@ -36,6 +39,9 @@ class TAttacheCaseFileDecrypt2 : public TThread
 {
 
 private:
+
+	//パスワードキー
+	char key[32];
 
 	//メッセージダイアログ
 	String MsgText;
@@ -103,10 +109,6 @@ public:
 	// 変数
 	//-----------------------------------
 
-	//パスワードキー
-	char key[32];
-	char old_key[32];	//下位互換維持のため
-
 	int StatusNum;                     //ステータス
 	String MsgAppendString;            //メッセージボックスに表示する付加テキスト
 	String StatusMsg;                  //追加ステータス内容（ファイル名など翻訳不要のもの）
@@ -135,12 +137,11 @@ public:
 	// 関数
 	//-----------------------------------
 
-	//パスワード文字列をセットする
-	void __fastcall SetPasswordString(AnsiString Password);
+	//パスワード文字列をセットする（ver.1.* ～）
+	//void __fastcall SetPasswordString(AnsiString Password);
+
 	//パスワードにバイナリ値をセットする
-	void __fastcall SetPasswordBinary(unsigned char *password);
-	//パスワード文字列からバイナリ値をセットする（下位互換）
-	void __fastcall SetPasswordStringToBinary(AnsiString Password);
+	void __fastcall SetPasswordBinary(char *password);
 
 
 

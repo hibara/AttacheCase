@@ -216,6 +216,7 @@ object Form1: TForm1
     PasswordChar = '*'
     TabOrder = 0
     Text = 'txtInputPassword'
+    OnChange = txtInputPasswordChange
   end
   object cmdExit: TButton
     Left = 292

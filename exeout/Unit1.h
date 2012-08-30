@@ -21,11 +21,9 @@
 //バッファサイズ
 #define BUF_SIZE 32
 
-//SHA-1ハッシュサイズ（160bit）
-//#define BUF_SHA1_SIZE 20
-#define BUF_SHA1_SIZE 32
-//ハッシュ値を計算するときの読み込みバッファ
-#define READ_FILE_BUF_SIZE 2048
+//SHA-1ハッシュ計算（160bit＝20byte）
+#define BUF_SHA1_SIZE 20
+#define BUF_HASH_DATA 32
 
 
 //---------------------------------------------------------------------------
@@ -56,6 +54,7 @@ __published:	// IDE 管理のコンポーネント
 	void __fastcall DecryptThreadTerminated(TObject *Sender);
 	void __fastcall cmdOKClick(TObject *Sender);
 	void __fastcall TimerDecryptTimer(TObject *Sender);
+	void __fastcall txtInputPasswordChange(TObject *Sender);
 
 
 private:	// ユーザー宣言
@@ -64,7 +63,8 @@ private:	// ユーザー宣言
 	ITaskbarList3* ptl;
 
 	TAttacheCaseFileDecrypt2 *decrypt; // 復号クラスのインスタンス
-	unsigned char password_hash[32];   // パスワードハッシュ
+
+  String PasswordFilePath;           // パスワードファイルパス
 
 	int TypeLimits;                    // ミスタイプ回数 0～10
 	bool fDestroy;                     // 破壊するか否か 0 or 1
@@ -72,16 +72,17 @@ private:	// ユーザー宣言
 	//パスワードの再入力回数
 	int RetryNum;
 
-
 	// フォーム状態の切り替え
 	void __fastcall ChangeFormStatus(int opt);	// 0:メイン, 1:実行中
 	// ファイルを復号する処理
 	void __fastcall FileDecrypt(void);
 	// ファイルからSHA-1ハッシュ値を取得する
-	bool __fastcall GetSHA1HashFromFile(String FilePath, unsigned char *sha1buffer);
+	bool __fastcall GetSHA1HashFromFile(
+		String FilePath,              // パスワードファイルパス
+		AnsiString &HashDataVer2,     // ver.2.*  ～：SHA-1ハッシュ値（20byte + 12byte）
+		AnsiString &HashDataVer1 );   // ver.1.*  ～：ヘッダデータ（先頭文字列32文字）
 	//暗号化ファイルを破壊する
 	bool __fastcall DestroyAtcFile(void);
-
 
 
 public:		// ユーザー宣言

@@ -5776,7 +5776,6 @@ object Form1: TForm1
     Width = 598
     Height = 19
     Panels = <>
-    OnDblClick = StatusBar1DblClick
   end
   object PageControl1: TPageControl
     AlignWithMargins = True
@@ -5788,7 +5787,7 @@ object Form1: TForm1
     Margins.Top = 4
     Margins.Right = 4
     Margins.Bottom = 4
-    ActivePage = TabSheetInputDecPass
+    ActivePage = TabSheetExecute
     DoubleBuffered = False
     ParentDoubleBuffered = False
     TabOrder = 1
@@ -6447,7 +6446,7 @@ object Form1: TForm1
         Cursor = crHandPoint
         Anchors = [akTop, akRight]
         AutoSize = True
-        OnClick = imgBackOnClick
+        OnClick = cmdEncryptPasswordCancelClick
         OnMouseEnter = imgBackMouseEnter
         OnMouseLeave = imgBackMouseLeave
       end
@@ -6460,6 +6459,7 @@ object Form1: TForm1
         EditLabel.Height = 13
         EditLabel.Caption = 'txtEncryptPassword'
         TabOrder = 0
+        OnChange = txtEncryptPasswordChange
         OnKeyDown = txtEncryptPasswordKeyDown
       end
       object cmdEncryptPasswordOK: TButton
@@ -6512,7 +6512,7 @@ object Form1: TForm1
         Cursor = crHandPoint
         Anchors = [akTop, akRight]
         AutoSize = True
-        OnClick = imgBackOnClick
+        OnClick = cmdConfirmCancelClick
         OnMouseEnter = imgBackMouseEnter
         OnMouseLeave = imgBackMouseLeave
       end
@@ -6526,6 +6526,7 @@ object Form1: TForm1
         EditLabel.Height = 13
         EditLabel.Caption = 'txtPasswordConfirm'
         TabOrder = 0
+        OnChange = txtPasswordConfirmChange
         OnKeyDown = txtPasswordConfirmKeyDown
       end
       object cmdConfirmOK: TButton
@@ -6577,7 +6578,7 @@ object Form1: TForm1
         Cursor = crHandPoint
         Anchors = [akTop, akRight]
         AutoSize = True
-        OnClick = imgBackOnClick
+        OnClick = cmdEncryptPasswordCancelClick
         OnMouseEnter = imgBackMouseEnter
         OnMouseLeave = imgBackMouseLeave
       end
@@ -6590,6 +6591,7 @@ object Form1: TForm1
         EditLabel.Height = 13
         EditLabel.Caption = 'txtDecryptPassword'
         TabOrder = 0
+        OnChange = txtDecryptPasswordChange
         OnKeyDown = txtDecryptPasswordKeyDown
       end
       object cmdDecryptPasswordOK: TButton
@@ -6649,7 +6651,6 @@ object Form1: TForm1
         Cursor = crHandPoint
         Anchors = [akTop, akRight]
         AutoSize = True
-        OnClick = imgBackOnClick
         OnMouseEnter = imgBackMouseEnter
         OnMouseLeave = imgBackMouseLeave
       end

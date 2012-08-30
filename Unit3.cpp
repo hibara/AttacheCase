@@ -10,14 +10,12 @@
 TForm3 *Form3;
 TDragAndDrop *DragAndDropOptionTarget;
 //---------------------------------------------------------------------------
-__fastcall TForm3::TForm3(TComponent* Owner)
+__fastcall TForm3::TForm3(TComponent* Owner, TAttacheCaseOptionHandle *opt)
 	: TForm(Owner)
 {
 
-TRegIniFile *pOpt;
-
-//ƒIƒvƒVƒ‡ƒ“ƒ[ƒhŠJn
-fOptionLoading = true;
+//İ’èƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
+pOpt = opt;
 
 //-----------------------------------
 //‚·‚×‚Ä‚Ìƒ^ƒu‚ğÁ‹
@@ -128,6 +126,14 @@ gbOutputOptionData->Caption = LoadResourceString(&Msgunit3::_SYSTEM_PANEL_RADIO_
 cmdOutputOptionData->Caption = LoadResourceString(&Msgunit3::_SYSTEM_PANEL_BUTTON_OUTPUT_OPTION_DATA);
 cmdChangeTempOptionData->Caption = LoadResourceString(&Msgunit3::_SYSTEM_PANEL_BUTTON_CHANGE_TEMP_OPTION_DATA);
 
+if ( pOpt->OptType == 1 ) {
+	cmdChangeTempOptionData->Enabled = true;
+}
+else{
+	cmdChangeTempOptionData->Enabled = false;
+}
+
+
 //-----------------------------------
 //y‚“xİ’èzƒ^ƒu
 //-----------------------------------
@@ -157,23 +163,13 @@ ValueListEditor1->Align = alClient;
 
 
 //-----------------------------------
-//İ’è’l‚ğƒtƒH[ƒ€‚É”½‰f‚·‚é
-ShowOptionData();
+// İ’è’l‚ğƒtƒH[ƒ€‚É”½‰f‚·‚é
+FormShowOptionData();
 
 
 //-----------------------------------
-//ƒAƒNƒeƒBƒuƒ^ƒui‚±‚ê‚ÍƒIƒvƒVƒ‡ƒ“ƒNƒ‰ƒX‚Æ‚Í•Ê“Ç‚İj
-if ( FileExists(Form1->opthdl->OptionPath) == true ){
-	//’Êí‚È‚ç“Ç‚İ‚ñ‚¾æ‚Ö•Û‘¶‚·‚é
-	pOpt = new TRegIniFile(Form1->opthdl->OptionPath);
-}
-else{
-	//‚È‚¯‚ê‚ÎƒŒƒWƒXƒgƒŠ‚Ö
-	pOpt = new TRegIniFile("Software\\Hibara\\AttacheCase");
-}
-
-int ActiveTabNum = pOpt->ReadInteger( "WindowPos", "ActiveTabNum", 0);
-delete pOpt;
+// ŠJ‚¢‚Ä‚¢‚½ƒ^ƒuƒy[ƒW
+int ActiveTabNum = pOpt->ActiveTabNum;
 
 if (ActiveTabNum > -1 &&  ActiveTabNum < 7) {
 	PageControl1->ActivePageIndex = ActiveTabNum;
@@ -182,7 +178,6 @@ else{
 	PageControl1->ActivePageIndex = 0;
 }
 
-//-----------------------------------
 switch(PageControl1->ActivePageIndex){
 case 1:
 	imgFocusLight->BoundsRect = imgSave->BoundsRect;
@@ -208,35 +203,18 @@ default:
 //•\¦”½‰f
 PanelMenuRefresh();
 
-//-----------------------------------
-//ƒIƒvƒVƒ‡ƒ“ƒf[ƒ^ƒ[ƒhŠ®—¹
-fOptionLoading = false;
-
 
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm3::FormCreate(TObject *Sender)
 {
-
 //
-
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm3::FormDestroy(TObject *Sender)
 {
 
-TRegIniFile *pOpt;
-//ƒAƒNƒeƒBƒuƒ^ƒui‚±‚ê‚ÍƒIƒvƒVƒ‡ƒ“ƒNƒ‰ƒX‚Æ‚Í•Ê•Û‘¶j
-if ( FileExists(Form1->opthdl->OptionPath) == true ){
-	//’Êí‚È‚ç“Ç‚İ‚ñ‚¾æ‚Ö•Û‘¶‚·‚é
-	pOpt = new TRegIniFile(Form1->opthdl->OptionPath);
-}
-else{
-	//‚È‚¯‚ê‚ÎƒŒƒWƒXƒgƒŠ‚Ö
-	pOpt = new TRegIniFile("Software\\Hibara\\AttacheCase");
-}
-pOpt->WriteInteger( "WindowPos", "ActiveTabNum", PageControl1->ActivePageIndex);
-delete pOpt;
+pOpt->ActiveTabNum = PageControl1->ActivePageIndex;
 
 //-----------------------------------
 //OLEƒhƒ‰ƒbƒO•ƒhƒƒbƒv‚ÌŒãn––
@@ -244,6 +222,7 @@ delete pOpt;
 RevokeDragDrop(Form3->Handle);
 DragAndDropOptionTarget->Release();
 OleUninitialize();
+
 
 }
 //---------------------------------------------------------------------------
@@ -266,19 +245,19 @@ RegisterDragDrop(Form3->Handle, (IDropTarget*)DragAndDropOptionTarget);
 //“Ç‚İ‚İæ‚ğƒtƒH[ƒ€ƒLƒƒƒvƒVƒ‡ƒ“‚É•\¦
 
 // INIƒtƒ@ƒCƒ‹
-if (Form1->opthdl->OptType == 1) {
+if (pOpt->OptType == 1) {
 	Form3->Icon = imgIni->Picture->Icon;
-	Form3->Caption = "INIƒtƒ@ƒCƒ‹F" + Form1->opthdl->OptionPath;
+	Form3->Caption = "INIƒtƒ@ƒCƒ‹F" + pOpt->OptionPath;
 }
 // ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“ˆø”
-else if (Form1->opthdl->OptType == 1) {
+else if (pOpt->OptType == 1) {
 	Form3->Icon = imgBat->Picture->Icon;
-	Form3->Caption = "ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“F" + Form1->opthdl->OptionPath;
+	Form3->Caption = "ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“F" + pOpt->OptionPath;
 }
 // ƒŒƒWƒXƒgƒŠ
 else{
 	Form3->Icon = imgReg->Picture->Icon;
-	Form3->Caption = "ƒŒƒWƒXƒgƒŠF" + Form1->opthdl->OptionPath;
+	Form3->Caption = "ƒŒƒWƒXƒgƒŠF" + pOpt->OptionPath;
 }
 
 
@@ -298,7 +277,7 @@ void __fastcall TForm3::cmdOKClick(TObject *Sender)
 {
 
 //İ’è’l‚ğ“®ìİ’èƒtƒH[ƒ€‚É”½‰f•\¦‚·‚é
-SaveOptionData();
+FormSaveOptionData();
 
 Close();
 
@@ -406,24 +385,33 @@ default:	// 0
 void __fastcall TForm3::PanelMenuDblClick(TObject *Sender)
 {
 
-TStringList *KeyValueList = new TStringList();
-Form1->opthdl->GetKeyValueData(KeyValueList);
+TStringList *KeyValueList;
 
-//İ’è’l‚ğ‚Ü‚Æ‚ß‚ÄƒfƒoƒbƒO•\¦‚·‚é
-for (int i = 0; i < KeyValueList->Count; i++) {
-	ValueListEditor1->InsertRow(KeyValueList->Names[i], KeyValueList->ValueFromIndex[i], true);
+try{
+
+	KeyValueList = new TStringList();
+	pOpt->GetKeyValueData(KeyValueList);
+
+	//İ’è’l‚ğ‚Ü‚Æ‚ß‚ÄƒfƒoƒbƒO•\¦‚·‚é
+	for (int i = 0; i < KeyValueList->Count; i++) {
+		ValueListEditor1->InsertRow(KeyValueList->Names[i], KeyValueList->ValueFromIndex[i], true);
+	}
+
+	//İ’è’l‚ÌƒfƒoƒbƒOˆê——•\¦
+	PageControl1->ActivePageIndex = 6;
+
 }
+__finally{
 
-delete KeyValueList;
+	delete KeyValueList;
 
-//İ’è’l‚ÌƒfƒoƒbƒOˆê——•\¦
-PageControl1->ActivePageIndex = 6;
+}
 
 }
 //===========================================================================
 // İ’è’l‚ğ“®ìİ’èƒtƒH[ƒ€‚É”½‰f•\¦‚·‚é
 //===========================================================================
-void __fastcall TForm3::ShowOptionData(void)
+void __fastcall TForm3::FormShowOptionData(void)
 {
 
 //-----------------------------------
@@ -431,34 +419,34 @@ void __fastcall TForm3::ShowOptionData(void)
 //-----------------------------------
 //•¶š”•ª‚¾‚¯"*"‚ğ•\¦‚·‚é
 int pNum;
-chkMyEncPasswordKeep->Checked = Form1->opthdl->fMyEncodePasswordKeep;
-if ( (pNum = Form1->opthdl->MyEncodePassword.Length()) > 32 ){
+chkMyEncPasswordKeep->Checked = pOpt->fMyEncodePasswordKeep;
+if ( (pNum = pOpt->MyEncodePassword.Length()) > 32 ){
 	pNum = 32;
 }
 btneditMyEncPassword->Text = String::StringOfChar('*', pNum);
 
-chkMyDecPasswordKeep->Checked = Form1->opthdl->fMyDecodePasswordKeep;
-if ( (pNum = Form1->opthdl->MyDecodePassword.Length()) > 32 ){
+chkMyDecPasswordKeep->Checked = pOpt->fMyDecodePasswordKeep;
+if ( (pNum = pOpt->MyDecodePassword.Length()) > 32 ){
 	pNum = 32;
 }
 btneditMyDecPassword->Text = String::StringOfChar('*', pNum);
 
-chkMyPasswordExe->Checked = Form1->opthdl->fMemPasswordExe;
-chkOpenFolder->Checked = Form1->opthdl->fOpenFolder;
-chkOpenFile->Checked = Form1->opthdl->fOpenFile;
-chkEndToExit->Checked = Form1->opthdl->fEndToExit;
-chkWindowForeground->Checked = Form1->opthdl->fWindowForeground;
-chkNoHidePassword->Checked = Form1->opthdl->fNoHidePassword;
-chkSaveToExeout->Checked = Form1->opthdl->fSaveToExeout;
-chkShowExeoutChkBox->Checked = Form1->opthdl->fShowExeoutChkBox;
-chkAskEncDecode->Checked = Form1->opthdl->fAskEncDecode;
-chkNoMultipleInstance->Checked = Form1->opthdl->fNoMultipleInstance;
+chkMyPasswordExe->Checked = pOpt->fMemPasswordExe;
+chkOpenFolder->Checked = pOpt->fOpenFolder;
+chkOpenFile->Checked = pOpt->fOpenFile;
+chkEndToExit->Checked = pOpt->fEndToExit;
+chkWindowForeground->Checked = pOpt->fWindowForeground;
+chkNoHidePassword->Checked = pOpt->fNoHidePassword;
+chkSaveToExeout->Checked = pOpt->fSaveToExeout;
+chkShowExeoutChkBox->Checked = pOpt->fShowExeoutChkBox;
+chkAskEncDecode->Checked = pOpt->fAskEncDecode;
+chkNoMultipleInstance->Checked = pOpt->fNoMultipleInstance;
 
 //-----------------------------------
 //y•Û‘¶İ’èzƒ^ƒu
 //-----------------------------------
-chkSaveToSameFldr->Checked = Form1->opthdl->fSaveToSameFldr;
-btneditSaveToSameFldrPath->Text = Form1->opthdl->SaveToSameFldrPath;
+chkSaveToSameFldr->Checked = pOpt->fSaveToSameFldr;
+btneditSaveToSameFldrPath->Text = pOpt->SaveToSameFldrPath;
 if (chkSaveToSameFldr->Checked == true) {
 	btneditSaveToSameFldrPath->Enabled = true;
 	btneditSaveToSameFldrPath->Color = clWindow;
@@ -468,8 +456,8 @@ else{
 	btneditSaveToSameFldrPath->Color = clBtnFace;
 }
 
-chkDecodeToSameFldr->Checked = Form1->opthdl->fDecodeToSameFldr;
-btneditDecodeToSameFldrPath->Text = Form1->opthdl->DecodeToSameFldrPath;
+chkDecodeToSameFldr->Checked = pOpt->fDecodeToSameFldr;
+btneditDecodeToSameFldrPath->Text = pOpt->DecodeToSameFldrPath;
 if (chkDecodeToSameFldr->Checked == true) {
 	btneditDecodeToSameFldrPath->Enabled = true;
 	btneditDecodeToSameFldrPath->Color = clWindow;
@@ -479,14 +467,14 @@ else{
 	btneditDecodeToSameFldrPath->Color = clBtnFace;
 }
 
-chkConfirmOverwirte->Checked = Form1->opthdl->fConfirmOverwirte;
+chkConfirmOverwirte->Checked = pOpt->fConfirmOverwirte;
 
 //•¡”ƒtƒ@ƒCƒ‹‚ª‚ ‚é‚Æ‚«‚Ìˆ—
-if ( Form1->opthdl->fAllFilePack == true ) {
+if ( pOpt->fAllFilePack == true ) {
 	//•¡”‚Ìƒtƒ@ƒCƒ‹‚ğˆÃ†‰»‚·‚éÛ‚Íˆê‚Â‚É‚Ü‚Æ‚ß‚é
 	radiogrpMultipleFiles->ItemIndex = 1;
 }
-else if ( Form1->opthdl->fFilesOneByOne == true ) {
+else if ( pOpt->fFilesOneByOne == true ) {
 	//ƒtƒHƒ‹ƒ_“à‚Ìƒtƒ@ƒCƒ‹‚ÍŒÂ•Ê‚ÉˆÃ†‰»/•œ†‚·‚é
 	radiogrpMultipleFiles->ItemIndex = 2;
 }
@@ -495,23 +483,23 @@ else{
 	radiogrpMultipleFiles->ItemIndex = 0;
 }
 
-chkNoParentFldr->Checked = Form1->opthdl->fNoParentFldr;
-chkKeepTimeStamp->Checked = Form1->opthdl->fKeepTimeStamp;
-chkSameTimeStamp->Checked = Form1->opthdl->fSameTimeStamp;
-chkExtInAtcFileName->Checked = Form1->opthdl->fExtInAtcFileName;
-chkAutoName->Checked = Form1->opthdl->fAutoName;
-btneditAutoNameFormatText->Text = Form1->opthdl->AutoNameFormatText;
+chkNoParentFldr->Checked = pOpt->fNoParentFldr;
+chkKeepTimeStamp->Checked = pOpt->fKeepTimeStamp;
+chkSameTimeStamp->Checked = pOpt->fSameTimeStamp;
+chkExtInAtcFileName->Checked = pOpt->fExtInAtcFileName;
+chkAutoName->Checked = pOpt->fAutoName;
+btneditAutoNameFormatText->Text = pOpt->AutoNameFormatText;
 
 
 //-----------------------------------
 //yíœİ’èzƒ^ƒu
 //-----------------------------------
-chkDelOrgFile->Checked = Form1->opthdl->fDelOrgFile;
-chkDelEncFile->Checked = Form1->opthdl->fDelEncFile;
-chkShowDeleteChkBox->Checked = Form1->opthdl->fShowDeleteChkBox;
+chkDelOrgFile->Checked = pOpt->fDelOrgFile;
+chkDelEncFile->Checked = pOpt->fDelEncFile;
+chkShowDeleteChkBox->Checked = pOpt->fShowDeleteChkBox;
 
 //íœ‚ÌÚ×İ’è
-if (Form1->opthdl->fCompleteDelete == 1) {      //Š®‘Síœ
+if (pOpt->fCompleteDelete == 1) {      //Š®‘Síœ
 	optCompleteDelete->Checked = true;
 	imgArrowEnabled->Visible = true;
 	imgArrowDiabled->Visible = false;
@@ -520,7 +508,7 @@ if (Form1->opthdl->fCompleteDelete == 1) {      //Š®‘Síœ
 	txtDelRandNum->Color = clWindow;
 	txtDelZeroNum->Color = clWindow;
 }
-else if (Form1->opthdl->fCompleteDelete == 2) { //‚²‚İ” ‚ÖˆÚ“®
+else if (pOpt->fCompleteDelete == 2) { //‚²‚İ” ‚ÖˆÚ“®
 	optGoToTrash->Checked = true;
 	imgArrowEnabled->Visible = false;
 	imgArrowDiabled->Visible = true;
@@ -539,8 +527,8 @@ else{                                           //’Êííœ
 	txtDelZeroNum->Color = clBtnFace;
 }
 //íœ‰ñ”
-UpDownDelRand->Position = Form1->opthdl->DelRandNum;
-UpDownDelZero->Position = Form1->opthdl->DelZeroNum;
+UpDownDelRand->Position = pOpt->DelRandNum;
+UpDownDelZero->Position = pOpt->DelZeroNum;
 
 //uíœ‚ÌÚ×İ’èvƒOƒ‹[ƒvƒ{ƒbƒNƒX“à‚Ì—LŒø/–³Œø‚ğ§Œä‚·‚é
 DeleteGroupEnabled();
@@ -549,23 +537,23 @@ DeleteGroupEnabled();
 //y“®ìİ’èzƒ^ƒu
 //-----------------------------------
 //ˆ³k—¦İ’è
-if ( Form1->opthdl->CompressRate == 0 ) {
+if ( pOpt->CompressRate == 0 ) {
 	chkCompress->Checked = false;
 }
 else{
 	chkCompress->Checked = true;
 }
-TrackBar1->Position = Form1->opthdl->CompressRate;
+TrackBar1->Position = pOpt->CompressRate;
 
 //ƒRƒ“ƒyƒA
-chkCompareFile->Checked = Form1->opthdl->fCompareFile;
+chkCompareFile->Checked = pOpt->fCompareFile;
 
 //-----------------------------------
 //yƒVƒXƒeƒ€İ’èzƒ^ƒu
 //-----------------------------------
 
 //'u‘—‚évƒtƒHƒ‹ƒ_[‚ÉƒAƒ^ƒbƒVƒFƒP[ƒX‚ğ’Ç‰Á(&S)';
-String SendToFilePath = Form1->opthdl->CreateSendToFolderAppFullPath();
+String SendToFilePath = pOpt->CreateSendToFolderAppFullPath();
 
 if ( FileExists(SendToFilePath) == true) {
 	//'u‘—‚évƒtƒHƒ‹ƒ_[‚©‚çƒAƒ^ƒbƒVƒFƒP[ƒX‚ğíœ(&S)'
@@ -591,7 +579,7 @@ if ( ParamCount() > 0) {
 }
 
 //ˆø”‹N“®‚©A‚Ü‚½‚Íiniƒtƒ@ƒCƒ‹‚©‚ç
-if ( fArgs == true || Form1->opthdl->OptType == 1){
+if ( fArgs == true || pOpt->OptType == 1){
 	cmdChangeTempOptionData->Enabled = true; //ˆêİ’è‚ğŒ»İ‚Ìİ’è‚É’u‚«Š·‚¦‚é
 }
 else{
@@ -602,46 +590,42 @@ else{
 //y‚“xİ’èzƒ^ƒu
 //-----------------------------------
 //ƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹
-chkAllowPassFile->Checked = Form1->opthdl->fAllowPassFile;
+chkAllowPassFile->Checked = pOpt->fAllowPassFile;
 
 //-----------------------------------
 //ˆÃ†‚ÉƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚ğ©“®ƒ`ƒFƒbƒN‚·‚é
-if ( Form1->opthdl->fCheckPassFile == true &&	chkAllowPassFile->Checked == true ){
+if ( pOpt->fCheckPassFile == true &&	chkAllowPassFile->Checked == true ){
 	chkCheckPassFile->Checked = true;
-	//cmdSelectPassFolder->Glyph = imgFolder->Picture->Bitmap;
-	btneditPassFilePath->ReadOnly = false;
+	btneditPassFilePath->Enabled = true;
 	btneditPassFilePath->Color = clWindow;
 }
 else{
 	chkCheckPassFile->Checked = false;
-	//cmdSelectPassFolder->Glyph = imgNoFolder->Picture->Bitmap;
-	btneditPassFilePath->ReadOnly = true;
+	btneditPassFilePath->Enabled = false;
 	btneditPassFilePath->Color = clBtnFace;
 }
-btneditPassFilePath->Text = Form1->opthdl->PassFilePath;
+btneditPassFilePath->Text = pOpt->PassFilePath;
 btneditPassFilePath->SelStart = btneditPassFilePath->Text.Length(); //ƒpƒX––”ö‚Ì•û‚ğ•\¦
 
 //-----------------------------------
 //•œ†‚ÉƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚ğ©“®ƒ`ƒFƒbƒN‚·‚é
-if ( Form1->opthdl->fCheckPassFileDecrypt == true && chkAllowPassFile->Checked == true ){
+if ( pOpt->fCheckPassFileDecrypt == true && chkAllowPassFile->Checked == true ){
 	chkCheckPassFileDecrypt->Checked = true;
-	//cmdSelectPassFolderDecrypt->Glyph = imgFolder->Picture->Bitmap;
-	btneditPassFilePathDecrypt->ReadOnly = false;
+	btneditPassFilePathDecrypt->Enabled = true;
 	btneditPassFilePathDecrypt->Color = clWindow;
 }
 else{
 	chkCheckPassFileDecrypt->Checked = false;
-	//cmdSelectPassFolderDecrypt->Glyph = imgNoFolder->Picture->Bitmap;
-	btneditPassFilePathDecrypt->ReadOnly = true;
+	btneditPassFilePathDecrypt->Enabled = false;
 	btneditPassFilePathDecrypt->Color = clBtnFace;
 }
-btneditPassFilePathDecrypt->Text = Form1->opthdl->PassFilePathDecrypt;
+btneditPassFilePathDecrypt->Text = pOpt->PassFilePathDecrypt;
 btneditPassFilePathDecrypt->SelStart = btneditPassFilePathDecrypt->Text.Length(); //ƒpƒX––”ö‚Ì•û‚ğ•\¦
 
-chkNoErrMsgOnPassFile->Checked = Form1->opthdl->fNoErrMsgOnPassFile;
+chkNoErrMsgOnPassFile->Checked = pOpt->fNoErrMsgOnPassFile;
 
 //Šg’£q‹U‘•
-if ( Form1->opthdl->fAddCamoExt == true ){
+if ( pOpt->fAddCamoExt == true ){
 	chkAddCamoExt->Checked = true;
 	txtCamoExt->Enabled = true;
 	txtCamoExt->Color = clWindow;
@@ -652,18 +636,18 @@ else{
 	txtCamoExt->Color = clBtnFace;
 }
 
-txtCamoExt->Text = Form1->opthdl->CamoExt;
+txtCamoExt->Text = pOpt->CamoExt;
 
 //ƒpƒXƒ[ƒh“ü—Í‰ñ”§ŒÀ
-cmbMissTypeLimitsNum->ItemIndex = Form1->opthdl->MissTypeLimitsNum-1;
-chkBroken->Checked = Form1->opthdl->fBroken;
+cmbMissTypeLimitsNum->ItemIndex = pOpt->MissTypeLimitsNum-1;
+chkBroken->Checked = pOpt->fBroken;
 
 
 }
 //===========================================================================
 // “®ìİ’èƒtƒH[ƒ€‚©‚çİ’è’l‚É”½‰f‚·‚éiƒŒƒWƒXƒgƒŠ or INIƒtƒ@ƒCƒ‹‚Ö‚Ì•Û‘¶‚às‚¤j
 //===========================================================================
-void __fastcall TForm3::SaveOptionData(void)
+void __fastcall TForm3::FormSaveOptionData(void)
 {
 
 //-----------------------------------
@@ -671,151 +655,140 @@ void __fastcall TForm3::SaveOptionData(void)
 //-----------------------------------
 
 //ˆÃ†‰»ƒpƒXƒ[ƒh‚ğ‹L‰¯‚·‚é
-Form1->opthdl->fMyEncodePasswordKeep = chkMyEncPasswordKeep->Checked;
-if (TempMyEncodePassword != "" && Form1->opthdl->fMyEncodePasswordKeep == true) {
-	Form1->opthdl->MyEncodePassword = TempMyEncodePassword;
+pOpt->fMyEncodePasswordKeep = chkMyEncPasswordKeep->Checked;
+if (TempMyEncodePassword != "" && pOpt->fMyEncodePasswordKeep == true) {
+	pOpt->MyEncodePassword = TempMyEncodePassword;
 	TempMyEncodePassword = "";
 }
 
 if ( chkMyEncPasswordKeep->Checked == false ){
-	Form1->opthdl->MyEncodePassword = "";	//‹L‰¯ƒpƒXƒ[ƒh‚ÌƒNƒŠƒA
+	pOpt->MyEncodePassword = "";	//‹L‰¯ƒpƒXƒ[ƒh‚ÌƒNƒŠƒA
 }
 
 //•œ†ƒpƒXƒ[ƒh‚ğ‹L‰¯‚·‚é
-Form1->opthdl->fMyDecodePasswordKeep = chkMyDecPasswordKeep->Checked;
-if ( TempMyDecodePassword != "" && Form1->opthdl->fMyDecodePasswordKeep == true ) {
-	Form1->opthdl->MyDecodePassword = TempMyDecodePassword;
+pOpt->fMyDecodePasswordKeep = chkMyDecPasswordKeep->Checked;
+if ( TempMyDecodePassword != "" && pOpt->fMyDecodePasswordKeep == true ) {
+	pOpt->MyDecodePassword = TempMyDecodePassword;
 	TempMyDecodePassword = "";
 }
 
 if ( chkMyDecPasswordKeep->Checked == false ){
-	Form1->opthdl->MyDecodePassword = "";	//‹L‰¯ƒpƒXƒ[ƒh‚ÌƒNƒŠƒA
+	pOpt->MyDecodePassword = "";	//‹L‰¯ƒpƒXƒ[ƒh‚ÌƒNƒŠƒA
 }
 
-Form1->opthdl->fMemPasswordExe = chkMyPasswordExe->Checked;
-Form1->opthdl->fOpenFolder = chkOpenFolder->Checked;
-Form1->opthdl->fOpenFile = chkOpenFile->Checked;
-Form1->opthdl->fEndToExit = chkEndToExit->Checked;
-Form1->opthdl->fWindowForeground = chkWindowForeground->Checked;
-Form1->opthdl->fNoHidePassword = chkNoHidePassword->Checked;
+pOpt->fMemPasswordExe = chkMyPasswordExe->Checked;
+pOpt->fOpenFolder = chkOpenFolder->Checked;
+pOpt->fOpenFile = chkOpenFile->Checked;
+pOpt->fEndToExit = chkEndToExit->Checked;
+pOpt->fWindowForeground = chkWindowForeground->Checked;
+pOpt->fNoHidePassword = chkNoHidePassword->Checked;
 
-if (Form1->opthdl->fNoHidePassword == true ) {
-	Form1->txtEncryptPassword->PasswordChar = NULL;
-	Form1->txtPasswordConfirm->PasswordChar = NULL;
-	Form1->txtDecryptPassword->PasswordChar = NULL;
-}
-else{
-	Form1->txtEncryptPassword->PasswordChar = '*';
-	Form1->txtPasswordConfirm->PasswordChar = '*';
-	Form1->txtDecryptPassword->PasswordChar = '*';
-}
-
-Form1->opthdl->fSaveToExeout = chkSaveToExeout->Checked;
-Form1->opthdl->fShowExeoutChkBox = chkShowExeoutChkBox->Checked;
-Form1->opthdl->fAskEncDecode = chkAskEncDecode->Checked;
-Form1->opthdl->fNoMultipleInstance = chkNoMultipleInstance->Checked;
+pOpt->fSaveToExeout = chkSaveToExeout->Checked;
+pOpt->fShowExeoutChkBox = chkShowExeoutChkBox->Checked;
+pOpt->fAskEncDecode = chkAskEncDecode->Checked;
+pOpt->fNoMultipleInstance = chkNoMultipleInstance->Checked;
 
 //-----------------------------------
 //y•Û‘¶İ’èzƒ^ƒu
 //-----------------------------------
-Form1->opthdl->fSaveToSameFldr = chkSaveToSameFldr->Checked;
-Form1->opthdl->SaveToSameFldrPath = btneditSaveToSameFldrPath->Text;
-Form1->opthdl->fDecodeToSameFldr = chkDecodeToSameFldr->Checked;
-Form1->opthdl->DecodeToSameFldrPath = btneditDecodeToSameFldrPath->Text;
+pOpt->fSaveToSameFldr = chkSaveToSameFldr->Checked;
+pOpt->SaveToSameFldrPath = btneditSaveToSameFldrPath->Text;
+pOpt->fDecodeToSameFldr = chkDecodeToSameFldr->Checked;
+pOpt->DecodeToSameFldrPath = btneditDecodeToSameFldrPath->Text;
 
-Form1->opthdl->fConfirmOverwirte = chkConfirmOverwirte->Checked;
+pOpt->fConfirmOverwirte = chkConfirmOverwirte->Checked;
 
 //•¡”‚Ìƒtƒ@ƒCƒ‹‚ğˆÃ†‰»‚·‚éÛ‚Íˆê‚Â‚É‚Ü‚Æ‚ß‚é
 if ( radiogrpMultipleFiles->ItemIndex == 1 ){
-	Form1->opthdl->fAllFilePack = true;
-	Form1->opthdl->fFilesOneByOne = false;
+	pOpt->fAllFilePack = true;
+	pOpt->fFilesOneByOne = false;
 }
 //ƒtƒHƒ‹ƒ_“à‚Ìƒtƒ@ƒCƒ‹‚ÍŒÂ•Ê‚ÉˆÃ†‰»/•œ†‚·‚é
 else if ( radiogrpMultipleFiles->ItemIndex == 2 ){
-	Form1->opthdl->fAllFilePack = false;
-	Form1->opthdl->fFilesOneByOne = true;
+	pOpt->fAllFilePack = false;
+	pOpt->fFilesOneByOne = true;
 }
 else{
 	//‰½‚à‚µ‚È‚¢
-	Form1->opthdl->fAllFilePack = false;
-	Form1->opthdl->fFilesOneByOne = false;
+	pOpt->fAllFilePack = false;
+	pOpt->fFilesOneByOne = false;
 }
 
-Form1->opthdl->fNoParentFldr = chkNoParentFldr->Checked;
-Form1->opthdl->fKeepTimeStamp = chkKeepTimeStamp->Checked;
-Form1->opthdl->fSameTimeStamp = chkSameTimeStamp->Checked;
-Form1->opthdl->fExtInAtcFileName = chkExtInAtcFileName->Checked;
-Form1->opthdl->fAutoName = chkAutoName->Checked;
-Form1->opthdl->AutoNameFormatText = btneditAutoNameFormatText->Text;
+pOpt->fNoParentFldr = chkNoParentFldr->Checked;
+pOpt->fKeepTimeStamp = chkKeepTimeStamp->Checked;
+pOpt->fSameTimeStamp = chkSameTimeStamp->Checked;
+pOpt->fExtInAtcFileName = chkExtInAtcFileName->Checked;
+pOpt->fAutoName = chkAutoName->Checked;
+pOpt->AutoNameFormatText = btneditAutoNameFormatText->Text;
 
 //-----------------------------------
 //yíœİ’èzƒ^ƒu
 //-----------------------------------
-Form1->opthdl->fDelOrgFile = chkDelOrgFile->Checked;
-Form1->opthdl->fDelEncFile = chkDelEncFile->Checked;
-Form1->opthdl->fShowDeleteChkBox = chkShowDeleteChkBox->Checked;
+pOpt->fDelOrgFile = chkDelOrgFile->Checked;
+pOpt->fDelEncFile = chkDelEncFile->Checked;
+pOpt->fShowDeleteChkBox = chkShowDeleteChkBox->Checked;
 
 //íœ‚ÌÚ×İ’è
 if ( optCompleteDelete->Checked == true ) {     //Š®‘Síœ
-	Form1->opthdl->fCompleteDelete = 1;
+	pOpt->fCompleteDelete = 1;
 }
 else if ( optGoToTrash->Checked == true ) {     //‚²‚İ” ‚ÖˆÚ“®
-	Form1->opthdl->fCompleteDelete = 2;
+	pOpt->fCompleteDelete = 2;
 }
 else{
-	Form1->opthdl->fCompleteDelete = 3;           //’Êííœ
+	pOpt->fCompleteDelete = 3;           //’Êííœ
 }
 
 //íœ‰ñ”
-Form1->opthdl->DelRandNum = UpDownDelRand->Position;
-Form1->opthdl->DelZeroNum = UpDownDelZero->Position;
+pOpt->DelRandNum = UpDownDelRand->Position;
+pOpt->DelZeroNum = UpDownDelZero->Position;
 
 
 //-----------------------------------
 //y“®ìİ’èzƒ^ƒu
 //-----------------------------------
 //ˆ³k—¦İ’è
-Form1->opthdl->CompressRate = TrackBar1->Position;
+pOpt->CompressRate = TrackBar1->Position;
 //ƒRƒ“ƒyƒA
-Form1->opthdl->fCompareFile = chkCompareFile->Checked;
+pOpt->fCompareFile = chkCompareFile->Checked;
 
 //-----------------------------------
 //yƒVƒXƒeƒ€İ’èzƒ^ƒu
 //-----------------------------------
 //ŠÖ˜A‚Ã‚¯ƒtƒ@ƒCƒ‹ƒAƒCƒRƒ“”Ô†
-Form1->opthdl->AtcsFileIconIndex = comboDataIcon->ItemIndex + 1;
+pOpt->AtcsFileIconIndex = comboDataIcon->ItemIndex + 1;
 //ƒ†[ƒU[“o˜^ƒAƒCƒRƒ“ƒtƒ@ƒCƒ‹‚ÌƒpƒX
-Form1->opthdl->UserRegIconFilePath = TempUserRegIconFilePath;
+pOpt->UserRegIconFilePath = TempUserRegIconFilePath;
 
 //-----------------------------------
 //y‚“xİ’èzƒ^ƒu
 //-----------------------------------
 //ƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹
-Form1->opthdl->fAllowPassFile = chkAllowPassFile->Checked;
+pOpt->fAllowPassFile = chkAllowPassFile->Checked;
 
 //-----------------------------------
 //ˆÃ†‚ÉƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚ğ©“®ƒ`ƒFƒbƒN‚·‚é
-Form1->opthdl->fCheckPassFile = chkCheckPassFile->Checked;
-Form1->opthdl->PassFilePath = btneditPassFilePath->Text;
+pOpt->fCheckPassFile = chkCheckPassFile->Checked;
+pOpt->PassFilePath = btneditPassFilePath->Text;
 
 //•œ†‚ÉƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚ğ©“®ƒ`ƒFƒbƒN‚·‚é
-Form1->opthdl->fCheckPassFileDecrypt = chkCheckPassFileDecrypt->Checked;
-Form1->opthdl->PassFilePathDecrypt = btneditPassFilePathDecrypt->Text;
+pOpt->fCheckPassFileDecrypt = chkCheckPassFileDecrypt->Checked;
+pOpt->PassFilePathDecrypt = btneditPassFilePathDecrypt->Text;
 
-Form1->opthdl->fNoErrMsgOnPassFile = chkNoErrMsgOnPassFile->Checked;
+pOpt->fNoErrMsgOnPassFile = chkNoErrMsgOnPassFile->Checked;
 
 //Šg’£q‹U‘•
-Form1->opthdl->fAddCamoExt = chkAddCamoExt->Checked;
-Form1->opthdl->CamoExt = txtCamoExt->Text;
+pOpt->fAddCamoExt = chkAddCamoExt->Checked;
+pOpt->CamoExt = txtCamoExt->Text;
 
 //ƒpƒXƒ[ƒh“ü—Í‰ñ”§ŒÀ
-Form1->opthdl->MissTypeLimitsNum = cmbMissTypeLimitsNum->ItemIndex + 1;
-Form1->opthdl->fBroken = chkBroken->Checked;
+pOpt->MissTypeLimitsNum = cmbMissTypeLimitsNum->ItemIndex + 1;
+pOpt->fBroken = chkBroken->Checked;
 
 //-----------------------------------
-// İ’è’l‚ğ•Û‘¶
+// İ’è’l‚ğƒŒƒWƒXƒgƒŠ‚Ö•Û‘¶
 //-----------------------------------
-Form1->opthdl->SaveOptionData();
+pOpt->SaveOptionData();
 
 
 }
@@ -887,48 +860,56 @@ void __fastcall TForm3::RegIconFileToComboBox(void)
 int i;
 String FilePath;
 String IconName;
+TIcon *icon;
 
-TIcon *icon= new TIcon;
-TComboExItem *pItem;
+try{
 
-ImageList2->Clear();
-comboDataIcon->Items->Clear();
+	icon= new TIcon;
+	TComboExItem *pItem;
 
-//ƒŠƒ\[ƒX‚©‚çƒAƒCƒRƒ“ƒtƒ@ƒCƒ‹‚ğ“o˜^
-for ( i = 0; i < FILE_ICON_NUM; i++ ){
+	ImageList2->Clear();
+	comboDataIcon->Items->Clear();
 
-	IconName = "SUBICON" + IntToStr(i);
-	icon->LoadFromResourceName((int)HInstance, IconName);
+	//ƒŠƒ\[ƒX‚©‚çƒAƒCƒRƒ“ƒtƒ@ƒCƒ‹‚ğ“o˜^
+	for ( i = 0; i < FILE_ICON_NUM; i++ ){
 
-	if(icon->Handle){
-		ImageList2->AddIcon(icon);
-		pItem = comboDataIcon->ItemsEx->Add();
-		pItem->ImageIndex = i;
-		pItem->Caption = "Icon "+IntToStr(i+1);
+		IconName = "SUBICON" + IntToStr(i);
+		icon->LoadFromResourceName((int)HInstance, IconName);
+
+		if(icon->Handle){
+			ImageList2->AddIcon(icon);
+			pItem = comboDataIcon->ItemsEx->Add();
+			pItem->ImageIndex = i;
+			pItem->Caption = "Icon "+IntToStr(i+1);
+		}
+
 	}
 
-}
+	//ƒ†[ƒU[w’è‚ÌƒAƒCƒRƒ“ƒtƒ@ƒCƒ‹‚ğ“o˜^
+	if ( TempUserRegIconFilePath != "" ){
+		FilePath = TempUserRegIconFilePath;
+	}
+	else{
+		FilePath = pOpt->UserRegIconFilePath;
+	}
 
-//ƒ†[ƒU[w’è‚ÌƒAƒCƒRƒ“ƒtƒ@ƒCƒ‹‚ğ“o˜^
-if ( TempUserRegIconFilePath != "" ){
-	FilePath = TempUserRegIconFilePath;
-}
-else{
-	FilePath = Form1->opthdl->UserRegIconFilePath;
-}
+	if ( FileExists(FilePath) == true ){
+		icon->LoadFromFile(FilePath);
+		ImageList2->AddIcon(icon);
+		pItem = comboDataIcon->ItemsEx->Add();
+		pItem->ImageIndex = ImageList2->Count-1;
+		pItem->Caption = LoadResourceString(&Msgunit3::_SYSTEM_PANEL_COMBO_USER_REG_FILE_ICON);
+		pOpt->AtcsFileIconIndex = comboDataIcon->ItemsEx->Count;
+	}
 
-if ( FileExists(FilePath) == true ){
-	icon->LoadFromFile(FilePath);
-	ImageList2->AddIcon(icon);
-	pItem = comboDataIcon->ItemsEx->Add();
-	pItem->ImageIndex = ImageList2->Count-1;
-	pItem->Caption = LoadResourceString(&Msgunit3::_SYSTEM_PANEL_COMBO_USER_REG_FILE_ICON);
-	Form1->opthdl->AtcsFileIconIndex = comboDataIcon->ItemsEx->Count;
+	comboDataIcon->ItemIndex = pOpt->AtcsFileIconIndex-1;
+
 }
+__finally{
 
-comboDataIcon->ItemIndex = Form1->opthdl->AtcsFileIconIndex-1;
+	delete icon;
 
-delete icon;
+}
 
 }
 //---------------------------------------------------------------------------
@@ -981,8 +962,6 @@ Form4->ShowModal();
 Form4->Release();
 }
 //---------------------------------------------------------------------------
-// ˆÃ†‰»/•œ†ƒpƒXƒ[ƒh‹L‰¯‚ÌƒeƒLƒXƒgƒ{ƒbƒNƒX‚Éƒtƒ@ƒCƒ‹‚ğƒhƒ‰ƒbƒO•ƒhƒƒbƒv
-//---------------------------------------------------------------------------
 void __fastcall TForm3::btneditSaveToSameFldrPathLeftButtonClick(TObject *Sender)
 {
 
@@ -1031,18 +1010,18 @@ void __fastcall TForm3::chkAllowPassFileClick(TObject *Sender)
 //'ƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚Éƒtƒ@ƒCƒ‹‚Ìw’è‚ğ‹–‰Â‚·‚é(&D)'
 if ( chkAllowPassFile->Checked == true ) {
 	chkCheckPassFile->Enabled = true;
-	btneditPassFilePath->ReadOnly = false;
+	btneditPassFilePath->Enabled = true;
 	btneditPassFilePath->Color = clWindow;
 	chkCheckPassFileDecrypt->Enabled = true;
-	btneditPassFilePathDecrypt->ReadOnly = false;
+	btneditPassFilePathDecrypt->Enabled = true;
 	btneditPassFilePathDecrypt->Color = clWindow;
 }
 else{
 	chkCheckPassFile->Enabled = false;
-	btneditPassFilePath->ReadOnly = true;
+	btneditPassFilePath->Enabled = false;
 	btneditPassFilePath->Color = clBtnFace;
 	chkCheckPassFileDecrypt->Enabled = false;
-	btneditPassFilePathDecrypt->ReadOnly = true;
+	btneditPassFilePathDecrypt->Enabled = false;
 	btneditPassFilePathDecrypt->Color = clBtnFace;
 }
 
@@ -1052,19 +1031,19 @@ else{
 void __fastcall TForm3::chkCheckPassFileClick(TObject *Sender)
 {
 
-if (fOptionLoading == true) {
-	return;	//Å‰‚Ìƒ[ƒh‚Í”²‚¯‚é
+if ( this->Visible == false ) {
+	return;
 }
 
 if ( chkCheckPassFile->Checked == true ){
-	btneditPassFilePath->ReadOnly = false;
+	btneditPassFilePath->Enabled = true;
 	btneditPassFilePath->Color = clWindow;
-	if (FileExists(btneditPassFilePath->Text) == false) {
+	if (btneditPassFilePath->Text == "") {
 		btneditPassFilePathLeftButtonClick(Sender);
 	}
 }
 else{
-	btneditPassFilePath->ReadOnly = true;
+	btneditPassFilePath->Enabled = false;
 	btneditPassFilePath->Color = clBtnFace;
 }
 
@@ -1074,19 +1053,19 @@ else{
 void __fastcall TForm3::chkCheckPassFileDecryptClick(TObject *Sender)
 {
 
-if (fOptionLoading == true) {
-	return;	//Å‰‚Ìƒ[ƒh‚Í”²‚¯‚é
+if ( this->Visible == false ) {
+	return;
 }
 
 if ( chkCheckPassFileDecrypt->Checked == true ){
-	btneditPassFilePathDecrypt->ReadOnly = false;
+	btneditPassFilePathDecrypt->Enabled = true;
 	btneditPassFilePathDecrypt->Color = clWindow;
-	if (FileExists(btneditPassFilePathDecrypt->Text) == false) {
+	if (btneditPassFilePathDecrypt->Text == "") {
 		btneditPassFilePathDecryptLeftButtonClick(Sender);
 	}
 }
 else{
-	btneditPassFilePathDecrypt->ReadOnly = true;
+	btneditPassFilePathDecrypt->Enabled = false;
 	btneditPassFilePathDecrypt->Color = clBtnFace;
 }
 
@@ -1103,9 +1082,6 @@ OpenDialog1->Filter = LoadResourceString(&Msgunit3::_DIALOG_SELECT_PASSWORD_FILE
 if ( OpenDialog1->Execute() == true ) {
 	btneditPassFilePath->Text = OpenDialog1->FileName;
 }
-else{
-	chkCheckPassFile->Checked = false;
-}
 
 }
 //---------------------------------------------------------------------------
@@ -1119,9 +1095,6 @@ OpenDialog1->Filter = LoadResourceString(&Msgunit3::_DIALOG_SELECT_PASSWORD_FILE
 
 if ( OpenDialog1->Execute() == true ) {
 	btneditPassFilePathDecrypt->Text = OpenDialog1->FileName;
-}
-else{
-	chkCheckPassFileDecrypt->Checked = false;
 }
 
 }
@@ -1200,11 +1173,11 @@ if ( this->Visible == true && chkMyEncPasswordKeep->Checked == true ) {
 }
 
 if ( chkMyEncPasswordKeep->Checked == true ) {
-	btneditMyEncPassword->ReadOnly = false;
+	btneditMyEncPassword->Enabled = true;
 	btneditMyEncPassword->Color = clWindow;
 }
 else{
-	btneditMyEncPassword->ReadOnly = true;
+	btneditMyEncPassword->Enabled = false;
 	btneditMyEncPassword->Color = clBtnFace;
 }
 
@@ -1237,6 +1210,11 @@ void __fastcall TForm3::chkSaveToSameFldrClick(TObject *Sender)
 if ( chkSaveToSameFldr->Checked == true ) {
 	btneditSaveToSameFldrPath->Enabled = true;
 	btneditSaveToSameFldrPath->Color = clWindow;
+
+	if (btneditSaveToSameFldrPath->Text == "") {
+		btneditSaveToSameFldrPathLeftButtonClick(Sender);
+	}
+
 }
 else{
 	btneditSaveToSameFldrPath->Enabled = false;
@@ -1251,6 +1229,11 @@ void __fastcall TForm3::chkDecodeToSameFldrClick(TObject *Sender)
 if ( chkDecodeToSameFldr->Checked == true ) {
 	btneditDecodeToSameFldrPath->Enabled = true;
 	btneditDecodeToSameFldrPath->Color = clWindow;
+
+	if (btneditDecodeToSameFldrPath->Text == "") {
+		btneditDecodeToSameFldrPathLeftButtonClick(Sender);
+	}
+
 }
 else{
 	btneditDecodeToSameFldrPath->Enabled = false;
@@ -1277,7 +1260,7 @@ void __fastcall TForm3::cmdShortCutToSendToFileDirClick(TObject *Sender)
 {
 
 //'u‘—‚évƒtƒHƒ‹ƒ_[‚ÉƒAƒ^ƒbƒVƒFƒP[ƒX‚ğ’Ç‰Á(&S)';
-String SendToFilePath = Form1->opthdl->CreateSendToFolderAppFullPath();
+String SendToFilePath = pOpt->CreateSendToFolderAppFullPath();
 
 //ShowMessage(SendToFilePath);
 //return;
@@ -1291,8 +1274,7 @@ if ( FileExists(SendToFilePath) == true) {
 }
 else{
 	// u‘—‚év‚ÉƒVƒ‡[ƒgƒJƒbƒgƒtƒ@ƒCƒ‹‚ğì¬‚·‚é
-	if ( Form1->opthdl->CreateShortCutFile(SendToFilePath, Application->ExeName, "", "", 0 ) == false ){
-
+	if ( pOpt->CreateShortCutFile(SendToFilePath, Application->ExeName, "", "", 0 ) == false ){
 		//ƒGƒ‰[
 		ShowMessage("ƒGƒ‰[");
 	}
@@ -1363,7 +1345,7 @@ void __fastcall TForm3::chkAutoNameClick(TObject *Sender)
 
 // '©“®‚ÅˆÃ†‰»ƒtƒ@ƒCƒ‹–¼‚ğ•t‰Á‚·‚é(&R)';
 if ( chkAutoName->Checked == true ) {
-	btneditAutoNameFormatText->ReadOnly = false;
+	btneditAutoNameFormatText->Enabled = true;
 	btneditAutoNameFormatText->Color = clWindow;
 	btneditAutoNameFormatText->RightButton->Enabled = true;
 	if (this->Visible == true) {
@@ -1371,7 +1353,7 @@ if ( chkAutoName->Checked == true ) {
 	}
 }
 else{
-	btneditAutoNameFormatText->ReadOnly = true;
+	btneditAutoNameFormatText->Enabled = false;
 	btneditAutoNameFormatText->Color = clBtnFace;
 	btneditAutoNameFormatText->RightButton->Enabled = false;
 }
@@ -1587,20 +1569,20 @@ void __fastcall TForm3::FilesDragLeave(void)
 if ( PageControl1->ActivePage == TabBasic ){
 
 	if ( chkMyEncPasswordKeep->Checked == true ) {
-		btneditMyEncPassword->ReadOnly = false;
+		btneditMyEncPassword->Enabled = true;
 		btneditMyEncPassword->Color = clWindow;
 	}
 	else{
-		btneditMyEncPassword->ReadOnly = true;
+		btneditMyEncPassword->Enabled = false;
 		btneditMyEncPassword->Color = clBtnFace;
 	}
 
 	if ( chkMyDecPasswordKeep->Checked == true ) {
-		btneditMyDecPassword->ReadOnly = false;
+		btneditMyDecPassword->Enabled = true;
 		btneditMyDecPassword->Color = clWindow;
 	}
 	else{
-		btneditMyDecPassword->ReadOnly = true;
+		btneditMyDecPassword->Enabled = false;
 		btneditMyDecPassword->Color = clBtnFace;
 	}
 
@@ -1611,20 +1593,20 @@ if ( PageControl1->ActivePage == TabBasic ){
 else if ( PageControl1->ActivePage == TabSave ){
 
 	if ( chkSaveToSameFldr->Checked == true ) {
-		btneditSaveToSameFldrPath->ReadOnly = false;
+		btneditSaveToSameFldrPath->Enabled = true;
 		btneditSaveToSameFldrPath->Color = clWindow;
 	}
 	else{
-		btneditSaveToSameFldrPath->ReadOnly = true;
+		btneditSaveToSameFldrPath->Enabled = false;
 		btneditSaveToSameFldrPath->Color = clBtnFace;
 	}
 
 	if ( chkDecodeToSameFldr->Checked == true ) {
-		btneditDecodeToSameFldrPath->ReadOnly = false;
+		btneditDecodeToSameFldrPath->Enabled = true;
 		btneditDecodeToSameFldrPath->Color = clWindow;
 	}
 	else{
-		btneditDecodeToSameFldrPath->ReadOnly = true;
+		btneditDecodeToSameFldrPath->Enabled = false;
 		btneditDecodeToSameFldrPath->Color = clBtnFace;
 	}
 
@@ -1636,25 +1618,21 @@ else if ( PageControl1->ActivePage == TabAdvanced ){
 
 	//ˆÃ†‚ÉƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚ğ©“®ƒ`ƒFƒbƒN‚·‚é
 	if ( chkCheckPassFile->Checked == true ){
-		//cmdSelectPassFolder->Glyph = imgFolder->Picture->Bitmap;
-		btneditPassFilePath->ReadOnly = false;
+		btneditPassFilePath->Enabled = true;
 		btneditPassFilePath->Color = clWindow;
 	}
 	else{
-		//cmdSelectPassFolder->Glyph = imgNoFolder->Picture->Bitmap;
-		btneditPassFilePath->ReadOnly = true;
+		btneditPassFilePath->Enabled = false;
 		btneditPassFilePath->Color = clBtnFace;
 	}
 
 	//•œ†‚ÉƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚ğ©“®ƒ`ƒFƒbƒN‚·‚é
 	if ( chkCheckPassFileDecrypt->Checked == true ){
-		//cmdSelectPassFolderDecrypt->Glyph = imgFolder->Picture->Bitmap;
-		btneditPassFilePathDecrypt->ReadOnly = false;
+		btneditPassFilePathDecrypt->Enabled = true;
 		btneditPassFilePathDecrypt->Color = clWindow;
 	}
 	else{
-		//cmdSelectPassFolderDecrypt->Glyph = imgNoFolder->Picture->Bitmap;
-		btneditPassFilePathDecrypt->ReadOnly = true;
+		btneditPassFilePathDecrypt->Enabled = false;
 		btneditPassFilePathDecrypt->Color = clBtnFace;
 	}
 
@@ -1667,9 +1645,6 @@ else if ( PageControl1->ActivePage == TabAdvanced ){
 //---------------------------------------------------------------------------
 void __fastcall TForm3::FilesDragEnd(POINTL ptl, String FileListText)
 {
-
-TStringList *FileList = new TStringList;
-FileList->Text = FileListText;
 
 int res;
 String MsgText;
@@ -1685,274 +1660,282 @@ TRect rcMouse = TRect(ptl.x-1, ptl.y-1, ptl.x+1, ptl.y+1); //ƒ}ƒEƒXˆÊ’ui­‚µŠÉ‚
 TRect rcTarget;
 
 String FilePath;
+TStringList *FileList;
 
-//-----------------------------------
-//•¡”ƒtƒ@ƒCƒ‹‚Ìƒhƒƒbƒv‚ğ‹–‰Â‚µ‚È‚¢
-if ( FileList->Count > 0 ) {
-	FilePath = FileList->Strings[0];
-}
-else{
-	return;
-}
+try{
 
-
-//-----------------------------------
-// yŠî–{İ’èz
-//-----------------------------------
-if ( PageControl1->ActivePage == TabBasic ){
+	FileList = new TStringList;
+	FileList->Text = FileListText;
 
 	//-----------------------------------
-	//ˆÃ†‰»ƒpƒXƒ[ƒh‚ğ‹L‰¯‚·‚é‚©iƒ`ƒFƒbƒNƒ{ƒbƒNƒXAƒeƒLƒXƒgƒ{ƒbƒNƒX‚É‚©‚©‚Á‚Ä‚¢‚é‚©j
-	px = chkMyEncPasswordKeep->Left;
-	py = chkMyEncPasswordKeep->Top;
-	pr = btneditMyEncPassword->BoundsRect.Right;
-	pb = btneditMyEncPassword->BoundsRect.Bottom;
-	rcTarget = Rect(ClientToScreen(TPoint(px, py)), ClientToScreen(TPoint(pr, pb)));
-
-	if (IntersectRect(rcResult, rcMouse, rcTarget) == true ) {
-
-		if ( chkAllowPassFile->Checked == false ) {
-			//'ƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚ğg—p‚·‚é‚É‚Íy‚“xİ’èzƒ^ƒu‚Ì'+#13+
-			//'uƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚Éƒtƒ@ƒCƒ‹‚Ìw’è‚ğ‹–‰Â‚·‚é(&D)v‚ğ—LŒø‚É‚µ‚Ä‚­‚¾‚³‚¢B';
-			MsgText = LoadResourceString(&Msgunit3::_DIALOG_MSG_ALLOW_PASSWORD_FILE_OPTION);
-			MessageDlg(MsgText, mtConfirmation, TMsgDlgButtons() << mbOK, 0);
-			return;
-		}
-
-		tmpColor = btneditMyEncPassword->Color;
-		btneditMyEncPassword->Color = TColor(0xDBEBF7);  //ƒIƒŒƒ“ƒWF‚É‚µ‚Ä‹­’²
-
-		// 'ƒhƒ‰ƒbƒO•ƒhƒƒbƒv‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ÌSHA-1ƒnƒbƒVƒ…’l‚ğ'+#13+
-		//'ˆÃ†‰»ƒpƒXƒ[ƒh‚Æ‚µ‚Ä‹L‰¯‚µ‚Ü‚·B‚æ‚ë‚µ‚¢‚Å‚·‚©H';
-		MsgText = LoadResourceString(&Msgunit3::_DIALOG_MSG_MEM_ENCRYPT_PASSWORD_HASH)+"\n"+
-							FilePath;
-		dialog = CreateMessageDialog(MsgText, mtConfirmation, TMsgDlgButtons()<<mbYes<<mbNo, mbNo);
-		dialog->Caption = LoadResourceString(&Msgunit3::_MSG_CAPTION_CONFIRMATION);	//'Šm”F'
-
-		if (dialog->ShowModal() == ID_NO){
-			btneditMyEncPassword->Color = tmpColor;        //Œ³‚ÌF‚É–ß‚·
-			delete dialog;
-			return;
-		}
-		else{
-			delete dialog;
-		}
-
-		//SHA-1ƒnƒbƒVƒ…‚ğ‹‚ß‚é
-		if ( Form1->opthdl->GetSHA1HashFromFile(
-			FilePath, (unsigned char*)NULL, (AnsiStringT<932>)SHA1HashPassword, (AnsiStringT<932>)NULL) == true ){
-			//‰¼‚Ì‹L‰¯ˆÃ†‰»ƒpƒXƒ[ƒh
-			TempMyEncodePassword = SHA1HashPassword;
-			btneditMyEncPassword->Text = String::StringOfChar('*', 32);
-			chkMyEncPasswordKeep->OnClick = NULL;
-			chkMyEncPasswordKeep->Checked = true;
-			chkMyEncPasswordKeep->OnClick = chkMyEncPasswordKeepClick;
-		}
-
+	//•¡”ƒtƒ@ƒCƒ‹‚Ìƒhƒƒbƒv‚ğ‹–‰Â‚µ‚È‚¢
+	if ( FileList->Count > 0 ) {
+		FilePath = FileList->Strings[0];
+	}
+	else{
+		return;
 	}
 
 	//-----------------------------------
-	//•œ†ƒpƒXƒ[ƒh‚ğ‹L‰¯‚·‚é‚©iƒ`ƒFƒbƒNƒ{ƒbƒNƒXAƒeƒLƒXƒgƒ{ƒbƒNƒX‚É‚©‚©‚Á‚Ä‚¢‚é‚©j
+	// yŠî–{İ’èz
 	//-----------------------------------
-	px = chkMyDecPasswordKeep->Left;
-	py = chkMyDecPasswordKeep->Top;
-	pr = btneditMyDecPassword->BoundsRect.Right;
-	pb = btneditMyDecPassword->BoundsRect.Bottom;
-	rcTarget = Rect(ClientToScreen(TPoint(px, py)), ClientToScreen(TPoint(pr, pb)));
+	if ( PageControl1->ActivePage == TabBasic ){
 
-	if (IntersectRect(rcResult, rcMouse, rcTarget) == true ) {
+		//-----------------------------------
+		//ˆÃ†‰»ƒpƒXƒ[ƒh‚ğ‹L‰¯‚·‚é‚©iƒ`ƒFƒbƒNƒ{ƒbƒNƒXAƒeƒLƒXƒgƒ{ƒbƒNƒX‚É‚©‚©‚Á‚Ä‚¢‚é‚©j
+		px = chkMyEncPasswordKeep->Left;
+		py = chkMyEncPasswordKeep->Top;
+		pr = btneditMyEncPassword->BoundsRect.Right;
+		pb = btneditMyEncPassword->BoundsRect.Bottom;
+		rcTarget = Rect(ClientToScreen(TPoint(px, py)), ClientToScreen(TPoint(pr, pb)));
 
-		if ( chkAllowPassFile->Checked == false ) {
-			//'ƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚ğg—p‚·‚é‚É‚Íy‚“xİ’èzƒ^ƒu‚Ì'+#13+
-			//'uƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚Éƒtƒ@ƒCƒ‹‚Ìw’è‚ğ‹–‰Â‚·‚é(&D)v‚ğ—LŒø‚É‚µ‚Ä‚­‚¾‚³‚¢B';
-			MsgText = LoadResourceString(&Msgunit3::_DIALOG_MSG_ALLOW_PASSWORD_FILE_OPTION);
-			MessageDlg(MsgText, mtConfirmation, TMsgDlgButtons()<<mbOK, 0);
-			return;
+		if (IntersectRect(rcResult, rcMouse, rcTarget) == true ) {
+
+			if ( chkAllowPassFile->Checked == false ) {
+				//'ƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚ğg—p‚·‚é‚É‚Íy‚“xİ’èzƒ^ƒu‚Ì'+#13+
+				//'uƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚Éƒtƒ@ƒCƒ‹‚Ìw’è‚ğ‹–‰Â‚·‚é(&D)v‚ğ—LŒø‚É‚µ‚Ä‚­‚¾‚³‚¢B';
+				MsgText = LoadResourceString(&Msgunit3::_DIALOG_MSG_ALLOW_PASSWORD_FILE_OPTION);
+				MessageDlg(MsgText, mtConfirmation, TMsgDlgButtons() << mbOK, 0);
+				return;
+			}
+
+			tmpColor = btneditMyEncPassword->Color;
+			btneditMyEncPassword->Color = TColor(0xDBEBF7);  //ƒIƒŒƒ“ƒWF‚É‚µ‚Ä‹­’²
+
+			// 'ƒhƒ‰ƒbƒO•ƒhƒƒbƒv‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ÌSHA-1ƒnƒbƒVƒ…’l‚ğ'+#13+
+			//'ˆÃ†‰»ƒpƒXƒ[ƒh‚Æ‚µ‚Ä‹L‰¯‚µ‚Ü‚·B‚æ‚ë‚µ‚¢‚Å‚·‚©H';
+			MsgText = LoadResourceString(&Msgunit3::_DIALOG_MSG_MEM_ENCRYPT_PASSWORD_HASH)+"\n"+
+								FilePath;
+			try{
+				dialog = CreateMessageDialog(MsgText, mtConfirmation, TMsgDlgButtons()<<mbYes<<mbNo, mbNo);
+				dialog->Caption = LoadResourceString(&Msgunit3::_MSG_CAPTION_CONFIRMATION);	//'Šm”F'
+
+				if (dialog->ShowModal() == ID_NO){
+					btneditMyEncPassword->Color = tmpColor;        //Œ³‚ÌF‚É–ß‚·
+					return;
+				}
+			}
+			__finally{
+				delete dialog;
+			}
+
+			//SHA-1ƒnƒbƒVƒ…‚ğ‹‚ß‚é
+			if ( pOpt->GetSHA1HashFromFile(FilePath, SHA1HashPassword, (AnsiString)NULL) == true ){
+				//‰¼‚Ì‹L‰¯ˆÃ†‰»ƒpƒXƒ[ƒh
+				TempMyEncodePassword = SHA1HashPassword;
+				btneditMyEncPassword->Text = String::StringOfChar('*', 32);
+				chkMyEncPasswordKeep->OnClick = NULL;
+				chkMyEncPasswordKeep->Checked = true;
+				chkMyEncPasswordKeep->OnClick = chkMyEncPasswordKeepClick;
+			}
+
 		}
 
-		tmpColor = btneditMyDecPassword->Color;
-		btneditMyDecPassword->Color = TColor(0xDBEBF7);  //ƒIƒŒƒ“ƒWF‚É‚µ‚Ä‹­’²
+		//-----------------------------------
+		//•œ†ƒpƒXƒ[ƒh‚ğ‹L‰¯‚·‚é‚©iƒ`ƒFƒbƒNƒ{ƒbƒNƒXAƒeƒLƒXƒgƒ{ƒbƒNƒX‚É‚©‚©‚Á‚Ä‚¢‚é‚©j
+		//-----------------------------------
+		px = chkMyDecPasswordKeep->Left;
+		py = chkMyDecPasswordKeep->Top;
+		pr = btneditMyDecPassword->BoundsRect.Right;
+		pb = btneditMyDecPassword->BoundsRect.Bottom;
+		rcTarget = Rect(ClientToScreen(TPoint(px, py)), ClientToScreen(TPoint(pr, pb)));
 
-		//'ƒhƒ‰ƒbƒO•ƒhƒƒbƒv‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ÌSHA-1ƒnƒbƒVƒ…’l‚ğ'+#13+
-		//'•œ†‚·‚éƒpƒXƒ[ƒh‚Æ‚µ‚Ä‹L‰¯‚µ‚Ü‚·B‚æ‚ë‚µ‚¢‚Å‚·‚©H';
-		MsgText = LoadResourceString(&Msgunit3::_DIALOG_MSG_MEM_DECRYPT_PASSWORD_HASH)+"\n"+
-							FilePath;
-		dialog = CreateMessageDialog(MsgText, mtConfirmation, TMsgDlgButtons()<<mbYes<<mbNo, mbNo);
-		dialog->Caption = LoadResourceString(&Msgunit3::_MSG_CAPTION_CONFIRMATION);	//'Šm”F'
+		if (IntersectRect(rcResult, rcMouse, rcTarget) == true ) {
 
-
-		if (dialog->ShowModal() == ID_NO){
-			btneditMyDecPassword->Color = tmpColor;        //Œ³‚ÌF‚É–ß‚·
-			delete dialog;
-			return;
-		}
-		else{
-			delete dialog;
-		}
-
-		//SHA-1ƒnƒbƒVƒ…‚ğ‹‚ß‚é
-		if ( Form1->opthdl->GetSHA1HashFromFile(
-			FilePath, (unsigned char*)NULL, (AnsiStringT<932>)SHA1HashPassword, (AnsiStringT<932>)NULL) == true ){
-			//‰¼‚Ì‹L‰¯ˆÃ†‰»ƒpƒXƒ[ƒh
-			TempMyDecodePassword = SHA1HashPassword;
-			btneditMyDecPassword->Text = String::StringOfChar('*', 32);
-			chkMyDecPasswordKeep->OnClick = NULL;
-			chkMyDecPasswordKeep->Checked = true;
-			chkMyDecPasswordKeep->OnClick = chkMyDecPasswordKeepClick;
-		}
-
-	}
-}
-//-----------------------------------
-// y•Û‘¶İ’èz
-//-----------------------------------
-else if ( PageControl1->ActivePage == TabSave ){
-
-	//-----------------------------------
-	//'í‚É“¯‚¶êŠ‚ÖˆÃ†‰»ƒtƒ@ƒCƒ‹‚ğ•Û‘¶‚·‚é(&C)'
-	px = chkSaveToSameFldr->Left;
-	py = chkSaveToSameFldr->Top;
-	pr = btneditSaveToSameFldrPath->BoundsRect.Right;
-	pb = btneditSaveToSameFldrPath->BoundsRect.Bottom;
-	rcTarget = Rect(ClientToScreen(TPoint(px, py)), ClientToScreen(TPoint(pr, pb)));
-
-	if ( IntersectRect(rcResult, rcMouse, rcTarget) == true ) {
-
-		if (FileExists(FilePath) == true ) {
-			chkSaveToSameFldr->Checked = true;
-			btneditSaveToSameFldrPath->Text = ExtractFileDir(FilePath);
-			btneditSaveToSameFldrPath->SetFocus();
-		}
-		else if ( DirectoryExists(FilePath) == true ){
-			chkSaveToSameFldr->Checked = true;
-			btneditSaveToSameFldrPath->Text = FilePath;
-			btneditSaveToSameFldrPath->SetFocus();
-		}
-
-	}
-
-	//-----------------------------------
-	//'í‚É“¯‚¶êŠ‚Öƒtƒ@ƒCƒ‹‚ğ•œ†‚·‚é(&D)'
-	px = chkDecodeToSameFldr->Left;
-	py = chkDecodeToSameFldr->Top;
-	pr = btneditDecodeToSameFldrPath->BoundsRect.Right;
-	pb = btneditDecodeToSameFldrPath->BoundsRect.Bottom;
-	rcTarget = Rect(ClientToScreen(TPoint(px, py)), ClientToScreen(TPoint(pr, pb)));
-
-	if ( IntersectRect(rcResult, rcMouse, rcTarget) == true ) {
-
-		if ( FileExists(FilePath) == true ) {
-			chkDecodeToSameFldr->Checked = true;
-			btneditDecodeToSameFldrPath->Text = ExtractFileDir(FilePath);
-			btneditDecodeToSameFldrPath->SetFocus();
-		}
-		else if ( DirectoryExists(FilePath) == true ){
-			chkDecodeToSameFldr->Checked = true;
-			btneditDecodeToSameFldrPath->Text = FilePath;
-			btneditDecodeToSameFldrPath->SetFocus();
-		}
-
-	}
-
-}
-//-----------------------------------
-// y‚“x‚Èİ’èz
-//-----------------------------------
-else if ( PageControl1->ActivePage == TabAdvanced ){
-
-	//-----------------------------------
-	//'ˆÃ†‰»‚ÉƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚ğ©“®ƒ`ƒFƒbƒN‚·‚é(&H)'
-	px = gbPasswordFile->Left + chkCheckPassFile->Left;
-	py = gbPasswordFile->Top + chkCheckPassFile->Top;
-	pr = gbPasswordFile->Left + btneditPassFilePath->BoundsRect.Right;
-	pb = gbPasswordFile->Top + btneditPassFilePath->BoundsRect.Bottom;
-	rcTarget = Rect(ClientToScreen(TPoint(px, py)), ClientToScreen(TPoint(pr, pb)));
-
-	if ( IntersectRect(rcResult, rcMouse, rcTarget) == true ) {
-
-		if ( chkAllowPassFile->Checked == false || chkCheckPassFile->Checked == false) {
+			if ( chkAllowPassFile->Checked == false ) {
+				//'ƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚ğg—p‚·‚é‚É‚Íy‚“xİ’èzƒ^ƒu‚Ì'+#13+
+				//'uƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚Éƒtƒ@ƒCƒ‹‚Ìw’è‚ğ‹–‰Â‚·‚é(&D)v‚ğ—LŒø‚É‚µ‚Ä‚­‚¾‚³‚¢B';
+				MsgText = LoadResourceString(&Msgunit3::_DIALOG_MSG_ALLOW_PASSWORD_FILE_OPTION);
+				MessageDlg(MsgText, mtConfirmation, TMsgDlgButtons()<<mbOK, 0);
+				return;
+			}
 
 			tmpColor = btneditMyDecPassword->Color;
-			btneditPassFilePath->Color = TColor(0xDBEBF7);  //ƒIƒŒƒ“ƒWF‚É‚µ‚Ä‹­’²
+			btneditMyDecPassword->Color = TColor(0xDBEBF7);  //ƒIƒŒƒ“ƒWF‚É‚µ‚Ä‹­’²
 
-			//'ƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹—“‚Éƒtƒ@ƒCƒ‹‚ªƒhƒ‰ƒbƒO•ƒhƒƒbƒv‚³‚ê‚Ü‚µ‚½B'+#13+
-			//'ˆÃ†‰»‚Ég‚¤ƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚Æ‚µ‚Ä“o˜^‚µ‚Ä—LŒø‚É‚µ‚Ü‚·‚©H';
-			MsgText = LoadResourceString(&Msgunit3::_DIALOG_MSG_ALLOW_ENCRYPT_PASSWORD_FILE_ENABLED);
-			res = MessageDlg(MsgText, mtConfirmation, TMsgDlgButtons() << mbYes << mbNo, 0);
+			//'ƒhƒ‰ƒbƒO•ƒhƒƒbƒv‚³‚ê‚½ƒtƒ@ƒCƒ‹‚ÌSHA-1ƒnƒbƒVƒ…’l‚ğ'+#13+
+			//'•œ†‚·‚éƒpƒXƒ[ƒh‚Æ‚µ‚Ä‹L‰¯‚µ‚Ü‚·B‚æ‚ë‚µ‚¢‚Å‚·‚©H';
+			MsgText = LoadResourceString(&Msgunit3::_DIALOG_MSG_MEM_DECRYPT_PASSWORD_HASH)+"\n"+
+								FilePath;
+			try{
+				dialog = CreateMessageDialog(MsgText, mtConfirmation, TMsgDlgButtons()<<mbYes<<mbNo, mbNo);
+				dialog->Caption = LoadResourceString(&Msgunit3::_MSG_CAPTION_CONFIRMATION);	//'Šm”F'
 
-			if ( res == mrNo ) {
+				if (dialog->ShowModal() == ID_NO){
+					btneditMyDecPassword->Color = tmpColor;        //Œ³‚ÌF‚É–ß‚·
+					return;
+				}
+			}
+			__finally{
+        delete dialog;
+      }
+			//SHA-1ƒnƒbƒVƒ…‚ğ‹‚ß‚é
+			if ( pOpt->GetSHA1HashFromFile(FilePath, SHA1HashPassword, (AnsiString)NULL) == true ){
+				//‰¼‚Ì‹L‰¯ˆÃ†‰»ƒpƒXƒ[ƒh
+				TempMyDecodePassword = SHA1HashPassword;
+				btneditMyDecPassword->Text = String::StringOfChar('*', 32);
+				chkMyDecPasswordKeep->OnClick = NULL;
+				chkMyDecPasswordKeep->Checked = true;
+				chkMyDecPasswordKeep->OnClick = chkMyDecPasswordKeepClick;
+			}
+
+		}
+	}
+	//-----------------------------------
+	// y•Û‘¶İ’èz
+	//-----------------------------------
+	else if ( PageControl1->ActivePage == TabSave ){
+
+		//-----------------------------------
+		//'í‚É“¯‚¶êŠ‚ÖˆÃ†‰»ƒtƒ@ƒCƒ‹‚ğ•Û‘¶‚·‚é(&C)'
+		px = chkSaveToSameFldr->Left;
+		py = chkSaveToSameFldr->Top;
+		pr = btneditSaveToSameFldrPath->BoundsRect.Right;
+		pb = btneditSaveToSameFldrPath->BoundsRect.Bottom;
+		rcTarget = Rect(ClientToScreen(TPoint(px, py)), ClientToScreen(TPoint(pr, pb)));
+
+		if ( IntersectRect(rcResult, rcMouse, rcTarget) == true ) {
+
+			if (FileExists(FilePath) == true ) {
+				chkSaveToSameFldr->Checked = true;
+				btneditSaveToSameFldrPath->Text = ExtractFileDir(FilePath);
+				btneditSaveToSameFldrPath->SetFocus();
+			}
+			else if ( DirectoryExists(FilePath) == true ){
+				chkSaveToSameFldr->Checked = true;
+				btneditSaveToSameFldrPath->Text = FilePath;
+				btneditSaveToSameFldrPath->SetFocus();
+			}
+
+		}
+
+		//-----------------------------------
+		//'í‚É“¯‚¶êŠ‚Öƒtƒ@ƒCƒ‹‚ğ•œ†‚·‚é(&D)'
+		px = chkDecodeToSameFldr->Left;
+		py = chkDecodeToSameFldr->Top;
+		pr = btneditDecodeToSameFldrPath->BoundsRect.Right;
+		pb = btneditDecodeToSameFldrPath->BoundsRect.Bottom;
+		rcTarget = Rect(ClientToScreen(TPoint(px, py)), ClientToScreen(TPoint(pr, pb)));
+
+		if ( IntersectRect(rcResult, rcMouse, rcTarget) == true ) {
+
+			if ( FileExists(FilePath) == true ) {
+				chkDecodeToSameFldr->Checked = true;
+				btneditDecodeToSameFldrPath->Text = ExtractFileDir(FilePath);
+				btneditDecodeToSameFldrPath->SetFocus();
+			}
+			else if ( DirectoryExists(FilePath) == true ){
+				chkDecodeToSameFldr->Checked = true;
+				btneditDecodeToSameFldrPath->Text = FilePath;
+				btneditDecodeToSameFldrPath->SetFocus();
+			}
+
+		}
+
+	}
+	//-----------------------------------
+	// y‚“x‚Èİ’èz
+	//-----------------------------------
+	else if ( PageControl1->ActivePage == TabAdvanced ){
+
+		//-----------------------------------
+		//'ˆÃ†‰»‚ÉƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚ğ©“®ƒ`ƒFƒbƒN‚·‚é(&H)'
+		px = gbPasswordFile->Left + chkCheckPassFile->Left;
+		py = gbPasswordFile->Top + chkCheckPassFile->Top;
+		pr = gbPasswordFile->Left + btneditPassFilePath->BoundsRect.Right;
+		pb = gbPasswordFile->Top + btneditPassFilePath->BoundsRect.Bottom;
+		rcTarget = Rect(ClientToScreen(TPoint(px, py)), ClientToScreen(TPoint(pr, pb)));
+
+		if ( IntersectRect(rcResult, rcMouse, rcTarget) == true ) {
+
+			if ( chkAllowPassFile->Checked == false || chkCheckPassFile->Checked == false) {
+
+				tmpColor = btneditMyDecPassword->Color;
+				btneditPassFilePath->Color = TColor(0xDBEBF7);  //ƒIƒŒƒ“ƒWF‚É‚µ‚Ä‹­’²
+
+				//'ƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹—“‚Éƒtƒ@ƒCƒ‹‚ªƒhƒ‰ƒbƒO•ƒhƒƒbƒv‚³‚ê‚Ü‚µ‚½B'+#13+
+				//'ˆÃ†‰»‚Ég‚¤ƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚Æ‚µ‚Ä“o˜^‚µ‚Ä—LŒø‚É‚µ‚Ü‚·‚©H';
+				MsgText = LoadResourceString(&Msgunit3::_DIALOG_MSG_ALLOW_ENCRYPT_PASSWORD_FILE_ENABLED);
+				res = MessageDlg(MsgText, mtConfirmation, TMsgDlgButtons() << mbYes << mbNo, 0);
+
+				if ( res == mrNo ) {
+					btneditPassFilePath->Color = tmpColor;        //Œ³‚ÌF‚É–ß‚·
+					return;
+				}
+			}
+
+			if ( FileExists(FilePath) == true ) {
+				btneditPassFilePath->Text = FilePath;
+				chkAllowPassFile->Checked = true;
+				chkCheckPassFile->OnClick = NULL;
+				chkCheckPassFile->Checked = true;
+				chkCheckPassFile->OnClick = chkCheckPassFileClick;
+				btneditPassFilePath->SetFocus();
+			}
+			else{
+				//'—LŒø‚Èƒtƒ@ƒCƒ‹i‚½‚Æ‚¦‚ÎƒfƒBƒŒƒNƒgƒŠ‚È‚ÇjˆÈŠO‚Í“o˜^‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚¹‚ñB'
+				MsgText = LoadResourceString(&Msgunit3::_DIALOG_MSG_ERROR_PASSWORD_FILE_WRONG)+"\n"+
+									FilePath;
+				MessageDlg(MsgText, mtError, TMsgDlgButtons() << mbOK, 0);
 				btneditPassFilePath->Color = tmpColor;        //Œ³‚ÌF‚É–ß‚·
 				return;
 			}
+
 		}
 
-		if ( FileExists(FilePath) == true ) {
-			btneditPassFilePath->Text = FilePath;
-			chkAllowPassFile->Checked = true;
-			chkCheckPassFile->OnClick = NULL;
-			chkCheckPassFile->Checked = true;
-			chkCheckPassFile->OnClick = chkCheckPassFileClick;
-			btneditPassFilePath->SetFocus();
-		}
-		else{
-			//'—LŒø‚Èƒtƒ@ƒCƒ‹i‚½‚Æ‚¦‚ÎƒfƒBƒŒƒNƒgƒŠ‚È‚ÇjˆÈŠO‚Í“o˜^‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚¹‚ñB'
-			MsgText = LoadResourceString(&Msgunit3::_DIALOG_MSG_ERROR_PASSWORD_FILE_WRONG)+"\n"+
-								FilePath;
-			MessageDlg(MsgText, mtError, TMsgDlgButtons() << mbOK, 0);
-			btneditPassFilePath->Color = tmpColor;        //Œ³‚ÌF‚É–ß‚·
-			return;
-		}
+		//-----------------------------------
+		//'•œ†‚ÉƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚ğ©“®ƒ`ƒFƒbƒN‚·‚é(&K)';
+		px = gbPasswordFile->Left + chkCheckPassFileDecrypt->Left;
+		py = gbPasswordFile->Top + chkCheckPassFileDecrypt->Top;
+		pr = gbPasswordFile->Left + btneditPassFilePathDecrypt->BoundsRect.Right;
+		pb = gbPasswordFile->Top + btneditPassFilePathDecrypt->BoundsRect.Bottom;
+		rcTarget = Rect(ClientToScreen(TPoint(px, py)), ClientToScreen(TPoint(pr, pb)));
 
-	}
+		if (IntersectRect(rcResult, rcMouse, rcTarget) == true ) {
 
-	//-----------------------------------
-	//'•œ†‚ÉƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚ğ©“®ƒ`ƒFƒbƒN‚·‚é(&K)';
-	px = gbPasswordFile->Left + chkCheckPassFileDecrypt->Left;
-	py = gbPasswordFile->Top + chkCheckPassFileDecrypt->Top;
-	pr = gbPasswordFile->Left + btneditPassFilePathDecrypt->BoundsRect.Right;
-	pb = gbPasswordFile->Top + btneditPassFilePathDecrypt->BoundsRect.Bottom;
-	rcTarget = Rect(ClientToScreen(TPoint(px, py)), ClientToScreen(TPoint(pr, pb)));
+			if ( chkAllowPassFile->Checked == false || chkCheckPassFileDecrypt->Checked == false) {
 
-	if (IntersectRect(rcResult, rcMouse, rcTarget) == true ) {
+				tmpColor = btneditPassFilePathDecrypt->Color;
+				btneditPassFilePathDecrypt->Color = TColor(0xDBEBF7);  //ƒIƒŒƒ“ƒWF‚É‚µ‚Ä‹­’²
 
-		if ( chkAllowPassFile->Checked == false || chkCheckPassFileDecrypt->Checked == false) {
+				//'ƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹—“‚Éƒtƒ@ƒCƒ‹‚ªƒhƒ‰ƒbƒO•ƒhƒƒbƒv‚³‚ê‚Ü‚µ‚½B'+#13+
+				//'•œ†‚Ég‚¤ƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚Æ‚µ‚Ä“o˜^‚µ‚Ä—LŒø‚É‚µ‚Ü‚·‚©H';
+				MsgText = LoadResourceString(&Msgunit3::_DIALOG_MSG_ALLOW_DECRYPT_PASSWORD_FILE_ENABLED);
+				res = MessageDlg(MsgText, mtConfirmation, TMsgDlgButtons() << mbYes << mbNo, 0);
 
-			tmpColor = btneditPassFilePathDecrypt->Color;
-			btneditPassFilePathDecrypt->Color = TColor(0xDBEBF7);  //ƒIƒŒƒ“ƒWF‚É‚µ‚Ä‹­’²
+				if ( res == mrNo ) {
+					btneditPassFilePathDecrypt->Color = tmpColor;        //Œ³‚ÌF‚É–ß‚·
+					return;
+				}
+			}
 
-			//'ƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹—“‚Éƒtƒ@ƒCƒ‹‚ªƒhƒ‰ƒbƒO•ƒhƒƒbƒv‚³‚ê‚Ü‚µ‚½B'+#13+
-			//'•œ†‚Ég‚¤ƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚Æ‚µ‚Ä“o˜^‚µ‚Ä—LŒø‚É‚µ‚Ü‚·‚©H';
-			MsgText = LoadResourceString(&Msgunit3::_DIALOG_MSG_ALLOW_DECRYPT_PASSWORD_FILE_ENABLED);
-			res = MessageDlg(MsgText, mtConfirmation, TMsgDlgButtons() << mbYes << mbNo, 0);
-
-			if ( res == mrNo ) {
+			if ( FileExists(FilePath) == true ) {
+				btneditPassFilePathDecrypt->Text = FilePath;
+				chkAllowPassFile->Checked = true;
+				chkCheckPassFileDecrypt->OnClick = NULL;
+				chkCheckPassFileDecrypt->Checked = true;
+				chkCheckPassFileDecrypt->OnClick = chkCheckPassFileDecryptClick;
+				btneditPassFilePathDecrypt->SetFocus();
+			}
+			else{
+				//'—LŒø‚Èƒtƒ@ƒCƒ‹i‚½‚Æ‚¦‚ÎƒfƒBƒŒƒNƒgƒŠ‚È‚ÇjˆÈŠO‚Í“o˜^‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚¹‚ñB'
+				MsgText = LoadResourceString(&Msgunit3::_DIALOG_MSG_ERROR_PASSWORD_FILE_WRONG)+"\n"+
+									FilePath;
+				MessageDlg(MsgText, mtError, TMsgDlgButtons() << mbOK, 0);
 				btneditPassFilePathDecrypt->Color = tmpColor;        //Œ³‚ÌF‚É–ß‚·
 				return;
 			}
-		}
 
-		if ( FileExists(FilePath) == true ) {
-			btneditPassFilePathDecrypt->Text = FilePath;
-			chkAllowPassFile->Checked = true;
-			chkCheckPassFileDecrypt->OnClick = NULL;
-			chkCheckPassFileDecrypt->Checked = true;
-			chkCheckPassFileDecrypt->OnClick = chkCheckPassFileDecryptClick;
-			btneditPassFilePathDecrypt->SetFocus();
 		}
-		else{
-			//'—LŒø‚Èƒtƒ@ƒCƒ‹i‚½‚Æ‚¦‚ÎƒfƒBƒŒƒNƒgƒŠ‚È‚ÇjˆÈŠO‚Í“o˜^‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚¹‚ñB'
-			MsgText = LoadResourceString(&Msgunit3::_DIALOG_MSG_ERROR_PASSWORD_FILE_WRONG)+"\n"+
-								FilePath;
-			MessageDlg(MsgText, mtError, TMsgDlgButtons() << mbOK, 0);
-			btneditPassFilePathDecrypt->Color = tmpColor;        //Œ³‚ÌF‚É–ß‚·
-			return;
-		}
+		//-----------------------------------
 
 	}
-	//-----------------------------------
+}
+__finally{
+
+	delete FileList;
 
 }
-
 
 }
 //---------------------------------------------------------------------------
@@ -1990,7 +1973,7 @@ void __fastcall TForm3::btneditAutoNameFormatTextChange(TObject *Sender)
 
 //u©“®‚ÅˆÃ†‰»ƒtƒ@ƒCƒ‹–¼‚ğ•t‰Á‚·‚év‚ª•ÏX‚³‚ê‚½‚Æ‚«
 String FilePath =
-	Form1->opthdl->InterpretFormatTextToFilePath("c:\\sample.atc", btneditAutoNameFormatText->Text);
+	pOpt->InterpretFormatTextToFilePath("c:\\sample.atc", btneditAutoNameFormatText->Text);
 lblAutoFormatExample->Caption = "ex)." + ExtractFileName(FilePath);
 
 }
@@ -1999,8 +1982,18 @@ lblAutoFormatExample->Caption = "ex)." + ExtractFileName(FilePath);
 void __fastcall TForm3::cmdOutputOptionDataClick(TObject *Sender)
 {
 
-//
-ShowMessage("Sorry...Under Construction.");
+// 'INIƒtƒ@ƒCƒ‹(*.ini)|*.ini|‚·‚×‚Ä‚Ìƒtƒ@ƒCƒ‹(*.*)|*.*';
+SaveDialog1->Filter = LoadResourceString(&Msgunit3::_DIALOG_SAVE_TO_INIFILE_FILTER_TEXT);
+SaveDialog1->FilterIndex = 0;
+SaveDialog1->FileName = "_AtcCase.ini";
+//'Œ»İ‚Ì“®ìİ’è‚ğINIƒtƒ@ƒCƒ‹‚É•Û‘¶';
+SaveDialog1->Title = LoadResourceString(&Msgunit3::_DIALOG_SAVE_TO_INIFILE_TITLE_TEXT);
+
+if ( SaveDialog1->Execute() == true ) {
+	pOpt->OptType = 1;
+	pOpt->OptionPath = SaveDialog1->FileName;
+	pOpt->SaveOptionData();
+}
 
 }
 //---------------------------------------------------------------------------
@@ -2008,8 +2001,32 @@ ShowMessage("Sorry...Under Construction.");
 void __fastcall TForm3::cmdChangeTempOptionDataClick(TObject *Sender)
 {
 
-//
-ShowMessage("Sorry...Under Construction.");
+//'Œ»İA“Ç‚İ‚Ü‚ê‚Ä‚¢‚éˆÈ‰º‚ÌINIƒtƒ@ƒCƒ‹İ’è‚ğƒŒƒWƒXƒgƒŠ‚Ö”½‰f‚µ‚Ü‚·‚©H';
+String MsgText = LoadResourceString(&Msgunit3::_DIALOG_MSG_CONFIRM_OVERWRITE_SETTINGS);
+
+int ret;
+TForm *dlg;
+
+try{
+
+	dlg = CreateMessageDialog(MsgText, mtConfirmation, mbOKCancel, mbCancel);
+	dlg->ParentWindow = this->Handle;
+	//ƒƒbƒZ[ƒWƒ_ƒCƒAƒƒO‚Ì•\¦
+	ret = dlg->ShowModal();
+
+	if ( ret == mrYes ) {
+		pOpt->OptType = 0;			//•Û‘¶æ‚ğƒŒƒWƒXƒgƒŠ‚É•ÏX‚µ‚Ä•Û‘¶
+		pOpt->SaveOptionData();
+		pOpt->OptionPath = "";
+		cmdChangeTempOptionData->Enabled = false;
+	}
+
+}
+__finally{
+
+	delete dlg;
+
+}
 
 }
 //---------------------------------------------------------------------------

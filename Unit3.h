@@ -15,9 +15,9 @@
 #include <ImgList.hpp>
 #include <Dialogs.hpp>
 #include <Menus.hpp>
-#include <Buttons.hpp>;
+#include <Buttons.hpp>
+#include <FileCtrl.hpp>
 
-#include "Unit1.h"
 #include "Unit4.h"
 
 #include "help.h"
@@ -25,6 +25,7 @@
 #include "MsgUnit3.hpp"
 
 #include "TDragAndDrop.h"
+#include "TAttacheCaseOptionHandle.h"
 
 
 #define FILE_ICON_NUM 4
@@ -163,6 +164,7 @@ __published:	// IDE 管理のコンポーネント
 	TMemo *Memo1;
 	TBalloonHint *BalloonHint1;
 	TButton *cmdHelp;
+	TSaveDialog *SaveDialog1;
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall FormDestroy(TObject *Sender);
 	void __fastcall FormShow(TObject *Sender);
@@ -221,35 +223,30 @@ __published:	// IDE 管理のコンポーネント
 
 private:	// ユーザー宣言
 
-	//オプションローディング中
-	bool fOptionLoading;
-
 	//ユーザー指定のアイコンファイルパス（OKボタンが押されるまでのテンポラリ）
 	String TempUserRegIconFilePath;
 
 	//設定値を動作設定フォームに反映表示する
-	void __fastcall ShowOptionData(void);
+	void __fastcall FormShowOptionData(void);
 	//動作設定フォームから設定値に反映する（各メディアへ保存も行う）
-	void __fastcall SaveOptionData(void);
+	void __fastcall FormSaveOptionData(void);
+
 	//ファイルアイコンをコンボボックスへ登録する
 	void __fastcall RegIconFileToComboBox(void);
+
 	//UACエレベーションを要求して関連付けプログラムを実行
 	bool __fastcall RunAsAdmin(int Option);
+
 	//「'削除の詳細設定：'」グループボックス内の有効・無効を制御する
 	bool __fastcall DeleteGroupEnabled(void);
-
 	//パネルメニュー表示のリフレッシュを行う
 	void __fastcall PanelMenuRefresh(void);
 
 
-
-
-
-
-
 public:		// ユーザー宣言
-	__fastcall TForm3(TComponent* Owner);
+	__fastcall TForm3(TComponent* Owner, TAttacheCaseOptionHandle *opt);
 
+	TAttacheCaseOptionHandle *pOpt;
 
 	//記憶パスワードが変更されたときに格納する
 	AnsiString TempMyEncodePassword;
@@ -259,6 +256,7 @@ public:		// ユーザー宣言
 	void __fastcall FilesDragOver(POINTL ptl);
 	void __fastcall FilesDragLeave(void);
 	void __fastcall FilesDragEnd(POINTL ptl, String FileListText);
+
 
 };
 //---------------------------------------------------------------------------

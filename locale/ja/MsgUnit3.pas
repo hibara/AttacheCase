@@ -109,9 +109,16 @@ resourcestring
 	SYSTEM_PANEL_RADIO_GROUP_OUTPUT_OPTION_DATA     = '動作設定の出力：';
 	SYSTEM_PANEL_BUTTON_OUTPUT_OPTION_DATA          = '現在の動作設定を出力する(&O)';
 	SYSTEM_PANEL_BUTTON_CHANGE_TEMP_OPTION_DATA     = '一時設定をメイン設定に置き換える(&P)';
+
   SYSTEM_PANEL_COMBO_USER_REG_FILE_ICON           = 'ユーザー登録';
 
   DIALOG_MSG_NOT_FOUND_ATC_SETUP_EXE              = 'アタッシェケースに付属する関連付けアプリケーション(AtcSetup.exe)が見つかりません。';
+	DIALOG_SAVE_TO_INIFILE_FILTER_TEXT              = 'INIファイル(*.ini)|*.ini|すべてのファイル(*.*)|*.*';
+	DIALOG_SAVE_TO_INIFILE_TITLE_TEXT               = '現在の動作設定をINIファイルに保存';
+
+  DIALOG_MSG_CONFIRM_OVERWRITE_SETTINGS           = '現在、読み込まれている以下のINIファイル設定をレジストリへ反映しますか？';
+
+
 
 
 	//高度設定タブ
@@ -119,7 +126,7 @@ resourcestring
 	ADVANCED_PANEL_LABEL_ADVANCED_OPTION_ALERT_MSG  = 'ここでの設定を誤ると、あなたの大切なデータを失う恐れがあります。'+#13+
 	                                                  '必ずヘルプファイルを参照し、十分注意してから行ってください。';
 	ADVANCED_PANEL_RADIO_GROUP_PASSWORD_FILE        = 'パスワードファイルの設定：';
-	ADVANCED_PANEL_CHECKBOX_ALLOW_PASS_FILE         = 'パスワードファイルにファイルの指定を許可する(&D)';
+	ADVANCED_PANEL_CHECKBOX_ALLOW_PASS_FILE         = 'パスワードに「ファイル」の指定を許可する(&D)';
 	ADVANCED_PANEL_CHECKBOX_PASS_FILE               = '暗号化時にパスワードファイルを自動チェックする(&H)';
 	ADVANCED_PANEL_CHECKBOX_PASS_FILE_DECRYPT       = '復号時にパスワードファイルを自動チェックする(&K)';
 	ADVANCED_PANEL_CHECKBOX_NO_ERR_MSG_ON_PASS_FILE = 'ファイルがない場合、エラーメッセージを表示しない(&N)';
@@ -141,11 +148,6 @@ resourcestring
 	DIALOG_MSG_ALLOW_DECRYPT_PASSWORD_FILE_ENABLED  = 'パスワードファイル欄にファイルがドラッグ＆ドロップされました。'+#13+
 	                                                  '復号時に使うパスワードファイルとして登録して有効にしますか？';
 	DIALOG_MSG_ERROR_PASSWORD_FILE_WRONG            = '有効なファイル（たとえばディレクトリなど）以外は登録することができません。';
-
-
-
-
-
 
 
 	//デバッグ（隠し）タブ
@@ -255,7 +257,9 @@ initialization
 	SYSTEM_PANEL_COMBO_USER_REG_FILE_ICON;
 
 	DIALOG_MSG_NOT_FOUND_ATC_SETUP_EXE;
-
+	DIALOG_SAVE_TO_INIFILE_FILTER_TEXT;
+	DIALOG_SAVE_TO_INIFILE_TITLE_TEXT;
+	DIALOG_MSG_CONFIRM_OVERWRITE_SETTINGS;
 
 	PANEL_ADVANCED_CAPTION;
 	ADVANCED_PANEL_LABEL_ADVANCED_OPTION_ALERT_MSG;
@@ -279,11 +283,6 @@ initialization
 	DIALOG_MSG_ALLOW_ENCRYPT_PASSWORD_FILE_ENABLED;
 	DIALOG_MSG_ALLOW_DECRYPT_PASSWORD_FILE_ENABLED;
 	DIALOG_MSG_ERROR_PASSWORD_FILE_WRONG;
-
-
-
-
-
 
 
 	PANEL_DEBUG_CAPTION;

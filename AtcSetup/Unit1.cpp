@@ -33,26 +33,25 @@ try{
 			AtcExeFilePath = ExtractFileDir(ExpandUNCFileName(Application->ExeName))+"\\AtchCase.exe";
 		}
 
-		if ( FileExists(AtcExeFilePath) == false ){
-			exit(0);
-		}
+		if ( FileExists(AtcExeFilePath) == true ){
 
-		//ファイルアイコン番号
-		AtcsFileIconIndex = pReg->ReadInteger( "AttacheCase\\Option", "AtcsFileIconIndex", 1);
-		//ユーザー指定のファイルアイコンパス
-		UserRegIconFilePath = pReg->ReadString( "AttacheCase\\Option", "UserRegIconFilePath", "");
+			//ファイルアイコン番号
+			AtcsFileIconIndex = pReg->ReadInteger( "AttacheCase\\Option", "AtcsFileIconIndex", 1);
+			//ユーザー指定のファイルアイコンパス
+			UserRegIconFilePath = pReg->ReadString( "AttacheCase\\Option", "UserRegIconFilePath", "");
 
-		//-----------------------------------
+			//-----------------------------------
 
-		opt = StrToIntDef(ParamStr(1), 0);
+			opt = StrToIntDef(ParamStr(1), 0);
 
-		if ( opt == 0 ){
-			//関連付け設定
-			RegistDataFileAssociation();
-		}
-		else{
-			//関連付け解除
-			DeleteDataFileAssociation();
+			if ( opt == 0 ){
+				//関連付け設定
+				RegistDataFileAssociation();
+			}
+			else{
+				//関連付け解除
+				DeleteDataFileAssociation();
+			}
 		}
 
 	}
@@ -206,50 +205,64 @@ return(true);
 bool __fastcall TForm1::DeleteDataFileAssociation(void)
 {
 
-TRegIniFile *Reg = new TRegIniFile("");
+TRegIniFile *Reg;
 
-//登録内容
-String RegData = "\"" + AtcExeFilePath + "\" \"%1\"";
-//AnsiString RegIconData = "\""+AtcExeFilePath+"\",1";
+try{
 
-//-----------------------------------
-//ルートキー指定
-Reg->RootKey = HKEY_CLASSES_ROOT;
-Reg->Access = KEY_ALL_ACCESS;
+	Reg = new TRegIniFile("");
 
-//-----------------------------------
-//レジストリの登録があるか？
+	//登録内容
+	String RegData = "\"" + AtcExeFilePath + "\" \"%1\"";
+	//AnsiString RegIconData = "\""+AtcExeFilePath+"\",1";
 
-if (Reg->ReadString("AttacheCase.DataFile\\Shell\\open\\Command","","") != RegData ){
+	//-----------------------------------
+	//ルートキー指定
+	Reg->RootKey = HKEY_CLASSES_ROOT;
+	Reg->Access = KEY_ALL_ACCESS;
 
-	//delete Reg;
-	//return(false);
+	//-----------------------------------
+	//レジストリの登録があるか？
 
-}
-else{
-
-	//一回開いてみて、レジストリが開けないようならエラー
-	//※Win2000/XPなどで制限ユーザーである可能性
-	if ( !Reg->OpenKey("AttacheCase.DataFile\\Shell\\open\\Command", true)){
-		delete Reg;
-		return(false);
+	if (Reg->ReadString("AttacheCase.DataFile\\Shell\\open\\Command","","") != RegData ){
+		//delete Reg;
+		//return(false);
+	}
+	else{
+		//一回開いてみて、レジストリが開けないようならエラー
+		//※Win2000/XPなどで制限ユーザーである可能性
+		if ( !Reg->OpenKey("AttacheCase.DataFile\\Shell\\open\\Command", true)){
+			return(false);
+		}
 	}
 
 }
+__finally{
 
-delete Reg;
+	delete Reg;
+
+}
+
 
 //-----------------------------------
 //レジストリ削除
 
-TRegIniFile *DelReg = new TRegIniFile("");
+TRegIniFile *DelReg;
 
-//ルートキー指定
-DelReg->RootKey = HKEY_CLASSES_ROOT;
-DelReg->EraseSection(".atc");
-DelReg->EraseSection("AttacheCase.DataFile");
+try{
 
-delete DelReg;
+	DelReg = new TRegIniFile("");
+
+	//ルートキー指定
+	DelReg->RootKey = HKEY_CLASSES_ROOT;
+	DelReg->EraseSection(".atc");
+	DelReg->EraseSection("AttacheCase.DataFile");
+
+}
+__finally{
+
+	delete DelReg;
+
+}
 
 //-----------------------------------
 //アタッシェケース各設定の削除

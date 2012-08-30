@@ -59,7 +59,6 @@ try{
 		//なければレジストリへ
 		pOpt = new TRegistryIniFile("Software\\Hibara\\AttacheCase");
 	}
-
 	//-----------------------------------
 	// フォームポジションだけは記憶する
 	//-----------------------------------
@@ -75,7 +74,6 @@ __finally{
 	delete pOpt;
 
 }
-
 
 
 }
@@ -193,7 +191,7 @@ try{
 	// システム
 	//-----------------------------------
 	fAssociationFile = pOpt->ReadInteger( "Option", "fAssociationFile", 1);      //関連付け設定
-	AtcsFileIconIndex = pOpt->ReadInteger( "Option", "AtcsFileIconIndex", 2);    //ファイルアイコン番号
+	AtcsFileIconIndex = pOpt->ReadInteger( "Option", "AtcsFileIconIndex", 1);    //ファイルアイコン番号
 	UserRegIconFilePath = pOpt->ReadString( "Option", "UserRegIconFilePath", "");//ユーザー指定のファイルアイコンパス
 
 	//-----------------------------------
@@ -374,13 +372,11 @@ TGetAppInfoString *pAppInfoString;
 
 try{
 
-	if ( FileExists(OptionPath) == true ){
-		//通常なら読み込んだ先へ保存する
-		pOpt = new TIniFile(OptionPath);
+	if ( OptType == 0 ) {
+		pOpt = new TRegistryIniFile("Software\\Hibara\\AttacheCase");
 	}
 	else{
-		//なければレジストリへ
-		pOpt = new TRegistryIniFile("Software\\Hibara\\AttacheCase");
+		pOpt = new TIniFile(OptionPath);
 	}
 
 	//-----------------------------------
@@ -974,6 +970,7 @@ try{
 		pOpt->ReadBinaryStream( "MyKey", "Passcode01", ms);
 	}
 
+	ms->Position = 0;
 	ms->Write(buffer, BUF_PASSWORD_SIZE);
 
 
@@ -1045,6 +1042,11 @@ int i;
 char buffer[BUF_PASSWORD_SIZE];
 char newbuffer[BUF_PASSWORD_SIZE];
 
+for (i = 0; i < BUF_PASSWORD_SIZE; i++) {
+	buffer[i] = 0;
+	newbuffer[i] = 0;
+}
+
 TCustomIniFile *pOpt;
 CBlowFish *bf = new CBlowFish;
 TMemoryStream *ms = new TMemoryStream();
@@ -1057,7 +1059,7 @@ try{
 	}
 	else{
 		//なければレジストリへ
-		pOpt = new TRegistryIniFile(ATTACHE_CASE_REGISTRY_PATH);  //"Software\\Hibara\\AttacheCase"
+		pOpt = new TRegistryIniFile("Software\\Hibara\\AttacheCase");
 	}
 
 	//パスコードをクリアする
@@ -1118,12 +1120,14 @@ try{
 	bf->Encode( buffer, newbuffer, BUF_PASSWORD_SIZE); //暗号化
 
 	if ( Type == TYPE_ENCODE_FILE){
-		pOpt->WriteBinaryStream( "MyKey", "Passcode", ms);
 		ms->Write(newbuffer, BUF_PASSWORD_SIZE);
+		ms->Position = 0;
+		pOpt->WriteBinaryStream( "MyKey", "Passcode", ms);
 	}
 	else if ( Type == TYPE_DECODE_FILE){
-		pOpt->WriteBinaryStream( "MyKey", "Passcode01", ms);
 		ms->Write(newbuffer, BUF_PASSWORD_SIZE);
+		ms->Position = 0;
+		pOpt->WriteBinaryStream( "MyKey", "Passcode01", ms);
 	}
 	else{
 		return(false);
@@ -1403,22 +1407,37 @@ return(ReturnText);
 //===========================================================================
 // ファイルからSHA-1ハッシュ値を取得する
 //===========================================================================
-bool __fastcall TAttacheCaseOptionHandle::
-	GetSHA1HashFromFile(
-		String FilePath,              //パスワードファイル
-		unsigned char *sha1buffer,    //SHA-1ハッシュ値（160bit）
-		AnsiStringT<932> &SHA1HashString,   //SHA-1ハッシュ値（文字列32文字）
-		AnsiStringT<932> &HeaderString )    //ヘッダデータ（先頭文字列32文字）
+bool __fastcall TAttacheCaseOptionHandle::GetSHA1HashFromFile(
+	String FilePath,              // パスワードファイルパス
+	AnsiString &HashDataVer2,     // ver.2.*  ～：SHA-1ハッシュ値（20byte + 12byte）
+	AnsiString &HashDataVer1 )    // ver.1.*  ～：ヘッダデータ（先頭文字列32文字）
 {
 
-// TODO: パスワード文字列がshift-jisで処理されているのが問題ありか。
+/*
+ * パスワードファイルからSHA-1を計算して、パスワードの値にセットしていますが、
+ * SHA-1の計算結果は20バイト（160ビット）で出力される仕様のため、Rijndaelの
+ * パスワードサイズ（32バイト）と合いません。
+ * そのため、ここでは強引にファイルから任意の12バイトを追加して32バイトとしています。
+ *
+ * 今年(2012年)中には次世代の「SHA-3」が選定されますので、それに合わせて、
+ * 32バイト値をセットする仕様にバージョンアップしようと考えています。
+ *
+ * なお、SHA-3の策定状況につきましては、下記を参照ください。
+ *
+ * http://csrc.nist.gov/groups/ST/hash/sha-3/index.html
+ *
+*/
 
 int i;
 
 int fh;
-int bytes;
-char buffer[READ_FILE_BUF_SIZE];
-char sha1_hash_string[BUF_SHA1_SIZE];
+int bytes, rest;
+char buffer[255];	                               //読み込みバッファ
+char sha1_hash_data_mixed_padding[BUF_HASH_DATA];// 32byte
+
+for (i = 0; i < BUF_HASH_DATA; i++) {
+	sha1_hash_data_mixed_padding[i] = NULL;
+}
 
 if ( !FileExists(FilePath) ) return(false);
 
@@ -1429,16 +1448,15 @@ try{
 		return(false);
 	}
 
-	//ヘッダを読む
-	FileRead(fh, buffer, 256);
-	HeaderString = (AnsiString)buffer;
+	//ヘッダ先頭の255byteを読む（ver.1.* ～）
+	FileRead(fh, buffer, 255);
+	HashDataVer1 = (AnsiString)buffer;
 
-	//ポインタを先頭に戻す
+	//SHA-1ハッシュの計算
 	FileSeek(fh, 0, 0);
-
 	SHA1Context sha;
-	unsigned char Message_Digest[BUF_SHA1_SIZE];
-	ZeroMemory(Message_Digest, BUF_SHA1_SIZE);
+	unsigned char Message_Digest[20];
+	ZeroMemory(Message_Digest, 20);
 
 	//初期化（リセット）
 	if ( SHA1Reset(&sha)){
@@ -1446,23 +1464,40 @@ try{
 	}
 
 	//ファイルを読み出してSHA-1へ入力していく
-	while ((bytes = FileRead (fh, buffer, READ_FILE_BUF_SIZE)) != 0){
+	while ((bytes = FileRead (fh, buffer, 255)) != 0){
+		rest = bytes;
 		if ( SHA1Input(&sha, (const unsigned char *)buffer, bytes) ){
 			return(false);
 		}
+	}
+
+	if ( FileSeek(fh, -rest, 2) > 0 ){
+		FileRead(fh, buffer, 255);
+	}
+	else{
+		FileSeek(fh, 0, 0);
+		FileRead(fh, buffer, 255);
 	}
 
 	//出力
 	if(SHA1Result(&sha, Message_Digest)){
 		return(false);
 	}
-
-	for (i = 0; i < BUF_SHA1_SIZE; i++){
-		sha1buffer[i] = Message_Digest[i];
-		sha1_hash_string[i] = Message_Digest[i];
+	for (i = 0; i < BUF_SHA1_SIZE; i++){   // 20byte
+		sha1_hash_data_mixed_padding[i] = Message_Digest[i];
 	}
 
-	SHA1HashString = (AnsiString)sha1_hash_string;
+	//残りの12byteを補填
+	for (i = 0; i < 12; i++) {             // 12byte
+		 sha1_hash_data_mixed_padding[BUF_SHA1_SIZE+i] = buffer[i];
+	}
+
+	HashDataVer2 = "";
+	for (i = 0; i < BUF_HASH_DATA; i++){   // 32byte
+		//適切にキャストされるように1byteずつ代入
+		HashDataVer2 += (AnsiString)sha1_hash_data_mixed_padding[i];
+	}
+	HashDataVer2.SetLength(32);
 
 }
 __finally{
