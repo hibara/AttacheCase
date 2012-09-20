@@ -11,7 +11,9 @@
 #include <FileCtrl.hpp>
 #include <Dialogs.hpp>
 #include <Menus.hpp>
-#include <Graphics.hpp>;
+#include <Graphics.hpp>
+#include <GIFImg.hpp>
+#include <Buttons.hpp>
 
 #include "TAttacheCaseFileEncrypt.h"
 #include "TAttacheCaseFileDecrypt2.h"
@@ -84,12 +86,6 @@ __published:	// IDE 管理のコンポーネント
 	TCheckBox *chkExeFileOutConf;
 	TSaveDialog *SaveDialog1;
 	TPaintBox *PaintBoxMain;
-	TImage *imgMain;
-	TImage *imgOptionPanel;
-	TImage *imgOptionIconSelect;
-	TImage *imgOptionIcon;
-	TImage *imgEncrypt;
-	TImage *imgDecrypt;
 	TPaintBox *PaintBoxEncrypt;
 	TPaintBox *PaintBoxConfirm;
 	TPaintBox *PaintBoxDecrypt;
@@ -99,6 +95,21 @@ __published:	// IDE 管理のコンポーネント
 	TImage *imgBackFromInputEncPassConfirm;
 	TImage *imgBackFromInputDecPass;
 	TImage *imgBackFromExecute;
+	TImage *imgMenuBackground;
+	TPaintBox *PaintBoxMenu;
+	TImage *imgMenuEncryptOff;
+	TImage *imgMenuEncryptOn;
+	TImage *imgMenuDecryptOff;
+	TImage *imgMenuDecryptOn;
+	TImage *imgMenuOptionOff;
+	TImage *imgMenuOptionOn;
+	TImage *imgMenuHorizontalLine;
+	TImage *imgDropFileIn;
+	TPanel *PanelEncrypt;
+	TBitBtn *cmdOpenFilesForEncryption;
+	TBitBtn *cmdOpenDirForEncryption;
+	TPanel *PanelDecrypt;
+	TBitBtn *cmdOpenEncryptFiles;
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall FormDestroy(TObject *Sender);
 	void __fastcall FormShow(TObject *Sender);
@@ -128,10 +139,6 @@ __published:	// IDE 管理のコンポーネント
 	void __fastcall TimerDeleteTimer(TObject *Sender);
 	void __fastcall cmdDecryptPasswordOKClick(TObject *Sender);
 	void __fastcall chkExeFileOutClick(TObject *Sender);
-	void __fastcall PaintBoxMainPaint(TObject *Sender);
-	void __fastcall imgOptionPanelClick(TObject *Sender);
-	void __fastcall imgOptionPanelMouseEnter(TObject *Sender);
-	void __fastcall imgOptionPanelMouseLeave(TObject *Sender);
 	void __fastcall mnuFileClick(TObject *Sender);
 	void __fastcall mnuOptionClick(TObject *Sender);
 	void __fastcall imgBackMouseEnter(TObject *Sender);
@@ -142,6 +149,11 @@ __published:	// IDE 管理のコンポーネント
 	void __fastcall txtDecryptPasswordChange(TObject *Sender);
 	void __fastcall txtEncryptPasswordChange(TObject *Sender);
 	void __fastcall txtPasswordConfirmChange(TObject *Sender);
+	void __fastcall PaintBoxMenuPaint(TObject *Sender);
+	void __fastcall PaintBoxMenuMouseMove(TObject *Sender, TShiftState Shift, int X,
+          int Y);
+	void __fastcall PaintBoxMenuMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          int X, int Y);
 
 
 
@@ -151,6 +163,15 @@ private:	// ユーザー宣言
 	TAttacheCaseFileEncrypt *encrypt;
 	TAttacheCaseFileDecrypt2 *decrypt;
 	TAttacheCaseDelete *cmpdel;
+
+	//サイドメニューグラフィック
+	Graphics::TBitmap *bmpSideMenu;
+	TPoint ptSideMenu[5];
+	int optSelectedMenu;
+	bool fEncryptMenu;
+	bool fDecryptMenu;
+	bool fOptionMenu;
+
 
 	//先に起動しているアタッシェケースからのメッセージ受け取り
 	void __fastcall EvWmCOPYDATA(TMessage message);
@@ -181,6 +202,12 @@ private:	// ユーザー宣言
 	void __fastcall FileDecrypt(void);
 	// ファイルをコンペアする処理（とは言っても実際は復号処理）
 	void __fastcall FileCompare(void);
+
+  // サイドメニューを描画する
+	void __fastcall PaintSideMenu(void);
+	//タブシートの選択
+	void __fastcall PageControlActiveSheet(TTabSheet *tb);
+
 
 	//ファイルの判別を行い処理を分けて実行
 	void __fastcall DoExecute(TStringList *FileList);

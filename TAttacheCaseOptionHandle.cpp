@@ -257,7 +257,6 @@ try{
 	//ƒo[ƒWƒ‡ƒ“”Ô†
 	pAppInfoString = new TGetAppInfoString();
 	VersionNum = StrToIntDef(StringReplace(pAppInfoString->FileVersion, ".", "", TReplaceFlags()<<rfReplaceAll), -1);
-	delete pAppInfoString;
 
 	KeyValueList->Add(String().Format("%s=%s", ARRAYOFCONST(("AppPath", AppPath))));
 	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("VersionNum", VersionNum))));

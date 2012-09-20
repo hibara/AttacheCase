@@ -5,10 +5,20 @@ interface
 resourcestring
 
   //パネル
-  DRAG_AND_DROP_HERE                        = '暗号化/復号するファイルかフォルダを'+#13+'ここへドラッグ＆ドロップしてください。';
-  INPUT_PASSWORD                            = 'ファイル/フォルダを暗号化します。パスワードを入力してください：';
+  DRAG_AND_DROP_HERE                        = '暗号化/復号するファイルかフォルダーを'+#13+'「ここ」へドラッグ＆ドロップしてください。';
+  DRAG_AND_DROP_HERE_ENCRYPT                = '暗号化したいファイルかフォルダーを'+#13+'「ここ」へ直接ドラッグ＆ドロップするか'+#13+
+                                              '以下のボタンを押してそれぞれを選択します。';
+  DRAG_AND_DROP_HERE_DECRYPT                = '復号したい（元に戻したい）暗号化ファイルを'+#13+'「ここ」へ直接ドラッグ＆ドロップするか'+#13+
+                                              '以下のボタンを押して表示されるウィンドウから'+#13+'暗号化ファイルを選択します。';
+
+  INPUT_PASSWORD                            = 'ファイル/フォルダーを暗号化します。パスワードを入力してください：';
   CONFIRM_PASSWORD                          = '確認のため、もう一度パスワードを入力してください：';
   INPUT_DECRYPT_PASSWORD                    = '復号して元のファイル/フォルダに戻します。パスワードを入力してください：';
+
+	BUTTON_OPEN_FILES_FOR_ENCRYPTION_CAPTION  = '暗号化したい「ファイル」を選択するウィンドウを開く';
+	BUTTON_OPEN_DIR_FOR_ENCRYPTION_CAPTION    = '暗号化したい「フォルダー」を選択するウィンドウを開く';
+	BUTTON_OPEN_FILES_FOR_DECRYPTION_CAPTION  = '復号する（元に戻す）「ファイル」を選択するウィンドウを開く';
+
 
 	//ダイアログ
 	DIALOG_SELECT_DIRECTORY_TEXT              = '暗号化するディレクトリ（フォルダ）を選択してください。';
@@ -94,9 +104,18 @@ initialization
 	//Delphiコンパイラによる最適化を防ぐ
 
 	DRAG_AND_DROP_HERE;
+  DRAG_AND_DROP_HERE_ENCRYPT;
+  DRAG_AND_DROP_HERE_DECRYPT;
+
+
 	INPUT_PASSWORD;
 	CONFIRM_PASSWORD;
 	INPUT_DECRYPT_PASSWORD;
+
+	BUTTON_OPEN_FILES_FOR_ENCRYPTION_CAPTION;
+	BUTTON_OPEN_DIR_FOR_ENCRYPTION_CAPTION;
+	BUTTON_OPEN_FILES_FOR_DECRYPTION_CAPTION;
+
 
 	DIALOG_SELECT_DIRECTORY_TEXT;
 

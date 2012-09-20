@@ -44,16 +44,9 @@ __published:	// IDE 管理のコンポーネント
 	TPageControl *PageControl1;
 	TTabSheet *TabBasic;
 	TTabSheet *TabSave;
-	TPanel *PanelMenu;
-	TImage *imgBasic;
-	TImage *imgSave;
-	TImage *imgMovement;
-	TImage *imgDelete;
-	TImage *imgAdvanced;
 	TTabSheet *TabDelete;
 	TTabSheet *TabMovement;
 	TTabSheet *TabSystem;
-	TImage *imgSystem;
 	TTabSheet *TabAdvanced;
 	TPanel *PanelBasicCaption;
 	TPanel *PanelSaveCaption;
@@ -61,14 +54,6 @@ __published:	// IDE 管理のコンポーネント
 	TPanel *PanelMovementCaption;
 	TPanel *PanelSystemCaption;
 	TPanel *PanelAdvancedCaption;
-	TImage *imgFocusLight;
-	TLabel *lblBasic;
-	TLabel *lblSave;
-	TLabel *lblDelete;
-	TLabel *lblMovement;
-	TLabel *lblSystem;
-	TLabel *lblAdvanced;
-	TImage *imgSelectCursor;
 	TCheckBox *chkNoMultipleInstance;
 	TCheckBox *chkMyEncPasswordKeep;
 	TButtonedEdit *btneditMyEncPassword;
@@ -146,7 +131,6 @@ __published:	// IDE 管理のコンポーネント
 	TTabSheet *TabDebug;
 	TValueListEditor *ValueListEditor1;
 	TPanel *PanelDebugCaption;
-	TImageList *ImageList2;
 	TComboBoxEx *comboDataIcon;
 	TOpenDialog *OpenDialog1;
 	TImage *Image1;
@@ -165,25 +149,17 @@ __published:	// IDE 管理のコンポーネント
 	TBalloonHint *BalloonHint1;
 	TButton *cmdHelp;
 	TSaveDialog *SaveDialog1;
+	TPaintBox *PaintBoxMenu;
+	TImageList *imlSideMenuIconOff;
+	TImageList *imlSideMenuIconOn;
+	TImage *imgMenuBackground;
+	TImageList *imlAssociateFilesIcon;
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall FormDestroy(TObject *Sender);
 	void __fastcall FormShow(TObject *Sender);
 	void __fastcall FormResize(TObject *Sender);
 	void __fastcall cmdCancelClick(TObject *Sender);
 	void __fastcall cmdOKClick(TObject *Sender);
-	void __fastcall imgBasicMouseEnter(TObject *Sender);
-	void __fastcall imgSaveMouseEnter(TObject *Sender);
-	void __fastcall imgDeleteMouseEnter(TObject *Sender);
-	void __fastcall imgMovementMouseEnter(TObject *Sender);
-	void __fastcall imgSystemMouseEnter(TObject *Sender);
-	void __fastcall imgAdvancedMouseEnter(TObject *Sender);
-	void __fastcall imgBasicClick(TObject *Sender);
-	void __fastcall imgSaveClick(TObject *Sender);
-	void __fastcall imgDeleteClick(TObject *Sender);
-	void __fastcall imgMovementClick(TObject *Sender);
-	void __fastcall imgSystemClick(TObject *Sender);
-	void __fastcall imgAdvancedClick(TObject *Sender);
-	void __fastcall PanelMenuDblClick(TObject *Sender);
 	void __fastcall TrackBar1Change(TObject *Sender);
 	void __fastcall optNormalDeleteClick(TObject *Sender);
 	void __fastcall optGoToTrashClick(TObject *Sender);
@@ -220,8 +196,22 @@ __published:	// IDE 管理のコンポーネント
 	void __fastcall btneditAutoNameFormatTextChange(TObject *Sender);
 	void __fastcall cmdOutputOptionDataClick(TObject *Sender);
 	void __fastcall cmdChangeTempOptionDataClick(TObject *Sender);
+	void __fastcall PaintBoxMenuMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          int X, int Y);
+	void __fastcall PaintBoxMenuDblClick(TObject *Sender);
+	void __fastcall PaintBoxMenuPaint(TObject *Sender);
+	void __fastcall PaintBoxMenuMouseMove(TObject *Sender, TShiftState Shift, int X,
+          int Y);
 
 private:	// ユーザー宣言
+
+	//サイドメニューグラフィック
+	Graphics::TBitmap *bmpSideMenu;
+	TPoint ptSideMenu[7];
+	String SideMenuLabelCaption[7];
+	int SideMenuLabelCaptionPosX[7];
+	int optSelectedMenu;
+
 
 	//ユーザー指定のアイコンファイルパス（OKボタンが押されるまでのテンポラリ）
 	String TempUserRegIconFilePath;
@@ -239,8 +229,10 @@ private:	// ユーザー宣言
 
 	//「'削除の詳細設定：'」グループボックス内の有効・無効を制御する
 	bool __fastcall DeleteGroupEnabled(void);
-	//パネルメニュー表示のリフレッシュを行う
-	void __fastcall PanelMenuRefresh(void);
+
+	// サイドメニューを描画する
+	void __fastcall PaintSideMenu(void);
+
 
 
 public:		// ユーザー宣言

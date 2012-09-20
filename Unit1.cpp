@@ -19,6 +19,9 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 
 int i;
 
+//サイドメニューグラフィック
+bmpSideMenu = new Graphics::TBitmap;
+
 //ページコントロールのタブを非表示に
 PageControl1->Align = alClient;
 for (i = 0; i < PageControl1->PageCount; i++) {
@@ -47,6 +50,18 @@ chkExeFileOut->Caption = LoadResourceString(&Msgunit1::_CHECK_BOX_EXEFILE_OUT);
 txtPasswordConfirm->EditLabel->Caption = LoadResourceString(&Msgunit1::_CONFIRM_PASSWORD);
 chkExeFileOutConf->Caption = LoadResourceString(&Msgunit1::_CHECK_BOX_EXEFILE_OUT);
 txtDecryptPassword->EditLabel->Caption = LoadResourceString(&Msgunit1::_INPUT_DECRYPT_PASSWORD);
+
+//-----------------------------------
+//メインフォームボタン
+//-----------------------------------
+
+//暗号化ボタン
+PanelEncrypt->ParentColor = true;
+cmdOpenFilesForEncryption->Caption = LoadResourceString(&Msgunit1::_BUTTON_OPEN_FILES_FOR_ENCRYPTION_CAPTION);
+cmdOpenDirForEncryption->Caption = LoadResourceString(&Msgunit1::_BUTTON_OPEN_DIR_FOR_ENCRYPTION_CAPTION);
+//復号ボタン
+PanelDecrypt->ParentColor = true;
+cmdOpenEncryptFiles->Caption = LoadResourceString(&Msgunit1::_BUTTON_OPEN_FILES_FOR_DECRYPTION_CAPTION);
 
 //-----------------------------------
 //ダイアログ周り
@@ -137,6 +152,14 @@ else{
 }
 
 
+//-----------------------------------
+//サイドメニューを描画する
+//-----------------------------------
+PaintSideMenu();
+
+
+
+
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::FormCreate(TObject *Sender)
@@ -171,12 +194,16 @@ delete opthdl;
 
 delete FileList;  //処理するファイルリスト
 
+
 //-----------------------------------
 //OLEドラッグ＆ドロップの後始末
 //-----------------------------------
 RevokeDragDrop(Form1->Handle);
 DragAndDropTarget->Release();
 OleUninitialize();
+
+
+
 
 }
 //---------------------------------------------------------------------------
@@ -201,7 +228,8 @@ if ( FileList->Count > 0 ) {
 }
 else{
 	//メインパネルを通常表示
-	PageControl1->ActivePage = TabSheetMain;
+	PageControlActiveSheet(TabSheetMain);
+
 }
 
 }
@@ -219,7 +247,38 @@ if (Key == VK_ESCAPE) {
 void __fastcall TForm1::FormResize(TObject *Sender)
 {
 
+//-----------------------------------
+//各コンポーネントの配置
+//-----------------------------------
 SetFormComponent(Sender);
+
+//-----------------------------------
+//各メニューアイコンの位置・描画
+//-----------------------------------
+
+const int posX = 18;
+
+//「オプション」
+ptSideMenu[4].x = posX;
+ptSideMenu[4].y = PaintBoxMenu->Height - 72;
+// 分割線
+ptSideMenu[3].x = posX;
+ptSideMenu[3].y = ptSideMenu[4].y - 48;
+
+// 中央配置
+ptSideMenu[0].x = posX;
+ptSideMenu[0].y = PaintBoxMenu->Height/2 - 40;
+
+//「暗号化」
+ptSideMenu[1].x = posX;
+ptSideMenu[1].y = 16;
+
+//「復号する」
+ptSideMenu[2].x = posX;
+ptSideMenu[2].y = ptSideMenu[1].y + 80;
+
+//サイドメニューを再描画する
+PaintSideMenu();
 
 }
 //---------------------------------------------------------------------------
@@ -241,10 +300,13 @@ else{
 //-----------------------------------
 //メインパネル
 //-----------------------------------
-lblMain->Left = Form1->Width/2 - lblMain->Width/2;
+lblMain->Left = TabSheetMain->Width/2 - lblMain->Width/2;
 lblMain->Top = TabSheetMain->Height/2 - lblMain->Height/2;
 
-imgOptionPanel->Picture = imgOptionIcon->Picture;
+PanelEncrypt->Top = lblMain->Top + lblMain->Height + 16;
+PanelEncrypt->Left = TabSheetMain->Width/2 - PanelEncrypt->Width/2;
+PanelDecrypt->BoundsRect = PanelEncrypt->BoundsRect;
+
 
 //-----------------------------------
 //暗号化パスワード入力パネル
@@ -375,25 +437,33 @@ void __fastcall TForm1::PaintBoxMainMouseEnter(TObject *Sender)
 
 //点線枠を表示する
 
-#define DOT_HEIGHT 8
-#define DOT_WIDTH 8
+#define DOT_HEIGHT 4
+#define DOT_WIDTH 4
 
 int PosX, PosY;
 
 this->Canvas->Pen->Color = TColor(RGB(200,200,200));
 this->Canvas->Brush->Color = TColor(RGB(200,200,200));
 
-PosY = PageControl1->BoundsRect.Bottom;
-for (PosX = 0; PosX < this->Width; PosX+=24) {
-	this->Canvas->Rectangle(PosX, 0, PosX+16, DOT_HEIGHT);
-	this->Canvas->Rectangle(PosX, PosY, PosX+16, PosY+DOT_HEIGHT);
+//水平線を描画
+PosY = PageControl1->BoundsRect.bottom;
+for (PosX = (PageControl1->BoundsRect.left - DOT_WIDTH); PosX < this->Width; PosX+=24) {
+	this->Canvas->Rectangle(PosX,    0, PosX+16, DOT_HEIGHT);         //Top
+	this->Canvas->Rectangle(PosX, PosY, PosX+16, PosY+DOT_HEIGHT);    //Bottom
 }
 
-PosX = PageControl1->BoundsRect.Right;
+//垂直線を描画
 for (PosY = 0; PosY < this->Height; PosY+=24) {
-	this->Canvas->Rectangle(0, PosY, DOT_WIDTH, PosY+16);
-	this->Canvas->Rectangle(PosX, PosY, PosX+DOT_WIDTH, PosY+16);
+	this->Canvas->Rectangle(PageControl1->Left-DOT_WIDTH,   PosY, PageControl1->Left+DOT_WIDTH, PosY+16);
+	this->Canvas->Rectangle(PageControl1->BoundsRect.right, PosY, PosX+DOT_WIDTH,               PosY+16);
 }
+
+//ドロップ矢印
+PaintBoxMain->Canvas->Draw(
+	PaintBoxMain->Width/2-imgDropFileIn->Width/2, lblMain->Top-imgDropFileIn->Height,
+	imgDropFileIn->Picture->Icon);
+
+
 
 
 }
@@ -404,6 +474,17 @@ void __fastcall TForm1::PaintBoxMainMouseLeave(TObject *Sender)
 //点線枠をクリア
 this->Canvas->Brush->Color = clBtnFace;
 this->Canvas->FillRect(Rect(0, 0, this->Width, this->Height));
+
+//ドロップ矢印をクリア
+TRect rc = TRect(lblMain->Left, lblMain->Top-imgDropFileIn->Height,
+				lblMain->Left + lblMain->Width, lblMain->Top);
+PaintBoxMain->Canvas->Brush->Color = clWhite;
+PaintBoxMain->Canvas->FillRect(rc);
+
+
+
+//サイドバーメニューを再描画しておく
+PaintBoxMenuPaint(Sender);
 
 }
 //---------------------------------------------------------------------------
@@ -936,7 +1017,7 @@ if ( CryptTypeNum == TYPE_CRYPT_ENCRYPT ) {
 	//記憶パスワードで即座に実行する
 	if ( opthdl->fMemPasswordExe == true && opthdl->fMyEncodePasswordKeep == true) {
 		//実行パネル表示
-		PageControl1->ActivePage = TabSheetExecute;
+		PageControlActiveSheet(TabSheetExecute);
 		//再確認テキストボックスに入れてしまう
 		txtPasswordConfirm->Text = opthdl->MyEncodePassword;
 		//暗号化開始
@@ -951,7 +1032,7 @@ if ( CryptTypeNum == TYPE_CRYPT_ENCRYPT ) {
 			//パスワードファイルがない場合エラーを出さない？（オプション）
 			if ( opthdl->fNoErrMsgOnPassFile == true ) {
 				//メッセージを出さずにパスワード入力パネルへ
-				PageControl1->ActivePage = TabSheetInputEncPass;
+				PageControlActiveSheet(TabSheetInputEncPass);
 				txtEncryptPassword->SetFocus();
 				return;
 			}
@@ -968,7 +1049,7 @@ if ( CryptTypeNum == TYPE_CRYPT_ENCRYPT ) {
 			PasswordFilePath = opthdl->PassFilePath;
 			txtEncryptPassword->Text = PasswordFilePath;
 			//実行パネル表示
-			PageControl1->ActivePage = TabSheetExecute;
+			PageControlActiveSheet(TabSheetExecute);
 			//そのまま暗号化へ
 			FileEncrypt();
 		}
@@ -978,14 +1059,14 @@ if ( CryptTypeNum == TYPE_CRYPT_ENCRYPT ) {
 		//パスワード記憶が行われているのなら
 		if (opthdl->fMyEncodePasswordKeep == true) {
 			//パスワード再確認パネルまで進む
-			PageControl1->ActivePage = TabSheetInputEncPassConfirm;
+			PageControlActiveSheet(TabSheetInputEncPassConfirm);
 			txtEncryptPassword->Text = opthdl->MyEncodePassword;
 			txtPasswordConfirm->Text = opthdl->MyEncodePassword;
 			txtPasswordConfirm->SetFocus();
 		}
 		else{
 			//パスワード入力パネルへ進む
-			PageControl1->ActivePage = TabSheetInputEncPass;
+			PageControlActiveSheet(TabSheetInputEncPass);
 			txtEncryptPassword->SetFocus();
 			return;
 		}
@@ -1001,7 +1082,7 @@ else if ( CryptTypeNum == TYPE_CRYPT_DECRYPT) {
 	//記憶パスワードで即座に実行する
 	if ( opthdl->fMemPasswordExe == true && opthdl->fMyDecodePasswordKeep == true) {
 		//実行パネル表示
-		PageControl1->ActivePage = TabSheetExecute;
+		PageControlActiveSheet(TabSheetExecute);
 		txtDecryptPassword->Text = opthdl->MyDecodePassword;
 		FileDecrypt();
 		return;
@@ -1013,7 +1094,7 @@ else if ( CryptTypeNum == TYPE_CRYPT_DECRYPT) {
 			//パスワードファイルがない場合エラーを出さない
 			if ( opthdl->fNoErrMsgOnPassFile == true ) {
 				//メッセージを出さずにパスワード入力パネルへ
-				PageControl1->ActivePage = TabSheetInputDecPass;
+				PageControlActiveSheet(TabSheetInputDecPass);
 				txtDecryptPassword->SetFocus();
 				return;
 			}
@@ -1034,7 +1115,7 @@ else if ( CryptTypeNum == TYPE_CRYPT_DECRYPT) {
 			txtPasswordConfirm->Text = PasswordFilePath;
 
 			//実行パネル表示
-			PageControl1->ActivePage = TabSheetExecute;
+			PageControlActiveSheet(TabSheetExecute);
 			//そのまま暗号化へ
 			FileDecrypt();
 
@@ -1047,7 +1128,7 @@ else if ( CryptTypeNum == TYPE_CRYPT_DECRYPT) {
 			txtDecryptPassword->Text = opthdl->MyDecodePassword;
 		}
 		//パスワード入力パネルへ進む
-		PageControl1->ActivePage = TabSheetInputDecPass;
+		PageControlActiveSheet(TabSheetInputDecPass);
 		txtDecryptPassword->SetFocus();
 		return;
 	}
@@ -1058,7 +1139,7 @@ else if ( CryptTypeNum == TYPE_CRYPT_DECRYPT) {
 //-----------------------------------
 else {
 	//メインへ戻る
-	PageControl1->ActivePage = TabSheetMain;
+	PageControlActiveSheet(TabSheetMain);
 	FileList->Clear();
 	return;
 }
@@ -1072,7 +1153,7 @@ void __fastcall TForm1::DoDeleteFile(TStringList *FileList)
 {
 
 //実行パネル表示
-PageControl1->ActivePage = TabSheetExecute;
+PageControlActiveSheet(TabSheetExecute);
 
 //完全削除インスタンスの作成
 cmpdel = new TAttacheCaseDelete(true);
@@ -1124,6 +1205,8 @@ if(ptl){
 //暗号化成功
 if ( encrypt->StatusNum > 0 ) {
 
+	FileListPosition++;
+
 	//コンペア
 	if ( opthdl->fCompareFile == true && FileListPosition < FileList->Count ){
 		FileCompare();
@@ -1138,8 +1221,6 @@ if ( encrypt->StatusNum > 0 ) {
 
 	TimerEncrypt->Enabled = false;
 
-	//デバッグメッセージ
-	//ShowMessage("暗号化スレッドが終了しました。");
 	encrypt = NULL;
 
 	//元ファイルの削除処理
@@ -1203,7 +1284,6 @@ if ( decrypt->StatusNum > 0 ) {
 
 	//個別に暗号化するオプションでまだ処理するファイルが残っている
 	if (FileListPosition < FileList->Count) {
-		FileListPosition++;
 		FileDecrypt();
 		return;
 	}
@@ -1231,7 +1311,7 @@ else{
 	//パスワード入力エラーで抜けてきた
 	if ( decrypt->StatusNum == -1 ) {
 		//パスワード入力パネルへ戻る
-		PageControl1->ActivePage = TabSheetInputDecPass;
+		PageControlActiveSheet(TabSheetInputDecPass);
 		txtDecryptPassword->SetFocus();
 		txtDecryptPassword->SelectAll();
 
@@ -1248,7 +1328,7 @@ else{
 				else{
 					decrypt = NULL;
 					Application->Terminate();
-        }
+				}
 			}
 		}
 		else{
@@ -1446,7 +1526,7 @@ if (OpenDialogEncrypt->Execute() == true) {
 	//記憶パスワードで即座に実行する
 	if ( opthdl->fMemPasswordExe == true && opthdl->fMyEncodePasswordKeep == true) {
 		//実行パネル表示
-		PageControl1->ActivePage = TabSheetExecute;
+		PageControlActiveSheet(TabSheetExecute);
 		//再確認テキストボックスに入れてしまう
 		txtPasswordConfirm->Text = opthdl->MyEncodePassword;
 		//暗号化開始
@@ -1460,7 +1540,7 @@ if (OpenDialogEncrypt->Execute() == true) {
 			//パスワードファイルがない場合エラーを出さない
 			if ( opthdl->fNoErrMsgOnPassFile == true ) {
 				//メッセージを出さずにパスワード入力パネルへ
-				PageControl1->ActivePage = TabSheetInputEncPass;
+				PageControlActiveSheet(TabSheetInputEncPass);
 				txtEncryptPassword->SetFocus();
 				return;
 			}
@@ -1478,7 +1558,7 @@ if (OpenDialogEncrypt->Execute() == true) {
 	}
 	else{
 		//パスワード入力パネルへ進む
-		PageControl1->ActivePage = TabSheetInputEncPass;
+		PageControlActiveSheet(TabSheetInputEncPass);
 		txtEncryptPassword->SetFocus();
 		return;
 	}
@@ -1506,7 +1586,7 @@ if (SelectDirectory(LoadResourceString(&Msgunit1::_DIALOG_SELECT_DIRECTORY_TEXT)
 		//記憶パスワードで即座に実行する
 	if ( opthdl->fMemPasswordExe == true && opthdl->fMyEncodePasswordKeep == true) {
 		//実行パネル表示
-		PageControl1->ActivePage = TabSheetExecute;
+		PageControlActiveSheet(TabSheetExecute);
 		//再確認テキストボックスに入れてしまう
 		txtPasswordConfirm->Text = opthdl->MyEncodePassword;
 		//暗号化開始
@@ -1520,7 +1600,7 @@ if (SelectDirectory(LoadResourceString(&Msgunit1::_DIALOG_SELECT_DIRECTORY_TEXT)
 			//パスワードファイルがない場合エラーを出さない
 			if ( opthdl->fNoErrMsgOnPassFile == true ) {
 				//メッセージを出さずにパスワード入力パネルへ
-				PageControl1->ActivePage = TabSheetInputEncPass;
+				PageControlActiveSheet(TabSheetInputEncPass);
 				txtEncryptPassword->SetFocus();
 				return;
 			}
@@ -1538,7 +1618,7 @@ if (SelectDirectory(LoadResourceString(&Msgunit1::_DIALOG_SELECT_DIRECTORY_TEXT)
 	}
 	else{
 		//パスワード入力パネルへ進む
-		PageControl1->ActivePage = TabSheetInputEncPass;
+		PageControlActiveSheet(TabSheetInputEncPass);
 		txtEncryptPassword->SetFocus();
 		return;
 	}
@@ -1561,7 +1641,7 @@ if (OpenDialogDecrypt->Execute() == true) {
 	if ( opthdl->fMemPasswordExe == true && opthdl->fMyDecodePasswordKeep == true) {
     txtDecryptPassword->Text = opthdl->MyDecodePassword;
 		//実行パネル表示
-		PageControl1->ActivePage = TabSheetExecute;
+		PageControlActiveSheet(TabSheetExecute);
 		FileDecrypt();
 		return;
 	}
@@ -1572,7 +1652,7 @@ if (OpenDialogDecrypt->Execute() == true) {
 			//パスワードファイルがない場合エラーを出さない
 			if ( opthdl->fNoErrMsgOnPassFile == true ) {
 				//メッセージを出さずにパスワード入力パネルへ
-				PageControl1->ActivePage = TabSheetInputDecPass;
+				PageControlActiveSheet(TabSheetInputDecPass);
 				txtDecryptPassword->SetFocus();
 				return;
 			}
@@ -1590,7 +1670,7 @@ if (OpenDialogDecrypt->Execute() == true) {
 	}
 	else{
 		//パスワード入力パネルへ進む
-		PageControl1->ActivePage = TabSheetInputDecPass;
+		PageControlActiveSheet(TabSheetInputDecPass);
 		txtDecryptPassword->SetFocus();
 		return;
 	}
@@ -1675,7 +1755,7 @@ if (AnsiString(txtEncryptPassword->Text).Length() > 32) {
 chkExeFileOutConf->Checked = chkExeFileOut->Checked;
 
 //パスワード再確認パネルへ進む
-PageControl1->ActivePage = TabSheetInputEncPassConfirm;
+PageControlActiveSheet(TabSheetInputEncPassConfirm);
 txtPasswordConfirm->SetFocus();
 
 }
@@ -1684,7 +1764,7 @@ void __fastcall TForm1::cmdEncryptPasswordCancelClick(TObject *Sender)
 {
 
 //メインパネルへ戻る
-PageControl1->ActivePage = TabSheetMain;
+PageControlActiveSheet(TabSheetMain);
 
 }
 //---------------------------------------------------------------------------
@@ -1745,7 +1825,7 @@ else if (txtEncryptPassword->Text != txtPasswordConfirm->Text){
 //-----------------------------------
 
 //実行パネル表示
-PageControl1->ActivePage = TabSheetExecute;
+PageControlActiveSheet(TabSheetExecute);
 //暗号化開始
 FileEncrypt();
 
@@ -2162,7 +2242,7 @@ txtPasswordConfirm->Text = "";
 ConfirmPasswordFilePath = "";
 
 //パスワード入力パネルへ戻る
-PageControl1->ActivePage = TabSheetInputEncPass;
+PageControlActiveSheet(TabSheetInputEncPass);
 txtEncryptPassword->SetFocus();
 txtEncryptPassword->SelectAll();
 
@@ -2176,7 +2256,7 @@ void __fastcall TForm1::cmdDecryptPasswordOKClick(TObject *Sender)
 //-----------------------------------
 
 //実行パネル表示
-PageControl1->ActivePage = TabSheetExecute;
+PageControlActiveSheet(TabSheetExecute);
 //復号開始
 FileDecrypt();
 
@@ -2217,7 +2297,7 @@ else if (decrypt != NULL) {
 }
 else{
 	//メインパネルへ戻る
-	PageControl1->ActivePage = TabSheetMain;
+	PageControlActiveSheet(TabSheetMain);
 }
 
 }
@@ -2306,58 +2386,6 @@ DoExecute(FileList);
 
 
 }//end EvWmCOPYDATA;
-//---------------------------------------------------------------------------
-void __fastcall TForm1::PaintBoxMainPaint(TObject *Sender)
-{
-
-//中央のグラフィック描画
-int posx = 0;
-int posy = TabSheetMain->Height - imgMain->Height;
-PaintBoxMain->Canvas->Draw( posx, posy,	imgMain->Picture->Bitmap);
-PaintBoxEncrypt->Canvas->Draw( posx, posy,	imgEncrypt->Picture->Bitmap);
-PaintBoxConfirm->Canvas->Draw( posx, posy,	imgEncrypt->Picture->Bitmap);
-PaintBoxDecrypt->Canvas->Draw( posx, posy,	imgDecrypt->Picture->Bitmap);
-
-}
-//---------------------------------------------------------------------------
-void __fastcall TForm1::imgOptionPanelClick(TObject *Sender)
-{
-
-//オプションパネルの表示
-Form3 = new TForm3(this, opthdl);
-Form3->PopupParent = Screen->ActiveForm;
-Form3->ShowModal();
-Form3->Release();
-
-/*
-if (pOpt->fNoHidePassword == true ) {
-	Form1->txtEncryptPassword->PasswordChar = NULL;
-	Form1->txtPasswordConfirm->PasswordChar = NULL;
-	Form1->txtDecryptPassword->PasswordChar = NULL;
-}
-else{
-	Form1->txtEncryptPassword->PasswordChar = '*';
-	Form1->txtPasswordConfirm->PasswordChar = '*';
-	Form1->txtDecryptPassword->PasswordChar = '*';
-}
-*/
-
-
-}
-//---------------------------------------------------------------------------
-void __fastcall TForm1::imgOptionPanelMouseEnter(TObject *Sender)
-{
-
-imgOptionPanel->Picture = imgOptionIconSelect->Picture;
-
-}
-//---------------------------------------------------------------------------
-void __fastcall TForm1::imgOptionPanelMouseLeave(TObject *Sender)
-{
-
-imgOptionPanel->Picture = imgOptionIcon->Picture;
-
-}
 //---------------------------------------------------------------------------
 void __fastcall TForm1::imgBackMouseEnter(TObject *Sender)
 {
@@ -2558,6 +2586,16 @@ return(true);
 
 }
 //---------------------------------------------------------------------------
+//タブシートの選択
+void __fastcall TForm1::PageControlActiveSheet(TTabSheet *tb)
+{
+
+TObject *Sender = NULL;
+PageControl1->ActivePage = tb;
+PageControl1Change(Sender);    // OnChangeイベント
+
+}
+//---------------------------------------------------------------------------
 void __fastcall TForm1::PageControl1Change(TObject *Sender)
 {
 
@@ -2577,7 +2615,13 @@ if (PageControl1->ActivePage == TabSheetMain) {
 	//実行中パネルのボタンを「キャンセル」に戻す
 	cmdCancel->Caption = "&Cancel";
 
+  optSelectedMenu = 0;
+
 }
+
+//サイドメニューを描画する
+PaintSideMenu();
+
 
 }
 //---------------------------------------------------------------------------
@@ -2619,6 +2663,199 @@ if (ConfirmPasswordFilePath == "") {
 if (txtPasswordConfirm->Text != ConfirmPasswordFilePath) {
 	ConfirmPasswordFilePath = "";
 }
+
+}
+//---------------------------------------------------------------------------
+// サイドメニューを描画する
+//---------------------------------------------------------------------------
+void __fastcall TForm1::PaintSideMenu(void)
+{
+
+bmpSideMenu->Width = PaintBoxMenu->Width;
+bmpSideMenu->Height = PaintBoxMenu->Height;
+
+//背景を敷き詰める
+for (int PosY = 0; PosY < bmpSideMenu->Height; PosY+=imgMenuBackground->Height) {
+	bmpSideMenu->Canvas->Draw(0, PosY, imgMenuBackground->Picture->Icon);
+}
+
+//-----------------------------------
+//スタート・ウィンドウ
+if ( PageControl1->ActivePage == TabSheetMain){
+
+	//暗号化
+	bmpSideMenu->Canvas->Draw(
+		ptSideMenu[1].x, ptSideMenu[1].y,
+		fEncryptMenu == true ? imgMenuEncryptOn->Picture->Icon : imgMenuEncryptOff->Picture->Icon);
+  //復号する
+	bmpSideMenu->Canvas->Draw(
+		ptSideMenu[2].x, ptSideMenu[2].y,
+		fDecryptMenu == true ? imgMenuDecryptOn->Picture->Icon : imgMenuDecryptOff->Picture->Icon);
+
+	//水平線
+	bmpSideMenu->Canvas->Draw(ptSideMenu[3].x, ptSideMenu[3].y, imgMenuHorizontalLine->Picture->Icon);
+	//オプション
+	bmpSideMenu->Canvas->Draw(
+		ptSideMenu[4].x, ptSideMenu[4].y,
+		fOptionMenu == true ? imgMenuOptionOn->Picture->Icon : imgMenuOptionOff->Picture->Icon);
+
+}
+//-----------------------------------
+//暗号化ウィンドウ
+else if ( PageControl1->ActivePage == TabSheetInputEncPass ||
+		 PageControl1->ActivePage == TabSheetInputEncPassConfirm ){
+	bmpSideMenu->Canvas->Draw(ptSideMenu[0].x, ptSideMenu[0].y, imgMenuEncryptOn->Picture->Icon);
+
+}
+//-----------------------------------
+//復号ウィンドウ
+else if ( PageControl1->ActivePage == TabSheetInputDecPass ){
+	bmpSideMenu->Canvas->Draw(ptSideMenu[0].x, ptSideMenu[0].y, imgMenuDecryptOn->Picture->Icon);
+
+}
+//-----------------------------------
+//実行ウィンドウ
+else if ( PageControl1->ActivePage == TabSheetExecute ){
+
+	if (encrypt != NULL ) {
+		bmpSideMenu->Canvas->Draw(ptSideMenu[0].x, ptSideMenu[0].y, imgMenuEncryptOn->Picture->Icon);
+	}
+	else{
+		bmpSideMenu->Canvas->Draw(ptSideMenu[0].x, ptSideMenu[0].y, imgMenuDecryptOn->Picture->Icon);
+	}
+}
+
+PaintBoxMenu->Canvas->Draw(0, 0, bmpSideMenu);
+
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::PaintBoxMenuPaint(TObject *Sender)
+{
+
+PaintBoxMenu->Canvas->Draw(0, 0, bmpSideMenu);
+
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::PaintBoxMenuMouseMove(TObject *Sender, TShiftState Shift,
+					int X, int Y)
+{
+
+int ptIndex;
+
+//カーソルの位置にアイコンがあるか
+for (ptIndex = 4; ptIndex > 0; ptIndex--) {
+	if ( Y > ptSideMenu[ptIndex].y) {
+		if (Y < ptSideMenu[ptIndex].y+64) {
+			if (X > ptSideMenu[ptIndex].x && X < ptSideMenu[ptIndex].x+64) {
+				break;
+			}
+		}
+	}
+}
+
+//どのアイコンが点灯中か
+switch(ptIndex){
+case 1:
+	fEncryptMenu = true;
+	fDecryptMenu = false;
+	fOptionMenu = false;
+	break;
+
+case 2:
+	fEncryptMenu = false;
+	fDecryptMenu = true;
+	fOptionMenu = false;
+	break;
+
+case 4:
+	fEncryptMenu = false;
+	fDecryptMenu = false;
+	fOptionMenu = true;
+	break;
+
+default:
+	fEncryptMenu = false;
+	fDecryptMenu = false;
+	fOptionMenu = false;
+	break;
+}
+
+//「暗号化」「復号する」を選択中の場合は点灯しっぱなし
+switch(optSelectedMenu){
+case 1:
+	fEncryptMenu = true;
+	break;
+
+case 2:
+	fDecryptMenu = true;
+	break;
+
+default:
+	break;
+}
+
+//メニューを再描画
+PaintSideMenu();
+
+
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::PaintBoxMenuMouseDown(TObject *Sender, TMouseButton Button,
+					TShiftState Shift, int X, int Y)
+{
+
+int ptIndex;
+
+//カーソルの位置にアイコンがあるか
+for (ptIndex = 4; ptIndex > 0; ptIndex--) {
+	if ( Y > ptSideMenu[ptIndex].y) {
+		if (Y < ptSideMenu[ptIndex].y+64) {
+			if (X > ptSideMenu[ptIndex].x && X < ptSideMenu[ptIndex].x+64) {
+				break;
+			}
+		}
+	}
+}
+
+switch(ptIndex){
+case 1:	//暗号化
+	optSelectedMenu = 1;
+	lblMain->Caption = LoadResourceString(&Msgunit1::_DRAG_AND_DROP_HERE_ENCRYPT);
+	PanelEncrypt->Visible = true;
+	PanelDecrypt->Visible = false;
+	break;
+
+case 2:	//復号
+	optSelectedMenu = 2;
+	lblMain->Caption = LoadResourceString(&Msgunit1::_DRAG_AND_DROP_HERE_DECRYPT);
+	PanelEncrypt->Visible = false;
+	PanelDecrypt->Visible = true;
+	break;
+
+case 4:	//オプション
+	//オプションパネルの表示
+	Form3 = new TForm3(this, opthdl);
+	Form3->PopupParent = Screen->ActiveForm;
+	Form3->ShowModal();
+	Form3->Release();
+	fOptionMenu = false;
+	lblMain->Caption = LoadResourceString(&Msgunit1::_DRAG_AND_DROP_HERE);
+	PanelEncrypt->Visible = false;
+	PanelDecrypt->Visible = false;
+	break;
+
+default:
+	lblMain->Caption = LoadResourceString(&Msgunit1::_DRAG_AND_DROP_HERE);
+	PanelEncrypt->Visible = false;
+	PanelDecrypt->Visible = false;
+	break;
+
+}
+
+SetFormComponent(Sender);
+
+//メニューを再描画
+PaintSideMenu();
 
 }
 //---------------------------------------------------------------------------

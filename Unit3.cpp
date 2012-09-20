@@ -14,25 +14,53 @@ __fastcall TForm3::TForm3(TComponent* Owner, TAttacheCaseOptionHandle *opt)
 	: TForm(Owner)
 {
 
+int i;
+
 //設定クラスのインスタンス
 pOpt = opt;
 
 //-----------------------------------
 //すべてのタブを消去
 PageControl1->Align = alClient;
-for (int i = 0; i < PageControl1->PageCount; i++) {
+for ( i = 0; i < PageControl1->PageCount; i++) {
 	PageControl1->Pages[i]->TabVisible = false;
 }
 
 //-----------------------------------
 //サイドバーメニュー
 //-----------------------------------
-lblBasic->Caption = LoadResourceString(&Msgunit3::_LABEL_BASIC);
-lblSave->Caption = LoadResourceString(&Msgunit3::_LABEL_SAVE);
-lblDelete->Caption = LoadResourceString(&Msgunit3::_LABEL_DELETE);
-lblMovement->Caption = LoadResourceString(&Msgunit3::_LABEL_MOVEMENT);
-lblSystem->Caption = LoadResourceString(&Msgunit3::_LABEL_SYSTEM);
-lblAdvanced->Caption = LoadResourceString(&Msgunit3::_LABEL_ADVANCED);
+
+//メニューキャンバスの設定値
+bmpSideMenu = new Graphics::TBitmap;
+bmpSideMenu->Width = PaintBoxMenu->Width;
+bmpSideMenu->Height = PaintBoxMenu->Height;
+bmpSideMenu->Canvas->Brush->Style = bsClear;
+bmpSideMenu->Canvas->Font->Color = clWhite;
+
+//メニューアイコンの位置
+ptSideMenu[0] = TPoint(-1, -1);
+ptSideMenu[1] = TPoint(22, 16);
+ptSideMenu[2] = TPoint(22, 88);
+ptSideMenu[3] = TPoint(22,160);
+ptSideMenu[4] = TPoint(22,232);
+ptSideMenu[5] = TPoint(22,304);
+ptSideMenu[6] = TPoint(22,376);
+
+//ラベル文字
+SideMenuLabelCaption[0] = "";
+SideMenuLabelCaption[1] = LoadResourceString(&Msgunit3::_LABEL_BASIC);
+SideMenuLabelCaption[2] = LoadResourceString(&Msgunit3::_LABEL_SAVE);
+SideMenuLabelCaption[3] = LoadResourceString(&Msgunit3::_LABEL_DELETE);
+SideMenuLabelCaption[4] = LoadResourceString(&Msgunit3::_LABEL_MOVEMENT);
+SideMenuLabelCaption[5] = LoadResourceString(&Msgunit3::_LABEL_SYSTEM);
+SideMenuLabelCaption[6] = LoadResourceString(&Msgunit3::_LABEL_ADVANCED);
+
+//ラベル文字の配置
+SideMenuLabelCaptionPosX[0] = 0;
+for (i = 1; i < 7; i++) {
+	SideMenuLabelCaptionPosX[i] = ptSideMenu[i].x+24 - bmpSideMenu->Canvas->TextWidth(SideMenuLabelCaption[i])/2;
+}
+
 
 //-----------------------------------
 //【基本設定】タブ
@@ -178,30 +206,9 @@ else{
 	PageControl1->ActivePageIndex = 0;
 }
 
-switch(PageControl1->ActivePageIndex){
-case 1:
-	imgFocusLight->BoundsRect = imgSave->BoundsRect;
-	break;
-case 2:
-	imgFocusLight->BoundsRect = imgDelete->BoundsRect;
-	break;
-case 3:
-	imgFocusLight->BoundsRect = imgMovement->BoundsRect;
-	break;
-case 4:
-	imgFocusLight->BoundsRect = imgSystem->BoundsRect;
-	break;
-case 5:
-	imgFocusLight->BoundsRect = imgAdvanced->BoundsRect;
-	break;
-default:
-	imgFocusLight->BoundsRect = imgBasic->BoundsRect;
-	break;
-}
-
 //-----------------------------------
-//表示反映
-PanelMenuRefresh();
+// サイドメニューを描画する
+PaintSideMenu();
 
 
 }
@@ -280,132 +287,6 @@ void __fastcall TForm3::cmdOKClick(TObject *Sender)
 FormSaveOptionData();
 
 Close();
-
-}
-//---------------------------------------------------------------------------
-void __fastcall TForm3::imgBasicMouseEnter(TObject *Sender)
-{
-imgFocusLight->BoundsRect = imgBasic->BoundsRect;
-}
-//---------------------------------------------------------------------------
-void __fastcall TForm3::imgSaveMouseEnter(TObject *Sender)
-{
-imgFocusLight->BoundsRect = imgSave->BoundsRect;
-}
-//---------------------------------------------------------------------------
-void __fastcall TForm3::imgDeleteMouseEnter(TObject *Sender)
-{
-imgFocusLight->BoundsRect = imgDelete->BoundsRect;
-}
-//---------------------------------------------------------------------------
-void __fastcall TForm3::imgMovementMouseEnter(TObject *Sender)
-{
-imgFocusLight->BoundsRect = imgMovement->BoundsRect;
-}
-//---------------------------------------------------------------------------
-void __fastcall TForm3::imgSystemMouseEnter(TObject *Sender)
-{
-imgFocusLight->BoundsRect = imgSystem->BoundsRect;
-}
-//---------------------------------------------------------------------------
-void __fastcall TForm3::imgAdvancedMouseEnter(TObject *Sender)
-{
-imgFocusLight->BoundsRect = imgAdvanced->BoundsRect;
-}
-//---------------------------------------------------------------------------
-void __fastcall TForm3::imgBasicClick(TObject *Sender)
-{
-PageControl1->ActivePageIndex = 0;
-PanelMenuRefresh();
-}
-//---------------------------------------------------------------------------
-void __fastcall TForm3::imgSaveClick(TObject *Sender)
-{
-PageControl1->ActivePageIndex = 1;
-PanelMenuRefresh();
-}
-//---------------------------------------------------------------------------
-void __fastcall TForm3::imgDeleteClick(TObject *Sender)
-{
-PageControl1->ActivePageIndex = 2;
-PanelMenuRefresh();
-}
-//---------------------------------------------------------------------------
-void __fastcall TForm3::imgMovementClick(TObject *Sender)
-{
-PageControl1->ActivePageIndex = 3;
-PanelMenuRefresh();
-}
-//---------------------------------------------------------------------------
-void __fastcall TForm3::imgSystemClick(TObject *Sender)
-{
-PageControl1->ActivePageIndex = 4;
-PanelMenuRefresh();
-}
-//---------------------------------------------------------------------------
-void __fastcall TForm3::imgAdvancedClick(TObject *Sender)
-{
-PageControl1->ActivePageIndex = 5;
-PanelMenuRefresh();
-}
-//---------------------------------------------------------------------------
-//パネルメニュー表示のリフレッシュを行う
-void __fastcall TForm3::PanelMenuRefresh(void)
-{
-
-switch(PageControl1->ActivePageIndex){
-case 1:
-	imgSelectCursor->Top = imgSave->Top;
-	imgSelectCursor->Left = PanelMenu->Width - imgSelectCursor->Width - 4;
-	break;
-case 2:
-	imgSelectCursor->Top = imgDelete->Top;
-	imgSelectCursor->Left = PanelMenu->Width - imgSelectCursor->Width - 4;
-	break;
-case 3:
-	imgSelectCursor->Top = imgMovement->Top;
-	imgSelectCursor->Left = PanelMenu->Width - imgSelectCursor->Width - 4;
-	break;
-case 4:
-	imgSelectCursor->Top = imgSystem->Top;
-	imgSelectCursor->Left = PanelMenu->Width - imgSelectCursor->Width - 4;
-	break;
-case 5:
-	imgSelectCursor->Top = imgAdvanced->Top;
-	imgSelectCursor->Left = PanelMenu->Width - imgSelectCursor->Width - 4;
-	break;
-default:	// 0
-	imgSelectCursor->Top = imgBasic->Top;
-	imgSelectCursor->Left = PanelMenu->Width - imgSelectCursor->Width - 4;
-	break;
-}
-
-}
-//---------------------------------------------------------------------------
-void __fastcall TForm3::PanelMenuDblClick(TObject *Sender)
-{
-
-TStringList *KeyValueList;
-
-try{
-
-	KeyValueList = new TStringList();
-	pOpt->GetKeyValueData(KeyValueList);
-
-	//設定値をまとめてデバッグ表示する
-	for (int i = 0; i < KeyValueList->Count; i++) {
-		ValueListEditor1->InsertRow(KeyValueList->Names[i], KeyValueList->ValueFromIndex[i], true);
-	}
-
-	//設定値のデバッグ一覧表示
-	PageControl1->ActivePageIndex = 6;
-
-}
-__finally{
-
-	delete KeyValueList;
-
-}
 
 }
 //===========================================================================
@@ -867,7 +748,7 @@ try{
 	icon= new TIcon;
 	TComboExItem *pItem;
 
-	ImageList2->Clear();
+	imlAssociateFilesIcon->Clear();
 	comboDataIcon->Items->Clear();
 
 	//リソースからアイコンファイルを登録
@@ -877,7 +758,7 @@ try{
 		icon->LoadFromResourceName((int)HInstance, IconName);
 
 		if(icon->Handle){
-			ImageList2->AddIcon(icon);
+			imlAssociateFilesIcon->AddIcon(icon);
 			pItem = comboDataIcon->ItemsEx->Add();
 			pItem->ImageIndex = i;
 			pItem->Caption = "Icon "+IntToStr(i+1);
@@ -895,9 +776,9 @@ try{
 
 	if ( FileExists(FilePath) == true ){
 		icon->LoadFromFile(FilePath);
-		ImageList2->AddIcon(icon);
+		imlAssociateFilesIcon->AddIcon(icon);
 		pItem = comboDataIcon->ItemsEx->Add();
-		pItem->ImageIndex = ImageList2->Count-1;
+		pItem->ImageIndex = imlAssociateFilesIcon->Count-1;
 		pItem->Caption = LoadResourceString(&Msgunit3::_SYSTEM_PANEL_COMBO_USER_REG_FILE_ICON);
 		pOpt->AtcsFileIconIndex = comboDataIcon->ItemsEx->Count;
 	}
@@ -2030,4 +1911,123 @@ __finally{
 
 }
 //---------------------------------------------------------------------------
+// サイドメニューを描画する
+//---------------------------------------------------------------------------
+void __fastcall TForm3::PaintSideMenu(void)
+{
+
+int i;
+Graphics::TIcon *icon;
+
+
+//背景を敷き詰める
+for (int PosY = 0; PosY < bmpSideMenu->Height; PosY+=imgMenuBackground->Height) {
+	bmpSideMenu->Canvas->Draw(0, PosY, imgMenuBackground->Picture->Icon);
+}
+
+try{
+
+for (i = 1; i < 7; i++) {
+
+	icon = new Graphics::TIcon;
+	if (PageControl1->ActivePageIndex+1 == i || optSelectedMenu == i) {
+		imlSideMenuIconOn->GetIcon(i, icon);
+		bmpSideMenu->Canvas->Font->Color = clWhite;
+	}
+	else{
+		imlSideMenuIconOff->GetIcon(i, icon);
+		bmpSideMenu->Canvas->Font->Color = TColor(RGB(160,160,160)); //ラベル文字列を暗い色に
+	}
+	bmpSideMenu->Canvas->Draw(ptSideMenu[i].x, ptSideMenu[i].y, icon);
+	bmpSideMenu->Canvas->TextOut(SideMenuLabelCaptionPosX[i], ptSideMenu[i].y+48, SideMenuLabelCaption[i]);
+
+}
+
+PaintBoxMenu->Canvas->Draw(0, 0, bmpSideMenu);
+
+}
+__finally{
+	delete icon;
+}
+
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm3::PaintBoxMenuPaint(TObject *Sender)
+{
+
+PaintBoxMenu->Canvas->Draw(0, 0, bmpSideMenu);
+
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm3::PaintBoxMenuMouseDown(TObject *Sender, TMouseButton Button,
+					TShiftState Shift, int X, int Y)
+{
+
+//カーソルの位置にアイコンがあるか
+for (int i = 6; i > 0; i--) {
+	if ( Y > ptSideMenu[i].y) {
+		if (Y < ptSideMenu[i].y+48) {
+			if (X > ptSideMenu[i].x && X < ptSideMenu[i].x+48) {
+				optSelectedMenu = i;
+				break;
+			}
+		}
+	}
+}
+
+PageControl1->ActivePageIndex = optSelectedMenu-1;
+PaintSideMenu();
+
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm3::PaintBoxMenuMouseMove(TObject *Sender, TShiftState Shift,
+					int X, int Y)
+{
+
+optSelectedMenu = 0;
+//カーソルの位置にアイコンがあるか
+for (int i = 6; i > 0; i--) {
+	if ( Y > ptSideMenu[i].y) {
+		if (Y < ptSideMenu[i].y+48) {
+			if (X > ptSideMenu[i].x && X < ptSideMenu[i].x+48) {
+				optSelectedMenu = i;
+				break;
+			}
+		}
+	}
+}
+
+PaintSideMenu();
+
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm3::PaintBoxMenuDblClick(TObject *Sender)
+{
+
+TStringList *KeyValueList;
+
+try{
+
+	KeyValueList = new TStringList();
+	pOpt->GetKeyValueData(KeyValueList);
+
+	//設定値をまとめてデバッグ表示する
+	for (int i = 0; i < KeyValueList->Count; i++) {
+		ValueListEditor1->InsertRow(KeyValueList->Names[i], KeyValueList->ValueFromIndex[i], true);
+	}
+
+	//設定値のデバッグ一覧表示
+	PageControl1->ActivePageIndex = 6;
+
+}
+__finally{
+
+	delete KeyValueList;
+
+}
+
+}
+//---------------------------------------------------------------------------
+
+
 
