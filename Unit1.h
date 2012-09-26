@@ -105,11 +105,9 @@ __published:	// IDE 管理のコンポーネント
 	TImage *imgMenuOptionOn;
 	TImage *imgMenuHorizontalLine;
 	TImage *imgDropFileIn;
-	TPanel *PanelEncrypt;
-	TBitBtn *cmdOpenFilesForEncryption;
-	TBitBtn *cmdOpenDirForEncryption;
-	TPanel *PanelDecrypt;
-	TBitBtn *cmdOpenEncryptFiles;
+	TCheckBox *chkDeleteAtcData;
+	TCheckBox *chkDeleteSourceData;
+	TCheckBox *chkDeleteSourceDataConf;
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall FormDestroy(TObject *Sender);
 	void __fastcall FormShow(TObject *Sender);
@@ -153,7 +151,10 @@ __published:	// IDE 管理のコンポーネント
 	void __fastcall PaintBoxMenuMouseMove(TObject *Sender, TShiftState Shift, int X,
           int Y);
 	void __fastcall PaintBoxMenuMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
-          int X, int Y);
+					int X, int Y);
+	void __fastcall chkExeFileOutConfClick(TObject *Sender);
+	void __fastcall chkDeleteSourceDataClick(TObject *Sender);
+	void __fastcall chkDeleteSourceDataConfClick(TObject *Sender);
 
 
 
@@ -167,10 +168,22 @@ private:	// ユーザー宣言
 	//サイドメニューグラフィック
 	Graphics::TBitmap *bmpSideMenu;
 	TPoint ptSideMenu[5];
-	int optSelectedMenu;
+	String SideBarCaption[5];
+	int SideBarCaptionPosX[5];
+
 	bool fEncryptMenu;
 	bool fDecryptMenu;
 	bool fOptionMenu;
+
+
+	//-----------------------------------
+	// 現在の処理内容
+	//-----------------------------------
+	//  0:処理待ち,
+	//  1:暗号化(TYPE_CRYPT_ENCRYPT),
+	//  2:復号(TYPE_CRYPT_DECRYPT)
+	// -1:エラー（TYPE_CRYPT_ERROR）
+	int CryptTypeNum;
 
 
 	//先に起動しているアタッシェケースからのメッセージ受け取り

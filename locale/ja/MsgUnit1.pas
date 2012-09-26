@@ -5,11 +5,10 @@ interface
 resourcestring
 
   //パネル
-  DRAG_AND_DROP_HERE                        = '暗号化/復号するファイルかフォルダーを'+#13+'「ここ」へドラッグ＆ドロップしてください。';
-  DRAG_AND_DROP_HERE_ENCRYPT                = '暗号化したいファイルかフォルダーを'+#13+'「ここ」へ直接ドラッグ＆ドロップするか'+#13+
-                                              '以下のボタンを押してそれぞれを選択します。';
-  DRAG_AND_DROP_HERE_DECRYPT                = '復号したい（元に戻したい）暗号化ファイルを'+#13+'「ここ」へ直接ドラッグ＆ドロップするか'+#13+
-                                              '以下のボタンを押して表示されるウィンドウから'+#13+'暗号化ファイルを選択します。';
+	DRAG_AND_DROP_HERE                        = '暗号化/復号するファイルかフォルダーを'+#13+'「ここ」へドラッグ＆ドロップしてください。';
+	SIDEBAR_CAPTION_ENCRYPT                   = '暗号化';
+	SIDEBAR_CAPTION_DECRYPT                   = '復号(元に戻す)';
+	SIDEBAR_CAPTION_OPTION                    = '動作設定';
 
   INPUT_PASSWORD                            = 'ファイル/フォルダーを暗号化します。パスワードを入力してください：';
   CONFIRM_PASSWORD                          = '確認のため、もう一度パスワードを入力してください：';
@@ -43,6 +42,8 @@ resourcestring
 
 	//チェックボックス
 	CHECK_BOX_EXEFILE_OUT                     = '実行形式出力(&X)';
+	CHECK_BOX_DELETE_SOURCE_DATA              = '元ファイル削除(&D)';
+	CHECK_BOX_DELETE_ATC_DATA                 = '暗号化ファイル削除(&D)';
 
 	//メッセージキャプション
 	MSG_CAPTION_ERROR                         = 'エラー';
@@ -52,6 +53,9 @@ resourcestring
   MSG_BROKEN_ATC_FILE                       = 'この暗号化ファイルはパスワード入力に失敗して破壊されているようです。復号できません。';
   MSG_FILE_OPEN_ERROR                       = 'ファイルを開けません。他のアプリケーションで使用中の可能性があります。';
 	MSG_CONFIRM_ENCRYPT_OR_DECRYPT            = 'ドラッグ＆ドロップされたファイルまたはフォルダーをどのように処理しますか？';
+  MSG_CONFIRM_COMPLETE_DELETE_STOP         = '中止すると完全に削除されない可能性があります。'+#13+
+                                             'それでも中止しますか？';
+
 	MSG_ERROR_SAVE_ENC_TO_FOLDER_NOT_EXISTS   = '保存する先のフォルダーが見つかりません。保存設定を再確認してください。'+#13+
 	                                            '暗号化を中止します。';
 	MSG_ERROR_SAVE_DEC_TO_FOLDER_NOT_EXISTS   = '保存する先のフォルダーが見つかりません。保存設定を再確認してください。'+#13+
@@ -104,9 +108,9 @@ initialization
 	//Delphiコンパイラによる最適化を防ぐ
 
 	DRAG_AND_DROP_HERE;
-  DRAG_AND_DROP_HERE_ENCRYPT;
-  DRAG_AND_DROP_HERE_DECRYPT;
-
+	SIDEBAR_CAPTION_ENCRYPT;
+	SIDEBAR_CAPTION_DECRYPT;
+	SIDEBAR_CAPTION_OPTION;
 
 	INPUT_PASSWORD;
 	CONFIRM_PASSWORD;
@@ -135,6 +139,8 @@ initialization
 	DIALOG_BUTTON_NAME_OVERWITE_CANCEL;
 
 	CHECK_BOX_EXEFILE_OUT;
+	CHECK_BOX_DELETE_SOURCE_DATA;
+	CHECK_BOX_DELETE_ATC_DATA;
 
 	MSG_CAPTION_ERROR;
 	MSG_CAPTION_CONFIRMATION;
@@ -142,12 +148,15 @@ initialization
 	MSG_BROKEN_ATC_FILE;
 	MSG_FILE_OPEN_ERROR;
 	MSG_CONFIRM_ENCRYPT_OR_DECRYPT;
+	MSG_CONFIRM_COMPLETE_DELETE_STOP;
+
 	MSG_ERROR_SAVE_ENC_TO_FOLDER_NOT_EXISTS;
 	MSG_ERROR_SAVE_DEC_TO_FOLDER_NOT_EXISTS;
 	MSG_ERROR_NOT_FOUND_ENC_PASSWORD_FILE;
 	MSG_ERROR_NOT_FOUND_DEC_PASSWORD_FILE;
 	MSG_ERROR_OPEN_PASSWORD_FILE;
 	MSG_ERROR_MISMATCH_PASSWORD_FILE;
+	MSG_ERROR_NOT_EXISTS_COMPAER_FIlE;
 
 	LABEL_STATUS_TITLE_ENCRYPTING;
 	LABEL_STATUS_TITLE_DECRYPTING;

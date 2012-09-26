@@ -1,11 +1,11 @@
 object Form1: TForm1
-  Left = 341
-  Top = 212
+  Left = 392
+  Top = 161
   Caption = 'AttacheCase'
   ClientHeight = 489
   ClientWidth = 562
   Color = clWindow
-  Constraints.MinHeight = 380
+  Constraints.MinHeight = 400
   Constraints.MinWidth = 480
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -5477,7 +5477,6 @@ object Form1: TForm1
     Width = 562
     Height = 19
     Panels = <>
-    ExplicitTop = 410
   end
   object PageControl1: TPageControl
     AlignWithMargins = True
@@ -5489,7 +5488,7 @@ object Form1: TForm1
     Margins.Top = 4
     Margins.Right = 4
     Margins.Bottom = 4
-    ActivePage = TabSheetMain
+    ActivePage = TabSheetExecute
     DoubleBuffered = False
     ParentDoubleBuffered = False
     TabOrder = 1
@@ -5502,7 +5501,6 @@ object Form1: TForm1
       Caption = 'Main'
       DoubleBuffered = False
       ParentDoubleBuffered = False
-      ExplicitLeft = 0
       DesignSize = (
         437
         272)
@@ -6072,142 +6070,6 @@ object Form1: TForm1
         Transparent = True
         Visible = False
       end
-      object PanelEncrypt: TPanel
-        Left = 11
-        Top = 81
-        Width = 347
-        Height = 77
-        BevelOuter = bvNone
-        Color = clInfoBk
-        ParentBackground = False
-        TabOrder = 0
-        Visible = False
-        object cmdOpenFilesForEncryption: TBitBtn
-          Left = 13
-          Top = 10
-          Width = 320
-          Height = 25
-          Caption = 'cmdOpenFilesForEncryption'
-          DoubleBuffered = True
-          Glyph.Data = {
-            36030000424D3603000000000000360000002800000010000000100000000100
-            18000000000000030000120B0000120B00000000000000000000FF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
-            FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF80808080
-            8080FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-            FF00FFFF00FFFF00FF808080000000000000808080FF00FFFF00FFFF00FFFF00
-            FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF808080000000E6E6E6E6
-            E6E6000000808080FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-            FF00FF808080000000F2F2F2F2F2F2F2F2F2E6E6E6000000808080FF00FFFF00
-            FFFF00FFFF00FFFF00FFFF00FFFF00FF808080000000F2F2F2F2F2F2C0C0C0C0
-            C0C0F2F2F2E6E6E6000000808080FF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-            000000FFFFFFFFFFFFC0C0C0C0C0C0C0C0C0C0C0C0F2F2F2E6E6E60000008080
-            80FF00FFFF00FFFF00FFFF00FF000000FFFFFFFFFFFFC0C0C0C0C0C0C0C0C0C0
-            C0C0C0C0C0C0C0C0F2F2F2E6E6E6000000808080FF00FFFF00FFFF00FFFF00FF
-            000000FFFFFFFFFFFFC0C0C0C0C0C0C0C0C0C0C0C0F2F2F2F2F2F2F2F2F2E6E6
-            E6000000FF00FFFF00FFFF00FFFF00FFFF00FF000000FFFFFFFFFFFFC0C0C0C0
-            C0C0FFFFFFF2F2F2C0C0C0C0C0C0F2F2F2E6E6E6000000FF00FFFF00FFFF00FF
-            FF00FFFF00FF000000FFFFFFFFFFFFFFFFFFFFFFFFC0C0C0C0C0C0F2F2F2E6E6
-            E6000000FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF000000FFFFFFFF
-            FFFFC0C0C0C0C0C0F2F2F2E6E6E6000000FF00FFFF00FFFF00FFFF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FF000000FFFFFFFFFFFFFFFFFFE6E6E6000000FF00
-            FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF00
-            0000FFFFFFE6E6E6000000FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FFFF00FFFF00FF000000000000FF00FFFF00FFFF00
-            FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
-            00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF}
-          ParentDoubleBuffered = False
-          TabOrder = 0
-          OnClick = mnuEncryptFilesClick
-        end
-        object cmdOpenDirForEncryption: TBitBtn
-          Left = 13
-          Top = 41
-          Width = 320
-          Height = 25
-          Caption = 'cmdOpenDirForEncryption'
-          DoubleBuffered = True
-          Glyph.Data = {
-            36030000424D3603000000000000360000002800000010000000100000000100
-            18000000000000030000120B0000120B00000000000000000000FF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
-            FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF32
-            3232323232323232FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FF3232325C5C5C5C5C5C5C5C5C323232FF00FFFF00
-            FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF3232325C5C5C6E
-            6E6E6E6E6E6E6E6E5C5C5C323232FF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-            FF00FFFF00FF3232325C5C5C6E6E6E7777777777777777776E6E6E5C5C5C3232
-            32FF00FFFF00FFFF00FFFF00FFFF00FFFF00FF3232325C5C5C7777777F7F7F7F
-            7F7F7F7F7F7F7F7F7F7F7F7777775C5C5C323232FF00FFFF00FFFF00FFFF00FF
-            3232325C5C5C7F7F7F8888888888888888888888888888888888888888887F7F
-            7F5C5C5C323232FF00FFFF00FF3232325C5C5C88888891919191919191919191
-            91919191919191919191919191919191918888885C5C5C3232323232325C5C5C
-            9191919A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A9A
-            9ABDBDBD5C5C5C323232323232BDBDBDA3A3A3A3A3A3A3A3A3A3A3A3A3A3A3A3
-            A3A3A3A3A3A3A3A3A3A3A3A3A3A3BDBDBD5C5C5CC6C6C6323232323232BDBDBD
-            ABABABABABABABABABABABABABABABABABABABABABABABABABABABBDBDBD5C5C
-            5CC6C6C6C6C6C6323232FF00FF323232BDBDBDB4B4B4B4B4B4B4B4B4B4B4B4B4
-            B4B4B4B4B4B4B4B4BDBDBD5C5C5CC6C6C6C6C6C6323232FF00FFFF00FFFF00FF
-            323232BDBDBDB4B4B4B4B4B4B4B4B4B4B4B4B4B4B4C6C6C65C5C5CC6C6C6C6C6
-            C6323232FF00FFFF00FFFF00FFFF00FFFF00FF323232C6C6C6BDBDBDBDBDBDBD
-            BDBDC6C6C65C5C5C323232323232323232FF00FFFF00FFFF00FFFF00FFFF00FF
-            FF00FFFF00FF323232C6C6C6C6C6C6C6C6C6323232FF00FFFF00FFFF00FFFF00
-            FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF32323232323232
-            3232FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF}
-          ParentDoubleBuffered = False
-          TabOrder = 1
-          OnClick = mnuEncryptDirClick
-        end
-      end
-      object PanelDecrypt: TPanel
-        Left = 11
-        Top = 172
-        Width = 347
-        Height = 77
-        BevelOuter = bvNone
-        Color = clInfoBk
-        ParentBackground = False
-        TabOrder = 1
-        Visible = False
-        object cmdOpenEncryptFiles: TBitBtn
-          Left = 13
-          Top = 10
-          Width = 320
-          Height = 25
-          Caption = 'cmdOpenEncryptFiles'
-          DoubleBuffered = True
-          Glyph.Data = {
-            36030000424D3603000000000000360000002800000010000000100000000100
-            18000000000000030000120B0000120B00000000000000000000FF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00
-            FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF80808080
-            8080FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-            FF00FFFF00FFFF00FF808080000000000000808080FF00FFFF00FFFF00FFFF00
-            FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF808080000000E6E6E6E6
-            E6E6000000808080FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-            FF00FF808080000000F2F2F2F2F2F2F2F2F2E6E6E6000000808080FF00FFFF00
-            FFFF00FFFF00FFFF00FFFF00FFFF00FF808080000000F2F2F2F2F2F2C0C0C0C0
-            C0C0F2F2F2E6E6E6000000808080FF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-            000000FFFFFFFFFFFFC0C0C0C0C0C0C0C0C0C0C0C0F2F2F2E6E6E60000008080
-            80FF00FFFF00FFFF00FFFF00FF000000FFFFFFFFFFFFC0C0C0C0C0C0C0C0C0C0
-            C0C0C0C0C0C0C0C0F2F2F2E6E6E6000000808080FF00FFFF00FFFF00FFFF00FF
-            000000FFFFFFFFFFFFC0C0C0C0C0C0C0C0C0C0C0C0F2F2F2F2F2F2F2F2F2E6E6
-            E6000000FF00FFFF00FFFF00FFFF00FFFF00FF000000FFFFFFFFFFFFC0C0C0C0
-            C0C0FFFFFFF2F2F2C0C0C0C0C0C0F2F2F2E6E6E6000000FF00FFFF00FFFF00FF
-            FF00FFFF00FF000000FFFFFFFFFFFFFFFFFFFFFFFFC0C0C0C0C0C0F2F2F2E6E6
-            E6000000FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF000000FFFFFFFF
-            FFFFC0C0C0C0C0C0F2F2F2E6E6E6000000FF00FFFF00FFFF00FFFF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FF000000FFFFFFFFFFFFFFFFFFE6E6E6000000FF00
-            FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF00
-            0000FFFFFFE6E6E6000000FF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF
-            FF00FFFF00FFFF00FFFF00FFFF00FFFF00FF000000000000FF00FFFF00FFFF00
-            FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF
-            00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FFFF00FF}
-          ParentDoubleBuffered = False
-          TabOrder = 0
-          OnClick = mnuDecryptClick
-        end
-      end
     end
     object TabSheetInputEncPass: TTabSheet
       Margins.Left = 0
@@ -6216,7 +6078,6 @@ object Form1: TForm1
       Margins.Bottom = 0
       Caption = 'InputEncPass'
       ImageIndex = 1
-      ExplicitHeight = 176
       DesignSize = (
         437
         272)
@@ -6549,7 +6410,7 @@ object Form1: TForm1
       end
       object cmdEncryptPasswordOK: TButton
         Left = 29
-        Top = 107
+        Top = 159
         Width = 75
         Height = 25
         Caption = '&OK'
@@ -6558,7 +6419,7 @@ object Form1: TForm1
       end
       object cmdEncryptPasswordCancel: TButton
         Left = 110
-        Top = 107
+        Top = 159
         Width = 75
         Height = 25
         Cancel = True
@@ -6568,12 +6429,21 @@ object Form1: TForm1
       end
       object chkExeFileOut: TCheckBox
         Left = 29
-        Top = 68
+        Top = 60
         Width = 348
         Height = 17
         Caption = 'chkExeFileOut'
         TabOrder = 3
         OnClick = chkExeFileOutClick
+      end
+      object chkDeleteSourceData: TCheckBox
+        Left = 29
+        Top = 84
+        Width = 376
+        Height = 17
+        Caption = 'chkDeleteSourceData'
+        TabOrder = 4
+        OnClick = chkDeleteSourceDataClick
       end
     end
     object TabSheetInputEncPassConfirm: TTabSheet
@@ -6583,7 +6453,6 @@ object Form1: TForm1
       Margins.Bottom = 0
       Caption = 'InputEncPassConfirm'
       ImageIndex = 2
-      ExplicitHeight = 176
       DesignSize = (
         437
         272)
@@ -6621,7 +6490,7 @@ object Form1: TForm1
       end
       object cmdConfirmOK: TButton
         Left = 32
-        Top = 120
+        Top = 164
         Width = 75
         Height = 25
         Caption = '&OK'
@@ -6630,7 +6499,7 @@ object Form1: TForm1
       end
       object cmdConfirmCancel: TButton
         Left = 113
-        Top = 120
+        Top = 164
         Width = 75
         Height = 25
         Cancel = True
@@ -6640,11 +6509,21 @@ object Form1: TForm1
       end
       object chkExeFileOutConf: TCheckBox
         Left = 32
-        Top = 79
+        Top = 97
         Width = 348
         Height = 17
         Caption = 'chkExeFileOutConf'
         TabOrder = 3
+        OnClick = chkExeFileOutConfClick
+      end
+      object chkDeleteSourceDataConf: TCheckBox
+        Left = 32
+        Top = 128
+        Width = 376
+        Height = 17
+        Caption = 'chkDeleteSourceDataConf'
+        TabOrder = 4
+        OnClick = chkDeleteSourceDataConfClick
       end
     end
     object TabSheetInputDecPass: TTabSheet
@@ -6654,7 +6533,6 @@ object Form1: TForm1
       Margins.Bottom = 0
       Caption = 'InputDecPass'
       ImageIndex = 3
-      ExplicitHeight = 176
       DesignSize = (
         437
         272)
@@ -6691,7 +6569,7 @@ object Form1: TForm1
       end
       object cmdDecryptPasswordOK: TButton
         Left = 37
-        Top = 83
+        Top = 143
         Width = 75
         Height = 25
         Caption = '&OK'
@@ -6700,13 +6578,22 @@ object Form1: TForm1
       end
       object cmdDecryptPasswordCancel: TButton
         Left = 118
-        Top = 83
+        Top = 143
         Width = 75
         Height = 25
         Cancel = True
         Caption = '&Cancel'
         TabOrder = 2
         OnClick = cmdEncryptPasswordCancelClick
+      end
+      object chkDeleteAtcData: TCheckBox
+        Left = 37
+        Top = 101
+        Width = 367
+        Height = 17
+        Caption = 'chkDeleteAtcData'
+        TabOrder = 3
+        Visible = False
       end
     end
     object TabSheetExecute: TTabSheet
@@ -6716,7 +6603,6 @@ object Form1: TForm1
       Margins.Bottom = 0
       Caption = 'Execute'
       ImageIndex = 4
-      ExplicitHeight = 176
       DesignSize = (
         437
         272)
@@ -6751,6 +6637,7 @@ object Form1: TForm1
         Cursor = crHandPoint
         Anchors = [akTop, akRight]
         AutoSize = True
+        OnClick = cmdCancelClick
         OnMouseEnter = imgBackMouseEnter
         OnMouseLeave = imgBackMouseLeave
         ExplicitLeft = 405
@@ -6765,7 +6652,7 @@ object Form1: TForm1
         TabOrder = 0
       end
       object cmdCancel: TButton
-        Left = 33
+        Left = 32
         Top = 104
         Width = 75
         Height = 25

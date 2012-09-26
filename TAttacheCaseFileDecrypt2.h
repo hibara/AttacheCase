@@ -115,7 +115,7 @@ public:
 
 	int ProgressPercentNum;            //進捗パーセント
 	String ProgressStatusText;         //進捗ステータス
-	String ProgressMsgText;            //進捗ステータス内容
+	String ProgressMsgText;            //進捗メッセージ
 
 	bool fCompare;                     //コンペア
 	TStringList *CompareFileList;      //コンペアする元ファイルリスト

@@ -57,7 +57,8 @@ for (int i = 0; i < 32; i++) {
 fCompare = false;        // コンペア
 
 ProgressPercentNum = -1; // 進捗パーセント
-ProgressStatusText = ""; // 進捗ステータス内容
+ProgressStatusText = ""; // 進捗ステータス
+ProgressMsgText = "";    // 進捗メッセージ
 
 AtcFilePath = "";        // 入力する暗号化ファイル
 OutDirPath = "";         // 出力するディレクトリ
@@ -69,6 +70,7 @@ StatusNum = -1;          // 処理結果ステータス
 												 //   0: ユーザーキャンセル
 												 //  -1: パスワード入力エラー
 												 //  -2: 復号エラー
+
 
 }
 //===========================================================================
@@ -486,6 +488,10 @@ if ( fTempOpenFile == true && FileList->Count > 4 && fCompare == false) {
 // 復号開始
 //-----------------------------------
 
+//'復号しています...'
+ProgressStatusText = LoadResourceString(&Msgdecrypt::_LABEL_STATUS_TITLE_DECRYPTING);
+ProgressMsgText = ExtractFileName(AtcFilePath);
+
 // ファイルサイズを取得する
 AllTotalSize = fsIn->Size - fsIn->Position;
 // 初期化ベクトルの読み出し
@@ -638,9 +644,6 @@ while (Terminated == false) {
 	//-----------------------------------
 	//進捗状況表示
 	ProgressPercentNum = ((float)TotalSize/AllTotalSize)*100;
-	//'復号しています...'
-	ProgressStatusText = LoadResourceString(&Msgdecrypt::_LABEL_STATUS_TITLE_DECRYPTING);
-	ProgressMsgText = ExtractFileName(AtcFilePath);
 
 	if ( z.avail_in == 0 && z.avail_out == 0 ) {
   	break;

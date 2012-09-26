@@ -146,7 +146,6 @@ try{
 
 		}
 
-
 	}
 	else{
 
@@ -157,6 +156,12 @@ try{
 
 	//-----------------------------------
 	//関連付けアイコンの設定
+
+	//一度ルートキーに戻してから
+	pReg = new TRegistry();
+	pReg->RootKey = HKEY_CLASSES_ROOT;
+	pReg->Access = KEY_ALL_ACCESS;
+
 	if ( FileExists(UserRegIconFilePath)){  //ユーザー指定
 		RegIconData = "\""+UserRegIconFilePath+"\"";
 	}

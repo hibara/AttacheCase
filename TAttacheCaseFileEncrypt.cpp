@@ -64,7 +64,8 @@ __fastcall TAttacheCaseFileEncrypt::TAttacheCaseFileEncrypt
 	fOverwirteYesToAll = false;              //同名ファイルはすべて上書きして暗号化する（ダイアログで「すべてはい」を選択 = true）
 
 	ProgressPercentNum = -1;                 //進捗パーセント
-	ProgressStatusText = "";                 //進捗ステータス内容
+	ProgressStatusText = "";                 //進捗ステータス
+	ProgressMsgText = "";                    //進捗メッセージ
 
 	AppExeFilePath = "";                     //アタッシェケース本体の場所
 
@@ -76,6 +77,7 @@ __fastcall TAttacheCaseFileEncrypt::TAttacheCaseFileEncrypt
 	}
 
 	StatusNum = 0;                           //ステータス表示内容番号
+	MsgErrorString = "";                     //エラーメッセージ
 
 
 }
@@ -246,6 +248,9 @@ if ( fExeOutputOption == true && fOver4gbOk == false && AllTotalSize > SIZE_4GB 
 //-----------------------------------
 // 暗号化ファイルの生成開始
 //-----------------------------------
+
+//'暗号化しています...'
+ProgressStatusText = LoadResourceString(&Msgencrypt::_LABEL_STATUS_TITLE_ENCRYPTING);
 
 try{
 	fsOut = new TFileStream(OutFilePath, fmCreate);
@@ -524,9 +529,13 @@ while(!Terminated) {
 	//-----------------------------------
 	//進捗状況表示
 	ProgressPercentNum = ((float)TotalSize/AllTotalSize)*100;
-	//'暗号化しています...'
-	ProgressStatusText = LoadResourceString(&Msgencrypt::_LABEL_STATUS_TITLE_ENCRYPTING);
-	ProgressMsgText = ExtractFileName(FilePath);
+
+	if ( fOpenIn == true ){
+		ProgressMsgText = ExtractFileName(fsIn->FileName);
+	}
+	else{
+		ProgressMsgText = ExtractFileName(OutFilePath);
+	}
 
 
 }//while(!Terminated);
@@ -589,7 +598,7 @@ if ( fExeOutputOption == true ){
 ProgressPercentNum = 100;
 //'完了'
 ProgressStatusText = LoadResourceString(&Msgencrypt::_LABEL_STATUS_TITLE_COMPLETE);
-ProgressMsgText = ExtractFileName(FilePath);
+ProgressMsgText = ExtractFileName(OutFilePath);
 
 if (fOpenIn == true) {
 	delete fsIn;
@@ -771,7 +780,7 @@ ProgressPercentNum = -1;
 //'ファイルリストの生成'
 ProgressStatusText = LoadResourceString(&Msgencrypt::_LABEL_STATUS_TITLE_LISTING);
 //'暗号化するための準備をしています...'
-ProgressMsgText = LoadResourceString(&Msgencrypt::_LABEL_STATUS_DETAIL_PREPARING);
+ProgressStatusText = LoadResourceString(&Msgencrypt::_LABEL_STATUS_DETAIL_PREPARING);
 
 //ヘッダデータリスト（文字列）
 HeaderDataList = new TStringList;

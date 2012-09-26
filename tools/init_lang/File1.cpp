@@ -98,7 +98,7 @@ FileList->LoadFromFile(FilePath);
 
 TStringList *OutFileList = new TStringList;
 
-//列挙する定数リストｗ挿入する
+//列挙する定数リストを挿入する
 TStringList *InitList = new TStringList;
 InitList->Add("\n\t//Delphiコンパイラによる最適化を防ぐ");
 

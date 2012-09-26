@@ -21,6 +21,10 @@ int i;
 
 //サイドメニューグラフィック
 bmpSideMenu = new Graphics::TBitmap;
+bmpSideMenu->Canvas->Brush->Style = bsClear;
+
+//アプリケーションタイトル
+this->Caption = Application->Title;
 
 //ページコントロールのタブを非表示に
 PageControl1->Align = alClient;
@@ -38,10 +42,9 @@ PaintBoxDecrypt->Align = alClient;
 //動作設定インスタンスの作成
 opthdl = new TAttacheCaseOptionHandle();
 
-//各コンポーネントの配置
-SetFormComponent(NULL);
-
+//動作設定のINIファイルパス
 String IniFilePath = "";
+//処理するファイルリスト
 FileList = new TStringList;
 
 lblMain->Caption = LoadResourceString(&Msgunit1::_DRAG_AND_DROP_HERE);
@@ -50,18 +53,17 @@ chkExeFileOut->Caption = LoadResourceString(&Msgunit1::_CHECK_BOX_EXEFILE_OUT);
 txtPasswordConfirm->EditLabel->Caption = LoadResourceString(&Msgunit1::_CONFIRM_PASSWORD);
 chkExeFileOutConf->Caption = LoadResourceString(&Msgunit1::_CHECK_BOX_EXEFILE_OUT);
 txtDecryptPassword->EditLabel->Caption = LoadResourceString(&Msgunit1::_INPUT_DECRYPT_PASSWORD);
+chkDeleteSourceData->Caption = LoadResourceString(&Msgunit1::_CHECK_BOX_DELETE_SOURCE_DATA);
+chkDeleteSourceDataConf->Caption = chkDeleteSourceData->Caption;
+chkDeleteAtcData->Caption = LoadResourceString(&Msgunit1::_CHECK_BOX_DELETE_ATC_DATA);
 
-//-----------------------------------
-//メインフォームボタン
-//-----------------------------------
-
-//暗号化ボタン
-PanelEncrypt->ParentColor = true;
-cmdOpenFilesForEncryption->Caption = LoadResourceString(&Msgunit1::_BUTTON_OPEN_FILES_FOR_ENCRYPTION_CAPTION);
-cmdOpenDirForEncryption->Caption = LoadResourceString(&Msgunit1::_BUTTON_OPEN_DIR_FOR_ENCRYPTION_CAPTION);
-//復号ボタン
-PanelDecrypt->ParentColor = true;
-cmdOpenEncryptFiles->Caption = LoadResourceString(&Msgunit1::_BUTTON_OPEN_FILES_FOR_DECRYPTION_CAPTION);
+//サイドバーメニューキャプション
+SideBarCaption[1] = LoadResourceString(&Msgunit1::_SIDEBAR_CAPTION_ENCRYPT);
+SideBarCaption[2] = LoadResourceString(&Msgunit1::_SIDEBAR_CAPTION_DECRYPT);
+SideBarCaption[4] = LoadResourceString(&Msgunit1::_SIDEBAR_CAPTION_OPTION);
+SideBarCaptionPosX[1] = PaintBoxMenu->Width/2 - PaintBoxMenu->Canvas->TextWidth(SideBarCaption[1])/2;
+SideBarCaptionPosX[2] = PaintBoxMenu->Width/2 - PaintBoxMenu->Canvas->TextWidth(SideBarCaption[2])/2;
+SideBarCaptionPosX[4] = PaintBoxMenu->Width/2 - PaintBoxMenu->Canvas->TextWidth(SideBarCaption[4])/2;
 
 //-----------------------------------
 //ダイアログ周り
@@ -135,6 +137,11 @@ else{
 }
 
 //-----------------------------------
+//各コンポーネントの配置
+//-----------------------------------
+SetFormComponent(NULL);
+
+//-----------------------------------
 //ウィンドウポジション
 //-----------------------------------
 this->Width = opthdl->FormWidth;
@@ -150,7 +157,6 @@ else if ( opthdl->WinStyle == 2 ) {	//最大化
 else{
 	this->WindowState = wsNormal;
 }
-
 
 //-----------------------------------
 //サイドメニューを描画する
@@ -260,10 +266,10 @@ const int posX = 18;
 
 //「オプション」
 ptSideMenu[4].x = posX;
-ptSideMenu[4].y = PaintBoxMenu->Height - 72;
+ptSideMenu[4].y = PaintBoxMenu->Height - 84;
 // 分割線
 ptSideMenu[3].x = posX;
-ptSideMenu[3].y = ptSideMenu[4].y - 48;
+ptSideMenu[3].y = ptSideMenu[4].y - 40;
 
 // 中央配置
 ptSideMenu[0].x = posX;
@@ -275,7 +281,7 @@ ptSideMenu[1].y = 16;
 
 //「復号する」
 ptSideMenu[2].x = posX;
-ptSideMenu[2].y = ptSideMenu[1].y + 80;
+ptSideMenu[2].y = ptSideMenu[1].y + 100;
 
 //サイドメニューを再描画する
 PaintSideMenu();
@@ -303,10 +309,6 @@ else{
 lblMain->Left = TabSheetMain->Width/2 - lblMain->Width/2;
 lblMain->Top = TabSheetMain->Height/2 - lblMain->Height/2;
 
-PanelEncrypt->Top = lblMain->Top + lblMain->Height + 16;
-PanelEncrypt->Left = TabSheetMain->Width/2 - PanelEncrypt->Width/2;
-PanelDecrypt->BoundsRect = PanelEncrypt->BoundsRect;
-
 
 //-----------------------------------
 //暗号化パスワード入力パネル
@@ -327,14 +329,34 @@ chkExeFileOut->Top = txtEncryptPassword->BoundsRect.Bottom + 8;
 chkExeFileOut->Left = txtEncryptPassword->Left;
 chkExeFileOut->Width = txtEncryptPassword->Width;
 if ( Sender == NULL) {
-	//リサイズイベントでは変更しない
-	chkExeFileOut->Checked = opthdl->fSaveToExeout;       //常に自己実行形式で出力する
+	//リサイズイベントからは変更しない
+	chkExeFileOut->Checked = opthdl->fSaveToExeout;     //常に自己実行形式で出力する
 }
 chkExeFileOut->Visible = opthdl->fShowExeoutChkBox;   //メインフォームにチェックボックスを表示する
 
-cmdEncryptPasswordCancel->Top = chkExeFileOut->BoundsRect.Bottom + 8;
-cmdEncryptPasswordCancel->Left = chkExeFileOut->BoundsRect.Right - cmdEncryptPasswordCancel->Width;
+//「元ファイルを削除する」チェックボックスの表示
+if ( opthdl->fShowDeleteChkBox == true ) {
+	chkDeleteSourceData->Left = chkExeFileOut->Left;
+	if ( chkExeFileOut->Visible == true ) {
+		chkDeleteSourceData->Top = chkExeFileOut->BoundsRect.Bottom + 8;
+	}
+	else{
+		chkDeleteSourceData->Top = chkExeFileOut->Top;
+	}
+	chkDeleteSourceData->Visible = true;
+}
+else{
+	chkDeleteSourceData->Visible = false;
+}
 
+if ( Sender == NULL) {
+	chkDeleteSourceData->Checked = opthdl->fDelOrgFile;
+}
+
+//各ボタン
+cmdEncryptPasswordCancel->Top =
+	(chkDeleteSourceData->Visible ? chkDeleteSourceData->BoundsRect.Bottom : chkExeFileOut->BoundsRect.Bottom )+ 8;
+cmdEncryptPasswordCancel->Left = chkExeFileOut->BoundsRect.Right - cmdEncryptPasswordCancel->Width;
 cmdEncryptPasswordOK->Top = cmdEncryptPasswordCancel->Top;
 cmdEncryptPasswordOK->Left = cmdEncryptPasswordCancel->Left - cmdEncryptPasswordOK->Width - 8;
 
@@ -359,12 +381,29 @@ else{
 chkExeFileOutConf->Top = txtPasswordConfirm->BoundsRect.Bottom + 8;
 chkExeFileOutConf->Left = txtPasswordConfirm->Left;
 chkExeFileOutConf->Width = txtPasswordConfirm->Width;
-//chkExeFileOut->Checked = true;	//chkExeFileOutのクリックイベントで制御する
+//chkExeFileOut->Checked = true;                	//クリックイベントで制御する
+
+//「元ファイルを削除する」チェックボックス
 chkExeFileOutConf->Visible = opthdl->fShowExeoutChkBox;   //メインフォームにチェックボックスを表示する
+if ( chkDeleteSourceData->Visible == true ) {
+	chkDeleteSourceDataConf->Left = chkExeFileOutConf->Left;
+	if ( chkExeFileOutConf->Visible == true ) {
+		chkDeleteSourceDataConf->Top = chkExeFileOutConf->BoundsRect.Bottom + 8;
+	}
+	else{
+		chkDeleteSourceDataConf->Top = chkExeFileOut->Top;
+	}
+	chkDeleteSourceDataConf->Visible = true;
+}
+else{
+	chkDeleteSourceDataConf->Visible = false;
+}
+//chkDeleteSourceDataConf->Checked = fDelOrgFile;  //クリックイベントで制御する
 
-cmdConfirmCancel->Top = chkExeFileOutConf->BoundsRect.Bottom + 8;
+//各ボタン
+cmdConfirmCancel->Top =
+	(chkDeleteSourceDataConf->Visible ? chkDeleteSourceDataConf->BoundsRect.Bottom : chkExeFileOutConf->BoundsRect.Bottom )+ 8;
 cmdConfirmCancel->Left = chkExeFileOutConf->BoundsRect.Right - cmdConfirmCancel->Width;
-
 cmdConfirmOK->Top = cmdConfirmCancel->Top;
 cmdConfirmOK->Left = cmdConfirmCancel->Left - cmdConfirmOK->Width - 8;
 
@@ -387,10 +426,19 @@ else{
 	txtDecryptPassword->PasswordChar = '*';
 }
 
-cmdDecryptPasswordCancel->Top = txtDecryptPassword->BoundsRect.Bottom + 8;
+//「暗号化ファイルを削除する」チェックボックス
+chkDeleteAtcData->Top = txtDecryptPassword->BoundsRect.Bottom + 8;
+chkDeleteAtcData->Left = txtDecryptPassword->Left;
+chkDeleteAtcData->Width = txtDecryptPassword->Width;
+chkDeleteAtcData->Visible = opthdl->fShowDeleteChkBox;
+if ( Sender == NULL) {
+	chkDeleteAtcData->Checked = opthdl->fDelEncFile;
+}
+
+//各ボタン
+cmdDecryptPasswordCancel->Top = chkDeleteAtcData->BoundsRect.Bottom + 8;
 cmdDecryptPasswordCancel->Left =
 	txtDecryptPassword->BoundsRect.Right - cmdDecryptPasswordCancel->Width;
-
 cmdDecryptPasswordOK->Top = cmdDecryptPasswordCancel->Top;
 cmdDecryptPasswordOK->Left = cmdDecryptPasswordCancel->Left - cmdDecryptPasswordOK->Width - 8;
 
@@ -685,6 +733,7 @@ if ( PageControl1->ActivePage == TabSheetMain ) {
 	//暗号化/復号処理を自動判定し実行する
 	//-----------------------------------
 	if (FileList->Count > 0) {
+		Form1->Caption = Application->Title + " - " + ExtractFileName(FileList->Strings[0]);
 		DoExecute(FileList);
 	}
 
@@ -884,8 +933,7 @@ String FilePath;
 //  1:暗号化(TYPE_CRYPT_ENCRYPT),
 //  2:復号(TYPE_CRYPT_DECRYPT)
 // -1:エラー（TYPE_CRYPT_ERROR）
-
-int CryptTypeNum = 0;
+// int CryptTypeNum = 0;
 
 int res;
 TForm* dlgconf;
@@ -1158,7 +1206,10 @@ PageControlActiveSheet(TabSheetExecute);
 //完全削除インスタンスの作成
 cmpdel = new TAttacheCaseDelete(true);
 cmpdel->FileList = FileList;
-cmpdel->Opt = opthdl->fCompleteDelete;	// 0:通常削除, 1:完全削除, 2:ゴミ箱
+cmpdel->Opt = opthdl->fCompleteDelete;     // 0:通常削除, 1:完全削除, 2:ゴミ箱
+cmpdel->RandClearNum = opthdl->DelRandNum; //完全削除（乱数書き込み回数）
+cmpdel->ZeroClearNum = opthdl->DelZeroNum; //完全削除（NULL書き込み回数）
+
 cmpdel->OnTerminate = DeleteThreadTerminated;
 cmpdel->FreeOnTerminate = true;
 
@@ -1224,7 +1275,7 @@ if ( encrypt->StatusNum > 0 ) {
 	encrypt = NULL;
 
 	//元ファイルの削除処理
-	if ( opthdl->fDelOrgFile == true ) {
+	if ( chkDeleteSourceDataConf->Checked == true ) {
 		DoDeleteFile(FileList);
 		return;
 	}
@@ -1289,7 +1340,7 @@ if ( decrypt->StatusNum > 0 ) {
 	}
 
 	//暗号化ファイルの削除処理
-	if ( opthdl->fDelEncFile == true ) {
+	if ( chkDeleteAtcData->Checked == true ) {
 		DoDeleteFile(FileList);
 		return;
 	}
@@ -1373,8 +1424,24 @@ if(ptl){
 
 TimerDelete->Enabled = false;
 
-//デバッグメッセージ
-//ShowMessage("完全削除処理スレッドが終了しました。");
+//-----------------------------------
+//完全削除に成功
+if ( cmpdel->StatusNum > 0 ) {
+
+	FileListPosition++;
+
+	//まだ処理するファイルが残っている
+	if (FileListPosition < FileList->Count) {
+		//完全削除処理へ再び
+		DoDeleteFile(FileList);
+		return;
+	}
+}
+//完全削除に失敗
+else{
+
+}
+
 cmpdel = NULL;
 
 FileList->Clear();
@@ -1383,6 +1450,9 @@ FileList->Clear();
 if ( opthdl->fEndToExit == true ) {
 	Application->Terminate();
 }
+
+// "Cancel" → "OK"
+cmdCancel->Caption = "&OK";
 
 
 }
@@ -2287,13 +2357,29 @@ if (Key == VK_RETURN) {
 void __fastcall TForm1::cmdCancelClick(TObject *Sender)
 {
 
-//暗号化（復号）処理のキャンセル
+int ret;
+TForm *dlgconf;
 
-if (encrypt != NULL) {
+if (encrypt != NULL) {        //暗号化キャンセル
 	encrypt->Terminate();
 }
-else if (decrypt != NULL) {
+else if (decrypt != NULL) {   //復号キャンセル
 	decrypt->Terminate();
+}
+else if (cmpdel != NULL) {    //完全削除キャンセル
+
+	//'中止すると完全に削除されない可能性があります。'+#13+
+	//'それでも中止しますか？';
+	String MsgText = LoadResourceString(&Msgunit1::_MSG_CONFIRM_COMPLETE_DELETE_STOP);
+	dlgconf = CreateMessageDialog(MsgText, mtConfirmation, TMsgDlgButtons()<<mbYes<<mbNo, mbNo);
+	dlgconf->Caption = LoadResourceString(&Msgunit1::_MSG_CAPTION_CONFIRMATION);	//'確認'
+	ret = dlgconf->ShowModal();
+	delete dlgconf;
+
+	if (ret == mrYes) {
+		cmpdel->Terminate();  //完全削除処理中止
+	}
+
 }
 else{
 	//メインパネルへ戻る
@@ -2307,6 +2393,28 @@ void __fastcall TForm1::chkExeFileOutClick(TObject *Sender)
 
 //「暗号化パスワードの入力再確認」パネルのチェックボックスも変更する
 chkExeFileOutConf->Checked = chkExeFileOut->Checked;
+
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::chkExeFileOutConfClick(TObject *Sender)
+{
+
+//「暗号化パスワード入力」パネルのチェックボックスも変更する（上のイベントと反対）
+chkExeFileOut->Checked = chkExeFileOutConf->Checked;
+
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::chkDeleteSourceDataClick(TObject *Sender)
+{
+
+chkDeleteSourceDataConf->Checked = chkDeleteSourceData->Checked;
+
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::chkDeleteSourceDataConfClick(TObject *Sender)
+{
+
+chkDeleteSourceData->Checked = chkDeleteSourceDataConf->Checked;
 
 }
 //---------------------------------------------------------------------------
@@ -2392,7 +2500,6 @@ void __fastcall TForm1::imgBackMouseEnter(TObject *Sender)
 
 TImage *img = dynamic_cast<TImage *>(Sender);
 img->Picture = imgBackActive->Picture;
-
 
 }
 //---------------------------------------------------------------------------
@@ -2615,7 +2722,9 @@ if (PageControl1->ActivePage == TabSheetMain) {
 	//実行中パネルのボタンを「キャンセル」に戻す
 	cmdCancel->Caption = "&Cancel";
 
-  optSelectedMenu = 0;
+  this->Caption = Application->Title;
+
+	CryptTypeNum = 0;
 
 }
 
@@ -2684,20 +2793,42 @@ for (int PosY = 0; PosY < bmpSideMenu->Height; PosY+=imgMenuBackground->Height) 
 if ( PageControl1->ActivePage == TabSheetMain){
 
 	//暗号化
-	bmpSideMenu->Canvas->Draw(
-		ptSideMenu[1].x, ptSideMenu[1].y,
-		fEncryptMenu == true ? imgMenuEncryptOn->Picture->Icon : imgMenuEncryptOff->Picture->Icon);
-  //復号する
-	bmpSideMenu->Canvas->Draw(
-		ptSideMenu[2].x, ptSideMenu[2].y,
-		fDecryptMenu == true ? imgMenuDecryptOn->Picture->Icon : imgMenuDecryptOff->Picture->Icon);
+	if ( fEncryptMenu == true ) {
+		bmpSideMenu->Canvas->Draw(ptSideMenu[1].x, ptSideMenu[1].y, imgMenuEncryptOn->Picture->Icon);
+		bmpSideMenu->Canvas->Font->Color = clWhite;	//キャプション
+	}
+	else{
+		bmpSideMenu->Canvas->Draw(ptSideMenu[1].x, ptSideMenu[1].y, imgMenuEncryptOff->Picture->Icon);
+		bmpSideMenu->Canvas->Font->Color = TColor(RGB(160,160,160)); //ラベル文字列を暗い色に
+	}
+	bmpSideMenu->Canvas->TextOut(SideBarCaptionPosX[1], ptSideMenu[1].y+64, SideBarCaption[1]);
+
+	//復号する
+	if ( fDecryptMenu == true ) {
+		bmpSideMenu->Canvas->Draw(ptSideMenu[2].x, ptSideMenu[2].y, imgMenuDecryptOn->Picture->Icon);
+		bmpSideMenu->Canvas->Font->Color = clWhite;
+	}
+	else{
+		bmpSideMenu->Canvas->Draw(ptSideMenu[2].x, ptSideMenu[2].y, imgMenuDecryptOff->Picture->Icon);
+		bmpSideMenu->Canvas->Font->Color = TColor(RGB(160,160,160));
+	}
+	bmpSideMenu->Canvas->TextOut(SideBarCaptionPosX[2], ptSideMenu[2].y+64, SideBarCaption[2]);
 
 	//水平線
 	bmpSideMenu->Canvas->Draw(ptSideMenu[3].x, ptSideMenu[3].y, imgMenuHorizontalLine->Picture->Icon);
+
 	//オプション
-	bmpSideMenu->Canvas->Draw(
-		ptSideMenu[4].x, ptSideMenu[4].y,
-		fOptionMenu == true ? imgMenuOptionOn->Picture->Icon : imgMenuOptionOff->Picture->Icon);
+	//復号する
+	if ( fOptionMenu == true ) {
+		bmpSideMenu->Canvas->Draw(ptSideMenu[4].x, ptSideMenu[4].y, imgMenuOptionOn->Picture->Icon);
+		bmpSideMenu->Canvas->Font->Color = clWhite;
+	}
+	else{
+		bmpSideMenu->Canvas->Draw(ptSideMenu[4].x, ptSideMenu[4].y, imgMenuOptionOff->Picture->Icon);
+		bmpSideMenu->Canvas->Font->Color = TColor(RGB(160,160,160));
+	}
+	bmpSideMenu->Canvas->TextOut(SideBarCaptionPosX[4], ptSideMenu[4].y+64, SideBarCaption[4]);
+
 
 }
 //-----------------------------------
@@ -2705,23 +2836,31 @@ if ( PageControl1->ActivePage == TabSheetMain){
 else if ( PageControl1->ActivePage == TabSheetInputEncPass ||
 		 PageControl1->ActivePage == TabSheetInputEncPassConfirm ){
 	bmpSideMenu->Canvas->Draw(ptSideMenu[0].x, ptSideMenu[0].y, imgMenuEncryptOn->Picture->Icon);
+	bmpSideMenu->Canvas->Font->Color = clWhite;
+	bmpSideMenu->Canvas->TextOut(SideBarCaptionPosX[1], ptSideMenu[0].y+64, SideBarCaption[1]);
 
 }
 //-----------------------------------
 //復号ウィンドウ
 else if ( PageControl1->ActivePage == TabSheetInputDecPass ){
 	bmpSideMenu->Canvas->Draw(ptSideMenu[0].x, ptSideMenu[0].y, imgMenuDecryptOn->Picture->Icon);
+	bmpSideMenu->Canvas->Font->Color = clWhite;
+	bmpSideMenu->Canvas->TextOut(SideBarCaptionPosX[2], ptSideMenu[0].y+64, SideBarCaption[2]);
 
 }
 //-----------------------------------
 //実行ウィンドウ
 else if ( PageControl1->ActivePage == TabSheetExecute ){
 
-	if (encrypt != NULL ) {
+	bmpSideMenu->Canvas->Font->Color = clWhite;
+
+	if (CryptTypeNum == 1 ) {   //暗号化
 		bmpSideMenu->Canvas->Draw(ptSideMenu[0].x, ptSideMenu[0].y, imgMenuEncryptOn->Picture->Icon);
+		bmpSideMenu->Canvas->TextOut(SideBarCaptionPosX[1], ptSideMenu[0].y+64, SideBarCaption[1]);
 	}
 	else{
 		bmpSideMenu->Canvas->Draw(ptSideMenu[0].x, ptSideMenu[0].y, imgMenuDecryptOn->Picture->Icon);
+		bmpSideMenu->Canvas->TextOut(SideBarCaptionPosX[2], ptSideMenu[0].y+64, SideBarCaption[2]);
 	}
 }
 
@@ -2741,6 +2880,10 @@ void __fastcall TForm1::PaintBoxMenuMouseMove(TObject *Sender, TShiftState Shift
 {
 
 int ptIndex;
+
+if ( PageControl1->ActivePage != TabSheetMain ) {
+	return;
+}
 
 //カーソルの位置にアイコンがあるか
 for (ptIndex = 4; ptIndex > 0; ptIndex--) {
@@ -2780,20 +2923,6 @@ default:
 	break;
 }
 
-//「暗号化」「復号する」を選択中の場合は点灯しっぱなし
-switch(optSelectedMenu){
-case 1:
-	fEncryptMenu = true;
-	break;
-
-case 2:
-	fDecryptMenu = true;
-	break;
-
-default:
-	break;
-}
-
 //メニューを再描画
 PaintSideMenu();
 
@@ -2819,17 +2948,13 @@ for (ptIndex = 4; ptIndex > 0; ptIndex--) {
 
 switch(ptIndex){
 case 1:	//暗号化
-	optSelectedMenu = 1;
-	lblMain->Caption = LoadResourceString(&Msgunit1::_DRAG_AND_DROP_HERE_ENCRYPT);
-	PanelEncrypt->Visible = true;
-	PanelDecrypt->Visible = false;
+	mnuEncryptFilesClick(Sender);
+	fEncryptMenu = false;
 	break;
 
 case 2:	//復号
-	optSelectedMenu = 2;
-	lblMain->Caption = LoadResourceString(&Msgunit1::_DRAG_AND_DROP_HERE_DECRYPT);
-	PanelEncrypt->Visible = false;
-	PanelDecrypt->Visible = true;
+	mnuDecryptClick(Sender);
+	fDecryptMenu = false;
 	break;
 
 case 4:	//オプション
@@ -2839,15 +2964,9 @@ case 4:	//オプション
 	Form3->ShowModal();
 	Form3->Release();
 	fOptionMenu = false;
-	lblMain->Caption = LoadResourceString(&Msgunit1::_DRAG_AND_DROP_HERE);
-	PanelEncrypt->Visible = false;
-	PanelDecrypt->Visible = false;
 	break;
 
 default:
-	lblMain->Caption = LoadResourceString(&Msgunit1::_DRAG_AND_DROP_HERE);
-	PanelEncrypt->Visible = false;
-	PanelDecrypt->Visible = false;
 	break;
 
 }
@@ -2859,4 +2978,5 @@ PaintSideMenu();
 
 }
 //---------------------------------------------------------------------------
+
 

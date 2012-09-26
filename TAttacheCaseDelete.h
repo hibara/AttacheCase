@@ -34,20 +34,19 @@ private:
 	TMsgDlgBtn MsgDefaultButton;
 	int MsgReturnVal;
 
+	// ディレクトリ/ファイルを再帰的に削除する
+	int __fastcall DeleteDirAndFiles(String DirPath, int &FileCount, int TotalFileCount,
+			__int64 &CountFileSize, __int64 TotalFileSize);
 	//ファイルの完全削除
-	bool __fastcall CompleteDeleteFile(String FilePath, __int64 &CountFileSize, __int64 TotalFileSize);
+	int __fastcall CompleteDeleteFile(String FilePath, __int64 &CountFileSize, __int64 TotalFileSize);
 	//ごみ箱への移動
 	bool __fastcall GoToTrash(String Path);
-
 	// 削除するファイルリスト情報（ファイル数、合計サイズ）を収集する
-	void __fastcall GetDeleteFileListInfo
+	int __fastcall GetDeleteFileListInfo
 		(String DirPath, int &TotalFileCount, __int64 &TotalFileSize);
-	// ディレクトリ/ファイルを再帰的に削除する
-	void __fastcall DeleteDirAndFiles
-		(String DirPath, int &FileCount, int TotalFileCount,
-			__int64 &CountFileSize, __int64 TotalFileSize);
-	// ランダム値の生成（CRNG）
+	//ランダム値の生成（CRNG）
 	void fillrand(char *buf, const int len);
+
 	//メインフォームに確認メッセージを投げて処理を中断する
 	void __fastcall PostConfirmMessageForm();
 
@@ -59,22 +58,17 @@ public:
 	__fastcall TAttacheCaseDelete(bool CreateSuspended);
 	__fastcall ~TAttacheCaseDelete();
 
+	int StatusNum;                     //ステータスメッセージ番号（エラー内容も含む）
+	String MsgErrorString;             //エラーメッセージ
+
 	TStringList *FileList;
-
 	int Opt;                           // 0:通常削除, 1:完全削除, 2:ゴミ箱へ
-
 	int RandClearNum;                  // 完全削除時の乱数書き込み回数
 	int ZeroClearNum;                  // 完全削除時のNULL書き込み回数
 
 	int ProgressPercentNum;            // 進捗パーセント
 	String ProgressStatusText;         // 進捗ステータス
-	String ProgressMsgText;            // 進捗ステータス内容
-
-
-
-
-
-
+	String ProgressMsgText;            // 進捗メッセージ
 
 };
 //---------------------------------------------------------------------------

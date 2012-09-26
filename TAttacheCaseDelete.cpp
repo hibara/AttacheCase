@@ -51,12 +51,15 @@ __fastcall TAttacheCaseDelete::TAttacheCaseDelete
 {
 
 Opt = 0;	                //通常削除
-RandClearNum = 1;         //乱数書き込み回数
-ZeroClearNum = 1;         //ゼロ書き込み回数
+RandClearNum = 0;         //乱数書き込み回数
+ZeroClearNum = 0;         //ゼロ書き込み回数
 
 ProgressPercentNum = -1;  //進捗パーセント
-ProgressStatusText = "";  //進捗ステータス内容
-ProgressMsgText = "";
+ProgressStatusText = "";  //進捗ステータス
+ProgressMsgText = "";     //進捗メッセージ
+
+StatusNum = 0;            //ステータス表示内容番号
+MsgErrorString = "";      //エラーメッセージ
 
 }
 //===========================================================================
@@ -79,6 +82,7 @@ __int64 CountFileSize = 0;
 __int64 TotalFileSize = 0;
 
 int ret;
+int ErrorNum;
 TSearchRec sr;
 int Attrs;
 
@@ -90,17 +94,24 @@ String FilePath;
 //-----------------------------------
 if (Opt == 2) {
 	for (i = 0; i < FileList->Count; i++) {
+
+		if (Terminated == true) {
+			goto LabelStop;
+		}
+
 		if ( GoToTrash(FileList->Strings[i]) == false ){
 			//エラー
-			return;
+			goto LabelStop;
 		}
 	}
+
 	ProgressPercentNum = 100;
 	//'完了'
 	ProgressStatusText = LoadResourceString(&Msgdelete::_LABEL_STATUS_TITLE_COMPLETE);
 	//'削除が正常に完了しました。'
 	ProgressMsgText = LoadResourceString(&Msgdelete::_LABEL_STATUS_DETAIL_COMPLETE);
 	return;
+
 }
 
 //-----------------------------------
@@ -118,7 +129,15 @@ for (i = 0; i < FileList->Count; i++) {
 		if (sr.Name != "." && sr.Name != "..") {
 			if (sr.Attr & faDirectory) {
 				//ディレクトリ
-				GetDeleteFileListInfo(FileList->Strings[i], TotalFileCount, TotalFileSize);
+				if ( (ErrorNum = GetDeleteFileListInfo(FileList->Strings[i], TotalFileCount, TotalFileSize)) < 0 ){
+					FindClose(sr);
+					if (ErrorNum == -1) {
+						goto LabelStop;
+					}
+					else{
+						goto LabelError;
+					}
+				}
 				TotalFileCount++;
 			}
 			else{
@@ -128,11 +147,17 @@ for (i = 0; i < FileList->Count; i++) {
 			}
 		}
 		ret = FindNext(sr);
+		if (Terminated == true) {
+			FindClose(sr);
+			goto LabelStop;
+		}
 	}
 }
 
+FindClose(sr);
+
 //-----------------------------------
-// 削除
+// 削除、または完全削除
 //-----------------------------------
 if ( Opt == 0){
 	//'削除しています...'
@@ -142,14 +167,13 @@ else if ( Opt == 1 ) {
 	//'完全削除しています...'
 	ProgressStatusText = LoadResourceString(&Msgdelete::_LABEL_STATUS_TITLE_COMPLETE_DELETING);
 	//完全削除回数分×合計サイズが増える
-	TotalFileSize =
-		TotalFileSize * (RandClearNum + ZeroClearNum > 0 ? RandClearNum + ZeroClearNum : 1 );
+	TotalFileSize = TotalFileSize * (RandClearNum + ZeroClearNum > 0 ? RandClearNum + ZeroClearNum : 1 );
 }
-
 
 for (i = 0; i < FileList->Count; i++) {
 
 	FilePath = FileList->Strings[i];
+
 	ret  = FindFirst(FilePath, faAnyFile, sr);
 
 	while (ret == 0) {
@@ -160,8 +184,12 @@ for (i = 0; i < FileList->Count; i++) {
 			// ディレクトリ
 			//-----------------------------------
 			if (sr.Attr & faDirectory) {
+
 				//再帰呼び出し
-				DeleteDirAndFiles(FilePath, FileCount, TotalFileCount, CountFileSize, TotalFileSize);
+				if ( DeleteDirAndFiles(FilePath, FileCount, TotalFileCount, CountFileSize, TotalFileSize) == false ){
+					FindClose(sr);
+					goto LabelError;
+				}
 
 				//空になったディレクトリの削除
 				if ( !RemoveDir(FilePath) ){
@@ -202,36 +230,70 @@ for (i = 0; i < FileList->Count; i++) {
 				else if ( Opt == 1 ) {
 					//処理サイズでプログレス表示（「完全削除」関数内で処理）
 					if ( CompleteDeleteFile(FilePath, CountFileSize, TotalFileSize) == false ){
-						break; //エラー or ユーザーキャンセルで抜けてきた
+						FindClose(sr);
+						goto LabelError;
 					}
 				}
 			}
 		}
+
 		ret = FindNext(sr);
+
+		if (Terminated == true) {
+			FindClose(sr);
+			goto LabelStop;
+		}
+
 	}
 }
 
-if (Terminated == true) {
+FindClose(sr);
+
+ProgressPercentNum = 100;
+//'完了'
+ProgressStatusText = LoadResourceString(&Msgdelete::_LABEL_STATUS_TITLE_COMPLETE);
+//'削除が正常に完了しました。'
+ProgressMsgText = LoadResourceString(&Msgdelete::_LABEL_STATUS_DETAIL_COMPLETE);
+
+return;
+
+//-----------------------------------
+// エラー
+//-----------------------------------
+LabelError:
+
+	ProgressPercentNum = 0;
+	//'エラー'
+	ProgressStatusText = LoadResourceString(&Msgencrypt::_LABEL_STATUS_TITLE_ERROR);
+	//'削除に失敗しました。'
+	ProgressMsgText = LoadResourceString(&Msgencrypt::_LABEL_STATUS_DETAIL_FAILED);
+
+	StatusNum = -1;
+
+	return;
+
+
+//-----------------------------------
+// ユーザーキャンセル
+//-----------------------------------
+LabelStop:
+
 	ProgressPercentNum = 0;
 	//'キャンセル'
 	ProgressStatusText = LoadResourceString(&Msgdelete::_LABEL_STATUS_TITLE_USER_CANCEL);
 	//'削除が中止されました。'
 	ProgressMsgText = LoadResourceString(&Msgdelete::_LABEL_STATUS_DETAIL_STOPPED);
-}
-else{
-	ProgressPercentNum = 100;
-	//'完了'
-	ProgressStatusText = LoadResourceString(&Msgdelete::_LABEL_STATUS_TITLE_COMPLETE);
-	//'削除が正常に完了しました。'
-	ProgressMsgText = LoadResourceString(&Msgdelete::_LABEL_STATUS_DETAIL_COMPLETE);
-}
+
+	StatusNum = -2;
+
+	return;
 
 
 }
 //===========================================================================
 // 削除するファイルリスト情報（ファイル数、合計サイズ）を収集する
 //===========================================================================
-void __fastcall TAttacheCaseDelete::
+int __fastcall TAttacheCaseDelete::
 	GetDeleteFileListInfo(String DirPath, int &TotalFileCount, __int64 &TotalFileSize)
 {
 
@@ -257,29 +319,37 @@ while (ret == 0) {
 		}
 
 	}
+
 	ret = FindNext(sr);
+
+	if (Terminated == true) {
+		FindClose(sr);
+		return(-2);
+	}
 
 }
 
 FindClose(sr);
 
-return;
+return(1);
 
 }
 //===========================================================================
 // ディレクトリ/ファイルを再帰的に削除する
 //===========================================================================
-void __fastcall TAttacheCaseDelete::DeleteDirAndFiles
+int __fastcall TAttacheCaseDelete::DeleteDirAndFiles
 	(String DirPath, int &FileCount, int TotalFileCount, __int64 &CountFileSize, __int64 TotalFileSize)
 {
+
+int Attrs;
+int ErrorNum;
 
 TSearchRec sr;
 String FilePath;
 
-int Attrs;
 int ret  = FindFirst(DirPath + "\\*.*", faAnyFile, sr);
 
-while (ret == 0) {
+while (ret == 0 && !Terminated) {
 
 	if (sr.Name != "." && sr.Name != "..") {
 
@@ -291,10 +361,13 @@ while (ret == 0) {
 		if (sr.Attr & faDirectory) {
 
 			// 再帰呼び出し
-			DeleteDirAndFiles(FilePath, FileCount, TotalFileCount, CountFileSize, TotalFileSize);
+			if ( (ErrorNum = DeleteDirAndFiles(FilePath, FileCount, TotalFileCount, CountFileSize, TotalFileSize)) < 0 ){
+				FindClose(sr);
+				return(ErrorNum);
+			}
 
 			//空になったディレクトリの削除
-			if ( !RemoveDir(FilePath) ){
+			if ( RemoveDir(FilePath) == false){
 				//削除に失敗したときは属性を変更
 				Attrs = FileGetAttr(FilePath);
 				if (Attrs & faHidden){   //隠しファイル属性のときは外す
@@ -303,7 +376,10 @@ while (ret == 0) {
 				if (Attrs & faReadOnly){ //読み取り専用属性のときも外す
 					FileSetAttr( FilePath, Attrs & !faReadOnly	);
 				}
-				RemoveDir(FilePath);      //再チャレンジ
+				if ( RemoveDir(FilePath)== false ){      //再チャレンジ
+					FindClose(sr);
+					return(-1);
+				}
 			}
 			FileCount++;
 
@@ -326,8 +402,9 @@ while (ret == 0) {
 			}
 			else if ( Opt == 1 ) {                           //完全削除
 				//処理サイズでプログレス表示（関数内で処理）
-				if ( CompleteDeleteFile(FilePath, CountFileSize, TotalFileSize) == false ){
-					break; //エラー or ユーザーキャンセルで抜けてきた
+				if ( (ErrorNum = CompleteDeleteFile(FilePath, CountFileSize, TotalFileSize)) < 0 ){
+					FindClose(sr);
+					return(ErrorNum);
 				}
 			}
 
@@ -340,13 +417,20 @@ while (ret == 0) {
 
 FindClose(sr);
 
-return;
+if (Terminated == true) {
+	return(-2);
+}
+else{
+	//正常終了
+	return(1);
+}
+
 
 }
 //===========================================================================
 //ファイルの完全削除
 //===========================================================================
-bool __fastcall TAttacheCaseDelete::
+int __fastcall TAttacheCaseDelete::
 	CompleteDeleteFile(String FilePath, __int64 &CountSize, __int64 TotalFileSize)
 {
 
@@ -402,18 +486,9 @@ for ( i = 0; i < RandClearNum; i++ ){
 
 			//途中キャンセルされたときの処理
 			if ( Terminated == true ){
-				//'中止すると完全に削除されない可能性があります。'+#13+
-				//'それでも中止しますか？';
-				MsgText = LoadResourceString(&Msgdelete::_MSG_CONFIRM_COMPLETE_DELETE_STOP);
-				MsgType = mtConfirmation;
-				MsgButtons = TMsgDlgButtons() << mbYes << mbNo;
-				MsgDefaultButton = mbNo;
-				Synchronize(&PostConfirmMessageForm);
-				//「はい」
-				if (MsgReturnVal == mrYes){
-					CloseHandle( hFile );
-					return(false);
-				}
+				CloseHandle( hFile );
+				DeleteFile(FilePath);  //ふつうに削除する
+				return(-2);
 			}
 
 			//プログレス表示
@@ -430,7 +505,7 @@ for ( i = 0; i < RandClearNum; i++ ){
 		MsgDefaultButton = mbOK;
 		Synchronize(&PostConfirmMessageForm);
 		CloseHandle( hFile );
-		return(false);
+		return(-1);
 
 	}//end if;
 
@@ -474,18 +549,9 @@ for ( i = 0; i < ZeroClearNum; i++ ){
 
 			//途中キャンセルされたときの処理
 			if ( Terminated == true ){
-				//'中止すると完全に削除されない可能性があります。'+#13+
-				//'それでも中止しますか？';
-				MsgText = LoadResourceString(&Msgdelete::_MSG_CONFIRM_COMPLETE_DELETE_STOP);
-				MsgType = mtConfirmation;
-				MsgButtons = TMsgDlgButtons() << mbYes << mbNo;
-				MsgDefaultButton = mbNo;
-				Synchronize(&PostConfirmMessageForm);
-				//「はい」
-				if (MsgReturnVal == mrYes){
-					CloseHandle( hFile );
-					return(false);
-				}
+				CloseHandle( hFile );
+				DeleteFile(FilePath);  //ふつうに削除する
+				return(-2);
 			}
 
 			//プログレス表示
@@ -502,7 +568,7 @@ for ( i = 0; i < ZeroClearNum; i++ ){
 		MsgDefaultButton = mbOK;
 		Synchronize(&PostConfirmMessageForm);
 		CloseHandle( hFile );
-		return(false);
+		return(-1);
 
 	}//end if;
 
@@ -524,7 +590,7 @@ CloseHandle( hFile );
 
 DeleteFile(FilePath);
 
-return(true);
+return(1);
 
 
 }//end CompleteDeleteFile;

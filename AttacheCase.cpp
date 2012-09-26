@@ -8,10 +8,10 @@
 #include "MsgWinMain.hpp"
 
 //---------------------------------------------------------------------------
-USEFORM("Unit3.cpp", Form3);
-USEFORM("Unit2.cpp", Form2);
-USEFORM("Unit1.cpp", Form1);
 USEFORM("Unit4.cpp", Form4);
+USEFORM("Unit2.cpp", Form2);
+USEFORM("Unit3.cpp", Form3);
+USEFORM("Unit1.cpp", Form1);
 //---------------------------------------------------------------------------
 HANDLE mx;
 void SendToMsgData(HWND handle);
@@ -20,9 +20,11 @@ void SendToMsgData(HWND handle);
 WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
 
-	//'アタッシェケース'
-	String ApplicationTitle = LoadResourceString(&Msgwinmain::_TITLE_APP_NAME);
-	HWND handle = NULL;
+//'アタッシェケース'
+String ApplicationTitle = LoadResourceString(&Msgwinmain::_TITLE_APP_NAME);
+HWND handle = NULL;
+
+try{
 
 	mx = CreateMutex( NULL, true, "AtacheCase2" );
 
@@ -41,9 +43,6 @@ WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 		if ( handle != NULL && Form1->opthdl->fNoMultipleInstance == true){
 			//すでに起動中のアタッシェケースへメッセージを送る
 			SendToMsgData(handle);
-			//閉じて破棄
-			CloseHandle(mx);
-			ReleaseMutex(mx);
 		}
 		else{
 			Application->Run();
@@ -54,18 +53,15 @@ WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 	{
 		Application->ShowException(&exception);
 	}
-	catch (...)
-	{
-		try
-		{
-			throw Exception("");
-		}
-		catch (Exception &exception)
-		{
-			Application->ShowException(&exception);
-		}
-	}
-	return 0;
+
+}
+__finally{
+	ReleaseMutex(mx);
+
+}
+
+Application->Terminate();
+return 0;
 
 }
 //----------------------------------------------------------------------
@@ -75,7 +71,13 @@ void SendToMsgData(HWND handle)
 {
 
 int i;
-TStringList *SendFileList = new TStringList;
+
+TStringList *SendFileList;
+
+
+try{
+
+SendFileList = new TStringList;
 
 WPARAM wParam;
 LPARAM lParam;
@@ -112,7 +114,11 @@ if ( SendFileList->Count > 0 ){
 //ウィンドウを前面に
 SetForegroundWindow(handle);
 
-delete SendFileList;
+}
+__finally{
+	delete SendFileList;
+
+}
 
 }//end SendToMsgData;
 //---------------------------------------------------------------------------

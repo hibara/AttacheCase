@@ -1963,8 +1963,10 @@ void __fastcall TForm3::PaintBoxMenuMouseDown(TObject *Sender, TMouseButton Butt
 					TShiftState Shift, int X, int Y)
 {
 
+int i;
+
 //カーソルの位置にアイコンがあるか
-for (int i = 6; i > 0; i--) {
+for ( i = 6; i > -1; i--) {
 	if ( Y > ptSideMenu[i].y) {
 		if (Y < ptSideMenu[i].y+48) {
 			if (X > ptSideMenu[i].x && X < ptSideMenu[i].x+48) {
@@ -1974,9 +1976,10 @@ for (int i = 6; i > 0; i--) {
 		}
 	}
 }
-
-PageControl1->ActivePageIndex = optSelectedMenu-1;
-PaintSideMenu();
+if ( i > 0) {
+	PageControl1->ActivePageIndex = optSelectedMenu-1;
+	PaintSideMenu();
+}
 
 }
 //---------------------------------------------------------------------------

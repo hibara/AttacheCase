@@ -12,12 +12,6 @@ resourcestring
   MSG_ERROR_NOT_FILE_OPEN                  = 'ファイル削除中にエラーが発生しました。ファイルを開くことができません。';
   MSG_ERROR_GO_TO_TRASH_FAILED             = 'ごみ箱への削除に失敗しました。'+#13+
                                              '一部のファイル/フォルダが削除できずに残ってしまった可能性があります。';
-  MSG_CONFIRM_COMPLETE_DELETE_STOP         = '中止すると完全に削除されない可能性があります。'+#13+
-                                             'それでも中止しますか？';
-
-
-
-
 
   //ラベル
   LABEL_STATUS_TITLE_LISTING               = 'ファイルリストの生成';
@@ -38,13 +32,6 @@ resourcestring
 
 
 
-
-
-
-
-
-
-
 implementation
 
 initialization
@@ -56,11 +43,6 @@ initialization
 
 	MSG_ERROR_NOT_FILE_OPEN;
 	MSG_ERROR_GO_TO_TRASH_FAILED;
-	MSG_CONFIRM_COMPLETE_DELETE_STOP;
-
-
-
-
 
 	LABEL_STATUS_TITLE_LISTING;
 	LABEL_STATUS_TITLE_DELETING;
@@ -76,13 +58,6 @@ initialization
 	LABEL_STATUS_DETAIL_FAILED;
 	LABEL_STATUS_DETAIL_STOPPED;
 	LABEL_STATUS_DETAIL_COMPLETE;
-
-
-
-
-
-
-
 
 
 
