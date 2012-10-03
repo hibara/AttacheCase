@@ -12,15 +12,15 @@ class TDragAndDrop : public IDropTarget
 {
 
 public:
-	//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+	//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	__fastcall TDragAndDrop::TDragAndDrop(TForm *_Form);
-	//ƒfƒXƒgƒ‰ƒNƒ^
+	//ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 	__fastcall ~TDragAndDrop(void);
 
 
-	//•¡”ƒtƒ@ƒCƒ‹‚Ìó‚¯“ü‚ê‚ğ‹–‰Â‚·‚é‚©
+	//è¤‡æ•°ãƒ•ã‚¡ã‚¤ãƒ«ã®å—ã‘å…¥ã‚Œã‚’è¨±å¯ã™ã‚‹ã‹
 	bool fMultipleFilesOk;
-	//ƒhƒƒbƒvƒCƒ[ƒWƒ^ƒCƒv
+	//ãƒ‰ãƒ­ãƒƒãƒ—ã‚¤ãƒ¡ãƒ¼ã‚¸ã‚¿ã‚¤ãƒ—
 	DROPIMAGETYPE DropImageType;
 
 	/*
@@ -35,9 +35,9 @@ public:
 	} DROPIMAGETYPE;
 	*/
 
-	//OLEƒhƒƒbƒv‚·‚éƒtƒH[ƒ€‚Ö‚Ìƒ|ƒCƒ“ƒ^
+	//OLEãƒ‰ãƒ­ãƒƒãƒ—ã™ã‚‹ãƒ•ã‚©ãƒ¼ãƒ ã¸ã®ãƒã‚¤ãƒ³ã‚¿
 	TForm *Form;
-	//‰¼‘zŠÖ”
+	//ä»®æƒ³é–¢æ•°
 	virtual HRESULT __stdcall QueryInterface(const IID& iid, void** ppv);
 	virtual ULONG __stdcall AddRef();
 	virtual ULONG __stdcall Release();
@@ -45,7 +45,7 @@ public:
 	virtual HRESULT __stdcall DragOver(DWORD grfKeyState, POINTL pt, DWORD* pdwEffect);
 	virtual HRESULT __stdcall DragLeave();
 	virtual HRESULT __stdcall Drop(IDataObject* pDataObject, DWORD grfKeyState, POINTL pt, DWORD* pdwEffect);
-	//Form‚Ö‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”i“o˜^‚·‚éƒtƒH[ƒ€‘¤‚É‚à‚Â‚­‚é•K—v‚ ‚èj
+	//Formã¸ã®ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°ï¼ˆç™»éŒ²ã™ã‚‹ãƒ•ã‚©ãƒ¼ãƒ å´ã«ã‚‚ã¤ãã‚‹å¿…è¦ã‚ã‚Šï¼‰
 	void __fastcall (__closure *FilesDragOver)(POINTL ptl);
 	void __fastcall (__closure *FilesDragLeave)(void);
 	void __fastcall (__closure *FilesDragEnd)(POINTL ptl, String FileListText);

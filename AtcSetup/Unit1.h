@@ -10,31 +10,31 @@
 
 #include "MsgMain.hpp"
 
-#include <Registry.hpp>     //ƒŒƒWƒXƒgƒŠ‘€ì—p
-#include <shlobj.h>	        //•\¦ƒAƒCƒRƒ“‚ğƒVƒXƒeƒ€XV
+#include <Registry.hpp>     //ãƒ¬ã‚¸ã‚¹ãƒˆãƒªæ“ä½œç”¨
+#include <shlobj.h>	        //è¡¨ç¤ºã‚¢ã‚¤ã‚³ãƒ³ã‚’ã‚·ã‚¹ãƒ†ãƒ æ›´æ–°
 
 //---------------------------------------------------------------------------
 class TForm1 : public TForm
 {
-__published:	// IDE ŠÇ—‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg
+__published:	// IDE ç®¡ç†ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
 	void __fastcall FormCreate(TObject *Sender);
 
 
-private:	// ƒ†[ƒU[éŒ¾
+private:	// ãƒ¦ãƒ¼ã‚¶ãƒ¼å®£è¨€
 
 	String AtcExeFilePath;
 	String UserRegIconFilePath;
 	int AtcsFileIconIndex;
 
 
-	//ƒf[ƒ^ƒtƒ@ƒCƒ‹‚ğƒVƒXƒeƒ€‚ÉŠÖ˜A•t‚¯
+	//ãƒ‡ãƒ¼ã‚¿ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ã‚·ã‚¹ãƒ†ãƒ ã«é–¢é€£ä»˜ã‘
 	bool __fastcall RegistDataFileAssociation(void);
-	//ƒf[ƒ^ƒtƒ@ƒCƒ‹‚ÌŠÖ˜A•t‚¯İ’è‚Ìíœˆ—
+	//ãƒ‡ãƒ¼ã‚¿ãƒ•ã‚¡ã‚¤ãƒ«ã®é–¢é€£ä»˜ã‘è¨­å®šã®å‰Šé™¤å‡¦ç†
 	bool __fastcall DeleteDataFileAssociation(void);
 
 
 
-public:		// ƒ†[ƒU[éŒ¾
+public:		// ãƒ¦ãƒ¼ã‚¶ãƒ¼å®£è¨€
 	__fastcall TForm1(TComponent* Owner);
 
 

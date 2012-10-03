@@ -1,11 +1,14 @@
-unit MsgOption;
+﻿unit MsgUnit2;
 
 interface
 
 resourcestring
 
 
-	APPLICATION_NAME	        = 'アタッシェケース';
+  BALLOON_HINT_MSG = 'クリックするとブラウザが起動します。';
+
+
+
 
 
 
@@ -14,10 +17,7 @@ implementation
 initialization
 
 	//Delphiコンパイラによる最適化を防ぐ
-
-
-	APPLICATION_NAME;
-
+  BALLOON_HINT_MSG;
 
 
 

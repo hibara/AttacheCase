@@ -10,26 +10,26 @@
 #include "zlib.h"
 #include "isaac.h"
 
-//ƒoƒbƒtƒ@ƒTƒCƒY
+//ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º
 #define BUF_SIZE 32
 #define LARGE_BUF_SIZE 1024
 #define MARGIN_BUF_SIZE 256
 #define FOOTER_BUF_SIZE 16
 #define PASSWORD_BUF_SIZE 264 //MyPasscode + "_atc"
 
-//§ŒÀƒTƒCƒY4GB (4294967296-230=4294967066)
+//åˆ¶é™ã‚µã‚¤ã‚º4GB (4294967296-230=4294967066)
 #define SIZE_4GB 4294967066
 
 //-----------------------------------
-//ƒf[ƒ^ƒo[ƒWƒ‡ƒ“i‚±‚±‚ğ‚¢‚¶‚é‚Æ
-// ‰ºˆÊƒo[ƒWƒ‡ƒ“‚Å•œ†‚Å‚«‚È‚¢ƒGƒ‰[‚ª”­¶‚·‚éj
+//ãƒ‡ãƒ¼ã‚¿ãƒãƒ¼ã‚¸ãƒ§ãƒ³ï¼ˆã“ã“ã‚’ã„ã˜ã‚‹ã¨
+// ä¸‹ä½ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã§å¾©å·ã§ããªã„ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã™ã‚‹ï¼‰
 #define ATC_DATA_FILE_VERSION 105
 //-----------------------------------
-//ƒf[ƒ^ƒTƒuƒo[ƒWƒ‡ƒ“
-#define ATC_DATA_SUB_VERSION 6     //ver.2.70`
+//ãƒ‡ãƒ¼ã‚¿ã‚µãƒ–ãƒãƒ¼ã‚¸ãƒ§ãƒ³
+#define ATC_DATA_SUB_VERSION 6     //ver.2.70ï½
 
 
-//ƒAƒ‹ƒSƒŠƒYƒ€ƒ^ƒCƒv
+//ã‚¢ãƒ«ã‚´ãƒªã‚ºãƒ ã‚¿ã‚¤ãƒ—
 #define TYPE_ALGORISM_BLOWFISH 0  // Blowfish
 #define TYPE_ALGORISM_RIJNDAEL 1  // Rijndael
 
@@ -40,10 +40,10 @@ class TAttacheCaseFileDecrypt2 : public TThread
 
 private:
 
-	//ƒpƒXƒ[ƒhƒL[
+	//ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã‚­ãƒ¼
 	char key[32];
 
-	//ƒƒbƒZ[ƒWƒ_ƒCƒAƒƒO
+	//ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒ€ã‚¤ã‚¢ãƒ­ã‚°
 	String MsgText;
 	TMsgDlgType MsgType;
 	// --
@@ -57,21 +57,21 @@ private:
 	int MsgReturnVal;
 	String MsgReturnPath;
 
-	//u•œ†‚µ‚½ƒtƒ@ƒCƒ‹‚ğŠÖ˜A•t‚¯‚³‚ê‚½ƒ\ƒtƒg‚ÅŠJ‚­vˆê“I‚Èİ’è
+	//ã€Œå¾©å·ã—ãŸãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–¢é€£ä»˜ã‘ã•ã‚ŒãŸã‚½ãƒ•ãƒˆã§é–‹ãã€ä¸€æ™‚çš„ãªè¨­å®š
 	bool fTempOpenFile;
-	//ÅãˆÊ‚ÌƒtƒHƒ‹ƒ_[‚ğŠJ‚¢‚½‚©
+	//æœ€ä¸Šä½ã®ãƒ•ã‚©ãƒ«ãƒ€ãƒ¼ã‚’é–‹ã„ãŸã‹
 	bool fOpenFolderOnce;
-	//“¯–¼ƒtƒ@ƒCƒ‹/ƒtƒHƒ‹ƒ_[‚Í‚·‚×‚Äã‘‚«‚µ‚Ä•œ†‚·‚é
-	//iƒ†[ƒU[‚ªƒ_ƒCƒAƒƒO‚Åu‚·‚×‚Ä‚Í‚¢v‚ğ‘I‘ğ‚µ‚½‚Æ‚« = true j
+	//åŒåãƒ•ã‚¡ã‚¤ãƒ«/ãƒ•ã‚©ãƒ«ãƒ€ãƒ¼ã¯ã™ã¹ã¦ä¸Šæ›¸ãã—ã¦å¾©å·ã™ã‚‹
+	//ï¼ˆãƒ¦ãƒ¼ã‚¶ãƒ¼ãŒãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã§ã€Œã™ã¹ã¦ã¯ã„ã€ã‚’é¸æŠã—ãŸã¨ã = true ï¼‰
 	bool fOverwirteYesToAll;
 
-	//ƒoƒbƒtƒ@‚Ì“ü—Í
+	//ãƒãƒƒãƒ•ã‚¡ã®å…¥åŠ›
 	__int64 __fastcall InputBuffer(
 		int &buff_size, char *source_buffer, char *chain_buffer,
 		TFileStream *fsIn, bool &fOpen,
 		__int64 TotalSize, __int64 AllTotalSize
 	);
-	//ƒoƒbƒtƒ@‚Ìo—Í
+	//ãƒãƒƒãƒ•ã‚¡ã®å‡ºåŠ›
 	int __fastcall OutputBuffer(
 		char *output_buffer, int buff_size,
 		TFileStream *&fsOut, bool &fOpen,
@@ -81,18 +81,18 @@ private:
 		int *FileDtCreateList, int *FileTmCreateList
 	);
 
-	//ƒtƒ@ƒCƒ‹/ƒfƒBƒŒƒNƒgƒŠ‚Ìƒ^ƒCƒ€ƒXƒ^ƒ“ƒv‚ğİ’è‚·‚é
+	//ãƒ•ã‚¡ã‚¤ãƒ«/ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®ã‚¿ã‚¤ãƒ ã‚¹ã‚¿ãƒ³ãƒ—ã‚’è¨­å®šã™ã‚‹
 	void __fastcall FileSetTimeStamp
 		(String FilePath,
 		 int tsChangeDateNum, int tsChangeTimeNum, int tsCreateDateNum, int tsCreateTimeNum,
 		 bool fNow, bool fDir);
-	//—”ƒf[ƒ^‚Ì¶¬
+	//ä¹±æ•°ãƒ‡ãƒ¼ã‚¿ã®ç”Ÿæˆ
 	void fillrand(char *buf, const int len);
-	//ƒfƒBƒXƒN‚Ì‹ó‚«—e—Ê‚ğ’²‚×‚é
+	//ãƒ‡ã‚£ã‚¹ã‚¯ã®ç©ºãå®¹é‡ã‚’èª¿ã¹ã‚‹
 	__int64 __fastcall GetDiskFreeSpaceNum(String FilePath);
-	//ƒƒCƒ“ƒtƒH[ƒ€‚ÉŠm”FƒƒbƒZ[ƒW‚ğ“Š‚°‚Äˆ—‚ğ’†’f‚·‚é
+	//ãƒ¡ã‚¤ãƒ³ãƒ•ã‚©ãƒ¼ãƒ ã«ç¢ºèªãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’æŠ•ã’ã¦å‡¦ç†ã‚’ä¸­æ–­ã™ã‚‹
 	void __fastcall PostConfirmMessageForm();
-	//ƒƒCƒ“ƒtƒH[ƒ€‚Éã‘‚«‚ÌŠm”FƒƒbƒZ[ƒW‚ğ“Š‚°‚Äˆ—‚ğ’†’f‚·‚é
+	//ãƒ¡ã‚¤ãƒ³ãƒ•ã‚©ãƒ¼ãƒ ã«ä¸Šæ›¸ãã®ç¢ºèªãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’æŠ•ã’ã¦å‡¦ç†ã‚’ä¸­æ–­ã™ã‚‹
 	void __fastcall PostConfirmOverwriteMessageForm();
 
 
@@ -106,41 +106,41 @@ public:
 	__fastcall ~TAttacheCaseFileDecrypt2();
 
 	//-----------------------------------
-	// •Ï”
+	// å¤‰æ•°
 	//-----------------------------------
 
-	int StatusNum;                     //ƒXƒe[ƒ^ƒX
-	String MsgAppendString;            //ƒƒbƒZ[ƒWƒ{ƒbƒNƒX‚É•\¦‚·‚é•t‰ÁƒeƒLƒXƒg
-	String StatusMsg;                  //’Ç‰ÁƒXƒe[ƒ^ƒX“à—eiƒtƒ@ƒCƒ‹–¼‚È‚Ç–|–ó•s—v‚Ì‚à‚Ìj
+	int StatusNum;                     //ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
+	String MsgAppendString;            //ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒœãƒƒã‚¯ã‚¹ã«è¡¨ç¤ºã™ã‚‹ä»˜åŠ ãƒ†ã‚­ã‚¹ãƒˆ
+	String StatusMsg;                  //è¿½åŠ ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹å†…å®¹ï¼ˆãƒ•ã‚¡ã‚¤ãƒ«åãªã©ç¿»è¨³ä¸è¦ã®ã‚‚ã®ï¼‰
 
-	int ProgressPercentNum;            //i’»ƒp[ƒZƒ“ƒg
-	String ProgressStatusText;         //i’»ƒXƒe[ƒ^ƒX
-	String ProgressMsgText;            //i’»ƒƒbƒZ[ƒW
+	int ProgressPercentNum;            //é€²æ—ãƒ‘ãƒ¼ã‚»ãƒ³ãƒˆ
+	String ProgressStatusText;         //é€²æ—ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
+	String ProgressMsgText;            //é€²æ—ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
 
-	bool fCompare;                     //ƒRƒ“ƒyƒA
-	TStringList *CompareFileList;      //ƒRƒ“ƒyƒA‚·‚éŒ³ƒtƒ@ƒCƒ‹ƒŠƒXƒg
+	bool fCompare;                     //ã‚³ãƒ³ãƒšã‚¢
+	TStringList *CompareFileList;      //ã‚³ãƒ³ãƒšã‚¢ã™ã‚‹å…ƒãƒ•ã‚¡ã‚¤ãƒ«ãƒªã‚¹ãƒˆ
 
-	bool fOpenFolder;                  //ƒtƒHƒ‹ƒ_‚Ìê‡‚É•œ†Œã‚ÉŠJ‚­‚©
-	bool fOpenFile;                    //•œ†‚µ‚½ƒtƒ@ƒCƒ‹‚ğŠÖ˜A•t‚¯‚³‚ê‚½ƒ\ƒtƒg‚ÅŠJ‚­
-	bool fConfirmOverwirte;            //“¯–¼ƒtƒ@ƒCƒ‹‚Ìã‘‚«‚ğŠm”F‚·‚é‚©
+	bool fOpenFolder;                  //ãƒ•ã‚©ãƒ«ãƒ€ã®å ´åˆã«å¾©å·å¾Œã«é–‹ãã‹
+	bool fOpenFile;                    //å¾©å·ã—ãŸãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–¢é€£ä»˜ã‘ã•ã‚ŒãŸã‚½ãƒ•ãƒˆã§é–‹ã
+	bool fConfirmOverwirte;            //åŒåãƒ•ã‚¡ã‚¤ãƒ«ã®ä¸Šæ›¸ãã‚’ç¢ºèªã™ã‚‹ã‹
 
-	String AppExeFilePath;	           //ƒAƒ^ƒbƒVƒFƒP[ƒX–{‘Ì‚ÌêŠ
-	String AtcFilePath;                //“ü—Í‚·‚éˆÃ†‰»ƒtƒ@ƒCƒ‹ƒpƒX
-	String OutDirPath;                 //o—Í‚·‚éƒfƒBƒŒƒNƒgƒŠ
+	String AppExeFilePath;	           //ã‚¢ã‚¿ãƒƒã‚·ã‚§ã‚±ãƒ¼ã‚¹æœ¬ä½“ã®å ´æ‰€
+	String AtcFilePath;                //å…¥åŠ›ã™ã‚‹æš—å·åŒ–ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹
+	String OutDirPath;                 //å‡ºåŠ›ã™ã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
 
-	int NumOfTrials;                   //s‰ñ”
-	int TypeLimits;                    //ƒ~ƒXƒ^ƒCƒv‰ñ” 0`10
-	bool fDestroy;                     //”j‰ó‚·‚é‚©”Û‚© 0 or 1
+	int NumOfTrials;                   //è©¦è¡Œå›æ•°
+	int TypeLimits;                    //ãƒŸã‚¹ã‚¿ã‚¤ãƒ—å›æ•° 0ï½10
+	bool fDestroy;                     //ç ´å£Šã™ã‚‹ã‹å¦ã‹ 0 or 1
 
 
 	//-----------------------------------
-	// ŠÖ”
+	// é–¢æ•°
 	//-----------------------------------
 
-	//ƒpƒXƒ[ƒh•¶š—ñ‚ğƒZƒbƒg‚·‚éiver.1.* `j
+	//ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰æ–‡å­—åˆ—ã‚’ã‚»ãƒƒãƒˆã™ã‚‹ï¼ˆver.1.* ï½ï¼‰
 	//void __fastcall SetPasswordString(AnsiString Password);
 
-	//ƒpƒXƒ[ƒh‚ÉƒoƒCƒiƒŠ’l‚ğƒZƒbƒg‚·‚é
+	//ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã«ãƒã‚¤ãƒŠãƒªå€¤ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
 	void __fastcall SetPasswordBinary(char *password);
 
 

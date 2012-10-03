@@ -4,15 +4,15 @@ interface
 
 resourcestring
 
-  //ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒ^ƒCƒgƒ‹
-  TITLE_APP_NAME                = 'ƒAƒ^ƒbƒVƒFƒP[ƒX';
+  //ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã‚¿ã‚¤ãƒˆãƒ«
+  TITLE_APP_NAME                = 'ã‚¢ã‚¿ãƒƒã‚·ã‚§ã‚±ãƒ¼ã‚¹';
 
 
 implementation
 
 initialization
 
-	//DelphiƒRƒ“ƒpƒCƒ‰‚É‚æ‚éÅ“K‰»‚ð–h‚®
+	//Delphiã‚³ãƒ³ãƒ‘ã‚¤ãƒ©ã«ã‚ˆã‚‹æœ€é©åŒ–ã‚’é˜²ã
 
 	TITLE_APP_NAME;
 

@@ -14,7 +14,7 @@ __fastcall TForm2::TForm2(TComponent* Owner)
 {
 
 /*
-//ƒo[ƒWƒ‡ƒ“î•ñŽæ“¾
+//ãƒãƒ¼ã‚¸ãƒ§ãƒ³æƒ…å ±å–å¾—
 pAppInfoString->Comments;
 pAppInfoString->InternalName;
 pAppInfoString->ProductName;
@@ -30,25 +30,25 @@ pAppInfoString->SpecialBuild;
 */
 
 TGetAppInfoString *pAppInfoString = new TGetAppInfoString();
-//ƒAƒvƒŠƒP[ƒVƒ‡ƒ“–¼
+//ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³å
 lblAppName->Caption = pAppInfoString->ProductName;
-//ƒo[ƒWƒ‡ƒ“î•ñ
+//ãƒãƒ¼ã‚¸ãƒ§ãƒ³æƒ…å ±
 lblVersion->Caption = "ver."+ pAppInfoString->FileVersion;
-//’˜ìŒ •\Ž¦
+//è‘—ä½œæ¨©è¡¨ç¤º
 lblCopyright->Caption = pAppInfoString->LegalCopyright;
-//ƒTƒCƒg•\Ž¦
+//ã‚µã‚¤ãƒˆè¡¨ç¤º
 lblWebSite->Caption = pAppInfoString->CompanyName;
 
 delete pAppInfoString;
 
 imgMainIcon->Picture->Icon = Application->Icon;
 
-//'ƒo[ƒWƒ‡ƒ“î•ñ'
+//'ãƒãƒ¼ã‚¸ãƒ§ãƒ³æƒ…å ±'
 this->Caption = LoadResourceString(&Msgexeout::_FORM_ABOUT_CAPTION);
 
-//'‚±‚Ìƒtƒ@ƒCƒ‹‚ÍAƒtƒŠ[‚ÅA‚©‚ÂƒI[ƒvƒ“ƒ\[ƒX‚ÅŠJ”­‚³‚ê‚Ä‚¢‚éA';
-//'ƒ\ƒtƒgƒEƒFƒA‚ÅˆÃ†‰»‚³‚ê‚Ä‚¢‚Ü‚·B';
-//'Ú‚µ‚¢î•ñ‚ÍˆÈ‰º‚ÌƒTƒCƒg‚ð‚²——‚­‚¾‚³‚¢B';
+//'ã“ã®ãƒ•ã‚¡ã‚¤ãƒ«ã¯ã€ãƒ•ãƒªãƒ¼ã§ã€ã‹ã¤ã‚ªãƒ¼ãƒ—ãƒ³ã‚½ãƒ¼ã‚¹ã§é–‹ç™ºã•ã‚Œã¦ã„ã‚‹ã€';
+//'ã‚½ãƒ•ãƒˆã‚¦ã‚§ã‚¢ã§æš—å·åŒ–ã•ã‚Œã¦ã„ã¾ã™ã€‚';
+//'è©³ã—ã„æƒ…å ±ã¯ä»¥ä¸‹ã®ã‚µã‚¤ãƒˆã‚’ã”è¦§ãã ã•ã„ã€‚';
 //'http://hibara.org/';
 lblDescription01->Caption = LoadResourceString(&Msgexeout::_FORM_ABOUT_LABEL_CAPTION_DESCRIPTION_01);
 lblDescription02->Caption = LoadResourceString(&Msgexeout::_FORM_ABOUT_LABEL_CAPTION_DESCRIPTION_02);
@@ -74,7 +74,7 @@ lblWebSite->Font->Color = TColor(0x00FF9999);
 void __fastcall TForm2::lblWebSiteClick(TObject *Sender)
 {
 
-//ƒuƒ‰ƒEƒUŠÖ˜A•t‚¯ƒI[ƒvƒ“
+//ãƒ–ãƒ©ã‚¦ã‚¶é–¢é€£ä»˜ã‘ã‚ªãƒ¼ãƒ—ãƒ³
 ShellExecuteW(NULL, L"open", lblWebSite->Caption.c_str(), NULL, NULL, SW_NORMAL);
 Close();
 

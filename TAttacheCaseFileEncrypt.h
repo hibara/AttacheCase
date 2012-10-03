@@ -10,7 +10,7 @@
 #include "zlib.h"
 #include "isaac.h"
 
-//�o�b�t�@�T�C�Y
+//バッファサイズ
 #define BUF_SIZE 32
 #define LARGE_BUF_SIZE 1024
 #define MARGIN_BUF_SIZE 256
@@ -18,18 +18,18 @@
 #define PASSWORD_BUF_SIZE 264 //MyPasscode + "_atc"
 
 //-----------------------------------
-//�f�[�^�o�[�W�����i�������������
-// ���ʃo�[�W�����ŕ����ł��Ȃ��G���[����������j
+//データバージョン（ここをいじると
+// 下位バージョンで復号できないエラーが発生する）
 #define ATC_DATA_FILE_VERSION 105
 //-----------------------------------
 
-//�f�[�^�T�u�o�[�W����
-#define ATC_DATA_SUB_VERSION 6     //ver.2.70�`
+//データサブバージョン
+#define ATC_DATA_SUB_VERSION 6     //ver.2.70～
 
-//�����T�C�Y4GB (4294967296-230=4294967066)
+//制限サイズ4GB (4294967296-230=4294967066)
 #define SIZE_4GB 4294967066
 
-//�A���S���Y���^�C�v
+//アルゴリズムタイプ
 #define TYPE_ALGORISM_BLOWFISH 0  // Blowfish
 #define TYPE_ALGORISM_RIJNDAEL 1  // Rijndael
 
@@ -42,16 +42,16 @@ class TAttacheCaseFileEncrypt : public TThread
 private:
 
 	//-----------------------------------
-	// �ϐ�
+	// 変数
 	//-----------------------------------
 
-	//�p�X���[�h�L�[
+	//パスワードキー
 	char key[32];
 
-	//�o�͂���Í����t�@�C���̃^�C���X�^���v�����t�@�C���ɍ��킹�邽�߂Ɋi�[����\����
+	//出力する暗号化ファイルのタイムスタンプを元ファイルに合わせるために格納する構造体
 	_WIN32_FIND_DATAW first_fd;
 
-	//���b�Z�[�W�_�C�A���O
+	//メッセージダイアログ
 	String MsgText;
 	TMsgDlgType MsgType;
 	// --
@@ -65,33 +65,33 @@ private:
 	int MsgReturnVal;
 	String MsgReturnPath;
 
-	//�����t�@�C���͂��ׂď㏑�����ĈÍ�������
-	//�i���[�U�[���_�C�A���O�Łu���ׂĂ͂��v��I�������Ƃ� = true �j
+	//同名ファイルはすべて上書きして暗号化する
+	//（ユーザーがダイアログで「すべてはい」を選択したとき = true ）
 	bool fOverwirteYesToAll;
 
 
 	//-----------------------------------
-	// �֐�
+	// 関数
 	//-----------------------------------
 
-	//�w�b�_���𐶐�����
+	//ヘッダ情報を生成する
 	bool __fastcall CreateHeaderData
 		(TMemoryStream *pms,
 		 TStringList *FileList, TStringList *FilePathList,
 		 __int64 &AllTotalFileSize);
-	//�Í�������t�@�C�����X�g�ƃt�@�C�����̃��X�g�𐶐�����
+	//暗号化するファイルリストとファイル情報のリストを生成する
 	__int64 __fastcall GetFileInfoList
 		( int &Index, String DirPath, String FileName, String BasePath,
 			TStringList *FileList, TStringList *DataList);
-	// FILETIME�\���̂�TTimeStamp�ɕϊ����ĕ�����Ƃ��Ď擾����
+	// FILETIME構造体をTTimeStampに変換して文字列として取得する
 	String __fastcall TimeStampToString(FILETIME ft);
-	//�f�B�X�N�̋󂫗e�ʂ𒲂ׂ�
+	//ディスクの空き容量を調べる
 	__int64 __fastcall GetDiskFreeSpaceNum(String FilePath);
-	//�������x�N�g���iIV�j�̐���
+	//初期化ベクトル（IV）の生成
 	void fillrand(char *buf, const int len);
-	//���C���t�H�[���Ɋm�F���b�Z�[�W�𓊂��ď����𒆒f����
+	//メインフォームに確認メッセージを投げて処理を中断する
 	void __fastcall PostConfirmMessageForm();
-	//���C���t�H�[���ɏ㏑���̊m�F���b�Z�[�W�𓊂��ď����𒆒f����
+	//メインフォームに上書きの確認メッセージを投げて処理を中断する
 	void __fastcall PostConfirmOverwriteMessageForm();
 
 
@@ -107,39 +107,39 @@ public:
 
 
 	//-----------------------------------
-	// �ϐ�
+	// 変数
 	//-----------------------------------
 
-	int StatusNum;                     //�X�e�[�^�X���b�Z�[�W�ԍ��i�G���[���e���܂ށj
+	int StatusNum;                     //ステータスメッセージ番号（エラー内容も含む）
 
-	String MsgErrorString;             //�G���[���b�Z�[�W
+	String MsgErrorString;             //エラーメッセージ
 
-	int ProgressPercentNum;            //�i���p�[�Z���g
-	String ProgressStatusText;         //�i���X�e�[�^�X
-	String ProgressMsgText;            //�i�����b�Z�[�W
+	int ProgressPercentNum;            //進捗パーセント
+	String ProgressStatusText;         //進捗ステータス
+	String ProgressMsgText;            //進捗メッセージ
 
-	int CompressRateNum;               //���k��
-	bool fOver4gbOk;                   //4GB��������
-	bool fKeepTimeStamp;               //�Í����t�@�C���̃^�C���X�^���v�����t�@�C���ɍ��킹��
-	int fAllFilesPackOption;           //���ׂẴt�@�C�����P�ɂ܂Ƃ߂�
-	bool fExeOutputOption;             //���s�`���o��
-	bool fOptBrokenFileOption;         //�~�X�^�C�v�Ńt�@�C����j�󂷂邩�ۂ�
-	int intOptMissTypeLimitsNumOption; //�^�C�v�~�X�ł����
-	bool fConfirmOverwirte;            //�����t�@�C��������Ƃ��͏㏑���̊m�F������
+	int CompressRateNum;               //圧縮率
+	bool fOver4gbOk;                   //4GB超を許可
+	bool fKeepTimeStamp;               //暗号化ファイルのタイムスタンプを元ファイルに合わせる
+	int fAllFilesPackOption;           //すべてのファイルを１つにまとめる
+	bool fExeOutputOption;             //実行形式出力
+	bool fOptBrokenFileOption;         //ミスタイプでファイルを破壊するか否か
+	int intOptMissTypeLimitsNumOption; //タイプミスできる回数
+	bool fConfirmOverwirte;            //同名ファイルがあるときは上書きの確認をする
 
-	String AppExeFilePath;	           //�A�^�b�V�F�P�[�X�{�̂̏ꏊ
-	String OutFilePath;                //�o�͂���Í����t�@�C��
-	TStringList *InputFileList;        //�Í������錳�t�@�C�����X�g
+	String AppExeFilePath;	           //アタッシェケース本体の場所
+	String OutFilePath;                //出力する暗号化ファイル
+	TStringList *InputFileList;        //暗号化する元ファイルリスト
 
 	//-----------------------------------
-	// �֐�
+	// 関数
 	//-----------------------------------
 
-	//�p�X���[�h��������Z�b�g����
+	//パスワード文字列をセットする
 	//void __fastcall SetPasswordString(AnsiString Password);
-	//�p�X���[�h�Ƀo�C�i���l���Z�b�g����
+	//パスワードにバイナリ値をセットする
 	void __fastcall SetPasswordBinary(char *password);
-  //���ݐݒ肳��Ă���p�X���[�h���擾����
+  //現在設定されているパスワードを取得する
 	void __fastcall GetPasswordBinary(char *password);
 
 

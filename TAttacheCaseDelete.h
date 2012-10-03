@@ -21,7 +21,7 @@ class TAttacheCaseDelete : public TThread
 
 private:
 
-	//ƒƒbƒZ[ƒWƒ_ƒCƒAƒƒO
+	//ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒ€ã‚¤ã‚¢ãƒ­ã‚°
 	String MsgText;
 	TMsgDlgType MsgType;
 	// --
@@ -34,20 +34,20 @@ private:
 	TMsgDlgBtn MsgDefaultButton;
 	int MsgReturnVal;
 
-	// ƒfƒBƒŒƒNƒgƒŠ/ƒtƒ@ƒCƒ‹‚ğÄ‹A“I‚Éíœ‚·‚é
+	// ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª/ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å†å¸°çš„ã«å‰Šé™¤ã™ã‚‹
 	int __fastcall DeleteDirAndFiles(String DirPath, int &FileCount, int TotalFileCount,
 			__int64 &CountFileSize, __int64 TotalFileSize);
-	//ƒtƒ@ƒCƒ‹‚ÌŠ®‘Síœ
+	//ãƒ•ã‚¡ã‚¤ãƒ«ã®å®Œå…¨å‰Šé™¤
 	int __fastcall CompleteDeleteFile(String FilePath, __int64 &CountFileSize, __int64 TotalFileSize);
-	//‚²‚İ” ‚Ö‚ÌˆÚ“®
+	//ã”ã¿ç®±ã¸ã®ç§»å‹•
 	bool __fastcall GoToTrash(String Path);
-	// íœ‚·‚éƒtƒ@ƒCƒ‹ƒŠƒXƒgî•ñiƒtƒ@ƒCƒ‹”A‡ŒvƒTƒCƒYj‚ğûW‚·‚é
+	// å‰Šé™¤ã™ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«ãƒªã‚¹ãƒˆæƒ…å ±ï¼ˆãƒ•ã‚¡ã‚¤ãƒ«æ•°ã€åˆè¨ˆã‚µã‚¤ã‚ºï¼‰ã‚’åé›†ã™ã‚‹
 	int __fastcall GetDeleteFileListInfo
 		(String DirPath, int &TotalFileCount, __int64 &TotalFileSize);
-	//ƒ‰ƒ“ƒ_ƒ€’l‚Ì¶¬iCRNGj
+	//ãƒ©ãƒ³ãƒ€ãƒ å€¤ã®ç”Ÿæˆï¼ˆCRNGï¼‰
 	void fillrand(char *buf, const int len);
 
-	//ƒƒCƒ“ƒtƒH[ƒ€‚ÉŠm”FƒƒbƒZ[ƒW‚ğ“Š‚°‚Äˆ—‚ğ’†’f‚·‚é
+	//ãƒ¡ã‚¤ãƒ³ãƒ•ã‚©ãƒ¼ãƒ ã«ç¢ºèªãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’æŠ•ã’ã¦å‡¦ç†ã‚’ä¸­æ–­ã™ã‚‹
 	void __fastcall PostConfirmMessageForm();
 
 protected:
@@ -58,17 +58,17 @@ public:
 	__fastcall TAttacheCaseDelete(bool CreateSuspended);
 	__fastcall ~TAttacheCaseDelete();
 
-	int StatusNum;                     //ƒXƒe[ƒ^ƒXƒƒbƒZ[ƒW”Ô†iƒGƒ‰[“à—e‚àŠÜ‚Şj
-	String MsgErrorString;             //ƒGƒ‰[ƒƒbƒZ[ƒW
+	int StatusNum;                     //ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ç•ªå·ï¼ˆã‚¨ãƒ©ãƒ¼å†…å®¹ã‚‚å«ã‚€ï¼‰
+	String MsgErrorString;             //ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
 
 	TStringList *FileList;
-	int Opt;                           // 0:’Êííœ, 1:Š®‘Síœ, 2:ƒSƒ~” ‚Ö
-	int RandClearNum;                  // Š®‘Síœ‚Ì—”‘‚«‚İ‰ñ”
-	int ZeroClearNum;                  // Š®‘Síœ‚ÌNULL‘‚«‚İ‰ñ”
+	int Opt;                           // 0:é€šå¸¸å‰Šé™¤, 1:å®Œå…¨å‰Šé™¤, 2:ã‚´ãƒŸç®±ã¸
+	int RandClearNum;                  // å®Œå…¨å‰Šé™¤æ™‚ã®ä¹±æ•°æ›¸ãè¾¼ã¿å›æ•°
+	int ZeroClearNum;                  // å®Œå…¨å‰Šé™¤æ™‚ã®NULLæ›¸ãè¾¼ã¿å›æ•°
 
-	int ProgressPercentNum;            // i’»ƒp[ƒZƒ“ƒg
-	String ProgressStatusText;         // i’»ƒXƒe[ƒ^ƒX
-	String ProgressMsgText;            // i’»ƒƒbƒZ[ƒW
+	int ProgressPercentNum;            // é€²æ—ãƒ‘ãƒ¼ã‚»ãƒ³ãƒˆ
+	String ProgressStatusText;         // é€²æ—ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
+	String ProgressMsgText;            // é€²æ—ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
 
 };
 //---------------------------------------------------------------------------

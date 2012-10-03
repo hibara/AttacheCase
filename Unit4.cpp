@@ -17,13 +17,13 @@ int i;
 
 InputType = Type;
 
-//“ú‚ÌƒTƒ“ƒvƒ‹‘®
+//æ—¥æ™‚ã®ã‚µãƒ³ãƒ—ãƒ«æ›¸å¼
 String SampleText;
 String SampleDateTime[8] = {
 	"dddddd(dddd)",
 	"yymmdd",
 	"yyyy_m_d",
-	"h''n'•ª'n'•b'",
+	"h'æ™‚'n'åˆ†'n'ç§’'",
 	"",
 	"",
 	"",
@@ -37,7 +37,7 @@ for (int i = 0; i < PageControl1->PageCount; i++) {
 
 switch(InputType){
 
-case 0: //‹L‰¯‚·‚éˆÃ†‰»ƒpƒXƒ[ƒh‚Ì“ü—Í
+case 0: //è¨˜æ†¶ã™ã‚‹æš—å·åŒ–ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã®å…¥åŠ›
 	this->Caption = LoadResourceString(&Msgunit4::_FORM_CAPTION_INPUT_ENCRYPT_MEM_PASSWORD);
 	cmdOK->Caption = LoadResourceString(&Msgunit4::_BUTTON_CAPTION_OK);
 	cmdOK->Enabled = false;
@@ -50,7 +50,7 @@ case 0: //‹L‰¯‚·‚éˆÃ†‰»ƒpƒXƒ[ƒh‚Ì“ü—Í
 
 	break;
 
-case 1: //‹L‰¯‚·‚é•œ†ƒpƒXƒ[ƒh‚Ì“ü—Í
+case 1: //è¨˜æ†¶ã™ã‚‹å¾©å·ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã®å…¥åŠ›
 	this->Caption = LoadResourceString(&Msgunit4::_FORM_CAPTION_INSERT_DECRYPT_MEM_PASSWORD);
 	cmdOK->Caption = LoadResourceString(&Msgunit4::_BUTTON_CAPTION_OK);
 	cmdOK->Enabled = false;
@@ -63,7 +63,7 @@ case 1: //‹L‰¯‚·‚é•œ†ƒpƒXƒ[ƒh‚Ì“ü—Í
 
 	break;
 
-case 2:	//“ú•t‘®‚Ì‘}“ü
+case 2:	//æ—¥ä»˜æ›¸å¼ã®æŒ¿å…¥
 	this->Caption = LoadResourceString(&Msgunit4::_FORM_CAPTION_INSERT_DATETIME_FORMAT);
 	cmdOK->Caption = LoadResourceString(&Msgunit4::_BUTTON_CAPTION_INSERT);
 	lblExampleDateTime->Caption = LoadResourceString(&Msgunit4::_LABEL_INSERT_DATETIME);
@@ -78,13 +78,13 @@ case 2:	//“ú•t‘®‚Ì‘}“ü
 
 	ComboDateTime->ItemIndex = 0;
 
-	//•\¦‚ğƒTƒ“ƒvƒ‹”½‰f
+	//è¡¨ç¤ºã‚’ã‚µãƒ³ãƒ—ãƒ«åæ˜ 
 	SampleText = Now().FormatString(SampleDateTime[ComboDateTime->ItemIndex]);
 	lblExampleDateTime->Caption = "ex). "+SampleText;
 
 	break;
 
-case 3:	//˜A”Ô‘®‚Ì‘}“ü
+case 3:	//é€£ç•ªæ›¸å¼ã®æŒ¿å…¥
 	this->Caption = LoadResourceString(&Msgunit4::_FORM_CAPTION_INSERT_SERIAL_NUM_FORMAT);
 	cmdOK->Caption = LoadResourceString(&Msgunit4::_BUTTON_CAPTION_INSERT);
 	txtNum->EditLabel->Caption = LoadResourceString(&Msgunit4::_LABEL_INSERT_SERIAL_NUM);
@@ -94,7 +94,7 @@ case 3:	//˜A”Ô‘®‚Ì‘}“ü
 
 	break;
 
-case 4:	//ƒ‰ƒ“ƒ_ƒ€•¶š—ñ”‚Ì‘}“ü
+case 4:	//ãƒ©ãƒ³ãƒ€ãƒ æ–‡å­—åˆ—æ•°ã®æŒ¿å…¥
 	this->Caption = LoadResourceString(&Msgunit4::_FORM_CAPTION_INSERT_RANDOM_TEXT_NUM_FORMAT);
 	cmdOK->Caption = LoadResourceString(&Msgunit4::_BUTTON_CAPTION_INSERT);
 	txtNum->EditLabel->Caption = LoadResourceString(&Msgunit4::_LABEL_INSERT_RANDOM_TEXT);
@@ -104,7 +104,7 @@ case 4:	//ƒ‰ƒ“ƒ_ƒ€•¶š—ñ”‚Ì‘}“ü
 
 	break;
 
-case 5:	//ƒtƒ@ƒCƒ‹–¼‚Ìæ“ª•¶š”‚Ì‘}“ü
+case 5:	//ãƒ•ã‚¡ã‚¤ãƒ«åã®å…ˆé ­æ–‡å­—æ•°ã®æŒ¿å…¥
 	this->Caption = LoadResourceString(&Msgunit4::_FORM_CAPTION_INSERT_FILE_NAME_HEAD_NUM_FORMAT);
 	cmdOK->Caption = LoadResourceString(&Msgunit4::_BUTTON_CAPTION_INSERT);
 	txtNum->EditLabel->Caption = LoadResourceString(&Msgunit4::_LABEL_INSERT_FILE_NAME_HEAD);
@@ -115,7 +115,7 @@ case 5:	//ƒtƒ@ƒCƒ‹–¼‚Ìæ“ª•¶š”‚Ì‘}“ü
 
 	break;
 
-case 6:	//ƒtƒ@ƒCƒ‹–¼‚Ì––”ö•¶š”‚Ì‘}“ü
+case 6:	//ãƒ•ã‚¡ã‚¤ãƒ«åã®æœ«å°¾æ–‡å­—æ•°ã®æŒ¿å…¥
 	this->Caption = LoadResourceString(&Msgunit4::_FORM_CAPTION_INSERT_FILE_NAME_END_NUM_FORMAT);
 	cmdOK->Caption = LoadResourceString(&Msgunit4::_BUTTON_CAPTION_INSERT);
 	txtNum->EditLabel->Caption = LoadResourceString(&Msgunit4::_LABEL_INSERT_FILE_NAME_END);
@@ -127,13 +127,13 @@ case 6:	//ƒtƒ@ƒCƒ‹–¼‚Ì––”ö•¶š”‚Ì‘}“ü
 	break;
 
 default:
-	//ƒGƒ‰[
+	//ã‚¨ãƒ©ãƒ¼
 	PageControl1->Visible = false;
 	break;
 
 }
 
-//ƒLƒƒƒ“ƒZƒ‹ƒ{ƒ^ƒ“
+//ã‚­ãƒ£ãƒ³ã‚»ãƒ«ãƒœã‚¿ãƒ³
 cmdCancel->Caption = LoadResourceString(&Msgunit4::_BUTTON_CAPTION_CANCEL);
 
 
@@ -158,7 +158,7 @@ void __fastcall TForm4::FormResize(TObject *Sender)
 {
 
 //-----------------------------------
-//ƒpƒXƒ[ƒh“ü—Íƒpƒlƒ‹
+//ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰å…¥åŠ›ãƒ‘ãƒãƒ«
 //-----------------------------------
 if (PageControl1->ActivePage == TabSheetInputPassword ) {
 
@@ -174,7 +174,7 @@ if (PageControl1->ActivePage == TabSheetInputPassword ) {
 
 }
 //-----------------------------------
-//“ú“ü—Íƒpƒlƒ‹
+//æ—¥æ™‚å…¥åŠ›ãƒ‘ãƒãƒ«
 //-----------------------------------
 else if (PageControl1->ActivePage == TabSheetInsertDate ) {
 
@@ -195,7 +195,7 @@ else if (PageControl1->ActivePage == TabSheetInsertDate ) {
 
 }
 //-----------------------------------
-//”’l“ü—Íƒpƒlƒ‹
+//æ•°å€¤å…¥åŠ›ãƒ‘ãƒãƒ«
 //-----------------------------------
 else{
 
@@ -227,12 +227,12 @@ String InsFormatText = "";
 String MsgErrorString;
 
 //-----------------------------------
-//‹L‰¯ƒpƒXƒ[ƒh‚Ì“ü—Íƒ^ƒuƒV[ƒg
+//è¨˜æ†¶ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã®å…¥åŠ›ã‚¿ãƒ–ã‚·ãƒ¼ãƒˆ
 //-----------------------------------
 if ( PageControl1->ActivePageIndex == 0 ) {
 
 	if ( AnsiString(txtInputMemConfirmPassword->Text).Length() > 56 ){
-		//'ƒpƒXƒ[ƒh‚Ég—p‚Å‚«‚é•¶š”‚Í”¼Šp56•¶ši‘SŠp28•¶šjˆÈ“à‚Å‚·B'
+		//'ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã«ä½¿ç”¨ã§ãã‚‹æ–‡å­—æ•°ã¯åŠè§’56æ–‡å­—ï¼ˆå…¨è§’28æ–‡å­—ï¼‰ä»¥å†…ã§ã™ã€‚'
 		MsgErrorString = LoadResourceString(&Msgunit4::_MSG_ERROR_PASSWORD_MAX_NUM);
 		MessageDlg(MsgErrorString, mtError, TMsgDlgButtons() << mbOK, 0);
 		txtInputMemConfirmPassword->SetFocus();
@@ -241,8 +241,8 @@ if ( PageControl1->ActivePageIndex == 0 ) {
 	}
 
 	if ( (AnsiString)txtInputMemPassword->Text != (AnsiString)txtInputMemConfirmPassword->Text ){
-		//'“ü—Í‚³‚ê‚½ƒpƒXƒ[ƒh‚Æ‚¿‚ª‚¢‚Ü‚·B'+#13+
-		//'Ä“xƒpƒXƒ[ƒh‚ğ“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B'
+		//'å…¥åŠ›ã•ã‚ŒãŸãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã¨ã¡ãŒã„ã¾ã™ã€‚'+#13+
+		//'å†åº¦ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„ã€‚'
 		MsgErrorString = LoadResourceString(&Msgunit4::_MSG_ERROR_INPUT_PASSWORD_MISMATCH);
 		MessageDlg(MsgErrorString, mtError, TMsgDlgButtons() << mbOK, 0);
 
@@ -251,21 +251,21 @@ if ( PageControl1->ActivePageIndex == 0 ) {
 		return;
 	}
 
-	if ( InputType == 0 ){         //ˆÃ†‰»ƒpƒXƒ[ƒh‚Ì‹L˜^
+	if ( InputType == 0 ){         //æš—å·åŒ–ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã®è¨˜éŒ²
 
-		//OKƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚é‚Ü‚Å‚Í‚Ü‚¾‰¼
+		//OKãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚Œã‚‹ã¾ã§ã¯ã¾ã ä»®
 		Form3->TempMyEncodePassword = (AnsiString)txtInputMemConfirmPassword->Text;
-		//•¶š”•ª‚¾‚¯"*"‚ğ•\¦
+		//æ–‡å­—æ•°åˆ†ã ã‘"*"ã‚’è¡¨ç¤º
 		Form3->btneditMyEncPassword->Text =
 			String::StringOfChar('*', Form3->TempMyEncodePassword.Length());
 		Form3->chkMyEncPasswordKeep->Checked = true;
 
 	}
-	else if ( InputType == 1 ){    //•œ†ƒpƒXƒ[ƒh‚Ì‹L˜^
+	else if ( InputType == 1 ){    //å¾©å·ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã®è¨˜éŒ²
 
-		//OKƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚é‚Ü‚Å‚Í‚Ü‚¾‰¼
+		//OKãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚Œã‚‹ã¾ã§ã¯ã¾ã ä»®
 		Form3->TempMyDecodePassword = (AnsiString)txtInputMemConfirmPassword->Text;
-		//•¶š”•ª‚¾‚¯"*"‚ğ•\¦
+		//æ–‡å­—æ•°åˆ†ã ã‘"*"ã‚’è¡¨ç¤º
 		Form3->btneditMyDecPassword->Text =
 			String::StringOfChar('*', Form3->TempMyDecodePassword.Length());
 		Form3->chkMyDecPasswordKeep->Checked = true;
@@ -276,29 +276,29 @@ if ( PageControl1->ActivePageIndex == 0 ) {
 
 }
 //-----------------------------------
-// ‘®“ü—Íƒ^ƒuƒV[ƒg
+// æ›¸å¼å…¥åŠ›ã‚¿ãƒ–ã‚·ãƒ¼ãƒˆ
 //-----------------------------------
 else {
 
 	switch(InputType){
 
-	case 2:	//“ú•t‘®‚Ì‘}“ü
+	case 2:	//æ—¥ä»˜æ›¸å¼ã®æŒ¿å…¥
 		InsFormatText = "<date:"+ComboDateTime->Items->Strings[ComboDateTime->ItemIndex]+">";
 		break;
 
-	case 3:	//˜A”Ô‘®‚Ì‘}“ü
+	case 3:	//é€£ç•ªæ›¸å¼ã®æŒ¿å…¥
 		InsFormatText = "<number:" + IntToStr(UpDown1->Position) + ">";
 		break;
 
-	case 4:	//ƒ‰ƒ“ƒ_ƒ€•¶š—ñ”‚Ì‘}“ü
+	case 4:	//ãƒ©ãƒ³ãƒ€ãƒ æ–‡å­—åˆ—æ•°ã®æŒ¿å…¥
 		InsFormatText = "<fend:" + IntToStr(UpDown1->Position) + ">";
 		break;
 
-	case 5:	//ƒtƒ@ƒCƒ‹–¼‚Ìæ“ª•¶š”‚Ì‘}“ü
+	case 5:	//ãƒ•ã‚¡ã‚¤ãƒ«åã®å…ˆé ­æ–‡å­—æ•°ã®æŒ¿å…¥
 		InsFormatText = "<fhead:" + IntToStr(UpDown1->Position) + ">";
 		break;
 
-	case 6:	//ƒtƒ@ƒCƒ‹–¼‚Ì––”ö•¶š”‚Ì‘}“ü
+	case 6:	//ãƒ•ã‚¡ã‚¤ãƒ«åã®æœ«å°¾æ–‡å­—æ•°ã®æŒ¿å…¥
 		InsFormatText = "<fend:" + IntToStr(UpDown1->Position) + ">";
 		break;
 

@@ -39,7 +39,7 @@ void __fastcall TForm1::FormDestroy(TObject *Sender)
 {
 
 //-----------------------------------
-//OLEƒhƒ‰ƒbƒO•ƒhƒƒbƒv‚ÌŒãn––
+//OLEãƒ‰ãƒ©ãƒƒã‚°ï¼†ãƒ‰ãƒ­ãƒƒãƒ—ã®å¾Œå§‹æœ«
 //-----------------------------------
 RevokeDragDrop(Form1->Handle);
 DragAndDropTarget->Release();
@@ -51,10 +51,10 @@ void __fastcall TForm1::FormShow(TObject *Sender)
 {
 
 //-----------------------------------
-//ƒhƒ‰ƒbƒO•ƒhƒƒbƒvƒNƒ‰ƒX
+//ãƒ‰ãƒ©ãƒƒã‚°ï¼†ãƒ‰ãƒ­ãƒƒãƒ—ã‚¯ãƒ©ã‚¹
 //-----------------------------------
 OleInitialize(NULL);
-//Form‚ğCreate‚µ‚Ä‚©‚ç‚Å‚È‚¢‚ÆŒÄ‚Ño‚¹‚È‚¢
+//Formã‚’Createã—ã¦ã‹ã‚‰ã§ãªã„ã¨å‘¼ã³å‡ºã›ãªã„
 DragAndDropTarget = new TDragAndDrop(Form1);
 DragAndDropTarget->FilesDragOver = FilesDragOver;
 DragAndDropTarget->FilesDragLeave = FilesDragLeave;
@@ -63,7 +63,7 @@ RegisterDragDrop(Form1->Handle, (IDropTarget*)DragAndDropTarget);
 
 }
 //---------------------------------------------------------------------------
-//ƒtƒH[ƒ€‚ÌƒŠƒTƒCƒYƒCƒxƒ“ƒg
+//ãƒ•ã‚©ãƒ¼ãƒ ã®ãƒªã‚µã‚¤ã‚ºã‚¤ãƒ™ãƒ³ãƒˆ
 //---------------------------------------------------------------------------
 void __fastcall TForm1::FormResize(TObject *Sender)
 {
@@ -95,7 +95,7 @@ void __fastcall TForm1::cmdExitClick(TObject *Sender)
 
 if (ProgressBar1->Visible == true) {
 	if (ProgressBar1->Position == 100 || ProgressBar1->Position == 0) {
-		ChangeFormStatus(0);  //ƒƒCƒ“ƒtƒH[ƒ€‚Ö–ß‚é
+		ChangeFormStatus(0);  //ãƒ¡ã‚¤ãƒ³ãƒ•ã‚©ãƒ¼ãƒ ã¸æˆ»ã‚‹
 		return;
 	}
 	else{
@@ -104,7 +104,7 @@ if (ProgressBar1->Visible == true) {
 			return;
 		}
 		else{
-			ChangeFormStatus(0);  //ƒƒCƒ“ƒtƒH[ƒ€‚Ö–ß‚é
+			ChangeFormStatus(0);  //ãƒ¡ã‚¤ãƒ³ãƒ•ã‚©ãƒ¼ãƒ ã¸æˆ»ã‚‹
 			return;
 		}
 	}
@@ -128,7 +128,7 @@ lblAbout->Font->Color = TColor(0x00FF9999);
 void __fastcall TForm1::lblAboutClick(TObject *Sender)
 {
 
-//ƒo[ƒWƒ‡ƒ“î•ñ‚Ì•\¦
+//ãƒãƒ¼ã‚¸ãƒ§ãƒ³æƒ…å ±ã®è¡¨ç¤º
 Form2 = new TForm2(this);
 Form2->PopupParent = Form1;
 Form2->ShowModal();
@@ -136,20 +136,20 @@ Form2->Release();
 
 }
 //---------------------------------------------------------------------------
-// DragOver ƒCƒxƒ“ƒg‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”
+// DragOver ã‚¤ãƒ™ãƒ³ãƒˆã®ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°
 //---------------------------------------------------------------------------
 void __fastcall TForm1::FilesDragOver(POINTL ptl)
 {
 
 int px, py, pr, pb;
 TRect rcResult;
-TRect rcMouse = TRect(ptl.x-1, ptl.y-1, ptl.x+1, ptl.y+1);   //ƒ}ƒEƒXˆÊ’u
+TRect rcMouse = TRect(ptl.x-1, ptl.y-1, ptl.x+1, ptl.y+1);   //ãƒã‚¦ã‚¹ä½ç½®
 TRect rcTarget;
 
 DragAndDropTarget->fMultipleFilesOk = false;
 DragAndDropTarget->DropImageType = DROPIMAGE_COPY;
 
-//ƒpƒXƒ[ƒh“ü—Íƒ{ƒbƒNƒX
+//ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰å…¥åŠ›ãƒœãƒƒã‚¯ã‚¹
 px = txtInputPassword->Left;
 py = txtInputPassword->Top;
 pr = txtInputPassword->BoundsRect.Right;
@@ -157,7 +157,7 @@ pb = txtInputPassword->BoundsRect.Bottom;
 rcTarget = Rect(ClientToScreen(TPoint(px, py)), ClientToScreen(TPoint(pr, pb)));
 
 if (IntersectRect(rcResult, rcMouse, rcTarget) == true ) {
-	txtInputPassword->Color = TColor(0xDBEBF7);  //ƒIƒŒƒ“ƒWF
+	txtInputPassword->Color = TColor(0xDBEBF7);  //ã‚ªãƒ¬ãƒ³ã‚¸è‰²
 }
 else{
 	txtInputPassword->Color = clWindow;
@@ -166,7 +166,7 @@ else{
 
 }
 //---------------------------------------------------------------------------
-// DragLeave ƒCƒxƒ“ƒg‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”
+// DragLeave ã‚¤ãƒ™ãƒ³ãƒˆã®ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°
 //---------------------------------------------------------------------------
 void __fastcall TForm1::FilesDragLeave(void)
 {
@@ -175,14 +175,14 @@ txtInputPassword->Color = clWindow;
 
 }
 //---------------------------------------------------------------------------
-// DragEnd ƒCƒxƒ“ƒg‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”
+// DragEnd ã‚¤ãƒ™ãƒ³ãƒˆã®ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°
 //---------------------------------------------------------------------------
 void __fastcall TForm1::FilesDragEnd(POINTL ptl, String FileListText)
 {
 
 int px, py, pr, pb;
 TRect rcResult;
-TRect rcMouse = TRect(ptl.x-1, ptl.y-1, ptl.x+1, ptl.y+1);   //ƒ}ƒEƒXˆÊ’u
+TRect rcMouse = TRect(ptl.x-1, ptl.y-1, ptl.x+1, ptl.y+1);   //ãƒã‚¦ã‚¹ä½ç½®
 TRect rcTarget;
 
 String MsgText;
@@ -195,7 +195,7 @@ DropFileList->Text = FileListText;
 DragAndDropTarget->fMultipleFilesOk = false;
 DragAndDropTarget->DropImageType =DROPIMAGE_COPY;
 
-//ƒpƒXƒ[ƒh“ü—Íƒ{ƒbƒNƒX
+//ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰å…¥åŠ›ãƒœãƒƒã‚¯ã‚¹
 px = txtInputPassword->Left;
 py = txtInputPassword->Top;
 pr = txtInputPassword->BoundsRect.Right;
@@ -204,7 +204,7 @@ rcTarget = Rect(ClientToScreen(TPoint(px, py)), ClientToScreen(TPoint(pr, pb)));
 
 if (IntersectRect(rcResult, rcMouse, rcTarget) == true && DropFileList->Count > 0) {
 
-	txtInputPassword->Color = TColor(0xDBEBF7);  //ƒIƒŒƒ“ƒWF
+	txtInputPassword->Color = TColor(0xDBEBF7);  //ã‚ªãƒ¬ãƒ³ã‚¸è‰²
 
 	PasswordFilePath = DropFileList->Strings[0];
 	txtInputPassword->Text = PasswordFilePath;
@@ -218,30 +218,30 @@ delete DropFileList;
 
 }
 //---------------------------------------------------------------------------
-// ƒtƒH[ƒ€ó‘Ô‚ÌØ‚è‘Ö‚¦
+// ãƒ•ã‚©ãƒ¼ãƒ çŠ¶æ…‹ã®åˆ‡ã‚Šæ›¿ãˆ
 //---------------------------------------------------------------------------
 void __fastcall TForm1::ChangeFormStatus(int opt)
 {
 
-if (opt == 1) {                        //Às’†
-	//ƒtƒH[ƒ€‚ğÀsó‘Ô‚É‚·‚é
+if (opt == 1) {                        //å®Ÿè¡Œä¸­
+	//ãƒ•ã‚©ãƒ¼ãƒ ã‚’å®Ÿè¡ŒçŠ¶æ…‹ã«ã™ã‚‹
 	lblMsgInputPassword->Visible = false;
 	txtInputPassword->Visible = false;
 	imgKeyIcon->Visible = false;
 	chkSaveToOtherDirectory->Visible = false;
-	//ƒvƒƒOƒŒƒXƒo[ŠÖ˜A‚Ì•\¦
+	//ãƒ—ãƒ­ã‚°ãƒ¬ã‚¹ãƒãƒ¼é–¢é€£ã®è¡¨ç¤º
 	ProgressBar1->Visible = true;
 	lblProgressPercentNum->Visible = true;
 	lblStatus->Visible = true;
 	lblMsg->Visible = true;
 }
-else{                                  //ƒƒCƒ“•\¦
-	//ƒpƒXƒ[ƒh“ü—Íƒ{ƒbƒNƒX‚Ì•\¦
+else{                                  //ãƒ¡ã‚¤ãƒ³è¡¨ç¤º
+	//ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰å…¥åŠ›ãƒœãƒƒã‚¯ã‚¹ã®è¡¨ç¤º
 	lblMsgInputPassword->Visible = true;
 	txtInputPassword->Visible = true;
 	imgKeyIcon->Visible = true;
 	chkSaveToOtherDirectory->Visible = true;
-	//ƒvƒƒOƒŒƒXƒo[ŠÖ˜A‚Ì•\¦‚ğÁ‚·
+	//ãƒ—ãƒ­ã‚°ãƒ¬ã‚¹ãƒãƒ¼é–¢é€£ã®è¡¨ç¤ºã‚’æ¶ˆã™
 	ProgressBar1->Visible = false;
 	lblProgressPercentNum->Visible = false;
 	lblStatus->Visible = false;
@@ -250,7 +250,7 @@ else{                                  //ƒƒCƒ“•\¦
 
 }
 //---------------------------------------------------------------------------
-// ƒtƒ@ƒCƒ‹‚ğ•œ†‚·‚éˆ—
+// ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å¾©å·ã™ã‚‹å‡¦ç†
 //---------------------------------------------------------------------------
 void __fastcall TForm1::FileDecrypt(void)
 {
@@ -273,16 +273,16 @@ String RootDirPath = ExtractFileDir(Application->ExeName);
 
 TSelectDirExtOpts opt;
 
-//ƒtƒH[ƒ€‚ğÀs’†ó‘Ô‚É‚·‚é
+//ãƒ•ã‚©ãƒ¼ãƒ ã‚’å®Ÿè¡Œä¸­çŠ¶æ…‹ã«ã™ã‚‹
 ChangeFormStatus(1);
 
-//eƒtƒHƒ‹ƒ_‚ğ¶¬‚µ‚È‚¢
+//è¦ªãƒ•ã‚©ãƒ«ãƒ€ã‚’ç”Ÿæˆã—ãªã„
 //if ( fNoParentFldr == true  )
 
 if ( chkSaveToOtherDirectory->Checked == true ) {
 
 	opt = TSelectDirExtOpts() << sdShowShares << sdNewUI << sdNewFolder << sdShowEdit << sdValidateDir;
-	// '•œ†‚·‚éæ‚ÌƒtƒHƒ‹ƒ_[‚ğw’è‚µ‚Ä‚­‚¾‚³‚¢B'
+	// 'å¾©å·ã™ã‚‹å…ˆã®ãƒ•ã‚©ãƒ«ãƒ€ãƒ¼ã‚’æŒ‡å®šã—ã¦ãã ã•ã„ã€‚'
 	if (SelectDirectory(LoadResourceString(&Msgexeout::_DIALOG_MSG_SELECT_SAVE_TO_FOLDER),
 			RootDirPath, OutDirPath, opt, this) == false){
 		return;
@@ -295,88 +295,88 @@ else{
 
 
 if ( DirectoryExists(OutDirPath) == false ) {
-	//'•Û‘¶‚·‚éæ‚ÌƒtƒHƒ‹ƒ_[‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB•Û‘¶İ’è‚ğÄŠm”F‚µ‚Ä‚­‚¾‚³‚¢B'+#13+
-	//'•œ†ˆ—‰»‚ğ’†~‚µ‚Ü‚·B';
+	//'ä¿å­˜ã™ã‚‹å…ˆã®ãƒ•ã‚©ãƒ«ãƒ€ãƒ¼ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ã€‚ä¿å­˜è¨­å®šã‚’å†ç¢ºèªã—ã¦ãã ã•ã„ã€‚'+#13+
+	//'å¾©å·å‡¦ç†åŒ–ã‚’ä¸­æ­¢ã—ã¾ã™ã€‚';
 	MsgText = LoadResourceString(&Msgexeout::_MSG_ERROR_SAVE_DEC_TO_FOLDER_NOT_EXISTS)+"\n"+
 						OutDirPath;
 	MessageDlg(MsgText, mtError, TMsgDlgButtons() << mbOK, 0);
-	//ƒGƒ‰[I—¹•\¦
+	//ã‚¨ãƒ©ãƒ¼çµ‚äº†è¡¨ç¤º
 	ProgressBar1->Position = 0;
 	lblProgressPercentNum->Caption = " - %";
-	//'ƒLƒƒƒ“ƒZƒ‹'
+	//'ã‚­ãƒ£ãƒ³ã‚»ãƒ«'
 	lblStatus->Caption = LoadResourceString(&Msgexeout::_LABEL_STATUS_TITLE_USER_CANCEL);
-	//'•œ†‚ª’†~‚³‚ê‚Ü‚µ‚½B'
+	//'å¾©å·ãŒä¸­æ­¢ã•ã‚Œã¾ã—ãŸã€‚'
 	lblMsg->Caption = LoadResourceString(&Msgexeout::_LABEL_STATUS_DETAIL_STOPPED);
 	return;
 }
 
 //-----------------------------------
-// •œ†ˆ—‚ÌŠJn
+// å¾©å·å‡¦ç†ã®é–‹å§‹
 //-----------------------------------
 
-//•œ†ˆ—ƒCƒ“ƒXƒ^ƒ“ƒX‚Ìì¬
+//å¾©å·å‡¦ç†ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã®ä½œæˆ
 decrypt = new TAttacheCaseFileDecrypt2(true);
 decrypt->OnTerminate = DecryptThreadTerminated;
 decrypt->FreeOnTerminate = true;
-decrypt->AppExeFilePath = Application->ExeName;  //ƒAƒ^ƒbƒVƒFƒP[ƒX–{‘Ì‚ÌêŠiÀsŒ`®o—Í‚Ì‚Æ‚«‚ÉQÆ‚·‚éj
-decrypt->AtcFilePath = Application->ExeName;     //“ü—Í‚·‚éˆÃ†‰»ƒtƒ@ƒCƒ‹ƒpƒXi©•ª©gj
-decrypt->OutDirPath = OutDirPath;                //o—Í‚·‚éƒfƒBƒŒƒNƒgƒŠ
-decrypt->fConfirmOverwirte = true;               //ã‘‚«‚ÌŠm”F
+decrypt->AppExeFilePath = Application->ExeName;  //ã‚¢ã‚¿ãƒƒã‚·ã‚§ã‚±ãƒ¼ã‚¹æœ¬ä½“ã®å ´æ‰€ï¼ˆå®Ÿè¡Œå½¢å¼å‡ºåŠ›ã®ã¨ãã«å‚ç…§ã™ã‚‹ï¼‰
+decrypt->AtcFilePath = Application->ExeName;     //å…¥åŠ›ã™ã‚‹æš—å·åŒ–ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ï¼ˆè‡ªåˆ†è‡ªèº«ï¼‰
+decrypt->OutDirPath = OutDirPath;                //å‡ºåŠ›ã™ã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
+decrypt->fConfirmOverwirte = true;               //ä¸Šæ›¸ãã®ç¢ºèª
 
 //-----------------------------------
-//ƒpƒXƒ[ƒh‚ÌƒZƒbƒg
+//ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã®ã‚»ãƒƒãƒˆ
 //-----------------------------------
 
-//ƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚ğg—p‚·‚é
+//ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ä½¿ç”¨ã™ã‚‹
 if (PasswordFilePath != "") {
 
-	//SHA-1ƒnƒbƒVƒ…‚ğ‹‚ß‚é
+	//SHA-1ãƒãƒƒã‚·ãƒ¥ã‚’æ±‚ã‚ã‚‹
 	if ( GetSHA1HashFromFile(PasswordFilePath, PasswordFileHash, PasswordFileHeader) == true ){
 		StrLCopy(password, PasswordFileHash.c_str(), 32);
 		decrypt->SetPasswordBinary(password);
 		FileDecrypt();
 	}
 	else{
-		//'ƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚ğŠJ‚¯‚Ü‚¹‚ñB‘¼‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Åg—p’†‚Ì‰Â”\«‚ª‚ ‚è‚Ü‚·B';
+		//'ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã‘ã¾ã›ã‚“ã€‚ä»–ã®ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã§ä½¿ç”¨ä¸­ã®å¯èƒ½æ€§ãŒã‚ã‚Šã¾ã™ã€‚';
 		MsgText = LoadResourceString(&Msgexeout::_MSG_ERROR_OPEN_PASSWORD_FILE)+"\n"+PasswordFilePath;
 		MessageDlg(MsgText, mtError, TMsgDlgButtons() << mbOK, 0);
 	}
 
 }
 else{
-	//•¶š—ñ‚ğƒZƒbƒg
+	//æ–‡å­—åˆ—ã‚’ã‚»ãƒƒãƒˆ
 	Password = (AnsiString)txtInputPassword->Text;
 	StrLCopy(password, Password.c_str(), 32);
 	decrypt->SetPasswordBinary(password);
 }
 
-//•œ†‚ÌÀs
+//å¾©å·ã®å®Ÿè¡Œ
 decrypt->Start();
 
-//ƒ^ƒXƒNƒo[i’»•\¦iWin7j
+//ã‚¿ã‚¹ã‚¯ãƒãƒ¼é€²æ—è¡¨ç¤ºï¼ˆWin7ï¼‰
 if(CoCreateInstance(CLSID_TaskbarList, NULL, CLSCTX_ALL, IID_ITaskbarList3, (void**)&ptl) != S_OK) {
-	//¸”s
+	//å¤±æ•—
 }
 if (ptl) ptl->SetProgressState(Application->Handle, TBPF_NORMAL);
 
-//i’»‚ğTimer‚ÅŠÄ‹
+//é€²æ—ã‚’Timerã§ç›£è¦–
 TimerDecrypt->Enabled = true;
 
 }
 //===========================================================================
-// ƒtƒ@ƒCƒ‹‚©‚çSHA-1ƒnƒbƒVƒ…’l‚ğæ“¾‚·‚é
+// ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰SHA-1ãƒãƒƒã‚·ãƒ¥å€¤ã‚’å–å¾—ã™ã‚‹
 //===========================================================================
 bool __fastcall TForm1::GetSHA1HashFromFile(
-	String FilePath,              // ƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹ƒpƒX
-	AnsiString &HashDataVer2,     // ver.2.*  `FSHA-1ƒnƒbƒVƒ…’li20byte + 12bytej
-	AnsiString &HashDataVer1 )    // ver.1.*  `Fƒwƒbƒ_ƒf[ƒ^iæ“ª•¶š—ñ32•¶šj
+	String FilePath,              // ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹
+	AnsiString &HashDataVer2,     // ver.2.*  ï½ï¼šSHA-1ãƒãƒƒã‚·ãƒ¥å€¤ï¼ˆ20byte + 12byteï¼‰
+	AnsiString &HashDataVer1 )    // ver.1.*  ï½ï¼šãƒ˜ãƒƒãƒ€ãƒ‡ãƒ¼ã‚¿ï¼ˆå…ˆé ­æ–‡å­—åˆ—32æ–‡å­—ï¼‰
 {
 
 int i;
 
 int fh;
 int bytes, rest;
-char buffer[255];	                               //“Ç‚İ‚İƒoƒbƒtƒ@
+char buffer[255];	                               //èª­ã¿è¾¼ã¿ãƒãƒƒãƒ•ã‚¡
 char sha1_hash_data_mixed_padding[BUF_HASH_DATA];// 32byte
 
 for (i = 0; i < BUF_HASH_DATA; i++) {
@@ -388,26 +388,26 @@ if ( !FileExists(FilePath) ) return(false);
 try{
 
 	if ( (fh = FileOpen(FilePath, fmShareDenyNone)) == -1 ){
-		//ƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚ªŠJ‚¯‚È‚¢H
+		//ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«ãŒé–‹ã‘ãªã„ï¼Ÿ
 		return(false);
 	}
 
-	//ƒwƒbƒ_æ“ª‚Ì255byte‚ğ“Ç‚Şiver.1.* `j
+	//ãƒ˜ãƒƒãƒ€å…ˆé ­ã®255byteã‚’èª­ã‚€ï¼ˆver.1.* ï½ï¼‰
 	FileRead(fh, buffer, 255);
 	HashDataVer1 = (AnsiString)buffer;
 
-	//SHA-1ƒnƒbƒVƒ…‚ÌŒvZ
+	//SHA-1ãƒãƒƒã‚·ãƒ¥ã®è¨ˆç®—
 	FileSeek(fh, 0, 0);
 	SHA1Context sha;
 	unsigned char Message_Digest[20];
 	ZeroMemory(Message_Digest, 20);
 
-	//‰Šú‰»iƒŠƒZƒbƒgj
+	//åˆæœŸåŒ–ï¼ˆãƒªã‚»ãƒƒãƒˆï¼‰
 	if ( SHA1Reset(&sha)){
 		return(false);
 	}
 
-	//ƒtƒ@ƒCƒ‹‚ğ“Ç‚İo‚µ‚ÄSHA-1‚Ö“ü—Í‚µ‚Ä‚¢‚­
+	//ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿å‡ºã—ã¦SHA-1ã¸å…¥åŠ›ã—ã¦ã„ã
 	while ((bytes = FileRead (fh, buffer, 255)) != 0){
 		rest = bytes;
 		if ( SHA1Input(&sha, (const unsigned char *)buffer, bytes) ){
@@ -423,7 +423,7 @@ try{
 		FileRead(fh, buffer, 255);
 	}
 
-	//o—Í
+	//å‡ºåŠ›
 	if(SHA1Result(&sha, Message_Digest)){
 		return(false);
 	}
@@ -431,14 +431,14 @@ try{
 		sha1_hash_data_mixed_padding[i] = Message_Digest[i];
 	}
 
-	//c‚è‚Ì12byte‚ğ•â“U
+	//æ®‹ã‚Šã®12byteã‚’è£œå¡«
 	for (i = 0; i < 12; i++) {             // 12byte
 		 sha1_hash_data_mixed_padding[BUF_SHA1_SIZE+i] = buffer[i];
 	}
 
 	HashDataVer2 = "";
 	for (i = 0; i < BUF_HASH_DATA; i++){   // 32byte
-		//“KØ‚ÉƒLƒƒƒXƒg‚³‚ê‚é‚æ‚¤‚É1byte‚¸‚Â‘ã“ü
+		//é©åˆ‡ã«ã‚­ãƒ£ã‚¹ãƒˆã•ã‚Œã‚‹ã‚ˆã†ã«1byteãšã¤ä»£å…¥
 		HashDataVer2 += (AnsiString)sha1_hash_data_mixed_padding[i];
 	}
 	HashDataVer2.SetLength(32);
@@ -454,7 +454,7 @@ return(true);
 
 }
 //---------------------------------------------------------------------------
-//•œ†ˆ—ƒXƒŒƒbƒh‚ÌI—¹
+//å¾©å·å‡¦ç†ã‚¹ãƒ¬ãƒƒãƒ‰ã®çµ‚äº†
 //---------------------------------------------------------------------------
 void __fastcall TForm1::DecryptThreadTerminated(TObject *Sender)
 {
@@ -473,41 +473,41 @@ if(ptl){
 
 TimerDecrypt->Enabled = false;
 
-//•œ†‚É¬Œ÷
+//å¾©å·ã«æˆåŠŸ
 if ( decrypt->StatusNum > 0 ) {
 
 	decrypt = NULL;
 
 }
-//•œ†ƒGƒ‰[
+//å¾©å·ã‚¨ãƒ©ãƒ¼
 else{
 
-	//ƒpƒXƒ[ƒh“ü—ÍƒGƒ‰[‚Å”²‚¯‚Ä‚«‚½
+	//ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰å…¥åŠ›ã‚¨ãƒ©ãƒ¼ã§æŠœã‘ã¦ããŸ
 	if ( decrypt->StatusNum == -1 ) {
 
-		//ƒƒCƒ“ƒpƒlƒ‹‚Ö–ß‚é
+		//ãƒ¡ã‚¤ãƒ³ãƒ‘ãƒãƒ«ã¸æˆ»ã‚‹
 		ChangeFormStatus(0);
 
 		RetryNum++;
 
-		//ƒpƒXƒ[ƒh“ü—Í‰ñ”§ŒÀ‚ğ’´‚¦‚½
+		//ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰å…¥åŠ›å›æ•°åˆ¶é™ã‚’è¶…ãˆãŸ
 		if ( RetryNum > decrypt->TypeLimits ) {
-			//Àsƒtƒ@ƒCƒ‹‚Í©g‚ğ‘‚«Š·‚¦‚ç‚ê‚È‚¢‚Ì‚ÅI—¹‚·‚é‚¾‚¯
+			//å®Ÿè¡Œãƒ•ã‚¡ã‚¤ãƒ«ã¯è‡ªèº«ã‚’æ›¸ãæ›ãˆã‚‰ã‚Œãªã„ã®ã§çµ‚äº†ã™ã‚‹ã ã‘
 			decrypt = NULL;
 			Application->Terminate();
 		}
 
 	}
-	//ƒGƒ‰[
+	//ã‚¨ãƒ©ãƒ¼
 	else if ( decrypt->StatusNum == -2 ) {
 
 	}
-	//ƒ†[ƒU[ƒLƒƒƒ“ƒZƒ‹
+	//ãƒ¦ãƒ¼ã‚¶ãƒ¼ã‚­ãƒ£ãƒ³ã‚»ãƒ«
 	else{
 
 	}
 
-	//ƒGƒ‰[‚ÅI—¹‚µ‚Ä‚«‚½
+	//ã‚¨ãƒ©ãƒ¼ã§çµ‚äº†ã—ã¦ããŸ
 	decrypt = NULL;
 
 }
@@ -517,7 +517,7 @@ else{
 void __fastcall TForm1::cmdOKClick(TObject *Sender)
 {
 
-//•œ†ŠJn
+//å¾©å·é–‹å§‹
 FileDecrypt();
 
 }
@@ -525,7 +525,7 @@ FileDecrypt();
 void __fastcall TForm1::TimerDecryptTimer(TObject *Sender)
 {
 
-//•œ†‚Ìi’»ó‹µ‚ğŠm”F‚·‚é
+//å¾©å·ã®é€²æ—çŠ¶æ³ã‚’ç¢ºèªã™ã‚‹
 
 if (decrypt != NULL) {
 	ProgressBar1->Position = decrypt->ProgressPercentNum;
@@ -534,7 +534,7 @@ if (decrypt != NULL) {
 	lblStatus->Caption = decrypt->ProgressStatusText;
 	lblMsg->Caption = decrypt->ProgressMsgText;
 
-	//ƒ^ƒXƒNƒo[i’»•\¦iWin7j
+	//ã‚¿ã‚¹ã‚¯ãƒãƒ¼é€²æ—è¡¨ç¤ºï¼ˆWin7ï¼‰
 	if(ptl){
 		ptl->SetProgressValue(Application->Handle, decrypt->ProgressPercentNum, 100);
 	}
@@ -545,7 +545,7 @@ else{
 
 }
 //---------------------------------------------------------------------------
-//ƒƒbƒZ[ƒWƒ_ƒCƒAƒƒO‚Ì•\¦iƒXƒŒƒbƒhƒIƒuƒWƒFƒNƒg‚©‚çŒÄ‚Î‚ê‚éj
+//ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã®è¡¨ç¤ºï¼ˆã‚¹ãƒ¬ãƒƒãƒ‰ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‹ã‚‰å‘¼ã°ã‚Œã‚‹ï¼‰
 //---------------------------------------------------------------------------
 int __fastcall TForm1::ShowConfirmMassageForm
 	(String MsgText, TMsgDlgType MsgType, TMsgDlgButtons MsgButtons, TMsgDlgBtn MsgDefaultButton)
@@ -561,55 +561,55 @@ else {
 	dlg->Caption = LoadResourceString(&Msgexeout::_MSG_CAPTION_CONFIRMATION);
 }
 
-//ƒƒbƒZ[ƒWƒ_ƒCƒAƒƒO‚Ì•\¦
+//ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã®è¡¨ç¤º
 int ret = dlg->ShowModal();
 delete dlg;
 return(ret);
 
 }
 //---------------------------------------------------------------------------
-//ã‘‚«Šm”FƒƒbƒZ[ƒWƒ_ƒCƒAƒƒO‚Ì•\¦i•œ†ƒXƒŒƒbƒhƒIƒuƒWƒFƒNƒg‚©‚çŒÄ‚Î‚ê‚éj
+//ä¸Šæ›¸ãç¢ºèªãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã®è¡¨ç¤ºï¼ˆå¾©å·ã‚¹ãƒ¬ãƒƒãƒ‰ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‹ã‚‰å‘¼ã°ã‚Œã‚‹ï¼‰
 //---------------------------------------------------------------------------
 int __fastcall TForm1::ShowConfirmOverwriteMassageForm(String MsgText, String &Path)
 {
 
-//ƒ{ƒ^ƒ“‚ğƒJƒXƒ^ƒ}ƒCƒY‚·‚é‚Ì‚Åã‹LŠÖ”‚Æ•ª‚¯‚Äì¬
+//ãƒœã‚¿ãƒ³ã‚’ã‚«ã‚¹ã‚¿ãƒã‚¤ã‚ºã™ã‚‹ã®ã§ä¸Šè¨˜é–¢æ•°ã¨åˆ†ã‘ã¦ä½œæˆ
 
 TButton *btn;
 TMsgDlgButtons MsgButtons = (TMsgDlgButtons() << mbYesToAll << mbYes << mbNo << mbCancel);
 TForm *dlg = CreateMessageDialog(MsgText, mtConfirmation, MsgButtons, mbCancel);
 
-//ƒ{ƒ^ƒ“–¼‚ğ‚»‚ê‚¼‚ê‘‚«Š·‚¦‚é
-btn = (TButton *)dlg->FindComponent("YesToAll");   //'‘S‚Äã‘‚«(&W)'
+//ãƒœã‚¿ãƒ³åã‚’ãã‚Œãã‚Œæ›¸ãæ›ãˆã‚‹
+btn = (TButton *)dlg->FindComponent("YesToAll");   //'å…¨ã¦ä¸Šæ›¸ã(&W)'
 btn->Caption = LoadResourceString(&Msgexeout::_DIALOG_BUTTON_NAME_OVERWITE_YES_TO_ALL);
-btn = (TButton *)dlg->FindComponent("Yes");        //'ã‘‚«(&O)'
+btn = (TButton *)dlg->FindComponent("Yes");        //'ä¸Šæ›¸ã(&O)'
 btn->Caption = LoadResourceString(&Msgexeout::_DIALOG_BUTTON_NAME_OVERWITE_YES);
-btn = (TButton *)dlg->FindComponent("No");         //'•Ê–¼•Û‘¶(&A)'
+btn = (TButton *)dlg->FindComponent("No");         //'åˆ¥åä¿å­˜(&A)'
 btn->Caption = LoadResourceString(&Msgexeout::_DIALOG_BUTTON_NAME_OVERWITE_NO);
-btn = (TButton *)dlg->FindComponent("Cancel");     //'ƒLƒƒƒ“ƒZƒ‹(&C)'
+btn = (TButton *)dlg->FindComponent("Cancel");     //'ã‚­ãƒ£ãƒ³ã‚»ãƒ«(&C)'
 btn->Caption = LoadResourceString(&Msgexeout::_DIALOG_BUTTON_NAME_OVERWITE_CANCEL);
 
 dlg->Caption = LoadResourceString(&Msgexeout::_MSG_CAPTION_CONFIRMATION);
 dlg->ParentWindow = Form1->Handle;
 
-//ƒƒbƒZ[ƒWƒ_ƒCƒAƒƒO‚Ì•\¦
+//ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã®è¡¨ç¤º
 int ret = dlg->ShowModal();
 
-if (ret == mrNo) { //•Ê–¼‚Å•Û‘¶‚·‚éi‚¢‚¢‚¦j
+if (ret == mrNo) { //åˆ¥åã§ä¿å­˜ã™ã‚‹ï¼ˆã„ã„ãˆï¼‰
 
 	TSaveDialog *dlgsave = new TSaveDialog(dlg);
-	//'•œ†ƒtƒ@ƒCƒ‹‚Ì•Û‘¶'
+	//'å¾©å·ãƒ•ã‚¡ã‚¤ãƒ«ã®ä¿å­˜'
 	dlgsave->Title = LoadResourceString(&Msgexeout::_DIALOG_SAVE_AS_FILE_CAPTION);
 	dlgsave->InitialDir = ExtractFileDir(ExcludeTrailingPathDelimiter(Path));
 	dlgsave->FileName = ExtractFileName(ExcludeTrailingPathDelimiter(Path));
-	//'ƒtƒ@ƒCƒ‹ƒtƒHƒ‹ƒ_[|*'
+	//'ãƒ•ã‚¡ã‚¤ãƒ«ãƒ•ã‚©ãƒ«ãƒ€ãƒ¼|*'
 	dlgsave->Filter = LoadResourceString(&Msgexeout::_DIALOG_SAVE_AS_FILTER);
-	//•Ê–¼•Û‘¶ƒ_ƒCƒAƒƒO
+	//åˆ¥åä¿å­˜ãƒ€ã‚¤ã‚¢ãƒ­ã‚°
 	if ( dlgsave->Execute() == true ){
 		Path = dlgsave->FileName;
 	}
 	else{
-		//ƒLƒƒƒ“ƒZƒ‹
+		//ã‚­ãƒ£ãƒ³ã‚»ãƒ«
 		ret = mrCancel;
 	}
 	delete dlgsave;
@@ -620,7 +620,7 @@ return(ret);
 
 }
 //---------------------------------------------------------------------------
-//ˆÃ†‰»ƒtƒ@ƒCƒ‹‚ğ”j‰ó‚·‚é
+//æš—å·åŒ–ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ç ´å£Šã™ã‚‹
 //---------------------------------------------------------------------------
 bool __fastcall TForm1::DestroyAtcFile(void)
 {
@@ -639,10 +639,10 @@ for ( i = 0; i < BUF_SIZE; i++ ){
 TFileStream *fsIn;
 
 char token[16];
-const char charTokenString[16] = "_AttacheCaseData";         //•œ†‚Ì³”Û‚Ég‚¤
-const char charDestroyTokenString[16] = "_Atc_Broken_Data";  //”j‰ó‚³‚ê‚Ä‚¢‚é‚Æ‚«
-String AtcFileTokenString;                                   //ˆÃ†‰»ƒtƒ@ƒCƒ‹‚Ìƒg[ƒNƒ“i•¶š—ñj
-String AtcFileCreateDateString;                              //ˆÃ†‰»ƒtƒ@ƒCƒ‹‚Ì¶¬“úi•¶š—ñj
+const char charTokenString[16] = "_AttacheCaseData";         //å¾©å·ã®æ­£å¦ã«ä½¿ã†
+const char charDestroyTokenString[16] = "_Atc_Broken_Data";  //ç ´å£Šã•ã‚Œã¦ã„ã‚‹ã¨ã
+String AtcFileTokenString;                                   //æš—å·åŒ–ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒˆãƒ¼ã‚¯ãƒ³ï¼ˆæ–‡å­—åˆ—ï¼‰
+String AtcFileCreateDateString;                              //æš—å·åŒ–ãƒ•ã‚¡ã‚¤ãƒ«ã®ç”Ÿæˆæ—¥æ™‚ï¼ˆæ–‡å­—åˆ—ï¼‰
 
 __int64 AllTotalSize;
 int PlaneHeaderSize;
@@ -652,52 +652,52 @@ try {
 	fsIn = new TFileStream(Application->ExeName, fmShareDenyNone);
 }
 catch(...) {
-	//'ƒtƒ@ƒCƒ‹‚ğŠJ‚¯‚Ü‚¹‚ñB‘¼‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Åg—p’†‚Ì‰Â”\«‚ª‚ ‚è‚Ü‚·B'
+	//'ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã‘ã¾ã›ã‚“ã€‚ä»–ã®ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã§ä½¿ç”¨ä¸­ã®å¯èƒ½æ€§ãŒã‚ã‚Šã¾ã™ã€‚'
 	MsgText = LoadResourceString(&Msgexeout::_MSG_FILE_OPEN_ERROR);
 	ShowConfirmMassageForm(MsgText, mtError, TMsgDlgButtons()<<mbOK, mbOK);
 	return(false);
 }
 
-//‘ƒTƒCƒYæ“¾
+//ç·ã‚µã‚¤ã‚ºå–å¾—
 AllTotalSize = fsIn->Seek((__int64)0, TSeekOrigin::soEnd);
 fsIn->Seek((__int64)0, TSeekOrigin::soBeginning);
 
 //-----------------------------------
-//ƒwƒbƒ_î•ñ‚Ìƒ`ƒFƒbƒN
+//ãƒ˜ãƒƒãƒ€æƒ…å ±ã®ãƒã‚§ãƒƒã‚¯
 //-----------------------------------
 
-// ƒTƒCƒY‚ğæ“¾
+// ã‚µã‚¤ã‚ºã‚’å–å¾—
 fsIn->Seek(-(__int64)sizeof(__int64), TSeekOrigin::soEnd);
 fsIn->Read(&AllTotalSize, sizeof(__int64));
-// ˆÊ’u‚ğ–ß‚·
+// ä½ç½®ã‚’æˆ»ã™
 fsIn->Seek(-(AllTotalSize + sizeof(__int64)), TSeekOrigin::soEnd);
-// •½•¶ƒwƒbƒ_ƒTƒCƒY‚ğ“Ç‚İ‚Ş
+// å¹³æ–‡ãƒ˜ãƒƒãƒ€ã‚µã‚¤ã‚ºã‚’èª­ã¿è¾¼ã‚€
 fsIn->Read(&PlaneHeaderSize, sizeof(int));
-// ƒg[ƒNƒ“‚ğæ“¾
+// ãƒˆãƒ¼ã‚¯ãƒ³ã‚’å–å¾—
 fsIn->Read(token, 16);
 
-// ƒg[ƒNƒ“‚ğÄƒ`ƒFƒbƒN
+// ãƒˆãƒ¼ã‚¯ãƒ³ã‚’å†ãƒã‚§ãƒƒã‚¯
 if (memcmp(token, charTokenString, 16) != 0 ) {
-	//‚·‚Å‚É‰ó‚ê‚Ä‚¢‚éH@ƒTƒCƒŒƒ“ƒg‚Éˆ—I—¹
+	//ã™ã§ã«å£Šã‚Œã¦ã„ã‚‹ï¼Ÿã€€ã‚µã‚¤ãƒ¬ãƒ³ãƒˆã«å‡¦ç†çµ‚äº†
 	delete fsIn;
 	return(true);
 }
 else{
 	fsIn->Seek((__int64)-16, TSeekOrigin::soCurrent);
-	//"_Atc_Broken_Data"‚ğ‘‚«‚Ş
+	//"_Atc_Broken_Data"ã‚’æ›¸ãè¾¼ã‚€
 	fsIn->Write(charDestroyTokenString, 16);
 }
 
-//uƒf[ƒ^ƒo[ƒWƒ‡ƒ“vuƒAƒ‹ƒSƒŠƒYƒ€‚Ìí—Şv•ª‚¾‚¯i‚ß‚é
+//ã€Œãƒ‡ãƒ¼ã‚¿ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã€ã€Œã‚¢ãƒ«ã‚´ãƒªã‚ºãƒ ã®ç¨®é¡ã€åˆ†ã ã‘é€²ã‚ã‚‹
 fsIn->Seek((__int64)(sizeof(int)*2), TSeekOrigin::soCurrent);
-//ˆÃ†•”ƒwƒbƒ_ƒTƒCƒY‚ğæ“¾‚·‚é
+//æš—å·éƒ¨ãƒ˜ãƒƒãƒ€ã‚µã‚¤ã‚ºã‚’å–å¾—ã™ã‚‹
 fsIn->Read(&HeaderBufSize, sizeof(int));
-//ˆÃ†•”ƒwƒbƒ_‚ÌIV‚ğ‘‚«Š·‚¦‚Ä”j‰ó‚·‚é
+//æš—å·éƒ¨ãƒ˜ãƒƒãƒ€ã®IVã‚’æ›¸ãæ›ãˆã¦ç ´å£Šã™ã‚‹
 fsIn->Write(buffer, BUF_SIZE);
-//uˆÃ†•”ƒwƒbƒ_ƒTƒCƒYv•ª‚¾‚¯i‚ß‚é
+//ã€Œæš—å·éƒ¨ãƒ˜ãƒƒãƒ€ã‚µã‚¤ã‚ºã€åˆ†ã ã‘é€²ã‚ã‚‹
 fsIn->Seek((__int64)(HeaderBufSize-BUF_SIZE), TSeekOrigin::soCurrent);
 
-// IV•”•ª‚ğ‘‚«Š·‚¦‚Ä”j‰ó‚·‚é
+// IVéƒ¨åˆ†ã‚’æ›¸ãæ›ãˆã¦ç ´å£Šã™ã‚‹
 fsIn->Write(buffer, BUF_SIZE);
 
 delete fsIn;
@@ -714,7 +714,7 @@ if (PasswordFilePath == "") {
 	return;
 }
 
-//ˆÃ†‰»ƒpƒXƒ[ƒh‚ÌÄ“ü—Í‚ª‚ ‚Á‚½‚Æ‚«‚ÍƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹ƒpƒX‚ğƒNƒŠƒA‚·‚é
+//æš—å·åŒ–ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã®å†å…¥åŠ›ãŒã‚ã£ãŸã¨ãã¯ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã‚’ã‚¯ãƒªã‚¢ã™ã‚‹
 if (txtInputPassword->Text != PasswordFilePath) {
 	PasswordFilePath = "";
 }

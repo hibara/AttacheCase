@@ -1,4 +1,4 @@
-//---------------------------------------------------------------------------
+ï»¿//---------------------------------------------------------------------------
 
 #include <vcl.h>
 #pragma hdrstop
@@ -15,7 +15,7 @@ __fastcall TForm2::TForm2(TComponent* Owner)
 {
 
 /*
-//ƒo[ƒWƒ‡ƒ“î•ñŽæ“¾
+//ãƒãƒ¼ã‚¸ãƒ§ãƒ³æƒ…å ±å–å¾—
 pAppInfoString->Comments;
 pAppInfoString->InternalName;
 pAppInfoString->ProductName;
@@ -31,17 +31,17 @@ pAppInfoString->SpecialBuild;
 */
 
 TGetAppInfoString *pAppInfoString = new TGetAppInfoString();
-//ƒAƒvƒŠƒP[ƒVƒ‡ƒ“–¼
+//ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³å
 lblAppName->Caption = pAppInfoString->ProductName;
-//ƒo[ƒWƒ‡ƒ“î•ñ
+//ãƒãƒ¼ã‚¸ãƒ§ãƒ³æƒ…å ±
 lblVersion->Caption = "ver."+ pAppInfoString->FileVersion;
-//zlibƒo[ƒWƒ‡ƒ“
+//zlibãƒãƒ¼ã‚¸ãƒ§ãƒ³
 String ZlibVersion = ZLIB_VERSION;
 lblZlibVersion->Caption = "(zlib ver."+ ZlibVersion + ")";
-//’˜ìŒ •\Ž¦
+//è‘—ä½œæ¨©è¡¨ç¤º
 lblCopyright->Caption =
 	StringReplace(pAppInfoString->LegalCopyright, ",", ",\n", TReplaceFlags()<<rfReplaceAll);
-//ƒTƒCƒg•\Ž¦
+//ã‚µã‚¤ãƒˆè¡¨ç¤º
 lblHomePage->Caption = pAppInfoString->CompanyName;
 
 delete pAppInfoString;
@@ -82,7 +82,7 @@ else if(Msg.LParam == long(lblHomePage)){
 void __fastcall TForm2::lblLisenceClick(TObject *Sender)
 {
 
-//ƒuƒ‰ƒEƒU‹N“®
+//ãƒ–ãƒ©ã‚¦ã‚¶èµ·å‹•
 String Link = "https://www.gnu.org/licenses/gpl-3.0.html";
 ShellExecuteW(NULL, L"open", Link.c_str(), NULL, NULL, SW_NORMAL);
 Close();
@@ -92,7 +92,7 @@ Close();
 void __fastcall TForm2::lblLisenceJClick(TObject *Sender)
 {
 
-//ƒuƒ‰ƒEƒU‹N“®
+//ãƒ–ãƒ©ã‚¦ã‚¶èµ·å‹•
 String Link = "http://ossipedia.ipa.go.jp/legalinfo/gpl-3.0J.html";
 ShellExecuteW(NULL, L"open", Link.c_str(), NULL, NULL, SW_NORMAL);
 Close();
@@ -102,7 +102,7 @@ Close();
 void __fastcall TForm2::lblLisenceMouseMove(TObject *Sender, TShiftState Shift, int X,
           int Y)
 {
-//•¶ŽšƒtƒHƒ“ƒg‚ÌƒJƒ‰[•ÏX
+//æ–‡å­—ãƒ•ã‚©ãƒ³ãƒˆã®ã‚«ãƒ©ãƒ¼å¤‰æ›´
 lblLisence->Font->Color = clBlue;
 lblLisence->Update();
 }
@@ -110,7 +110,7 @@ lblLisence->Update();
 void __fastcall TForm2::lblLisenceJMouseMove(TObject *Sender, TShiftState Shift, int X,
 					int Y)
 {
-//•¶ŽšƒtƒHƒ“ƒg‚ÌƒJƒ‰[•ÏX
+//æ–‡å­—ãƒ•ã‚©ãƒ³ãƒˆã®ã‚«ãƒ©ãƒ¼å¤‰æ›´
 lblLisenceJ->Font->Color = clBlue;
 lblLisenceJ->Update();
 }
@@ -118,7 +118,7 @@ lblLisenceJ->Update();
 void __fastcall TForm2::lblHomePageMouseMove(TObject *Sender, TShiftState Shift, int X,
 					int Y)
 {
-//•¶ŽšƒtƒHƒ“ƒg‚ÌƒJƒ‰[•ÏX
+//æ–‡å­—ãƒ•ã‚©ãƒ³ãƒˆã®ã‚«ãƒ©ãƒ¼å¤‰æ›´
 lblHomePage->Font->Color = clBlue;
 lblHomePage->Update();
 }
@@ -127,7 +127,7 @@ lblHomePage->Update();
 void __fastcall TForm2::lblHomePageClick(TObject *Sender)
 {
 
-//ƒuƒ‰ƒEƒU‹N“®
+//ãƒ–ãƒ©ã‚¦ã‚¶èµ·å‹•
 String Link = "http://hibara.org/";
 ShellExecuteW(NULL, L"open", Link.c_str(), NULL, NULL, SW_NORMAL);
 Close();
@@ -138,7 +138,8 @@ void __fastcall TForm2::lblLisenceMouseEnter(TObject *Sender)
 {
 
 BalloonHint1->Title = "https://www.gnu.org/licenses/gpl-3.0.html";
-BalloonHint1->Description = "ƒNƒŠƒbƒN‚·‚é‚Æƒuƒ‰ƒEƒU‚ª‹N“®‚µ‚Ü‚·B";
+//BalloonHint1->Description = "ã‚¯ãƒªãƒƒã‚¯ã™ã‚‹ã¨ãƒ–ãƒ©ã‚¦ã‚¶ãŒèµ·å‹•ã—ã¾ã™ã€‚";
+BalloonHint1->Description = LoadResourceString(&Msgunit2::_BALLOON_HINT_MSG);
 BalloonHint1->ShowHint(lblLisence->ClientToScreen(CenterPoint(lblLisence->ClientRect)));
 
 }
@@ -147,7 +148,8 @@ void __fastcall TForm2::lblLisenceJMouseEnter(TObject *Sender)
 {
 
 BalloonHint1->Title = "http://ossipedia.ipa.go.jp/legalinfo/gpl-3.0J.html";
-BalloonHint1->Description = "ƒNƒŠƒbƒN‚·‚é‚Æƒuƒ‰ƒEƒU‚ª‹N“®‚µ‚Ü‚·B";
+//BalloonHint1->Description = "ã‚¯ãƒªãƒƒã‚¯ã™ã‚‹ã¨ãƒ–ãƒ©ã‚¦ã‚¶ãŒèµ·å‹•ã—ã¾ã™ã€‚";
+BalloonHint1->Description = LoadResourceString(&Msgunit2::_BALLOON_HINT_MSG);
 BalloonHint1->ShowHint(lblLisenceJ->ClientToScreen(CenterPoint(lblLisenceJ->ClientRect)));
 
 }
@@ -155,7 +157,7 @@ BalloonHint1->ShowHint(lblLisenceJ->ClientToScreen(CenterPoint(lblLisenceJ->Clie
 void __fastcall TForm2::lblHomePageMouseEnter(TObject *Sender)
 {
 
-BalloonHint1->Title = "ƒNƒŠƒbƒN‚·‚é‚Æƒuƒ‰ƒEƒU‚ª‹N“®‚µ‚Ü‚·B";
+BalloonHint1->Title = "ã‚¯ãƒªãƒƒã‚¯ã™ã‚‹ã¨ãƒ–ãƒ©ã‚¦ã‚¶ãŒèµ·å‹•ã—ã¾ã™ã€‚";
 BalloonHint1->Description = "";
 BalloonHint1->ShowHint(lblHomePage->ClientToScreen(CenterPoint(lblHomePage->ClientRect)));
 

@@ -1,157 +1,162 @@
-unit MsgUnit3;
+﻿unit MsgUnit3;
 
 interface
 
 resourcestring
 
-	//���b�Z�[�W�L���v�V����
-	MSG_CAPTION_ERROR                               = '�G���[';
-	MSG_CAPTION_CONFIRMATION                        = '�m�F';
+  //フォームキャプション
+  FORM_CAPTION_LOAD_INI_FILE                      = 'INIファイル';
+  FORM_CAPTION_LOAD_COMMANDLINE                   = 'コマンドライン';
+  FORM_CAPTION_LOAD_REGISTRY                      = 'レジストリ';
 
-	//�T�C�h�o�[���j���[
-	LABEL_BASIC                                     = '��{�ݒ�';
-	LABEL_SAVE                                      = '�ۑ��ݒ�';
-	LABEL_DELETE                                    = '�폜�ݒ�';
-	LABEL_MOVEMENT                                  = '����ݒ�';
-	LABEL_SYSTEM                                    = '�V�X�e���ݒ�';
-	LABEL_ADVANCED                                  = '���x�Ȑݒ�';
+	//メッセージキャプション
+	MSG_CAPTION_ERROR                               = 'エラー';
+	MSG_CAPTION_CONFIRMATION                        = '確認';
 
-	//��{�ݒ�^�u
-	PANEL_BASIC_CAPTION                             = '��{�ݒ� - �A�^�b�V�F�P�[�X�̊�{�I�ȓ���ݒ���s���܂��B';
-	BASIC_PANEL_CHECKBOX_MY_ENC_PASSWORD_KEEP       = '�Í����p�X���[�h���L������(&E)';
-	BASIC_PANEL_CHECKBOX_MY_DEC_PASSWORD_KEEP       = '�����̃p�X���[�h���L������(&D)';
-	BASIC_PANEL_CHECKBOX_MY_PASSWORD_EXE            = '�L���p�X���[�h�Ŋm�F�����Ɏ��s����(&M)';
-	BASIC_PANEL_CHECKBOX_OPEN_FOLDER                = '�t�H���_�[�̏ꍇ�A������ɊJ��(&O)';
-	BASIC_PANEL_CHECKBOX_OPEN_FILE                  = '���������t�@�C�����֘A�t����ꂽ�\�t�g�ŊJ��(&A)';
-	BASIC_PANEL_CHECKBOX_END_TO_EXIT                = '������ɃA�^�b�V�F�P�[�X���I������(&X)';
-	BASIC_PANEL_CHECKBOX_WINDOW_FOREGROUND          = '�f�X�N�g�b�v�ōőO�ʂɃE�B���h�E��\������(&F)';
-	BASIC_PANEL_CHECKBOX_NO_HIDE_PASSWORD           = '�p�X���[�h��\�����Ȃ�����͂���(&N)';
-	BASIC_PANEL_CHECKBOX_SAVE_TO_EXEOUT             = '��Ɏ��Ȏ��s�`���ŏo�͂���(&T)';
-	BASIC_PANEL_CHECKBOX_SHOW_EXEOUT_CHKBOX         = '���C���t�H�[���Ƀ`�F�b�N�{�b�N�X��\������(&I)';
-	BASIC_PANEL_CHECKBOX_ASK_ENC_DECODE             = '�Í�/������������₢���킹��(&K)';
-	BASIC_PANEL_CHECKBOX_NO_MULTIPLE_INSTANCE       = '�����N�����Ȃ�(&S)';
+	//サイドバーメニュー
+	LABEL_BASIC                                     = '基本設定';
+	LABEL_SAVE                                      = '保存設定';
+	LABEL_DELETE                                    = '削除設定';
+	LABEL_MOVEMENT                                  = '動作設定';
+	LABEL_SYSTEM                                    = 'システム設定';
+	LABEL_ADVANCED                                  = '高度な設定';
 
-	DIALOG_MSG_MEM_ENCRYPT_PASSWORD_HASH            = '�h���b�O���h���b�v���ꂽ�t�@�C����SHA-1�n�b�V���l��'+#13+
-                                                    '�Í����p�X���[�h�Ƃ��ċL�����܂��B��낵���ł����H';
-	DIALOG_MSG_MEM_DECRYPT_PASSWORD_HASH            = '�h���b�O���h���b�v���ꂽ�t�@�C����SHA-1�n�b�V���l��'+#13+
-                                                    '��������p�X���[�h�Ƃ��ċL�����܂��B��낵���ł����H';
-	DIALOG_MSG_ALLOW_PASSWORD_FILE_OPTION           = '�p�X���[�h�t�@�C�����g�p����ɂ́y���x�ݒ�z�^�u��'+#13+
-                                                    '�u�p�X���[�h�t�@�C���Ƀt�@�C���̎w���������(&D)�v��L���ɂ��Ă��������B';
+	//基本設定タブ
+	PANEL_BASIC_CAPTION                             = '基本設定 - アタッシェケースの基本的な動作設定を行います。';
+	BASIC_PANEL_CHECKBOX_MY_ENC_PASSWORD_KEEP       = '暗号化パスワードを記憶する(&E)';
+	BASIC_PANEL_CHECKBOX_MY_DEC_PASSWORD_KEEP       = '復号のパスワードを記憶する(&D)';
+	BASIC_PANEL_CHECKBOX_MY_PASSWORD_EXE            = '記憶パスワードで確認せずに実行する(&M)';
+	BASIC_PANEL_CHECKBOX_OPEN_FOLDER                = 'フォルダーの場合、復号後に開く(&O)';
+	BASIC_PANEL_CHECKBOX_OPEN_FILE                  = '復号したファイルを関連付けられたソフトで開く(&A)';
+	BASIC_PANEL_CHECKBOX_END_TO_EXIT                = '処理後にアタッシェケースを終了する(&X)';
+	BASIC_PANEL_CHECKBOX_WINDOW_FOREGROUND          = 'デスクトップで最前面にウィンドウを表示する(&F)';
+	BASIC_PANEL_CHECKBOX_NO_HIDE_PASSWORD           = 'パスワードを表示しながら入力する(&N)';
+	BASIC_PANEL_CHECKBOX_SAVE_TO_EXEOUT             = '常に自己実行形式で出力する(&T)';
+	BASIC_PANEL_CHECKBOX_SHOW_EXEOUT_CHKBOX         = 'メインフォームにチェックボックスを表示する(&I)';
+	BASIC_PANEL_CHECKBOX_ASK_ENC_DECODE             = '暗号/復号処理かを問い合わせる(&K)';
+	BASIC_PANEL_CHECKBOX_NO_MULTIPLE_INSTANCE       = '複数起動しない(&S)';
 
-	//�ۑ��ݒ�^�u
-	PANEL_SAVE_CAPTION                              = '�ۑ��ݒ� - �o�͂���t�@�C��/�t�H���_�ׂ̍����ݒ���s���܂��B';
-	SAVE_PANEL_CHECKBOX_SAVE_TO_SAME_FOLDER         = '��ɓ����ꏊ�ֈÍ����t�@�C����ۑ�����(&C)';
-	SAVE_PANEL_CHECKBOX_DECODE_TO_SAME_FOLDER       = '��ɓ����ꏊ�փt�@�C���𕜍�����(&D)';
-	SAVE_PANEL_CHECKBOX_CONFIRM_OVERWRITE           = '�����t�@�C��������ꍇ�͏㏑���̊m�F������(&O)';
-	SAVE_PANEL_RADIO_GROUP_MULTIPLE_FILES           = '�����t�@�C��������Ƃ��̏����F';
-	SAVE_PANEL_RADIO_GROUP_NO_ACTION                = '�������Ȃ�(&N)';
-	SAVE_PANEL_RADIO_GROUP_ALL_FILES_PACK           = '�����t�@�C���͈�̈Í����t�@�C���ɂ܂Ƃ߂�(&L)';
-	SAVE_PANEL_RADIO_GROUP_FILES_ONE_BY_ONE         = '�t�H���_���̃t�@�C���͌ʂɈÍ���/��������(&P)';
-	SAVE_PANEL_CHECKBOX_NO_PARENT_FOLDER            = '��������Ƃ��e�t�H���_�[�𐶐����Ȃ�(&M)';
-	SAVE_PANEL_CHECKBOX_KEEP_TIME_STAMP             = '�Í����t�@�C���̃^�C���X�^���v�����t�@�C���ɍ��킹��(&G)';
-	SAVE_PANEL_CHECKBOX_SAME_TIME_STAMP             = '�^�C���X�^���v�𕜍����������ɍ��킹��(&P)';
-	SAVE_PANEL_CHECKBOX_EXT_IN_ATC_FILE_NAME        = '�Í����t�@�C�����Ɋg���q���܂߂�(&I)';
-	SAVE_PANEL_CHECKBOX_AUTO_NAME                   = '�����ňÍ����t�@�C������t������(&R)';
+	DIALOG_MSG_MEM_ENCRYPT_PASSWORD_HASH            = 'ドラッグ＆ドロップされたファイルのSHA-1ハッシュ値を'+#13+
+                                                    '暗号化パスワードとして記憶します。よろしいですか？';
+	DIALOG_MSG_MEM_DECRYPT_PASSWORD_HASH            = 'ドラッグ＆ドロップされたファイルのSHA-1ハッシュ値を'+#13+
+                                                    '復号するパスワードとして記憶します。よろしいですか？';
+	DIALOG_MSG_ALLOW_PASSWORD_FILE_OPTION           = 'パスワードファイルを使用するには【高度設定】タブの'+#13+
+                                                    '「パスワードファイルにファイルの指定を許可する(&D)」を有効にしてください。';
 
-	POPUP_MENU_ITEM_INSERT_FILENAME_FORMAT          = '�t�@�C�����i�g���q�������j(&F)';
-	POPUP_MENU_ITEM_INSERT_EXTENSION_FORMAT         = '�g���q�i�s���I�h���܂ށj(&X)';
-	POPUP_MENU_ITEM_INSERT_DATETIME_FORMAT          = '����(&D)...';
-	POPUP_MENU_ITEM_INSERT_SERIAL_NUM__FORMAT       = '�A��(&S)...';
-	POPUP_MENU_ITEM_INSERT_RANDOM_TEXT_FORMAT       = '�����_���ȕ�����(&R)...';
-	POPUP_MENU_ITEM_INSERT_FILENAME_HEAD_FORMAT     = '�t�@�C�����擪�̕�����(&T)...';
-	POPUP_MENU_ITEM_INSERT_FILENAME_END_FORMAT      = '�t�@�C���������̕�����(&E)...';
+	//保存設定タブ
+	PANEL_SAVE_CAPTION                              = '保存設定 - 出力するファイル/フォルダの細かい設定を行います。';
+	SAVE_PANEL_CHECKBOX_SAVE_TO_SAME_FOLDER         = '常に同じ場所へ暗号化ファイルを保存する(&C)';
+	SAVE_PANEL_CHECKBOX_DECODE_TO_SAME_FOLDER       = '常に同じ場所へファイルを復号する(&D)';
+	SAVE_PANEL_CHECKBOX_CONFIRM_OVERWRITE           = '同名ファイルがある場合は上書きの確認をする(&O)';
+	SAVE_PANEL_RADIO_GROUP_MULTIPLE_FILES           = '複数ファイルがあるときの処理：';
+	SAVE_PANEL_RADIO_GROUP_NO_ACTION                = '何もしない(&N)';
+	SAVE_PANEL_RADIO_GROUP_ALL_FILES_PACK           = '複数ファイルは一つの暗号化ファイルにまとめる(&L)';
+	SAVE_PANEL_RADIO_GROUP_FILES_ONE_BY_ONE         = 'フォルダ内のファイルは個別に暗号化/復号する(&P)';
+	SAVE_PANEL_CHECKBOX_NO_PARENT_FOLDER            = '復号するとき親フォルダーを生成しない(&M)';
+	SAVE_PANEL_CHECKBOX_KEEP_TIME_STAMP             = '暗号化ファイルのタイムスタンプを元ファイルに合わせる(&G)';
+	SAVE_PANEL_CHECKBOX_SAME_TIME_STAMP             = 'タイムスタンプを復号した日時に合わせる(&P)';
+	SAVE_PANEL_CHECKBOX_EXT_IN_ATC_FILE_NAME        = '暗号化ファイル名に拡張子を含める(&I)';
+	SAVE_PANEL_CHECKBOX_AUTO_NAME                   = '自動で暗号化ファイル名を付加する(&R)';
 
-  DIALOG_MSG_SELECT_SAVE_ATC_FILE_TO_DIR_PATH     = '�Í����t�@�C������ɕۑ��������t�H���_�[��I�����Ă��������B';
-  DIALOG_MSG_SELECT_DECODE_TO_SAME_DIR_PATH       = '���������t�@�C������ɕۑ��������t�H���_�[��I�����Ă��������B';
+	POPUP_MENU_ITEM_INSERT_FILENAME_FORMAT          = 'ファイル名（拡張子を除く）(&F)';
+	POPUP_MENU_ITEM_INSERT_EXTENSION_FORMAT         = '拡張子（ピリオドを含む）(&X)';
+	POPUP_MENU_ITEM_INSERT_DATETIME_FORMAT          = '日時(&D)...';
+	POPUP_MENU_ITEM_INSERT_SERIAL_NUM__FORMAT       = '連番(&S)...';
+	POPUP_MENU_ITEM_INSERT_RANDOM_TEXT_FORMAT       = 'ランダムな文字列(&R)...';
+	POPUP_MENU_ITEM_INSERT_FILENAME_HEAD_FORMAT     = 'ファイル名先頭の文字列(&T)...';
+	POPUP_MENU_ITEM_INSERT_FILENAME_END_FORMAT      = 'ファイル名末尾の文字列(&E)...';
 
-
-	//�폜�ݒ�^�u
-	PANEL_DELETE_CAPTION                            = '�폜�ݒ� - ������̃t�@�C��/�t�H���_�[�̍폜���@�Ȃǂ�ݒ肵�܂��B';
-	DELETE_PANEL_CHECKBOX_DEL_ORG_FILE              = '�Í���������A���t�@�C��/�t�H���_�[���폜����(&D)';
-	DELETE_PANEL_CHECKBOX_DEL_ENC_FILE              = '����������A�Í����t�@�C�����폜����(&E)';
-	DELETE_PANEL_CHECKBOX_SHOW_DELETE_CHKBOX        = '���C���t�H�[���Ƀ`�F�b�N�{�b�N�X��\������(&I)';
-	DELETE_PANEL_RADIO_GROUP_DELETE_OPTION          = '�폜�̏ڍאݒ�F';
-	DELETE_PANEL_RADIO_GROUP_NORMAL_DELETE          = '�ʏ�̍폜���s��(&N)';
-	DELETE_PANEL_RADIO_GROUP_GO_TO_TRASH            = '���ݔ��ւ̍폜���s��(&T)';
-	DELETE_PANEL_RADIO_GROUP_COMPLETE_DELETE        = '���S�폜���s��(&C)';
-	DELETE_PANEL_DEL_RAND_NUM                       = '�����̏������݉񐔁F';
-	DELETE_PANEL_DEL_ZERO_NUM                       = '�[��(NULL)�̏������݉񐔁F';
-
-	//����ݒ�^�u
-	PANEL_MOVEMENT_CAPTION                          = '����ݒ� - ���k���̐ݒ�A�R���y�A���s������ݒ肵�܂��B';
-	MOVEMENT_PANEL_RADIO_GROUP_COMPRESS_RATE        = '���k���ݒ�F';
-	MOVEMENT_PANEL_CHECKBOX_COMPRESS_RATE           = '���k����(&P)';
-	MOVEMENT_PANEL_LABEL_COMPRESS_RATE_0            = '< 0 > ���k���Ȃ�';
-	MOVEMENT_PANEL_LABEL_COMPRESS_RATE_1            = '< 1 > ���k';
-	MOVEMENT_PANEL_LABEL_COMPRESS_RATE_2            = '< 2 > ���k';
-	MOVEMENT_PANEL_LABEL_COMPRESS_RATE_3            = '< 3 > ���k';
-	MOVEMENT_PANEL_LABEL_COMPRESS_RATE_4            = '< 4 > ���k';
-	MOVEMENT_PANEL_LABEL_COMPRESS_RATE_5            = '< 5 > ���k';
-	MOVEMENT_PANEL_LABEL_COMPRESS_RATE_6            = '< 6 > �W�����k';
-	MOVEMENT_PANEL_LABEL_COMPRESS_RATE_7            = '< 7 > ���k';
-	MOVEMENT_PANEL_LABEL_COMPRESS_RATE_8            = '< 8 > ���k';
-	MOVEMENT_PANEL_LABEL_COMPRESS_RATE_9            = '< 9 > �ő刳�k';
-	MOVEMENT_PANEL_LABEL_COMPRESS_RATE_DETAIL       = '�Í����t�@�C���̈��k����ݒ�ł��܂��B'+#13+
-	                                                  '�����k < 0 > �` �ő� < 9 > �܂ł̎w�肪�\�ŁA'+#13+
-	                                                  '���k���͍����قǏ����Ɏ��Ԃ�������܂��B';
-	MOVEMENT_PANEL_RADIO_GROUP_COMPARE              = '�R���y�A�F';
-	MOVEMENT_PANEL_CHECKBOX_COMPARE_FILE            = '�Í���������Ƀf�[�^�̃R���y�A���s��(&P)';
-
-	//�V�X�e���ݒ�^�u
-	PANEL_SYSTEM_CAPTION                            = '�V�X�e���ݒ� - Windows�V�X�e���Ɋ֌W����ݒ���s���܂��B';
-	SYSTEM_PANEL_RADIO_GROUP_WINDOWS_SYS_OPT        = 'Windows�V�X�e���̐ݒ�F';
-	SYSTEM_PANEL_BUTTON_ASSOCIATE_ATC_FILE          = '�Í����t�@�C��(*.atc)�̊֘A�t���ݒ�(&A)';
-	SYSTEM_PANEL_BUTTON_UN_ASSOCIATE_ATC_FILE       = '�Í����t�@�C��(*.atc)�̊֘A�t������(&F)';
-	SYSTEM_PANEL_BUTTON_SHORTCUT_TO_SENDTOFILE_DIR  = '�u����v�t�H���_�[�ɃA�^�b�V�F�P�[�X��ǉ�(&S)';
-	SYSTEM_PANEL_BUTTON_DELETE_FROM_SENDTOFILE_DIR  = '�u����v�t�H���_�[����A�^�b�V�F�P�[�X���폜(&S)';
-	SYSTEM_PANEL_RADIO_GROUP_CHANGE_FILE_ICON       = '�t�@�C���A�C�R���̕ύX�F';
-	SYSTEM_PANEL_BUTTON_ADD_FILE_ICON               = '�A�C�R���t�@�C���̓o�^(&R)';
-	SYSTEM_PANEL_RADIO_GROUP_OUTPUT_OPTION_DATA     = '����ݒ�̏o�́F';
-	SYSTEM_PANEL_BUTTON_OUTPUT_OPTION_DATA          = '���݂̓���ݒ���o�͂���(&O)';
-	SYSTEM_PANEL_BUTTON_CHANGE_TEMP_OPTION_DATA     = '�ꎞ�ݒ�����C���ݒ�ɒu��������(&P)';
-
-  SYSTEM_PANEL_COMBO_USER_REG_FILE_ICON           = '���[�U�[�o�^';
-
-  DIALOG_MSG_NOT_FOUND_ATC_SETUP_EXE              = '�A�^�b�V�F�P�[�X�ɕt������֘A�t���A�v���P�[�V����(AtcSetup.exe)��������܂���B';
-	DIALOG_SAVE_TO_INIFILE_FILTER_TEXT              = 'INI�t�@�C��(*.ini)|*.ini|���ׂẴt�@�C��(*.*)|*.*';
-	DIALOG_SAVE_TO_INIFILE_TITLE_TEXT               = '���݂̓���ݒ��INI�t�@�C���ɕۑ�';
-
-  DIALOG_MSG_CONFIRM_OVERWRITE_SETTINGS           = '���݁A�ǂݍ��܂�Ă���ȉ���INI�t�@�C���ݒ�����W�X�g���֔��f���܂����H';
+  DIALOG_MSG_SELECT_SAVE_ATC_FILE_TO_DIR_PATH     = '暗号化ファイルを常に保存したいフォルダーを選択してください。';
+  DIALOG_MSG_SELECT_DECODE_TO_SAME_DIR_PATH       = '復号したファイルを常に保存したいフォルダーを選択してください。';
 
 
+	//削除設定タブ
+	PANEL_DELETE_CAPTION                            = '削除設定 - 処理後のファイル/フォルダーの削除方法などを設定します。';
+	DELETE_PANEL_CHECKBOX_DEL_ORG_FILE              = '暗号化した後、元ファイル/フォルダーを削除する(&D)';
+	DELETE_PANEL_CHECKBOX_DEL_ENC_FILE              = '復号した後、暗号化ファイルを削除する(&E)';
+	DELETE_PANEL_CHECKBOX_SHOW_DELETE_CHKBOX        = 'メインフォームにチェックボックスを表示する(&I)';
+	DELETE_PANEL_RADIO_GROUP_DELETE_OPTION          = '削除の詳細設定：';
+	DELETE_PANEL_RADIO_GROUP_NORMAL_DELETE          = '通常の削除を行う(&N)';
+	DELETE_PANEL_RADIO_GROUP_GO_TO_TRASH            = 'ごみ箱への削除を行う(&T)';
+	DELETE_PANEL_RADIO_GROUP_COMPLETE_DELETE        = '完全削除を行う(&C)';
+	DELETE_PANEL_DEL_RAND_NUM                       = '乱数の書き込み回数：';
+	DELETE_PANEL_DEL_ZERO_NUM                       = 'ゼロ(NULL)の書き込み回数：';
+
+	//動作設定タブ
+	PANEL_MOVEMENT_CAPTION                          = '動作設定 - 圧縮率の設定、コンペアを行うかを設定します。';
+	MOVEMENT_PANEL_RADIO_GROUP_COMPRESS_RATE        = '圧縮率設定：';
+	MOVEMENT_PANEL_CHECKBOX_COMPRESS_RATE           = '圧縮する(&P)';
+	MOVEMENT_PANEL_LABEL_COMPRESS_RATE_0            = '< 0 > 圧縮しない';
+	MOVEMENT_PANEL_LABEL_COMPRESS_RATE_1            = '< 1 > 圧縮';
+	MOVEMENT_PANEL_LABEL_COMPRESS_RATE_2            = '< 2 > 圧縮';
+	MOVEMENT_PANEL_LABEL_COMPRESS_RATE_3            = '< 3 > 圧縮';
+	MOVEMENT_PANEL_LABEL_COMPRESS_RATE_4            = '< 4 > 圧縮';
+	MOVEMENT_PANEL_LABEL_COMPRESS_RATE_5            = '< 5 > 圧縮';
+	MOVEMENT_PANEL_LABEL_COMPRESS_RATE_6            = '< 6 > 標準圧縮';
+	MOVEMENT_PANEL_LABEL_COMPRESS_RATE_7            = '< 7 > 圧縮';
+	MOVEMENT_PANEL_LABEL_COMPRESS_RATE_8            = '< 8 > 圧縮';
+	MOVEMENT_PANEL_LABEL_COMPRESS_RATE_9            = '< 9 > 最大圧縮';
+	MOVEMENT_PANEL_LABEL_COMPRESS_RATE_DETAIL       = '暗号化ファイルの圧縮率を設定できます。'+#13+
+	                                                  '無圧縮 < 0 > ～ 最大 < 9 > までの指定が可能で、'+#13+
+	                                                  '圧縮率は高いほど処理に時間がかかります。';
+	MOVEMENT_PANEL_RADIO_GROUP_COMPARE              = 'コンペア：';
+	MOVEMENT_PANEL_CHECKBOX_COMPARE_FILE            = '暗号化した後にデータのコンペアを行う(&P)';
+
+	//システム設定タブ
+	PANEL_SYSTEM_CAPTION                            = 'システム設定 - Windowsシステムに関係する設定を行います。';
+	SYSTEM_PANEL_RADIO_GROUP_WINDOWS_SYS_OPT        = 'Windowsシステムの設定：';
+	SYSTEM_PANEL_BUTTON_ASSOCIATE_ATC_FILE          = '暗号化ファイル(*.atc)の関連付け設定(&A)';
+	SYSTEM_PANEL_BUTTON_UN_ASSOCIATE_ATC_FILE       = '暗号化ファイル(*.atc)の関連付け解除(&F)';
+	SYSTEM_PANEL_BUTTON_SHORTCUT_TO_SENDTOFILE_DIR  = '「送る」フォルダーにアタッシェケースを追加(&S)';
+	SYSTEM_PANEL_BUTTON_DELETE_FROM_SENDTOFILE_DIR  = '「送る」フォルダーからアタッシェケースを削除(&S)';
+	SYSTEM_PANEL_RADIO_GROUP_CHANGE_FILE_ICON       = 'ファイルアイコンの変更：';
+	SYSTEM_PANEL_BUTTON_ADD_FILE_ICON               = 'アイコンファイルの登録(&R)';
+	SYSTEM_PANEL_RADIO_GROUP_OUTPUT_OPTION_DATA     = '動作設定の出力：';
+	SYSTEM_PANEL_BUTTON_OUTPUT_OPTION_DATA          = '現在の動作設定を出力する(&O)';
+	SYSTEM_PANEL_BUTTON_CHANGE_TEMP_OPTION_DATA     = '一時設定をメイン設定に置き換える(&P)';
+
+  SYSTEM_PANEL_COMBO_USER_REG_FILE_ICON           = 'ユーザー登録';
+
+  DIALOG_MSG_NOT_FOUND_ATC_SETUP_EXE              = 'アタッシェケースに付属する関連付けアプリケーション(AtcSetup.exe)が見つかりません。';
+	DIALOG_SAVE_TO_INIFILE_FILTER_TEXT              = 'INIファイル(*.ini)|*.ini|すべてのファイル(*.*)|*.*';
+	DIALOG_SAVE_TO_INIFILE_TITLE_TEXT               = '現在の動作設定をINIファイルに保存';
+
+  DIALOG_MSG_CONFIRM_OVERWRITE_SETTINGS           = '現在、読み込まれている以下のINIファイル設定をレジストリへ反映しますか？';
 
 
-	//���x�ݒ�^�u
-	PANEL_ADVANCED_CAPTION                          = '���x�Ȑݒ� - �㋉�Ҍ����̐ݒ���s���܂��B';
-	ADVANCED_PANEL_LABEL_ADVANCED_OPTION_ALERT_MSG  = '�����ł̐ݒ�����ƁA���Ȃ��̑�؂ȃf�[�^���������ꂪ����܂��B'+#13+
-	                                                  '�K���w���v�t�@�C�����Q�Ƃ��A�\�����ӂ��Ă���s���Ă��������B';
-	ADVANCED_PANEL_RADIO_GROUP_PASSWORD_FILE        = '�p�X���[�h�t�@�C���̐ݒ�F';
-	ADVANCED_PANEL_CHECKBOX_ALLOW_PASS_FILE         = '�p�X���[�h�Ɂu�t�@�C���v�̎w���������(&D)';
-	ADVANCED_PANEL_CHECKBOX_PASS_FILE               = '�Í������Ƀp�X���[�h�t�@�C���������`�F�b�N����(&H)';
-	ADVANCED_PANEL_CHECKBOX_PASS_FILE_DECRYPT       = '�������Ƀp�X���[�h�t�@�C���������`�F�b�N����(&K)';
-	ADVANCED_PANEL_CHECKBOX_NO_ERR_MSG_ON_PASS_FILE = '�t�@�C�����Ȃ��ꍇ�A�G���[���b�Z�[�W��\�����Ȃ�(&N)';
-	ADVANCED_PANEL_RADIO_GROUP_CAMO_EXT             = '�g���q�U���ݒ�F';
-	ADVANCED_PANEL_CHECKBOX_ADD_CAMO_EXT            = '�Í����t�@�C���̊g���q���U������(&E)';
-	ADVANCED_PANEL_LABEL_CAMO_EXT_DETAIL            = '���󔒂ɂ���Ɗg���q����';
-	ADVANCED_PANEL_RADIO_GROUP_TYPE_LIMIT           = '�p�X���[�h���͉񐔂̐ݒ�F';
-	ADVANCED_PANEL_LABEL_TYPE_LIMIT_ALERT_MSG       = '���̉񐔐ݒ�̓A�^�b�V�F�P�[�X�{�̂ɂł͂Ȃ��X�̃t�@�C���ɐݒ肳��܂��B';
-	ADVANCED_PANEL_LABEL_TYPE_LIMIT_NUM             = '�Í����t�@�C���ɓ��͉񐔂�ݒ肷��F';
-	ADVANCED_PANEL_CHECKBOX_BROKEN                  = '���̉񐔂��ԈႦ�ē��͂��������ꍇ�A�Í����t�@�C����j�󂷂�(&X)';
-
-	DIALOG_CAPTION_SELECT_PASSWORD_FILE_ENCRYPT     = '�Í�������Ƃ��̃p�X���[�h�t�@�C���I��';
-	DIALOG_MSG_SELECT_PASSWORD_FILE_DECRYPT         = '��������Ƃ��̃p�X���[�h�t�@�C���̑I��';
-	DIALOG_SELECT_PASSWORD_FILE_FILTER_TEXT         = '���ׂẴt�@�C��(*.*)|*.*';
-	DIALOG_MSG_ALLOW_PASSWORD_FILE_ENABLED          = '�p�X���[�h�t�@�C�����g�p����ɂ́u�p�X���[�h�t�@�C���Ƀt�@�C���̎w���������(&D)�v��'+#13+
-	                                                  '�L���ɂ���K�v������܂��B�L���ɂ��܂����H';
-	DIALOG_MSG_ALLOW_ENCRYPT_PASSWORD_FILE_ENABLED  = '�p�X���[�h�t�@�C�����Ƀt�@�C�����h���b�O���h���b�v����܂����B'+#13+
-	                                                  '�Í������Ɏg���p�X���[�h�t�@�C���Ƃ��ēo�^���ėL���ɂ��܂����H';
-	DIALOG_MSG_ALLOW_DECRYPT_PASSWORD_FILE_ENABLED  = '�p�X���[�h�t�@�C�����Ƀt�@�C�����h���b�O���h���b�v����܂����B'+#13+
-	                                                  '�������Ɏg���p�X���[�h�t�@�C���Ƃ��ēo�^���ėL���ɂ��܂����H';
-	DIALOG_MSG_ERROR_PASSWORD_FILE_WRONG            = '�L���ȃt�@�C���i���Ƃ��΃f�B���N�g���Ȃǁj�ȊO�͓o�^���邱�Ƃ��ł��܂���B';
 
 
-	//�f�o�b�O�i�B���j�^�u
-	PANEL_DEBUG_CAPTION                             = '�f�o�b�O�y�[�W - �A�^�b�V�F�P�[�X�̑S�ݒ�l��\�����܂��B';
+	//高度設定タブ
+	PANEL_ADVANCED_CAPTION                          = '高度な設定 - 上級者向けの設定を行います。';
+	ADVANCED_PANEL_LABEL_ADVANCED_OPTION_ALERT_MSG  = 'ここでの設定を誤ると、あなたの大切なデータを失う恐れがあります。'+#13+
+	                                                  '必ずヘルプファイルを参照し、十分注意してから行ってください。';
+	ADVANCED_PANEL_RADIO_GROUP_PASSWORD_FILE        = 'パスワードファイルの設定：';
+	ADVANCED_PANEL_CHECKBOX_ALLOW_PASS_FILE         = 'パスワードに「ファイル」の指定を許可する(&D)';
+	ADVANCED_PANEL_CHECKBOX_PASS_FILE               = '暗号化時にパスワードファイルを自動チェックする(&H)';
+	ADVANCED_PANEL_CHECKBOX_PASS_FILE_DECRYPT       = '復号時にパスワードファイルを自動チェックする(&K)';
+	ADVANCED_PANEL_CHECKBOX_NO_ERR_MSG_ON_PASS_FILE = 'ファイルがない場合、エラーメッセージを表示しない(&N)';
+	ADVANCED_PANEL_RADIO_GROUP_CAMO_EXT             = '拡張子偽装設定：';
+	ADVANCED_PANEL_CHECKBOX_ADD_CAMO_EXT            = '暗号化ファイルの拡張子を偽装する(&E)';
+	ADVANCED_PANEL_LABEL_CAMO_EXT_DETAIL            = '※空白にすると拡張子無し';
+	ADVANCED_PANEL_RADIO_GROUP_TYPE_LIMIT           = 'パスワード入力回数の設定：';
+	ADVANCED_PANEL_LABEL_TYPE_LIMIT_ALERT_MSG       = 'この回数設定はアタッシェケース本体にではなく個々のファイルに設定されます。';
+	ADVANCED_PANEL_LABEL_TYPE_LIMIT_NUM             = '暗号化ファイルに入力回数を設定する：';
+	ADVANCED_PANEL_CHECKBOX_BROKEN                  = 'その回数を間違えて入力があった場合、暗号化ファイルを破壊する(&X)';
+
+	DIALOG_CAPTION_SELECT_PASSWORD_FILE_ENCRYPT     = '暗号化するときのパスワードファイル選択';
+	DIALOG_MSG_SELECT_PASSWORD_FILE_DECRYPT         = '復号するときのパスワードファイルの選択';
+	DIALOG_SELECT_PASSWORD_FILE_FILTER_TEXT         = 'すべてのファイル(*.*)|*.*';
+	DIALOG_MSG_ALLOW_PASSWORD_FILE_ENABLED          = 'パスワードファイルを使用するには「パスワードファイルにファイルの指定を許可する(&D)」を'+#13+
+	                                                  '有効にする必要があります。有効にしますか？';
+	DIALOG_MSG_ALLOW_ENCRYPT_PASSWORD_FILE_ENABLED  = 'パスワードファイル欄にファイルがドラッグ＆ドロップされました。'+#13+
+	                                                  '暗号化時に使うパスワードファイルとして登録して有効にしますか？';
+	DIALOG_MSG_ALLOW_DECRYPT_PASSWORD_FILE_ENABLED  = 'パスワードファイル欄にファイルがドラッグ＆ドロップされました。'+#13+
+	                                                  '復号時に使うパスワードファイルとして登録して有効にしますか？';
+	DIALOG_MSG_ERROR_PASSWORD_FILE_WRONG            = '有効なファイル（たとえばディレクトリなど）以外は登録することができません。';
+
+
+	//デバッグ（隠し）タブ
+	PANEL_DEBUG_CAPTION                             = 'デバッグページ - アタッシェケースの全設定値を表示します。';
 
 
 
@@ -159,7 +164,11 @@ implementation
 
 initialization
 
-	//Delphi�R���p�C���ɂ��œK����h��
+	//Delphiコンパイラによる最適化を防ぐ
+
+  FORM_CAPTION_LOAD_INI_FILE;
+  FORM_CAPTION_LOAD_COMMANDLINE;
+  FORM_CAPTION_LOAD_REGISTRY;
 
 	MSG_CAPTION_ERROR;
 	MSG_CAPTION_CONFIRMATION;

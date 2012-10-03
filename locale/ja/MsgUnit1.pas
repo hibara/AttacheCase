@@ -1,103 +1,103 @@
-unit MsgUnit1;
+ï»¿unit MsgUnit1;
 
 interface
 
 resourcestring
 
-  //ƒpƒlƒ‹
-	DRAG_AND_DROP_HERE                        = 'ˆÃ†‰»/•œ†‚·‚éƒtƒ@ƒCƒ‹‚©ƒtƒHƒ‹ƒ_[‚ð'+#13+'u‚±‚±v‚Öƒhƒ‰ƒbƒO•ƒhƒƒbƒv‚µ‚Ä‚­‚¾‚³‚¢B';
-	SIDEBAR_CAPTION_ENCRYPT                   = 'ˆÃ†‰»';
-	SIDEBAR_CAPTION_DECRYPT                   = '•œ†(Œ³‚É–ß‚·)';
-	SIDEBAR_CAPTION_OPTION                    = '“®ìÝ’è';
+  //ãƒ‘ãƒãƒ«
+	DRAG_AND_DROP_HERE                        = 'æš—å·åŒ–/å¾©å·ã™ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«ã‹ãƒ•ã‚©ãƒ«ãƒ€ãƒ¼ã‚’'+#13+'ã€Œã“ã“ã€ã¸ãƒ‰ãƒ©ãƒƒã‚°ï¼†ãƒ‰ãƒ­ãƒƒãƒ—ã—ã¦ãã ã•ã„ã€‚';
+	SIDEBAR_CAPTION_ENCRYPT                   = 'æš—å·åŒ–';
+	SIDEBAR_CAPTION_DECRYPT                   = 'å¾©å·(å…ƒã«æˆ»ã™)';
+	SIDEBAR_CAPTION_OPTION                    = 'å‹•ä½œè¨­å®š';
 
-  INPUT_PASSWORD                            = 'ƒtƒ@ƒCƒ‹/ƒtƒHƒ‹ƒ_[‚ðˆÃ†‰»‚µ‚Ü‚·BƒpƒXƒ[ƒh‚ð“ü—Í‚µ‚Ä‚­‚¾‚³‚¢F';
-  CONFIRM_PASSWORD                          = 'Šm”F‚Ì‚½‚ßA‚à‚¤ˆê“xƒpƒXƒ[ƒh‚ð“ü—Í‚µ‚Ä‚­‚¾‚³‚¢F';
-  INPUT_DECRYPT_PASSWORD                    = '•œ†‚µ‚ÄŒ³‚Ìƒtƒ@ƒCƒ‹/ƒtƒHƒ‹ƒ_‚É–ß‚µ‚Ü‚·BƒpƒXƒ[ƒh‚ð“ü—Í‚µ‚Ä‚­‚¾‚³‚¢F';
+  INPUT_PASSWORD                            = 'ãƒ•ã‚¡ã‚¤ãƒ«/ãƒ•ã‚©ãƒ«ãƒ€ãƒ¼ã‚’æš—å·åŒ–ã—ã¾ã™ã€‚ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„ï¼š';
+  CONFIRM_PASSWORD                          = 'ç¢ºèªã®ãŸã‚ã€ã‚‚ã†ä¸€åº¦ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„ï¼š';
+  INPUT_DECRYPT_PASSWORD                    = 'å¾©å·ã—ã¦å…ƒã®ãƒ•ã‚¡ã‚¤ãƒ«/ãƒ•ã‚©ãƒ«ãƒ€ã«æˆ»ã—ã¾ã™ã€‚ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„ï¼š';
 
-	BUTTON_OPEN_FILES_FOR_ENCRYPTION_CAPTION  = 'ˆÃ†‰»‚µ‚½‚¢uƒtƒ@ƒCƒ‹v‚ð‘I‘ð‚·‚éƒEƒBƒ“ƒhƒE‚ðŠJ‚­';
-	BUTTON_OPEN_DIR_FOR_ENCRYPTION_CAPTION    = 'ˆÃ†‰»‚µ‚½‚¢uƒtƒHƒ‹ƒ_[v‚ð‘I‘ð‚·‚éƒEƒBƒ“ƒhƒE‚ðŠJ‚­';
-	BUTTON_OPEN_FILES_FOR_DECRYPTION_CAPTION  = '•œ†‚·‚éiŒ³‚É–ß‚·juƒtƒ@ƒCƒ‹v‚ð‘I‘ð‚·‚éƒEƒBƒ“ƒhƒE‚ðŠJ‚­';
-
-
-	//ƒ_ƒCƒAƒƒO
-	DIALOG_SELECT_DIRECTORY_TEXT              = 'ˆÃ†‰»‚·‚éƒfƒBƒŒƒNƒgƒŠiƒtƒHƒ‹ƒ_j‚ð‘I‘ð‚µ‚Ä‚­‚¾‚³‚¢B';
-
-	DIALOG_OPEN_FILES_FOR_ENCRYPTION_TITLE    = 'ˆÃ†‰»‚·‚éƒtƒ@ƒCƒ‹‚ðŠJ‚­';
-	DIALOG_OPEN_FILES_FOR_ENCRYPTION_FILTER   = '‚·‚×‚Ä‚Ìƒtƒ@ƒCƒ‹(*.*)|*.*';
-	DIALOG_OPEN_FILES_FOR_DECRYPTION_TITLE    = '•œ†‚·‚éƒAƒ^ƒbƒVƒFƒP[ƒXƒtƒ@ƒCƒ‹‚ðŠJ‚­';
-	DIALOG_OPEN_FILES_FOR_DECRYPTION_FINTER   = 'ƒAƒ^ƒbƒVƒFƒP[ƒXƒtƒ@ƒCƒ‹(*.atc)|*.atc|‚·‚×‚Ä‚Ìƒtƒ@ƒCƒ‹(*.*)|*.*';
-	DIALOG_SAVE_FILES_FOR_ENCRYPTION_TITLE    = 'ˆÃ†‰»‚³‚ê‚½ƒAƒ^ƒbƒVƒFƒP[ƒXƒtƒ@ƒCƒ‹–¼‚Ì“ü—Í';
-	DIALOG_SAVE_FILES_FOR_ENCRYPTION_FILTER   = 'ƒAƒ^ƒbƒVƒFƒP[ƒXƒtƒ@ƒCƒ‹(*.atc)|*.atc|ŽÀsŒ`Ž®ƒtƒ@ƒCƒ‹(*.exe)|(*.exe)|‚·‚×‚Ä‚Ìƒtƒ@ƒCƒ‹(*.*)|*.*';
-
-	//ƒ_ƒCƒAƒƒOƒLƒƒƒvƒVƒ‡ƒ“
-	DIALOG_SAVE_AS_FOLDER_CAPTION             = '•œ†ƒtƒHƒ‹ƒ_[‚Ì•Û‘¶';
-	DIALOG_SAVE_AS_FILE_CAPTION               = '•œ†ƒtƒ@ƒCƒ‹‚Ì•Û‘¶';
-	//ƒ_ƒCƒAƒƒOƒtƒBƒ‹ƒ^[
-	DIALOG_SAVE_AS_FILTER                     = 'ƒtƒ@ƒCƒ‹ƒtƒHƒ‹ƒ_[|*';
-	//ƒ_ƒCƒAƒƒOƒ{ƒ^ƒ“ƒLƒƒƒvƒVƒ‡ƒ“
-	DIALOG_BUTTON_NAME_OVERWITE_YES_TO_ALL    = '‘S‚Äã‘‚«(&W)'; // YesToAll
-	DIALOG_BUTTON_NAME_OVERWITE_YES           = 'ã‘‚«(&O)';     // Yes
-	DIALOG_BUTTON_NAME_OVERWITE_NO            = '•Ê–¼•Û‘¶(&A)';   // No
-	DIALOG_BUTTON_NAME_OVERWITE_CANCEL        = 'ƒLƒƒƒ“ƒZƒ‹(&C)'; // Cancel
-
-	//ƒ`ƒFƒbƒNƒ{ƒbƒNƒX
-	CHECK_BOX_EXEFILE_OUT                     = 'ŽÀsŒ`Ž®o—Í(&X)';
-	CHECK_BOX_DELETE_SOURCE_DATA              = 'Œ³ƒtƒ@ƒCƒ‹íœ(&D)';
-	CHECK_BOX_DELETE_ATC_DATA                 = 'ˆÃ†‰»ƒtƒ@ƒCƒ‹íœ(&D)';
-
-	//ƒƒbƒZ[ƒWƒLƒƒƒvƒVƒ‡ƒ“
-	MSG_CAPTION_ERROR                         = 'ƒGƒ‰[';
-	MSG_CAPTION_CONFIRMATION                  = 'Šm”F';
-
-  //ƒƒbƒZ[ƒW
-  MSG_BROKEN_ATC_FILE                       = '‚±‚ÌˆÃ†‰»ƒtƒ@ƒCƒ‹‚ÍƒpƒXƒ[ƒh“ü—Í‚ÉŽ¸”s‚µ‚Ä”j‰ó‚³‚ê‚Ä‚¢‚é‚æ‚¤‚Å‚·B•œ†‚Å‚«‚Ü‚¹‚ñB';
-  MSG_FILE_OPEN_ERROR                       = 'ƒtƒ@ƒCƒ‹‚ðŠJ‚¯‚Ü‚¹‚ñB‘¼‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÅŽg—p’†‚Ì‰Â”\«‚ª‚ ‚è‚Ü‚·B';
-	MSG_CONFIRM_ENCRYPT_OR_DECRYPT            = 'ƒhƒ‰ƒbƒO•ƒhƒƒbƒv‚³‚ê‚½ƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒtƒHƒ‹ƒ_[‚ð‚Ç‚Ì‚æ‚¤‚Éˆ—‚µ‚Ü‚·‚©H';
-  MSG_CONFIRM_COMPLETE_DELETE_STOP         = '’†Ž~‚·‚é‚ÆŠ®‘S‚Éíœ‚³‚ê‚È‚¢‰Â”\«‚ª‚ ‚è‚Ü‚·B'+#13+
-                                             '‚»‚ê‚Å‚à’†Ž~‚µ‚Ü‚·‚©H';
-
-	MSG_ERROR_SAVE_ENC_TO_FOLDER_NOT_EXISTS   = '•Û‘¶‚·‚éæ‚ÌƒtƒHƒ‹ƒ_[‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB•Û‘¶Ý’è‚ðÄŠm”F‚µ‚Ä‚­‚¾‚³‚¢B'+#13+
-	                                            'ˆÃ†‰»‚ð’†Ž~‚µ‚Ü‚·B';
-	MSG_ERROR_SAVE_DEC_TO_FOLDER_NOT_EXISTS   = '•Û‘¶‚·‚éæ‚ÌƒtƒHƒ‹ƒ_[‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB•Û‘¶Ý’è‚ðÄŠm”F‚µ‚Ä‚­‚¾‚³‚¢B'+#13+
-	                                            '•œ†ˆ—‚ð’†Ž~‚µ‚Ü‚·B';
-	MSG_ERROR_NOT_FOUND_ENC_PASSWORD_FILE     = '“®ìÝ’è‚ÅŽw’è‚³‚ê‚½ˆÃ†‰»‚·‚éƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB'+#13+
-	                                            'Ý’è‚ðŠm”F‚µ‚Ä‚­‚¾‚³‚¢B';
-	MSG_ERROR_NOT_FOUND_DEC_PASSWORD_FILE     = '“®ìÝ’è‚ÅŽw’è‚³‚ê‚½•œ†‚·‚éƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB'+#13+
-	                                            'Ý’è‚ðŠm”F‚µ‚Ä‚­‚¾‚³‚¢B';
-	MSG_ERROR_OPEN_PASSWORD_FILE              = 'ƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚ðŠJ‚¯‚Ü‚¹‚ñB‘¼‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ÅŽg—p’†‚Ì‰Â”\«‚ª‚ ‚è‚Ü‚·B';
-	MSG_ERROR_MISMATCH_PASSWORD_FILE          = 'æ‚É“ü—Í‚³‚ê‚½ƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚Æ‚¿‚ª‚¢‚Ü‚·BSHA-1ƒnƒbƒVƒ…’l‚ªˆê’v‚µ‚Ü‚¹‚ñ‚Å‚µ‚½B'+#13+
-	                                            'ˆÃ†‰»‚·‚é‚±‚Æ‚ª‚Å‚«‚Ü‚¹‚ñB';
-	MSG_ERROR_NOT_EXISTS_COMPAER_FIlE         = 'ƒRƒ“ƒyƒA‚·‚éˆÃ†‰»ƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒtƒHƒ‹ƒ_[‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB'+#13+
-	                                            'ƒRƒ“ƒyƒA‚ÉŽ¸”s‚µ‚Ü‚µ‚½B';
-
-  //ƒ‰ƒxƒ‹
-  LABEL_STATUS_TITLE_ENCRYPTING             = 'ˆÃ†‰»‚µ‚Ä‚¢‚Ü‚·...';
-  LABEL_STATUS_TITLE_DECRYPTING             = '•œ†‚µ‚Ä‚¢‚Ü‚·...';
-  LABEL_STATUS_TITLE_LISTING                = 'ƒtƒ@ƒCƒ‹ƒŠƒXƒg‚Ì¶¬';
-  LABEL_STATUS_TITLE_ERROR                  = 'ƒGƒ‰[';
-  LABEL_STATUS_TITLE_USER_CANCEL            = 'ƒLƒƒƒ“ƒZƒ‹';
-  LABEL_STATUS_TITLE_COMPLETE               = 'Š®—¹';
-
-  LABEL_STATUS_DETAIL_PREPARING_ENCRYPT     = 'ˆÃ†‰»‚·‚é‚½‚ß‚Ì€”õ‚ð‚µ‚Ä‚¢‚Ü‚·...';
-  LABEL_STATUS_DETAIL_FAILED_ENCRYPT        = 'ˆÃ†‰»‚ÉŽ¸”s‚µ‚Ü‚µ‚½B';
-  LABEL_STATUS_DETAIL_STOPPED_ENCRYPT       = 'ˆÃ†‰»‚ª’†Ž~‚³‚ê‚Ü‚µ‚½B';
-  LABEL_STATUS_DETAIL_PREPARING_DECRYPT     = '•œ†‚·‚é‚½‚ß‚Ì€”õ‚ð‚µ‚Ä‚¢‚Ü‚·...';
-  LABEL_STATUS_DETAIL_FAILED_DECRYPT        = '•œ†‚ÉŽ¸”s‚µ‚Ü‚µ‚½B';
-  LABEL_STATUS_DETAIL_STOPPED_DECRYPT       = '•œ†ˆ—‚ª’†Ž~‚³‚ê‚Ü‚µ‚½B';
+	BUTTON_OPEN_FILES_FOR_ENCRYPTION_CAPTION  = 'æš—å·åŒ–ã—ãŸã„ã€Œãƒ•ã‚¡ã‚¤ãƒ«ã€ã‚’é¸æŠžã™ã‚‹ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’é–‹ã';
+	BUTTON_OPEN_DIR_FOR_ENCRYPTION_CAPTION    = 'æš—å·åŒ–ã—ãŸã„ã€Œãƒ•ã‚©ãƒ«ãƒ€ãƒ¼ã€ã‚’é¸æŠžã™ã‚‹ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’é–‹ã';
+	BUTTON_OPEN_FILES_FOR_DECRYPTION_CAPTION  = 'å¾©å·ã™ã‚‹ï¼ˆå…ƒã«æˆ»ã™ï¼‰ã€Œãƒ•ã‚¡ã‚¤ãƒ«ã€ã‚’é¸æŠžã™ã‚‹ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’é–‹ã';
 
 
+	//ãƒ€ã‚¤ã‚¢ãƒ­ã‚°
+	DIALOG_SELECT_DIRECTORY_TEXT              = 'æš—å·åŒ–ã™ã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªï¼ˆãƒ•ã‚©ãƒ«ãƒ€ï¼‰ã‚’é¸æŠžã—ã¦ãã ã•ã„ã€‚';
 
-	//ƒ{ƒ^ƒ“
-	BUTTON_CAPTION_ENCRYPTION                 = 'ˆÃ†‰»‚·‚é(&E)';
-	BUTTON_CAPTION_DECRYPTION                 = '•œ†‚·‚é(&D)';
-	BUTTON_CAPTION_CANCEL                     = 'ƒLƒƒƒ“ƒZƒ‹(&C)';
+	DIALOG_OPEN_FILES_FOR_ENCRYPTION_TITLE    = 'æš—å·åŒ–ã™ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã';
+	DIALOG_OPEN_FILES_FOR_ENCRYPTION_FILTER   = 'ã™ã¹ã¦ã®ãƒ•ã‚¡ã‚¤ãƒ«(*.*)|*.*';
+	DIALOG_OPEN_FILES_FOR_DECRYPTION_TITLE    = 'å¾©å·ã™ã‚‹ã‚¢ã‚¿ãƒƒã‚·ã‚§ã‚±ãƒ¼ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã';
+	DIALOG_OPEN_FILES_FOR_DECRYPTION_FINTER   = 'ã‚¢ã‚¿ãƒƒã‚·ã‚§ã‚±ãƒ¼ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«(*.atc)|*.atc|ã™ã¹ã¦ã®ãƒ•ã‚¡ã‚¤ãƒ«(*.*)|*.*';
+	DIALOG_SAVE_FILES_FOR_ENCRYPTION_TITLE    = 'æš—å·åŒ–ã•ã‚ŒãŸã‚¢ã‚¿ãƒƒã‚·ã‚§ã‚±ãƒ¼ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«åã®å…¥åŠ›';
+	DIALOG_SAVE_FILES_FOR_ENCRYPTION_FILTER   = 'ã‚¢ã‚¿ãƒƒã‚·ã‚§ã‚±ãƒ¼ã‚¹ãƒ•ã‚¡ã‚¤ãƒ«(*.atc)|*.atc|å®Ÿè¡Œå½¢å¼ãƒ•ã‚¡ã‚¤ãƒ«(*.exe)|(*.exe)|ã™ã¹ã¦ã®ãƒ•ã‚¡ã‚¤ãƒ«(*.*)|*.*';
 
-	//ƒoƒ‹[ƒ“ƒqƒ“ƒg
-	BALLOON_HINT_PASSWOED_MISMATCH            = 'æ‚É“ü—Í‚³‚ê‚½ƒpƒXƒ[ƒh‚Æ‚¿‚ª‚¢‚Ü‚·B';
-	BALLOON_HINT_PASSWOED_CONFIRMATION        = '‘SŠpE”¼Šp‚Ì‚¿‚ª‚¢ACAPSƒƒbƒN‚ª‚È‚¢‚©Šm”F‚µ‚Ä‚­‚¾‚³‚¢B';
-	BALLOON_HINT_PASSWOED_LENGTH_LONG         = 'ƒpƒXƒ[ƒh‚ª’·‚·‚¬‚Ü‚·B';
-	BALLOON_HINT_PASSWOED_LENGTH_SESCRIPTION  = 'ƒpƒXƒ[ƒh‚ÉŽg—p‚Å‚«‚é•¶Žš”‚Í”¼Šp32•¶Žši‘SŠp16•¶ŽšjˆÈ“à‚Å‚·B';
-	BALLOON_HINT_PASSWORD_HASH_TITLE          = 'ƒpƒXƒ[ƒh‚ÉˆÈ‰º‚Ìƒtƒ@ƒCƒ‹‚ÌƒnƒbƒVƒ…’l‚ª“ü—Í‚³‚ê‚Ü‚µ‚½B';
+	//ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã‚­ãƒ£ãƒ—ã‚·ãƒ§ãƒ³
+	DIALOG_SAVE_AS_FOLDER_CAPTION             = 'å¾©å·ãƒ•ã‚©ãƒ«ãƒ€ãƒ¼ã®ä¿å­˜';
+	DIALOG_SAVE_AS_FILE_CAPTION               = 'å¾©å·ãƒ•ã‚¡ã‚¤ãƒ«ã®ä¿å­˜';
+	//ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ãƒ•ã‚£ãƒ«ã‚¿ãƒ¼
+	DIALOG_SAVE_AS_FILTER                     = 'ãƒ•ã‚¡ã‚¤ãƒ«ãƒ•ã‚©ãƒ«ãƒ€ãƒ¼|*';
+	//ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ãƒœã‚¿ãƒ³ã‚­ãƒ£ãƒ—ã‚·ãƒ§ãƒ³
+	DIALOG_BUTTON_NAME_OVERWITE_YES_TO_ALL    = 'å…¨ã¦ä¸Šæ›¸ã(&W)'; // YesToAll
+	DIALOG_BUTTON_NAME_OVERWITE_YES           = 'ä¸Šæ›¸ã(&O)';     // Yes
+	DIALOG_BUTTON_NAME_OVERWITE_NO            = 'åˆ¥åä¿å­˜(&A)';   // No
+	DIALOG_BUTTON_NAME_OVERWITE_CANCEL        = 'ã‚­ãƒ£ãƒ³ã‚»ãƒ«(&C)'; // Cancel
+
+	//ãƒã‚§ãƒƒã‚¯ãƒœãƒƒã‚¯ã‚¹
+	CHECK_BOX_EXEFILE_OUT                     = 'å®Ÿè¡Œå½¢å¼å‡ºåŠ›(&X)';
+	CHECK_BOX_DELETE_SOURCE_DATA              = 'å…ƒãƒ•ã‚¡ã‚¤ãƒ«å‰Šé™¤(&D)';
+	CHECK_BOX_DELETE_ATC_DATA                 = 'æš—å·åŒ–ãƒ•ã‚¡ã‚¤ãƒ«å‰Šé™¤(&D)';
+
+	//ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚­ãƒ£ãƒ—ã‚·ãƒ§ãƒ³
+	MSG_CAPTION_ERROR                         = 'ã‚¨ãƒ©ãƒ¼';
+	MSG_CAPTION_CONFIRMATION                  = 'ç¢ºèª';
+
+  //ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
+  MSG_BROKEN_ATC_FILE                       = 'ã“ã®æš—å·åŒ–ãƒ•ã‚¡ã‚¤ãƒ«ã¯ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰å…¥åŠ›ã«å¤±æ•—ã—ã¦ç ´å£Šã•ã‚Œã¦ã„ã‚‹ã‚ˆã†ã§ã™ã€‚å¾©å·ã§ãã¾ã›ã‚“ã€‚';
+  MSG_FILE_OPEN_ERROR                       = 'ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã‘ã¾ã›ã‚“ã€‚ä»–ã®ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã§ä½¿ç”¨ä¸­ã®å¯èƒ½æ€§ãŒã‚ã‚Šã¾ã™ã€‚';
+	MSG_CONFIRM_ENCRYPT_OR_DECRYPT            = 'ãƒ‰ãƒ©ãƒƒã‚°ï¼†ãƒ‰ãƒ­ãƒƒãƒ—ã•ã‚ŒãŸãƒ•ã‚¡ã‚¤ãƒ«ã¾ãŸã¯ãƒ•ã‚©ãƒ«ãƒ€ãƒ¼ã‚’ã©ã®ã‚ˆã†ã«å‡¦ç†ã—ã¾ã™ã‹ï¼Ÿ';
+  MSG_CONFIRM_COMPLETE_DELETE_STOP         = 'ä¸­æ­¢ã™ã‚‹ã¨å®Œå…¨ã«å‰Šé™¤ã•ã‚Œãªã„å¯èƒ½æ€§ãŒã‚ã‚Šã¾ã™ã€‚'+#13+
+                                             'ãã‚Œã§ã‚‚ä¸­æ­¢ã—ã¾ã™ã‹ï¼Ÿ';
+
+	MSG_ERROR_SAVE_ENC_TO_FOLDER_NOT_EXISTS   = 'ä¿å­˜ã™ã‚‹å…ˆã®ãƒ•ã‚©ãƒ«ãƒ€ãƒ¼ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ã€‚ä¿å­˜è¨­å®šã‚’å†ç¢ºèªã—ã¦ãã ã•ã„ã€‚'+#13+
+	                                            'æš—å·åŒ–ã‚’ä¸­æ­¢ã—ã¾ã™ã€‚';
+	MSG_ERROR_SAVE_DEC_TO_FOLDER_NOT_EXISTS   = 'ä¿å­˜ã™ã‚‹å…ˆã®ãƒ•ã‚©ãƒ«ãƒ€ãƒ¼ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ã€‚ä¿å­˜è¨­å®šã‚’å†ç¢ºèªã—ã¦ãã ã•ã„ã€‚'+#13+
+	                                            'å¾©å·å‡¦ç†ã‚’ä¸­æ­¢ã—ã¾ã™ã€‚';
+	MSG_ERROR_NOT_FOUND_ENC_PASSWORD_FILE     = 'å‹•ä½œè¨­å®šã§æŒ‡å®šã•ã‚ŒãŸæš—å·åŒ–ã™ã‚‹ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ã€‚'+#13+
+	                                            'è¨­å®šã‚’ç¢ºèªã—ã¦ãã ã•ã„ã€‚';
+	MSG_ERROR_NOT_FOUND_DEC_PASSWORD_FILE     = 'å‹•ä½œè¨­å®šã§æŒ‡å®šã•ã‚ŒãŸå¾©å·ã™ã‚‹ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ã€‚'+#13+
+	                                            'è¨­å®šã‚’ç¢ºèªã—ã¦ãã ã•ã„ã€‚';
+	MSG_ERROR_OPEN_PASSWORD_FILE              = 'ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã‘ã¾ã›ã‚“ã€‚ä»–ã®ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã§ä½¿ç”¨ä¸­ã®å¯èƒ½æ€§ãŒã‚ã‚Šã¾ã™ã€‚';
+	MSG_ERROR_MISMATCH_PASSWORD_FILE          = 'å…ˆã«å…¥åŠ›ã•ã‚ŒãŸãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«ã¨ã¡ãŒã„ã¾ã™ã€‚SHA-1ãƒãƒƒã‚·ãƒ¥å€¤ãŒä¸€è‡´ã—ã¾ã›ã‚“ã§ã—ãŸã€‚'+#13+
+	                                            'æš—å·åŒ–ã™ã‚‹ã“ã¨ãŒã§ãã¾ã›ã‚“ã€‚';
+	MSG_ERROR_NOT_EXISTS_COMPAER_FIlE         = 'ã‚³ãƒ³ãƒšã‚¢ã™ã‚‹æš—å·åŒ–ãƒ•ã‚¡ã‚¤ãƒ«ã¾ãŸã¯ãƒ•ã‚©ãƒ«ãƒ€ãƒ¼ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ã€‚'+#13+
+	                                            'ã‚³ãƒ³ãƒšã‚¢ã«å¤±æ•—ã—ã¾ã—ãŸã€‚';
+
+  //ãƒ©ãƒ™ãƒ«
+  LABEL_STATUS_TITLE_ENCRYPTING             = 'æš—å·åŒ–ã—ã¦ã„ã¾ã™...';
+  LABEL_STATUS_TITLE_DECRYPTING             = 'å¾©å·ã—ã¦ã„ã¾ã™...';
+  LABEL_STATUS_TITLE_LISTING                = 'ãƒ•ã‚¡ã‚¤ãƒ«ãƒªã‚¹ãƒˆã®ç”Ÿæˆ';
+  LABEL_STATUS_TITLE_ERROR                  = 'ã‚¨ãƒ©ãƒ¼';
+  LABEL_STATUS_TITLE_USER_CANCEL            = 'ã‚­ãƒ£ãƒ³ã‚»ãƒ«';
+  LABEL_STATUS_TITLE_COMPLETE               = 'å®Œäº†';
+
+  LABEL_STATUS_DETAIL_PREPARING_ENCRYPT     = 'æš—å·åŒ–ã™ã‚‹ãŸã‚ã®æº–å‚™ã‚’ã—ã¦ã„ã¾ã™...';
+  LABEL_STATUS_DETAIL_FAILED_ENCRYPT        = 'æš—å·åŒ–ã«å¤±æ•—ã—ã¾ã—ãŸã€‚';
+  LABEL_STATUS_DETAIL_STOPPED_ENCRYPT       = 'æš—å·åŒ–ãŒä¸­æ­¢ã•ã‚Œã¾ã—ãŸã€‚';
+  LABEL_STATUS_DETAIL_PREPARING_DECRYPT     = 'å¾©å·ã™ã‚‹ãŸã‚ã®æº–å‚™ã‚’ã—ã¦ã„ã¾ã™...';
+  LABEL_STATUS_DETAIL_FAILED_DECRYPT        = 'å¾©å·ã«å¤±æ•—ã—ã¾ã—ãŸã€‚';
+  LABEL_STATUS_DETAIL_STOPPED_DECRYPT       = 'å¾©å·å‡¦ç†ãŒä¸­æ­¢ã•ã‚Œã¾ã—ãŸã€‚';
+
+
+
+	//ãƒœã‚¿ãƒ³
+	BUTTON_CAPTION_ENCRYPTION                 = 'æš—å·åŒ–ã™ã‚‹(&E)';
+	BUTTON_CAPTION_DECRYPTION                 = 'å¾©å·ã™ã‚‹(&D)';
+	BUTTON_CAPTION_CANCEL                     = 'ã‚­ãƒ£ãƒ³ã‚»ãƒ«(&C)';
+
+	//ãƒãƒ«ãƒ¼ãƒ³ãƒ’ãƒ³ãƒˆ
+	BALLOON_HINT_PASSWOED_MISMATCH            = 'å…ˆã«å…¥åŠ›ã•ã‚ŒãŸãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã¨ã¡ãŒã„ã¾ã™ã€‚';
+	BALLOON_HINT_PASSWOED_CONFIRMATION        = 'å…¨è§’ãƒ»åŠè§’ã®ã¡ãŒã„ã€CAPSãƒ­ãƒƒã‚¯ãŒãªã„ã‹ç¢ºèªã—ã¦ãã ã•ã„ã€‚';
+	BALLOON_HINT_PASSWOED_LENGTH_LONG         = 'ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ãŒé•·ã™ãŽã¾ã™ã€‚';
+	BALLOON_HINT_PASSWOED_LENGTH_SESCRIPTION  = 'ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã«ä½¿ç”¨ã§ãã‚‹æ–‡å­—æ•°ã¯åŠè§’32æ–‡å­—ï¼ˆå…¨è§’16æ–‡å­—ï¼‰ä»¥å†…ã§ã™ã€‚';
+	BALLOON_HINT_PASSWORD_HASH_TITLE          = 'ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã«ä»¥ä¸‹ã®ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒãƒƒã‚·ãƒ¥å€¤ãŒå…¥åŠ›ã•ã‚Œã¾ã—ãŸã€‚';
 
 
 
@@ -105,7 +105,7 @@ implementation
 
 initialization
 
-	//DelphiƒRƒ“ƒpƒCƒ‰‚É‚æ‚éÅ“K‰»‚ð–h‚®
+	//Delphiã‚³ãƒ³ãƒ‘ã‚¤ãƒ©ã«ã‚ˆã‚‹æœ€é©åŒ–ã‚’é˜²ã
 
 	DRAG_AND_DROP_HERE;
 	SIDEBAR_CAPTION_ENCRYPT;

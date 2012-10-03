@@ -21,12 +21,12 @@ TRegistryIniFile *pReg;
 
 try{
 
-	//�������w�肳��Ă����ꍇ�̂݋N���`
+	//引数が指定されてきた場合のみ起動～
 	if ( ParamCount() > 0 ){
 
 		pReg = new TRegistryIniFile ("Software\\Hibara");
 
-		//�A�^�b�V�F�P�[�X�{�̂̃p�X
+		//アタッシェケース本体のパス
 		AtcExeFilePath = pReg->ReadString( "AttacheCase\\AppInfo", "AppPath", "");
 
 		if ( AtcExeFilePath == "" ){
@@ -35,9 +35,9 @@ try{
 
 		if ( FileExists(AtcExeFilePath) == true ){
 
-			//�t�@�C���A�C�R���ԍ�
+			//ファイルアイコン番号
 			AtcsFileIconIndex = pReg->ReadInteger( "AttacheCase\\Option", "AtcsFileIconIndex", 1);
-			//���[�U�[�w��̃t�@�C���A�C�R���p�X
+			//ユーザー指定のファイルアイコンパス
 			UserRegIconFilePath = pReg->ReadString( "AttacheCase\\Option", "UserRegIconFilePath", "");
 
 			//-----------------------------------
@@ -45,20 +45,20 @@ try{
 			opt = StrToIntDef(ParamStr(1), 0);
 
 			if ( opt == 0 ){
-				//�֘A�t���ݒ�
+				//関連付け設定
 				RegistDataFileAssociation();
 			}
 			else{
-				//�֘A�t������
+				//関連付け解除
 				DeleteDataFileAssociation();
 			}
 		}
 
 	}
-	//���������N���̏ꍇ�̓��b�Z�[�W�Œʒm
+	//引数無し起動の場合はメッセージで通知
 	else{
-		//'���̃v���O�����͒P�̂ł͓��삵�܂���B'+#13+
-		//'�A�^�b�V�F�P�[�X����t�@�C���̊֘A�t���ݒ�ŌĂяo�����Ƃ��̂ݎg�p����܂��B';
+		//'このプログラムは単体では動作しません。'+#13+
+		//'アタッシェケースからファイルの関連付け設定で呼び出されるときのみ使用されます。';
 		MsgText = LoadResourceString(&Msgmain::_MSG_ERROR_THIS_APP_DOES_NOT_EXECUTE_ALONE);
 		MessageDlg(MsgText, mtWarning   , TMsgDlgButtons() << mbOK, 0);
 	}
@@ -81,7 +81,7 @@ void __fastcall TForm1::FormCreate(TObject *Sender)
 //
 }
 //---------------------------------------------------------------------------
-//�f�[�^�t�@�C�����V�X�e���Ɋ֘A�t��
+//データファイルをシステムに関連付け
 //---------------------------------------------------------------------------
 bool __fastcall TForm1::RegistDataFileAssociation(void)
 {
@@ -94,40 +94,40 @@ try{
 
 	pReg = new TRegistry();
 
-	//�o�^���e
+	//登録内容
 	String RegData = "\"" + AtcExeFilePath + "\" \"%1\"";
 	String RegIconData;
 
 	//-----------------------------------
-	//���[�g�L�[�w��
+	//ルートキー指定
 	pReg->RootKey = HKEY_CLASSES_ROOT;
 	pReg->Access = KEY_ALL_ACCESS;
 
 	//-----------------------------------
-	//�R���e�L�X�g���j���[�o�^
+	//コンテキストメニュー登録
 
-	//���J���Ă݂āA���W�X�g�����J���Ȃ��悤�Ȃ�G���[
-	//�i��Win2000/XP�ȂǂŐ������[�U�[�ł���\���j
+	//一回開いてみて、レジストリが開けないようならエラー
+	//（※Win2000/XPなどで制限ユーザーである可能性）
 	if ( pReg->OpenKey( "AttacheCase.DataFile\\Shell", true)){
 
-		//open�R�}���h
-		//�Â��L�[������Ȃ�폜�iver.2.21�`�j
+		//openコマンド
+		//古いキーがあるなら削除（ver.2.21～）
 		if ( pReg->KeyExists( "open"))  pReg->DeleteKey("open");
 
 		pReg->OpenKey("open\\command", true);
 		pReg->WriteExpandString( "", RegData);
 		pReg->CloseKey();
 
-		//decode�R�}���h
+		//decodeコマンド
 		pReg->RootKey = HKEY_CLASSES_ROOT;
 		pReg->Access = KEY_ALL_ACCESS;
 		pReg->OpenKey( "AttacheCase.DataFile\\Shell", true);
-		pReg->WriteExpandString("", "");  // Shell�������N���A�i�O�̃o�[�W�����Ŏc��ꍇ���L��j
+		pReg->WriteExpandString("", "");  // Shell直下をクリア（前のバージョンで残る場合が有り）
 
 		if ( !pReg->KeyExists( "decode")){
 
 			pReg->OpenKey("decode", true);
-			//'�A�^�b�V�F�P�[�X�t�@�C���𕜍�����'
+			//'アタッシェケースファイルを復号する'
 			pReg->WriteExpandString( "", LoadResourceString(&Msgmain::_SYSTEM_CONTEXT_MENU_DECYPTION));
 
 			if ( !pReg->KeyExists( "command")){
@@ -138,7 +138,7 @@ try{
 		}
 		else{
 
-			//���W�X�g���̓o�^��������
+			//レジストリの登録がちがう
 			if (pReg->ReadString("decode\\command") != RegData ){
 				pReg->OpenKey("decode\\command", true);
 				pReg->WriteExpandString( "", RegData);
@@ -149,23 +149,23 @@ try{
 	}
 	else{
 
-		//���W�X�g�����ǂݏo���Ȃ��H
+		//レジストリが読み出せない？
 		return(false);
 
 	}
 
 	//-----------------------------------
-	//�֘A�t���A�C�R���̐ݒ�
+	//関連付けアイコンの設定
 
-	//��x���[�g�L�[�ɖ߂��Ă���
+	//一度ルートキーに戻してから
 	pReg = new TRegistry();
 	pReg->RootKey = HKEY_CLASSES_ROOT;
 	pReg->Access = KEY_ALL_ACCESS;
 
-	if ( FileExists(UserRegIconFilePath)){  //���[�U�[�w��
+	if ( FileExists(UserRegIconFilePath)){  //ユーザー指定
 		RegIconData = "\""+UserRegIconFilePath+"\"";
 	}
-	else{ //�����A�C�R��
+	else{ //既存アイコン
 		RegIconData = "\""+AtcExeFilePath+"\","+IntToStr(AtcsFileIconIndex);
 	}
 
@@ -174,23 +174,23 @@ try{
 		pReg->CloseKey();
 	}
 	else{
-		//���W�X�g�����ǂݏo���Ȃ��H
+		//レジストリが読み出せない？
 		return(false);
 	}
 
 	//-----------------------------------
-	// .atc�g���q�̊֘A�t��
+	// .atc拡張子の関連付け
 
 	if ( pReg->OpenKey(".atc", true)){
 		pReg->WriteExpandString( "", "AttacheCase.DataFile");
 		pReg->CloseKey();
 	}
 	else{
-		return(false);	//���s
+		return(false);	//失敗
 	}
 
 	//-----------------------------------
-	//�V�X�e������A�C�R���̕\���X�V
+	//システムからアイコンの表示更新
 	SHChangeNotify(SHCNE_ASSOCCHANGED, SHCNF_IDLIST, 0, 0);
 
 }
@@ -205,7 +205,7 @@ return(true);
 
 }//end RegistDataFileAssociation;
 //---------------------------------------------------------------------------
-//�f�[�^�t�@�C���̊֘A�t���ݒ�̍폜����
+//データファイルの関連付け設定の削除処理
 //---------------------------------------------------------------------------
 bool __fastcall TForm1::DeleteDataFileAssociation(void)
 {
@@ -216,25 +216,25 @@ try{
 
 	Reg = new TRegIniFile("");
 
-	//�o�^���e
+	//登録内容
 	String RegData = "\"" + AtcExeFilePath + "\" \"%1\"";
 	//AnsiString RegIconData = "\""+AtcExeFilePath+"\",1";
 
 	//-----------------------------------
-	//���[�g�L�[�w��
+	//ルートキー指定
 	Reg->RootKey = HKEY_CLASSES_ROOT;
 	Reg->Access = KEY_ALL_ACCESS;
 
 	//-----------------------------------
-	//���W�X�g���̓o�^�����邩�H
+	//レジストリの登録があるか？
 
 	if (Reg->ReadString("AttacheCase.DataFile\\Shell\\open\\Command","","") != RegData ){
 		//delete Reg;
 		//return(false);
 	}
 	else{
-		//���J���Ă݂āA���W�X�g�����J���Ȃ��悤�Ȃ�G���[
-		//��Win2000/XP�ȂǂŐ������[�U�[�ł���\��
+		//一回開いてみて、レジストリが開けないようならエラー
+		//※Win2000/XPなどで制限ユーザーである可能性
 		if ( !Reg->OpenKey("AttacheCase.DataFile\\Shell\\open\\Command", true)){
 			return(false);
 		}
@@ -249,7 +249,7 @@ __finally{
 
 
 //-----------------------------------
-//���W�X�g���폜
+//レジストリ削除
 
 TRegIniFile *DelReg;
 
@@ -257,7 +257,7 @@ try{
 
 	DelReg = new TRegIniFile("");
 
-	//���[�g�L�[�w��
+	//ルートキー指定
 	DelReg->RootKey = HKEY_CLASSES_ROOT;
 	DelReg->EraseSection(".atc");
 	DelReg->EraseSection("AttacheCase.DataFile");
@@ -270,11 +270,11 @@ __finally{
 }
 
 //-----------------------------------
-//�A�^�b�V�F�P�[�X�e�ݒ�̍폜
-//���A���C���X�g�[���[�����ꂢ�ɂ��Ă����̂ł����ł͂��Ȃ��B
+//アタッシェケース各設定の削除
+//※アンインストーラーがきれいにしてくれるのでここではやらない。
 /*
 DelReg = new TRegIniFile("Software\\Hibara");
-//���W�X�g���폜
+//レジストリ削除
 DelReg->EraseSection("AttacheCase");
 
 delete DelReg;

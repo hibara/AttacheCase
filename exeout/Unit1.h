@@ -18,10 +18,10 @@
 #include "TDragAndDrop.h"
 #include "sha1.h"
 
-//ƒoƒbƒtƒ@ƒTƒCƒY
+//ãƒãƒƒãƒ•ã‚¡ã‚µã‚¤ã‚º
 #define BUF_SIZE 32
 
-//SHA-1ƒnƒbƒVƒ…ŒvZi160bit20bytej
+//SHA-1ãƒãƒƒã‚·ãƒ¥è¨ˆç®—ï¼ˆ160bitï¼20byteï¼‰
 #define BUF_SHA1_SIZE 20
 #define BUF_HASH_DATA 32
 
@@ -29,7 +29,7 @@
 //---------------------------------------------------------------------------
 class TForm1 : public TForm
 {
-__published:	// IDE ŠÇ—‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg
+__published:	// IDE ç®¡ç†ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
 	TEdit *txtInputPassword;
 	TButton *cmdExit;
 	TLabel *lblAbout;
@@ -57,45 +57,45 @@ __published:	// IDE ŠÇ—‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg
 	void __fastcall txtInputPasswordChange(TObject *Sender);
 
 
-private:	// ƒ†[ƒU[éŒ¾
+private:	// ãƒ¦ãƒ¼ã‚¶ãƒ¼å®£è¨€
 
-	//ƒ^ƒXƒNƒo[‚ÉƒvƒƒOƒŒƒXƒo[•\¦ iWin7j
+	//ã‚¿ã‚¹ã‚¯ãƒãƒ¼ã«ãƒ—ãƒ­ã‚°ãƒ¬ã‚¹ãƒãƒ¼è¡¨ç¤º ï¼ˆWin7ï¼‰
 	ITaskbarList3* ptl;
 
-	TAttacheCaseFileDecrypt2 *decrypt; // •œ†ƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
+	TAttacheCaseFileDecrypt2 *decrypt; // å¾©å·ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
 
-  String PasswordFilePath;           // ƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹ƒpƒX
+  String PasswordFilePath;           // ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹
 
-	int TypeLimits;                    // ƒ~ƒXƒ^ƒCƒv‰ñ” 0`10
-	bool fDestroy;                     // ”j‰ó‚·‚é‚©”Û‚© 0 or 1
+	int TypeLimits;                    // ãƒŸã‚¹ã‚¿ã‚¤ãƒ—å›æ•° 0ï½10
+	bool fDestroy;                     // ç ´å£Šã™ã‚‹ã‹å¦ã‹ 0 or 1
 
-	//ƒpƒXƒ[ƒh‚ÌÄ“ü—Í‰ñ”
+	//ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã®å†å…¥åŠ›å›æ•°
 	int RetryNum;
 
-	// ƒtƒH[ƒ€ó‘Ô‚ÌØ‚è‘Ö‚¦
-	void __fastcall ChangeFormStatus(int opt);	// 0:ƒƒCƒ“, 1:Às’†
-	// ƒtƒ@ƒCƒ‹‚ğ•œ†‚·‚éˆ—
+	// ãƒ•ã‚©ãƒ¼ãƒ çŠ¶æ…‹ã®åˆ‡ã‚Šæ›¿ãˆ
+	void __fastcall ChangeFormStatus(int opt);	// 0:ãƒ¡ã‚¤ãƒ³, 1:å®Ÿè¡Œä¸­
+	// ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å¾©å·ã™ã‚‹å‡¦ç†
 	void __fastcall FileDecrypt(void);
-	// ƒtƒ@ƒCƒ‹‚©‚çSHA-1ƒnƒbƒVƒ…’l‚ğæ“¾‚·‚é
+	// ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰SHA-1ãƒãƒƒã‚·ãƒ¥å€¤ã‚’å–å¾—ã™ã‚‹
 	bool __fastcall GetSHA1HashFromFile(
-		String FilePath,              // ƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹ƒpƒX
-		AnsiString &HashDataVer2,     // ver.2.*  `FSHA-1ƒnƒbƒVƒ…’li20byte + 12bytej
-		AnsiString &HashDataVer1 );   // ver.1.*  `Fƒwƒbƒ_ƒf[ƒ^iæ“ª•¶š—ñ32•¶šj
-	//ˆÃ†‰»ƒtƒ@ƒCƒ‹‚ğ”j‰ó‚·‚é
+		String FilePath,              // ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹
+		AnsiString &HashDataVer2,     // ver.2.*  ï½ï¼šSHA-1ãƒãƒƒã‚·ãƒ¥å€¤ï¼ˆ20byte + 12byteï¼‰
+		AnsiString &HashDataVer1 );   // ver.1.*  ï½ï¼šãƒ˜ãƒƒãƒ€ãƒ‡ãƒ¼ã‚¿ï¼ˆå…ˆé ­æ–‡å­—åˆ—32æ–‡å­—ï¼‰
+	//æš—å·åŒ–ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ç ´å£Šã™ã‚‹
 	bool __fastcall DestroyAtcFile(void);
 
 
-public:		// ƒ†[ƒU[éŒ¾
+public:		// ãƒ¦ãƒ¼ã‚¶ãƒ¼å®£è¨€
 	__fastcall TForm1(TComponent* Owner);
 
-	//OLEƒhƒ‰ƒbƒO•ƒhƒƒbƒv‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”
+	//OLEãƒ‰ãƒ©ãƒƒã‚°ï¼†ãƒ‰ãƒ­ãƒƒãƒ—ã®ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°
 	void __fastcall FilesDragOver(POINTL ptl);
 	void __fastcall FilesDragLeave(void);
 	void __fastcall FilesDragEnd(POINTL ptl, String FileListText);
 
-	//ƒƒbƒZ[ƒWƒ_ƒCƒAƒƒO‚Ì•\¦iƒXƒŒƒbƒhƒIƒuƒWƒFƒNƒg‚©‚çŒÄ‚Î‚ê‚éj
+	//ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã®è¡¨ç¤ºï¼ˆã‚¹ãƒ¬ãƒƒãƒ‰ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‹ã‚‰å‘¼ã°ã‚Œã‚‹ï¼‰
 	int __fastcall ShowConfirmMassageForm(String MsgText, TMsgDlgType MsgType, TMsgDlgButtons MsgButtons, TMsgDlgBtn MsgDefaultButton);
-	//ã‘‚«Šm”FƒƒbƒZ[ƒWƒ_ƒCƒAƒƒO‚Ì•\¦i•œ†ƒXƒŒƒbƒhƒIƒuƒWƒFƒNƒg‚©‚çŒÄ‚Î‚ê‚éj
+	//ä¸Šæ›¸ãç¢ºèªãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã®è¡¨ç¤ºï¼ˆå¾©å·ã‚¹ãƒ¬ãƒƒãƒ‰ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‹ã‚‰å‘¼ã°ã‚Œã‚‹ï¼‰
 	int __fastcall ShowConfirmOverwriteMassageForm(String MsgText, String &Path);
 
 

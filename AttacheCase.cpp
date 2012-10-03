@@ -1,4 +1,4 @@
-//---------------------------------------------------------------------------
+ï»¿//---------------------------------------------------------------------------
 
 #include <vcl.h>
 #pragma hdrstop
@@ -8,10 +8,10 @@
 #include "MsgWinMain.hpp"
 
 //---------------------------------------------------------------------------
-USEFORM("Unit4.cpp", Form4);
-USEFORM("Unit2.cpp", Form2);
 USEFORM("Unit3.cpp", Form3);
+USEFORM("Unit2.cpp", Form2);
 USEFORM("Unit1.cpp", Form1);
+USEFORM("Unit4.cpp", Form4);
 //---------------------------------------------------------------------------
 HANDLE mx;
 void SendToMsgData(HWND handle);
@@ -20,7 +20,7 @@ void SendToMsgData(HWND handle);
 WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
 
-//'ƒAƒ^ƒbƒVƒFƒP[ƒX'
+//'ã‚¢ã‚¿ãƒƒã‚·ã‚§ã‚±ãƒ¼ã‚¹'
 String ApplicationTitle = LoadResourceString(&Msgwinmain::_TITLE_APP_NAME);
 HWND handle = NULL;
 
@@ -29,7 +29,7 @@ try{
 	mx = CreateMutex( NULL, true, "AtacheCase2" );
 
 	if( GetLastError() ){
-		//‚·‚Å‚É‹N“®’†‚ÌƒAƒ^ƒbƒVƒFƒP[ƒX‚ÌƒEƒBƒ“ƒhƒEƒnƒ“ƒhƒ‹‚ğæ“¾
+		//ã™ã§ã«èµ·å‹•ä¸­ã®ã‚¢ã‚¿ãƒƒã‚·ã‚§ã‚±ãƒ¼ã‚¹ã®ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ãƒãƒ³ãƒ‰ãƒ«ã‚’å–å¾—
 		handle = ::FindWindowW(NULL, ApplicationTitle.c_str());
 	}
 
@@ -41,7 +41,7 @@ try{
 		Application->HelpFile = "AttacheCase.chm";
 		Application->CreateForm(__classid(TForm1), &Form1);
 		if ( handle != NULL && Form1->opthdl->fNoMultipleInstance == true){
-			//‚·‚Å‚É‹N“®’†‚ÌƒAƒ^ƒbƒVƒFƒP[ƒX‚ÖƒƒbƒZ[ƒW‚ğ‘—‚é
+			//ã™ã§ã«èµ·å‹•ä¸­ã®ã‚¢ã‚¿ãƒƒã‚·ã‚§ã‚±ãƒ¼ã‚¹ã¸ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’é€ã‚‹
 			SendToMsgData(handle);
 		}
 		else{
@@ -65,7 +65,7 @@ return 0;
 
 }
 //----------------------------------------------------------------------
-//‚·‚Å‚É‹N“®’†‚ÌƒAƒ^ƒbƒVƒFƒP[ƒX‚Öƒtƒ@ƒCƒ‹ƒŠƒXƒg‚ğƒƒbƒZ[ƒW‚Æ‚µ‚Ä‘—‚é
+//ã™ã§ã«èµ·å‹•ä¸­ã®ã‚¢ã‚¿ãƒƒã‚·ã‚§ã‚±ãƒ¼ã‚¹ã¸ãƒ•ã‚¡ã‚¤ãƒ«ãƒªã‚¹ãƒˆã‚’ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã¨ã—ã¦é€ã‚‹
 //----------------------------------------------------------------------
 void SendToMsgData(HWND handle)
 {
@@ -87,7 +87,7 @@ COPYDATASTRUCT cds;
 wParam = (WPARAM)Application->Handle;
 lParam = (LPARAM)&cds;
 
-//ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“ˆø”‚ğ‚Ü‚Æ‚ß‚é
+//ã‚³ãƒãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³å¼•æ•°ã‚’ã¾ã¨ã‚ã‚‹
 for ( i = 1; i < ParamCount()+1 ; i++){
 	if ( FileExists(ParamStr(i)) || DirectoryExists(ParamStr(i))){
 		SendFileList->Add(ExpandFileName(ParamStr(i)));
@@ -96,22 +96,22 @@ for ( i = 1; i < ParamCount()+1 ; i++){
 
 if ( SendFileList->Count > 0 ){
 
-	// ƒf[ƒ^ƒTƒCƒYiUnicodeStringj
+	// ãƒ‡ãƒ¼ã‚¿ã‚µã‚¤ã‚ºï¼ˆUnicodeStringï¼‰
 	int size = SendFileList->Text.Length()*SendFileList->Text.ElementSize() + 1;
 	wchar_t *buffer = new wchar_t[size];
-	ZeroMemory( buffer, size );                          // ‰Šú‰»
-	StrLCopy( buffer, SendFileList->Text.c_str(), size); // ƒoƒbƒtƒ@‚ÖƒRƒs[
+	ZeroMemory( buffer, size );                          // åˆæœŸåŒ–
+	StrLCopy( buffer, SendFileList->Text.c_str(), size); // ãƒãƒƒãƒ•ã‚¡ã¸ã‚³ãƒ”ãƒ¼
 
 	cds.dwData = 1;
 	cds.cbData = size;
 	cds.lpData = (LPVOID)buffer;
 
-	//‘—‚è‚Â‚¯‚é
+	//é€ã‚Šã¤ã‘ã‚‹
 	::SendMessage(handle, WM_COPYDATA, wParam, lParam);
 
 }
 
-//ƒEƒBƒ“ƒhƒE‚ğ‘O–Ê‚É
+//ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’å‰é¢ã«
 SetForegroundWindow(handle);
 
 }

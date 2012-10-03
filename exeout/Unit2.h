@@ -16,7 +16,7 @@
 //---------------------------------------------------------------------------
 class TForm2 : public TForm
 {
-__published:	// IDE ŠÇ—‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg
+__published:	// IDE ç®¡ç†ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
 	TButton *cmdExit;
 	TImage *imgMainIcon;
 	TLabel *lblWebSite;
@@ -31,8 +31,8 @@ __published:	// IDE ŠÇ—‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg
 	void __fastcall lblWebSiteMouseLeave(TObject *Sender);
 	void __fastcall lblWebSiteClick(TObject *Sender);
 
-private:	// ƒ†[ƒU[éŒ¾
-public:		// ƒ†[ƒU[éŒ¾
+private:	// ãƒ¦ãƒ¼ã‚¶ãƒ¼å®£è¨€
+public:		// ãƒ¦ãƒ¼ã‚¶ãƒ¼å®£è¨€
 	__fastcall TForm2(TComponent* Owner);
 };
 //---------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-//---------------------------------------------------------------------------
+ï»¿//---------------------------------------------------------------------------
 #ifndef Unit2H
 #define Unit2H
 //---------------------------------------------------------------------------
@@ -9,6 +9,8 @@
 #include <ExtCtrls.hpp>
 #include <Graphics.hpp>
 
+#include "MsgUnit2.hpp"
+
 #include "zlib.h"
 #include "Unit1.h"
 
@@ -18,7 +20,7 @@
 //---------------------------------------------------------------------------
 class TForm2 : public TForm
 {
-__published:	// IDE ŠÇ—‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg
+__published:	// IDE ç®¡ç†ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
 	TImage *Image1;
 	TLabel *lblAppName;
 	TButton *cmdOK;
@@ -52,7 +54,7 @@ __published:	// IDE ŠÇ—‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg
 
 
 
-private:	// ƒ†[ƒU[éŒ¾
+private:	// ãƒ¦ãƒ¼ã‚¶ãƒ¼å®£è¨€
 
   void __fastcall CMMouseLeave( TMessage &Msg );
   BEGIN_MESSAGE_MAP
@@ -61,7 +63,7 @@ private:	// ƒ†[ƒU[éŒ¾
 
 
 
-public:		// ƒ†[ƒU[éŒ¾
+public:		// ãƒ¦ãƒ¼ã‚¶ãƒ¼å®£è¨€
 	__fastcall TForm2(TComponent* Owner);
 
 

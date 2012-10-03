@@ -4,11 +4,11 @@ interface
 
 resourcestring
 
-	SYSTEM_CONTEXT_MENU_DECYPTION             = '�A�^�b�V�F�P�[�X�t�@�C���𕜍�����';
+	SYSTEM_CONTEXT_MENU_DECYPTION             = 'アタッシェケースファイルを復号する';
 
-  MSG_ERROR_DO_NOT_READ_REGISTRY            = '���R�͂킩��܂��񂪁A���W�X�g������̓ǂݍ��݂Ɏ��s���܂����B';
-  MSG_ERROR_THIS_APP_DOES_NOT_EXECUTE_ALONE = '���̃v���O�����͒P�̂ł͓��삵�܂���B'+#13+
-                                              '�A�^�b�V�F�P�[�X����t�@�C���̊֘A�t���ݒ�ŌĂяo�����Ƃ��̂ݎg�p����܂��B';
+  MSG_ERROR_DO_NOT_READ_REGISTRY            = '理由はわかりませんが、レジストリからの読み込みに失敗しました。';
+  MSG_ERROR_THIS_APP_DOES_NOT_EXECUTE_ALONE = 'このプログラムは単体では動作しません。'+#13+
+                                              'アタッシェケースからファイルの関連付け設定で呼び出されるときのみ使用されます。';
 
 
 
@@ -16,7 +16,7 @@ implementation
 
 initialization
 
-	//Delphi�R���p�C���ɂ��œK����h��
+	//Delphiコンパイラによる最適化を防ぐ
 	SYSTEM_CONTEXT_MENU_DECYPTION;
 	MSG_ERROR_DO_NOT_READ_REGISTRY;
 	MSG_ERROR_THIS_APP_DOES_NOT_EXECUTE_ALONE;

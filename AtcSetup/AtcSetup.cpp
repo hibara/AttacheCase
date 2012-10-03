@@ -12,7 +12,7 @@ WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 	{
 		Application->Initialize();
 		Application->MainFormOnTaskBar = true;
-		Application->Title = "アタッシェケース関連付けアプリケーション";
+		Application->Title = L"繧｢繧ｿ繝�繧ｷ繧ｧ繧ｱ繝ｼ繧ｹ髢｢騾｣莉倥￠繧｢繝励Μ繧ｱ繝ｼ繧ｷ繝ｧ繝ｳ";
 		Application->CreateForm(__classid(TForm1), &Form1);
 		Application->Run();
 	}

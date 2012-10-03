@@ -34,16 +34,16 @@ http://www.gnu.org/licenses/
 
 #pragma package(smart_init)
 // ---------------------------------------------------------------------------
-// ’ˆÓFˆÙ‚È‚éƒXƒŒƒbƒh‚ªŠ—L‚·‚é VCL ‚Ìƒƒ\ƒbƒh/ŠÖ”/ƒvƒƒpƒeƒB‚ğ•Ê‚Ì
-// ƒŒƒbƒhŠ—L‚ÌƒIƒuƒWƒFƒNƒg‚É‘Î‚µ‚Ä‚Í Synchronize ‚ğg—p‚Å‚«‚Ü‚·B
+// æ³¨æ„ï¼šç•°ãªã‚‹ã‚¹ãƒ¬ãƒƒãƒ‰ãŒæ‰€æœ‰ã™ã‚‹ VCL ã®ãƒ¡ã‚½ãƒƒãƒ‰/é–¢æ•°/ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’åˆ¥ã®
+// ãƒ¬ãƒƒãƒ‰æ‰€æœ‰ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«å¯¾ã—ã¦ã¯ Synchronize ã‚’ä½¿ç”¨ã§ãã¾ã™ã€‚
 //
 // Synchronize(&UpdateCaption);
 //
-// —á‚¦‚Î UpdateCaption ‚ğˆÈ‰º‚Ì‚æ‚¤‚É’è‹`‚µ
+// ä¾‹ãˆã° UpdateCaption ã‚’ä»¥ä¸‹ã®ã‚ˆã†ã«å®šç¾©ã—
 //
 // void __fastcall TAttacheCaseFileEncode::UpdateCaption()
 // {
-// Form1->Caption = "ƒXƒŒƒbƒh‚©‚ç‘‚«Š·‚¦‚Ü‚µ‚½";
+// Form1->Caption = "ã‚¹ãƒ¬ãƒƒãƒ‰ã‹ã‚‰æ›¸ãæ›ãˆã¾ã—ãŸ";
 // }
 // ---------------------------------------------------------------------------
 __fastcall TAttacheCaseFileDecrypt2::TAttacheCaseFileDecrypt2
@@ -54,27 +54,27 @@ for (int i = 0; i < 32; i++) {
 	key[i] = NULL;
 }
 
-fCompare = false;        // ƒRƒ“ƒyƒA
+fCompare = false;        // ã‚³ãƒ³ãƒšã‚¢
 
-ProgressPercentNum = -1; // i’»ƒp[ƒZƒ“ƒg
-ProgressStatusText = ""; // i’»ƒXƒe[ƒ^ƒX
-ProgressMsgText = "";    // i’»ƒƒbƒZ[ƒW
+ProgressPercentNum = -1; // é€²æ—ãƒ‘ãƒ¼ã‚»ãƒ³ãƒˆ
+ProgressStatusText = ""; // é€²æ—ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
+ProgressMsgText = "";    // é€²æ—ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
 
-AtcFilePath = "";        // “ü—Í‚·‚éˆÃ†‰»ƒtƒ@ƒCƒ‹
-OutDirPath = "";         // o—Í‚·‚éƒfƒBƒŒƒNƒgƒŠ
+AtcFilePath = "";        // å…¥åŠ›ã™ã‚‹æš—å·åŒ–ãƒ•ã‚¡ã‚¤ãƒ«
+OutDirPath = "";         // å‡ºåŠ›ã™ã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
 
-NumOfTrials = 1;         // ƒpƒXƒ[ƒh“ü—Ís‰ñ”
+NumOfTrials = 1;         // ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰å…¥åŠ›è©¦è¡Œå›æ•°
 
-StatusNum = -1;          // ˆ—Œ‹‰ÊƒXƒe[ƒ^ƒX
-												 //   1: •œ†¬Œ÷
-												 //   0: ƒ†[ƒU[ƒLƒƒƒ“ƒZƒ‹
-												 //  -1: ƒpƒXƒ[ƒh“ü—ÍƒGƒ‰[
-												 //  -2: •œ†ƒGƒ‰[
+StatusNum = -1;          // å‡¦ç†çµæœã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
+												 //   1: å¾©å·æˆåŠŸ
+												 //   0: ãƒ¦ãƒ¼ã‚¶ãƒ¼ã‚­ãƒ£ãƒ³ã‚»ãƒ«
+												 //  -1: ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰å…¥åŠ›ã‚¨ãƒ©ãƒ¼
+												 //  -2: å¾©å·ã‚¨ãƒ©ãƒ¼
 
 
 }
 //===========================================================================
-//ƒfƒXƒgƒ‰ƒNƒ^
+//ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 //===========================================================================
 __fastcall TAttacheCaseFileDecrypt2::~TAttacheCaseFileDecrypt2(void)
 {
@@ -83,27 +83,27 @@ __fastcall TAttacheCaseFileDecrypt2::~TAttacheCaseFileDecrypt2(void)
 
 }
 //===========================================================================
-//ƒXƒŒƒbƒhÀs
+//ã‚¹ãƒ¬ãƒƒãƒ‰å®Ÿè¡Œ
 //===========================================================================
 void __fastcall TAttacheCaseFileDecrypt2::Execute()
 {
 
 int i, c, len;
 
-// ƒoƒbƒtƒ@
+// ãƒãƒƒãƒ•ã‚¡
 char source_buffer[BUF_SIZE];
 char temp_buffer[BUF_SIZE];
 char chain_buffer[BUF_SIZE];
 char output_buffer[LARGE_BUF_SIZE];
 char *headerbuffer;
 
-//ƒpƒXƒ[ƒh
+//ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰
 bool fPasswordOk = false;
 //const int KeyArrayNum = sizeof(key)/sizeof(key[0]);
 
 String FilePath, FileName;
 
-// ƒtƒ@ƒCƒ‹ƒXƒgƒŠ[ƒ€
+// ãƒ•ã‚¡ã‚¤ãƒ«ã‚¹ãƒˆãƒªãƒ¼ãƒ 
 TFileStream *fsIn;
 TFileStream *fsOut;
 bool fInputFileOpen = false;
@@ -113,72 +113,72 @@ float free_space_required;
 __int64 CurrentPos, TotalSize, AllTotalSize;
 __int64 CurrentDriveFreeSpaceSize;
 
-int ret;	//ƒoƒbƒtƒ@o—Í‚Ì•Ô’l
+int ret;	//ãƒãƒƒãƒ•ã‚¡å‡ºåŠ›ã®è¿”å€¤
 int FileIndex = 0;
 
 char token[16];
-const char charTokenString[16] = "_AttacheCaseData";         //•œ†‚Ì³”Û‚Ég‚¤
-String AtcFileTokenString;                                   //ˆÃ†‰»ƒtƒ@ƒCƒ‹‚Ìƒg[ƒNƒ“i•¶š—ñj
-String AtcFileCreateDateString;                              //ˆÃ†‰»ƒtƒ@ƒCƒ‹‚Ì¶¬“úi•¶š—ñj
+const char charTokenString[16] = "_AttacheCaseData";         //å¾©å·ã®æ­£å¦ã«ä½¿ã†
+String AtcFileTokenString;                                   //æš—å·åŒ–ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒˆãƒ¼ã‚¯ãƒ³ï¼ˆæ–‡å­—åˆ—ï¼‰
+String AtcFileCreateDateString;                              //æš—å·åŒ–ãƒ•ã‚¡ã‚¤ãƒ«ã®ç”Ÿæˆæ—¥æ™‚ï¼ˆæ–‡å­—åˆ—ï¼‰
 
-//“¯–¼ƒtƒ@ƒCƒ‹/ƒtƒHƒ‹ƒ_[‚Í‚·‚×‚Äã‘‚«‚µ‚Ä•œ†‚·‚é
-//iƒ†[ƒU[‚ªƒ_ƒCƒAƒƒO‚Åu‚·‚×‚Ä‚Í‚¢v‚ğ‘I‘ğ‚µ‚½‚Æ‚« = true j
+//åŒåãƒ•ã‚¡ã‚¤ãƒ«/ãƒ•ã‚©ãƒ«ãƒ€ãƒ¼ã¯ã™ã¹ã¦ä¸Šæ›¸ãã—ã¦å¾©å·ã™ã‚‹
+//ï¼ˆãƒ¦ãƒ¼ã‚¶ãƒ¼ãŒãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã§ã€Œã™ã¹ã¦ã¯ã„ã€ã‚’é¸æŠã—ãŸã¨ã = true ï¼‰
 fOverwirteYesToAll = false;
-//u•œ†‚µ‚½ƒtƒ@ƒCƒ‹‚ğŠÖ˜A•t‚¯‚³‚ê‚½ƒ\ƒtƒg‚ÅŠJ‚­vˆê“I‚Èİ’è
+//ã€Œå¾©å·ã—ãŸãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–¢é€£ä»˜ã‘ã•ã‚ŒãŸã‚½ãƒ•ãƒˆã§é–‹ãã€ä¸€æ™‚çš„ãªè¨­å®š
 fTempOpenFile = fOpenFile;
-//ƒtƒHƒ‹ƒ_[‚ğˆê“xŠJ‚¢‚½‚©i[‚¢ƒtƒHƒ‹ƒ_[‚·‚×‚Ä‚ğŠJ‚©‚È‚¢‚æ‚¤‚Éj
+//ãƒ•ã‚©ãƒ«ãƒ€ãƒ¼ã‚’ä¸€åº¦é–‹ã„ãŸã‹ï¼ˆæ·±ã„ãƒ•ã‚©ãƒ«ãƒ€ãƒ¼ã™ã¹ã¦ã‚’é–‹ã‹ãªã„ã‚ˆã†ã«ï¼‰
 fOpenFolderOnce = false;
 
-// o—Í‚·‚éƒfƒBƒŒƒNƒgƒŠ
+// å‡ºåŠ›ã™ã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
 OutDirPath = IncludeTrailingPathDelimiter(OutDirPath);
 
-// •½•¶ƒwƒbƒ_ƒTƒCƒYiƒf[ƒ^ƒTƒuƒo[ƒWƒ‡ƒ“A”j‰óİ’è‚È‚Çj
+// å¹³æ–‡ãƒ˜ãƒƒãƒ€ã‚µã‚¤ã‚ºï¼ˆãƒ‡ãƒ¼ã‚¿ã‚µãƒ–ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã€ç ´å£Šè¨­å®šãªã©ï¼‰
 int PlainHeaderSize = 0;
-// ˆÃ†‰»•”•ª‚Ìƒwƒbƒ_ƒTƒCƒY
+// æš—å·åŒ–éƒ¨åˆ†ã®ãƒ˜ãƒƒãƒ€ã‚µã‚¤ã‚º
 int EncryptHeaderSize = 0;
 
-int DataVersion;      // ver.2.00`‚Í "5", ver.2.70`‚Í "6"
+int DataVersion;      // ver.2.00ï½ã¯ "5", ver.2.70ï½ã¯ "6"
 int AlgorismType;
 
 char reserved;        // 0
-//int TypeLimits;     // ƒ~ƒXƒ^ƒCƒv‰ñ” 0`10  iƒOƒ[ƒoƒ‹:publicéŒ¾‚Æ‚µ‚½j
-//bool fDestroy;      // ”j‰ó‚·‚é‚©”Û‚© 0 or 1 iƒOƒ[ƒoƒ‹:publicéŒ¾‚Æ‚µ‚½j
+//int TypeLimits;     // ãƒŸã‚¹ã‚¿ã‚¤ãƒ—å›æ•° 0ï½10  ï¼ˆã‚°ãƒ­ãƒ¼ãƒãƒ«:publicå®£è¨€ã¨ã—ãŸï¼‰
+//bool fDestroy;      // ç ´å£Šã™ã‚‹ã‹å¦ã‹ 0 or 1 ï¼ˆã‚°ãƒ­ãƒ¼ãƒãƒ«:publicå®£è¨€ã¨ã—ãŸï¼‰
 
-String PrefixString;	//ƒtƒ@ƒCƒ‹ƒŠƒXƒg‚ÌÚ“ª«iFn_*, U_*j
+String PrefixString;	//ãƒ•ã‚¡ã‚¤ãƒ«ãƒªã‚¹ãƒˆã®æ¥é ­è¾ï¼ˆFn_*, U_*ï¼‰
 
 int flush, status;    // zlib
-z_stream z;           // zlibƒ‰ƒCƒuƒ‰ƒŠ‚Æ‚â‚è‚Æ‚è‚·‚é‚½‚ß‚Ì\‘¢‘Ì
+z_stream z;           // zlibãƒ©ã‚¤ãƒ–ãƒ©ãƒªã¨ã‚„ã‚Šã¨ã‚Šã™ã‚‹ãŸã‚ã®æ§‹é€ ä½“
 
-//ƒwƒbƒ_ƒf[ƒ^‚©‚ç•K—vî•ñ‚ğæ‚èo‚·‚½‚ß‚Ì
-TMemoryStream *pms;   // ƒƒ‚ƒŠƒXƒgƒŠ[ƒ€
+//ãƒ˜ãƒƒãƒ€ãƒ‡ãƒ¼ã‚¿ã‹ã‚‰å¿…è¦æƒ…å ±ã‚’å–ã‚Šå‡ºã™ãŸã‚ã®
+TMemoryStream *pms;   // ãƒ¡ãƒ¢ãƒªã‚¹ãƒˆãƒªãƒ¼ãƒ 
 
 int idx;
 TStringList *DataList;
 TStringList *tsv;
 
-TStringList *FileList = new TStringList();  // 0: ƒtƒ@ƒCƒ‹–¼
-__int64 *FileSizeList = 0;               // 1: ƒtƒ@ƒCƒ‹ƒTƒCƒYiƒtƒHƒ‹ƒ_‚Í-1j
-int *FileAttrList     = 0;               // 2: ‘®«
-int *FileDtChangeList = 0;               // 3: XV“ú
-int *FileTmChangeList = 0;               // 4: XV
-int *FileDtCreateList = 0;               // 5: ì¬“ú
-int *FileTmCreateList = 0;               // 6: ì¬
+TStringList *FileList = new TStringList();  // 0: ãƒ•ã‚¡ã‚¤ãƒ«å
+__int64 *FileSizeList = 0;               // 1: ãƒ•ã‚¡ã‚¤ãƒ«ã‚µã‚¤ã‚ºï¼ˆãƒ•ã‚©ãƒ«ãƒ€ã¯-1ï¼‰
+int *FileAttrList     = 0;               // 2: å±æ€§
+int *FileDtChangeList = 0;               // 3: æ›´æ–°æ—¥
+int *FileTmChangeList = 0;               // 4: æ›´æ–°æ™‚
+int *FileDtCreateList = 0;               // 5: ä½œæˆæ—¥
+int *FileTmCreateList = 0;               // 6: ä½œæˆæ™‚
 
 int rest;
 int buf_size;
 
 //----------------------------------------------------------------------
-// •½•¶‚Ìƒwƒbƒ_“à—eƒ`ƒFƒbƒN
+// å¹³æ–‡ã®ãƒ˜ãƒƒãƒ€å†…å®¹ãƒã‚§ãƒƒã‚¯
 
 try {
-#ifdef EXE_OUT //©ŒÈÀsŒ`®i©g‚ğŠJ‚­j
+#ifdef EXE_OUT //è‡ªå·±å®Ÿè¡Œå½¢å¼ï¼ˆè‡ªèº«ã‚’é–‹ãï¼‰
 	fsIn = new TFileStream(AtcFilePath, fmShareDenyNone);
 #else
 	fsIn = new TFileStream(AtcFilePath, fmOpenRead);
 #endif
 }
 catch(...) {
-	//'•œ†‚·‚éƒtƒ@ƒCƒ‹‚ğŠJ‚¯‚Ü‚¹‚ñB‘¼‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªg—p’†‚Ì‰Â”\«‚ª‚ ‚è‚Ü‚·B'
+	//'å¾©å·ã™ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã‘ã¾ã›ã‚“ã€‚ä»–ã®ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ãŒä½¿ç”¨ä¸­ã®å¯èƒ½æ€§ãŒã‚ã‚Šã¾ã™ã€‚'
 	MsgText = LoadResourceString(&Msgdecrypt::_MSG_ERROR_FILE_OPEN);
 	MsgType = mtError;
 	MsgButtons = TMsgDlgButtons() << mbOK;
@@ -189,30 +189,30 @@ catch(...) {
 
 fInputFileOpen = true;
 
-// •½•¶ƒwƒbƒ_ƒTƒCƒY‚ğæ“¾
+// å¹³æ–‡ãƒ˜ãƒƒãƒ€ã‚µã‚¤ã‚ºã‚’å–å¾—
 fsIn->Read(&PlainHeaderSize, sizeof(int));
-// ƒg[ƒNƒ“‚ğæ“¾
+// ãƒˆãƒ¼ã‚¯ãƒ³ã‚’å–å¾—
 fsIn->Read(token, 16);
 
 if (memcmp(token, charTokenString, 16) != 0 ) {
 
 	//--------------------------------------------------------
-	//À‚Í©ŒÈÀsŒ`®ƒtƒ@ƒCƒ‹HiŠg’£q‹U‘•‚³‚ê‚Ä‚¢‚éê‡‚àj
+	//å®Ÿã¯è‡ªå·±å®Ÿè¡Œå½¢å¼ãƒ•ã‚¡ã‚¤ãƒ«ï¼Ÿï¼ˆæ‹¡å¼µå­å½è£…ã•ã‚Œã¦ã„ã‚‹å ´åˆã‚‚ï¼‰
 	//--------------------------------------------------------
-	// ƒTƒCƒY‚ğÄæ“¾
+	// ã‚µã‚¤ã‚ºã‚’å†å–å¾—
 	fsIn->Seek(-(__int64)sizeof(__int64), TSeekOrigin::soEnd);
 	fsIn->Read(&AllTotalSize, sizeof(__int64));
-	// ˆÊ’u‚ğ–ß‚·
+	// ä½ç½®ã‚’æˆ»ã™
 	fsIn->Seek(-(AllTotalSize + sizeof(__int64)), TSeekOrigin::soEnd);
-	// ‚à‚¤ˆê“xA•½•¶ƒwƒbƒ_ƒTƒCƒY‚ğ“Ç‚İ‚Ş
+	// ã‚‚ã†ä¸€åº¦ã€å¹³æ–‡ãƒ˜ãƒƒãƒ€ã‚µã‚¤ã‚ºã‚’èª­ã¿è¾¼ã‚€
 	fsIn->Read(&PlainHeaderSize, sizeof(int));
-	// ‚à‚¤ˆê“xAƒg[ƒNƒ“‚ğæ“¾
+	// ã‚‚ã†ä¸€åº¦ã€ãƒˆãƒ¼ã‚¯ãƒ³ã‚’å–å¾—
 	fsIn->Read(token, 16);
 
-	// ƒg[ƒNƒ“‚ğÄƒ`ƒFƒbƒN
+	// ãƒˆãƒ¼ã‚¯ãƒ³ã‚’å†ãƒã‚§ãƒƒã‚¯
 	if (memcmp(token, charTokenString, 16) != 0 ) {
 		if (token == "_Atc_Broken_Data") {
-			//'•œ†‚·‚éƒtƒ@ƒCƒ‹‚ğŠJ‚¯‚Ü‚¹‚ñB‚±‚ÌˆÃ†‰»ƒtƒ@ƒCƒ‹‚Í”j‰ó‚³‚ê‚Ä‚¢‚Ü‚·B'
+			//'å¾©å·ã™ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã‘ã¾ã›ã‚“ã€‚ã“ã®æš—å·åŒ–ãƒ•ã‚¡ã‚¤ãƒ«ã¯ç ´å£Šã•ã‚Œã¦ã„ã¾ã™ã€‚'
 			MsgText = LoadResourceString(&Msgdecrypt::_MSG_ERROR_FILE_BROKEN);
 			MsgType = mtError;
 			MsgButtons = TMsgDlgButtons() << mbOK;
@@ -220,8 +220,8 @@ if (memcmp(token, charTokenString, 16) != 0 ) {
 			Synchronize(&PostConfirmMessageForm);
 		}
 		else {
-			// 'ˆÃ†‰»ƒtƒ@ƒCƒ‹‚Å‚Í‚ ‚è‚Ü‚¹‚ñBƒAƒ^ƒbƒVƒFƒP[ƒX‚É‚æ‚Á‚ÄˆÃ†‰»‚³‚ê‚½ƒtƒ@ƒCƒ‹‚Å‚È‚¢‚©A'+#13+
-			// 'ƒtƒ@ƒCƒ‹‚ª‰ó‚ê‚Ä‚¢‚é‰Â”\«‚ª‚ ‚è‚Ü‚·B'
+			// 'æš—å·åŒ–ãƒ•ã‚¡ã‚¤ãƒ«ã§ã¯ã‚ã‚Šã¾ã›ã‚“ã€‚ã‚¢ã‚¿ãƒƒã‚·ã‚§ã‚±ãƒ¼ã‚¹ã«ã‚ˆã£ã¦æš—å·åŒ–ã•ã‚ŒãŸãƒ•ã‚¡ã‚¤ãƒ«ã§ãªã„ã‹ã€'+#13+
+			// 'ãƒ•ã‚¡ã‚¤ãƒ«ãŒå£Šã‚Œã¦ã„ã‚‹å¯èƒ½æ€§ãŒã‚ã‚Šã¾ã™ã€‚'
 			MsgText = LoadResourceString(&Msgdecrypt::_MSG_ERROR_FILE_NOT_ATC);
 			MsgType = mtError;
 			MsgButtons = TMsgDlgButtons() << mbOK;
@@ -234,15 +234,15 @@ if (memcmp(token, charTokenString, 16) != 0 ) {
 }
 
 //-----------------------------------
-// ƒf[ƒ^ƒo[ƒWƒ‡ƒ“ƒ`ƒFƒbƒN
+// ãƒ‡ãƒ¼ã‚¿ãƒãƒ¼ã‚¸ãƒ§ãƒ³ãƒã‚§ãƒƒã‚¯
 //-----------------------------------
 DataVersion = -1;
 fsIn->Read(&DataVersion, sizeof(int));
 
 if (DataVersion > ATC_DATA_FILE_VERSION && DataVersion < 200) {
-	//'ƒf[ƒ^ƒo[ƒWƒ‡ƒ“‚ª‚¿‚ª‚¢‚Ü‚·B•œ†‚Å‚«‚Ü‚¹‚ñB'+#13+
-	//'ƒtƒ@ƒCƒ‹‚ÍãˆÊƒo[ƒWƒ‡ƒ“‚ÌƒAƒ^ƒbƒVƒFƒP[ƒX‚ÅˆÃ†‰»‚³‚ê‚Ä‚¢‚Ü‚·B'+#13+
-	//'ÅV”Å‚ğ“üè‚µ‚Ä•œ†‚ğ‚İ‚Ä‚­‚¾‚³‚¢B';
+	//'ãƒ‡ãƒ¼ã‚¿ãƒãƒ¼ã‚¸ãƒ§ãƒ³ãŒã¡ãŒã„ã¾ã™ã€‚å¾©å·ã§ãã¾ã›ã‚“ã€‚'+#13+
+	//'ãƒ•ã‚¡ã‚¤ãƒ«ã¯ä¸Šä½ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã®ã‚¢ã‚¿ãƒƒã‚·ã‚§ã‚±ãƒ¼ã‚¹ã§æš—å·åŒ–ã•ã‚Œã¦ã„ã¾ã™ã€‚'+#13+
+	//'æœ€æ–°ç‰ˆã‚’å…¥æ‰‹ã—ã¦å¾©å·ã‚’è©¦ã¿ã¦ãã ã•ã„ã€‚';
 	MsgText = LoadResourceString(&Msgdecrypt::_MSG_ERROR_FILE_HIGHER_VERSION);
 	MsgType = mtError;
 	MsgButtons = TMsgDlgButtons() << mbOK;
@@ -252,12 +252,12 @@ if (DataVersion > ATC_DATA_FILE_VERSION && DataVersion < 200) {
 }
 else if (DataVersion <= 103) {
 
-	// Blowfish‚ÅˆÃ†‰»‚³‚ê‚½ƒtƒ@ƒCƒ‹
-	// ³®”Å‚Å‚Í³í‚É•œ†‚³‚ê‚é‚ªA‚±‚±‚Å‚ÍƒGƒ‰[‚Æ‚·‚é
+	// Blowfishã§æš—å·åŒ–ã•ã‚ŒãŸãƒ•ã‚¡ã‚¤ãƒ«
+	// æ­£å¼ç‰ˆã§ã¯æ­£å¸¸ã«å¾©å·ã•ã‚Œã‚‹ãŒã€ã“ã“ã§ã¯ã‚¨ãƒ©ãƒ¼ã¨ã™ã‚‹
 
-	//'ƒf[ƒ^ƒo[ƒWƒ‡ƒ“‚ª‚¿‚ª‚¢‚Ü‚·B•œ†‚Å‚«‚Ü‚¹‚ñB'+#13+
-	//'ƒtƒ@ƒCƒ‹‚Íver.1‚ÌƒAƒ^ƒbƒVƒFƒP[ƒX‚ÅˆÃ†‰»‚³‚ê‚Ä‚¢‚Ü‚·B'+#13+
-	//'ŒÃ‚¢ƒo[ƒWƒ‡ƒ“iver.2.75ˆÈ‘Oj‚©³®”Å‚ğ“üè‚µ‚Ä•œ†‚ğ‚İ‚Ä‚­‚¾‚³‚¢B';
+	//'ãƒ‡ãƒ¼ã‚¿ãƒãƒ¼ã‚¸ãƒ§ãƒ³ãŒã¡ãŒã„ã¾ã™ã€‚å¾©å·ã§ãã¾ã›ã‚“ã€‚'+#13+
+	//'ãƒ•ã‚¡ã‚¤ãƒ«ã¯ver.1ã®ã‚¢ã‚¿ãƒƒã‚·ã‚§ã‚±ãƒ¼ã‚¹ã§æš—å·åŒ–ã•ã‚Œã¦ã„ã¾ã™ã€‚'+#13+
+	//'å¤ã„ãƒãƒ¼ã‚¸ãƒ§ãƒ³ï¼ˆver.2.75ä»¥å‰ï¼‰ã‹æ­£å¼ç‰ˆã‚’å…¥æ‰‹ã—ã¦å¾©å·ã‚’è©¦ã¿ã¦ãã ã•ã„ã€‚';
 	MsgText = LoadResourceString(&Msgdecrypt::_MSG_ERROR_FILE_LOWER_VERSION);
 	MsgType = mtError;
 	MsgButtons = TMsgDlgButtons() << mbOK;
@@ -268,25 +268,25 @@ else if (DataVersion <= 103) {
 }
 else {
 
-	// 104 `
-	// Rijndael‚ÅˆÃ†‰»‚³‚ê‚Ä‚¢‚é
+	// 104 ï½
+	// Rijndaelã§æš—å·åŒ–ã•ã‚Œã¦ã„ã‚‹
 
-	// ƒAƒ‹ƒSƒŠƒYƒ€ƒ^ƒCƒv
+	// ã‚¢ãƒ«ã‚´ãƒªã‚ºãƒ ã‚¿ã‚¤ãƒ—
 	fsIn->Read(&AlgorismType, sizeof(int));
-	// ƒwƒbƒ_ƒTƒCƒY‚ğ“Ç‚İ‚Ş
+	// ãƒ˜ãƒƒãƒ€ã‚µã‚¤ã‚ºã‚’èª­ã¿è¾¼ã‚€
 	fsIn->Read(&EncryptHeaderSize, sizeof(int));
-	// intŒ^‚©‚çƒ|ƒCƒ“ƒ^ƒLƒƒƒXƒg‚Åchar”z—ñ‚ğæ‚èo‚·
+	// intå‹ã‹ã‚‰ãƒã‚¤ãƒ³ã‚¿ã‚­ãƒ£ã‚¹ãƒˆã§charé…åˆ—ã‚’å–ã‚Šå‡ºã™
 	headerbuffer = (char*) & PlainHeaderSize;
-	// ƒf[ƒ^ƒTƒuƒo[ƒWƒ‡ƒ“ƒ`ƒFƒbƒNiver.2.70`j
+	// ãƒ‡ãƒ¼ã‚¿ã‚µãƒ–ãƒãƒ¼ã‚¸ãƒ§ãƒ³ãƒã‚§ãƒƒã‚¯ï¼ˆver.2.70ï½ï¼‰
 	if (headerbuffer[0] >= 6) {
 		TypeLimits = (int)headerbuffer[2];
 		fDestroy = (bool)headerbuffer[3];
-		// —LŒø”ÍˆÍi1`10j‚©ƒ`ƒFƒbƒN
+		// æœ‰åŠ¹ç¯„å›²ï¼ˆ1ï½10ï¼‰ã‹ãƒã‚§ãƒƒã‚¯
 		if (TypeLimits < 1 || 10 < TypeLimits) {
-			TypeLimits = 3; // ƒfƒtƒHƒ‹ƒg
+			TypeLimits = 3; // ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ
 		}
 	}
-	else { // headerbuffer[0] == 5            //‹Œƒo[ƒWƒ‡ƒ“
+	else { // headerbuffer[0] == 5            //æ—§ãƒãƒ¼ã‚¸ãƒ§ãƒ³
 		TypeLimits = 3;
 		fDestroy = false;
 	}
@@ -294,41 +294,41 @@ else {
 
 
 //-----------------------------------
-// •œ†‚Ì€”õ
+// å¾©å·ã®æº–å‚™
 //-----------------------------------
 
-// ƒe[ƒuƒ‹¶¬
+// ãƒ†ãƒ¼ãƒ–ãƒ«ç”Ÿæˆ
 gentables();
 
-// ƒpƒXƒ[ƒh‚ÌƒZƒbƒg
+// ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã®ã‚»ãƒƒãƒˆ
 gkey(8, 8, key);
 
 //-----------------------------------
-// ˆÃ†•”ƒwƒbƒ_‚Ì•œ†
+// æš—å·éƒ¨ãƒ˜ãƒƒãƒ€ã®å¾©å·
 //-----------------------------------
 
 pms = new TMemoryStream;
 
-// IV‚Ì“Ç‚İ‚İ
+// IVã®èª­ã¿è¾¼ã¿
 fsIn->Read(chain_buffer, BUF_SIZE);
 
 len = 0;
 
 while (len < EncryptHeaderSize) {
 
-	// “Ç‚İo‚µƒoƒbƒtƒ@
+	// èª­ã¿å‡ºã—ãƒãƒƒãƒ•ã‚¡
 	for (c = 0; c < BUF_SIZE; c++) {
 		source_buffer[c] = 0;
 	}
-	// ˆÃ†‰»‚³‚ê‚½ƒf[ƒ^ƒuƒƒbƒN‚Ì“Ç‚İo‚µ
+	// æš—å·åŒ–ã•ã‚ŒãŸãƒ‡ãƒ¼ã‚¿ãƒ–ãƒ­ãƒƒã‚¯ã®èª­ã¿å‡ºã—
 	len += fsIn->Read(source_buffer, BUF_SIZE);
 
 	for (c = 0; c < BUF_SIZE; c++) {
-		// ‚ ‚Æ‚Ìxor‚Ì‚½‚ß‚É‚æ‚¯‚Ä‚¨‚­
+		// ã‚ã¨ã®xorã®ãŸã‚ã«ã‚ˆã‘ã¦ãŠã
 		temp_buffer[c] = source_buffer[c];
 	}
 
-	// •œ†ˆ—
+	// å¾©å·å‡¦ç†
 	rijndael_decrypt(source_buffer);
 
 	// xor
@@ -341,7 +341,7 @@ while (len < EncryptHeaderSize) {
 
 }
 
-pms->Seek((__int64)0, TSeekOrigin::soBeginning);  //ƒ|ƒCƒ“ƒ^‚ğæ“ª‚Ö–ß‚·
+pms->Seek((__int64)0, TSeekOrigin::soBeginning);  //ãƒã‚¤ãƒ³ã‚¿ã‚’å…ˆé ­ã¸æˆ»ã™
 DataList = new TStringList;
 
 DataList->LoadFromStream(pms);                                 // default encoding
@@ -351,21 +351,21 @@ DataList->LoadFromStream(pms);                                 // default encodi
 delete pms;
 
 //-----------------------------------
-// •œ†³”Ûi•œ†‚Å‚«‚½‚©j
+// å¾©å·æ­£å¦ï¼ˆå¾©å·ã§ããŸã‹ï¼‰
 //-----------------------------------
 if (DataList->Count == 0 || DataList->Strings[0].Pos("AttacheCase") == 0) {
 	fPasswordOk = false;
 }
 else{
-	fPasswordOk = true;   //ƒpƒXƒ[ƒh‡’v
+	fPasswordOk = true;   //ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰åˆè‡´
 }
 
 if ( fPasswordOk == false ) {
-		//'ƒpƒXƒ[ƒh‚ª‚¿‚ª‚¢‚Ü‚·B•œ†‚Å‚«‚Ü‚¹‚ñB'+#13+
-		//'ê‡‚É‚æ‚Á‚Ä‚Íƒtƒ@ƒCƒ‹‚ª‰ó‚ê‚Ä‚¢‚é‰Â”\«‚à‚ ‚è‚Ü‚·B';
+		//'ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ãŒã¡ãŒã„ã¾ã™ã€‚å¾©å·ã§ãã¾ã›ã‚“ã€‚'+#13+
+		//'å ´åˆã«ã‚ˆã£ã¦ã¯ãƒ•ã‚¡ã‚¤ãƒ«ãŒå£Šã‚Œã¦ã„ã‚‹å¯èƒ½æ€§ã‚‚ã‚ã‚Šã¾ã™ã€‚';
 		MsgText = LoadResourceString(&Msgdecrypt::_MSG_ERROR_PASSWORD_WRONG);
 		if ( fCompare == true ) {
-			//ƒƒbƒZ[ƒW‚É'ƒRƒ“ƒyƒA‚É¸”s‚µ‚Ü‚µ‚½B'‚ğ’Ç‰Á
+			//ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã«'ã‚³ãƒ³ãƒšã‚¢ã«å¤±æ•—ã—ã¾ã—ãŸã€‚'ã‚’è¿½åŠ 
 			MsgText += "\n" + LoadResourceString(&Msgdecrypt::_MSG_ERROR_COMPARE_FILE);
 		}
 		MsgType = mtError;
@@ -377,32 +377,32 @@ if ( fPasswordOk == false ) {
 }
 
 //-----------------------------------
-// ˆÃ†‰»ƒtƒ@ƒCƒ‹‚Ì¶¬“ú
+// æš—å·åŒ–ãƒ•ã‚¡ã‚¤ãƒ«ã®ç”Ÿæˆæ—¥æ™‚
 //-----------------------------------
-//¦“Á‚É¡‚Íg—p‚µ‚Ä‚¢‚È‚¢‚ªA«—ˆ“I‚É
-//  ŠúŒÀ•t‚«‚Åƒtƒ@ƒCƒ‹‚ğ•œ†‚Å‚«‚È‚­‚È‚é
-//  ‚È‚Ç‚Ì‹@”\‚ğ’Ç‰Á‚µ‚Ä‚à—Ç‚¢‚©‚àB
+//â€»ç‰¹ã«ä»Šã¯ä½¿ç”¨ã—ã¦ã„ãªã„ãŒã€å°†æ¥çš„ã«
+//  æœŸé™ä»˜ãã§ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å¾©å·ã§ããªããªã‚‹
+//  ãªã©ã®æ©Ÿèƒ½ã‚’è¿½åŠ ã—ã¦ã‚‚è‰¯ã„ã‹ã‚‚ã€‚
 //-----------------------------------
 AtcFileCreateDateString = DataList->Strings[1];
 
 //-----------------------------------
-// ƒwƒbƒ_ƒf[ƒ^‚©‚çƒtƒ@ƒCƒ‹ƒŠƒXƒg‚â
-// ƒtƒ@ƒCƒ‹î•ñ‚È‚Ç‚ğŠe•Ï”‚ğ“®“IŠm•Û
+// ãƒ˜ãƒƒãƒ€ãƒ‡ãƒ¼ã‚¿ã‹ã‚‰ãƒ•ã‚¡ã‚¤ãƒ«ãƒªã‚¹ãƒˆã‚„
+// ãƒ•ã‚¡ã‚¤ãƒ«æƒ…å ±ãªã©ã‚’å„å¤‰æ•°ã‚’å‹•çš„ç¢ºä¿
 //-----------------------------------
 
-FileSizeList = new __int64[DataList->Count];  // 1: ƒtƒ@ƒCƒ‹ƒTƒCƒYiƒtƒHƒ‹ƒ_‚Í-1j
-FileAttrList = new int[DataList->Count];      // 2: ‘®«
-FileDtChangeList = new int[DataList->Count];  // 3: XV“ú
-FileTmChangeList = new int[DataList->Count];  // 4: XV
-FileDtCreateList = new int[DataList->Count];  // 5: ì¬“ú
-FileTmCreateList = new int[DataList->Count];  // 6: ì¬
+FileSizeList = new __int64[DataList->Count];  // 1: ãƒ•ã‚¡ã‚¤ãƒ«ã‚µã‚¤ã‚ºï¼ˆãƒ•ã‚©ãƒ«ãƒ€ã¯-1ï¼‰
+FileAttrList = new int[DataList->Count];      // 2: å±æ€§
+FileDtChangeList = new int[DataList->Count];  // 3: æ›´æ–°æ—¥
+FileTmChangeList = new int[DataList->Count];  // 4: æ›´æ–°æ™‚
+FileDtCreateList = new int[DataList->Count];  // 5: ä½œæˆæ—¥
+FileTmCreateList = new int[DataList->Count];  // 6: ä½œæˆæ™‚
 
 DataList->NameValueSeparator = ':';
 
 PrefixString = "Fn_";
 for (i = 0; i < DataList->Count; i++) {
 	if ( DataList->IndexOfName("U_"+IntToStr(i)) > -1){
-		PrefixString = "U_";	//Vƒo[ƒWƒ‡ƒ“iver.2.8.0`j‚ÅˆÃ†‰»‚³‚ê‚Ä‚¢‚é‚æ‚¤‚¾
+		PrefixString = "U_";	//æ–°ãƒãƒ¼ã‚¸ãƒ§ãƒ³ï¼ˆver.2.8.0ï½ï¼‰ã§æš—å·åŒ–ã•ã‚Œã¦ã„ã‚‹ã‚ˆã†ã 
 		break;
 	}
 }
@@ -419,15 +419,15 @@ for (i = 0; i < DataList->Count; i++) {
 	if (idx > 0) {
 		tsv->DelimitedText = DataList->ValueFromIndex[idx];
 		FileList->Add(tsv->Strings[0]);
-		FileSizeList[i] = StrToIntDef(tsv->Strings[1], -1);    // 1: ƒtƒ@ƒCƒ‹ƒTƒCƒYiƒtƒHƒ‹ƒ_‚Í-1j
+		FileSizeList[i] = StrToIntDef(tsv->Strings[1], -1);    // 1: ãƒ•ã‚¡ã‚¤ãƒ«ã‚µã‚¤ã‚ºï¼ˆãƒ•ã‚©ãƒ«ãƒ€ã¯-1ï¼‰
 		if (FileSizeList[i] > 0) {
 			AllTotalSize += FileSizeList[i];
 		}
-		FileAttrList[i] = StrToIntDef(tsv->Strings[2], -1);    // 2: ‘®«
-		FileDtChangeList[i] = StrToIntDef(tsv->Strings[3], -1);// 3: XV“ú
-		FileTmChangeList[i] = StrToIntDef(tsv->Strings[4], -1);// 4: XV
-		FileDtCreateList[i] = StrToIntDef(tsv->Strings[5], -1);// 5: ì¬“ú
-		FileTmCreateList[i] = StrToIntDef(tsv->Strings[6], -1);// 6: ì¬
+		FileAttrList[i] = StrToIntDef(tsv->Strings[2], -1);    // 2: å±æ€§
+		FileDtChangeList[i] = StrToIntDef(tsv->Strings[3], -1);// 3: æ›´æ–°æ—¥
+		FileTmChangeList[i] = StrToIntDef(tsv->Strings[4], -1);// 4: æ›´æ–°æ™‚
+		FileDtCreateList[i] = StrToIntDef(tsv->Strings[5], -1);// 5: ä½œæˆæ—¥
+		FileTmCreateList[i] = StrToIntDef(tsv->Strings[6], -1);// 6: ä½œæˆæ™‚
 	}
 
 }
@@ -436,15 +436,15 @@ delete tsv;
 delete DataList;
 
 //-----------------------------------
-//ƒfƒBƒXƒN‚Ì‹ó‚«—e—Êƒ`ƒFƒbƒN
+//ãƒ‡ã‚£ã‚¹ã‚¯ã®ç©ºãå®¹é‡ãƒã‚§ãƒƒã‚¯
 //-----------------------------------
 
 CurrentDriveFreeSpaceSize = GetDiskFreeSpaceNum(OutDirPath);
 
 if (CurrentDriveFreeSpaceSize > -1 && fCompare == false) {
 	if ( AllTotalSize > CurrentDriveFreeSpaceSize ) {
-		//'•œ†‚·‚éæ‚Ìƒhƒ‰ƒCƒu‚Ì‹ó‚«—e—Ê‚ª‘«‚è‚Ü‚¹‚ñB'+#13+
-		//'•œ†‚·‚é‚É‚ÍA–ñ%dMB‚Ì‹ó‚«—e—Ê‚ª•K—v‚Å‚·B•œ†ˆ—‚ğ’†~‚µ‚Ü‚·B';
+		//'å¾©å·ã™ã‚‹å…ˆã®ãƒ‰ãƒ©ã‚¤ãƒ–ã®ç©ºãå®¹é‡ãŒè¶³ã‚Šã¾ã›ã‚“ã€‚'+#13+
+		//'å¾©å·ã™ã‚‹ã«ã¯ã€ç´„%dMBã®ç©ºãå®¹é‡ãŒå¿…è¦ã§ã™ã€‚å¾©å·å‡¦ç†ã‚’ä¸­æ­¢ã—ã¾ã™ã€‚';
 		MsgText = LoadResourceString(&Msgdecrypt::_MSG_ERROR_DRIVE_NO_FREE_SPACE);
 		free_space_required = (float)AllTotalSize/1024/1024;  // MB
 		MsgText = String().sprintf(MsgText.c_str(), free_space_required);
@@ -461,14 +461,14 @@ else{
 }
 
 //-----------------------------------
-//•¡”ƒtƒHƒ‹ƒ_/ƒtƒ@ƒCƒ‹‚ğŠJ‚±‚¤‚Æ‚µ‚Ä‚¢‚é‚Ì‚ÅŠm”F
+//è¤‡æ•°ãƒ•ã‚©ãƒ«ãƒ€/ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã“ã†ã¨ã—ã¦ã„ã‚‹ã®ã§ç¢ºèª
 //-----------------------------------
 
-//•œ†‚µ‚½ƒtƒ@ƒCƒ‹‚ğŠÖ˜A•t‚¯‚³‚ê‚½ƒ\ƒtƒg‚ÅŠJ‚­‚©
+//å¾©å·ã—ãŸãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–¢é€£ä»˜ã‘ã•ã‚ŒãŸã‚½ãƒ•ãƒˆã§é–‹ãã‹
 if ( fTempOpenFile == true && FileList->Count > 4 && fCompare == false) {
 
-	//'5‚ÂˆÈã‚Ìƒtƒ@ƒCƒ‹‚ğ•œ†Œã‚ÉŠJ‚±‚¤‚Æ‚µ‚Ä‚¢‚Ü‚·‚ªAˆ—‚ğ‘±‚¯‚Ü‚·‚©H'+#13+
-	//'u‚¢‚¢‚¦v‚ğ‘I‘ğ‚·‚é‚ÆAŠJ‚©‚¸•œ†‚µ‚Ü‚·B';
+	//'5ã¤ä»¥ä¸Šã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å¾©å·å¾Œã«é–‹ã“ã†ã¨ã—ã¦ã„ã¾ã™ãŒã€å‡¦ç†ã‚’ç¶šã‘ã¾ã™ã‹ï¼Ÿ'+#13+
+	//'ã€Œã„ã„ãˆã€ã‚’é¸æŠã™ã‚‹ã¨ã€é–‹ã‹ãšå¾©å·ã—ã¾ã™ã€‚';
 	MsgText = LoadResourceString(&Msgdecrypt::_MSG_CONFIRM_OPEN_DECRYPTED_FILES);
 	MsgType = mtConfirmation;
 	MsgButtons = TMsgDlgButtons() << mbYes << mbNo << mbCancel;
@@ -485,52 +485,52 @@ if ( fTempOpenFile == true && FileList->Count > 4 && fCompare == false) {
 }
 
 //-----------------------------------
-// •œ†ŠJn
+// å¾©å·é–‹å§‹
 //-----------------------------------
 
-//'•œ†‚µ‚Ä‚¢‚Ü‚·...'
+//'å¾©å·ã—ã¦ã„ã¾ã™...'
 ProgressStatusText = LoadResourceString(&Msgdecrypt::_LABEL_STATUS_TITLE_DECRYPTING);
 ProgressMsgText = ExtractFileName(AtcFilePath);
 
-// ƒtƒ@ƒCƒ‹ƒTƒCƒY‚ğæ“¾‚·‚é
+// ãƒ•ã‚¡ã‚¤ãƒ«ã‚µã‚¤ã‚ºã‚’å–å¾—ã™ã‚‹
 AllTotalSize = fsIn->Size - fsIn->Position;
-// ‰Šú‰»ƒxƒNƒgƒ‹‚Ì“Ç‚İo‚µ
+// åˆæœŸåŒ–ãƒ™ã‚¯ãƒˆãƒ«ã®èª­ã¿å‡ºã—
 TotalSize = fsIn->Read(chain_buffer, BUF_SIZE);
 
-// zlib ‘O€”õ
-// ˆ³k‚É‚¨‚¢‚Ä‚·‚×‚Ä‚Ìƒƒ‚ƒŠŠÇ—‚ğƒ‰ƒCƒuƒ‰ƒŠ‚É”C‚¹‚é
+// zlib å‰æº–å‚™
+// åœ§ç¸®ã«ãŠã„ã¦ã™ã¹ã¦ã®ãƒ¡ãƒ¢ãƒªç®¡ç†ã‚’ãƒ©ã‚¤ãƒ–ãƒ©ãƒªã«ä»»ã›ã‚‹
 z.zalloc = Z_NULL;
 z.zfree = Z_NULL;
 z.opaque = Z_NULL;
 
 if (inflateInit(&z) != Z_OK) {
-	// ƒGƒ‰[
-	// zlibƒGƒ‰[‚ÍÅŒã‚Å‚Ü‚Æ‚ß‚ÄƒƒbƒZ[ƒWˆ—
+	// ã‚¨ãƒ©ãƒ¼
+	// zlibã‚¨ãƒ©ãƒ¼ã¯æœ€å¾Œã§ã¾ã¨ã‚ã¦ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å‡¦ç†
 	goto LabelError;
 }
 
-// ’Êí‚Í deflate() ‚Ì‘æ2ˆø”‚Í Z_NO_FLUSH ‚É‚µ‚ÄŒÄ‚Ño‚·
+// é€šå¸¸ã¯ deflate() ã®ç¬¬2å¼•æ•°ã¯ Z_NO_FLUSH ã«ã—ã¦å‘¼ã³å‡ºã™
 flush = Z_NO_FLUSH;
 
-// “üo—Íƒoƒbƒtƒ@
+// å…¥å‡ºåŠ›ãƒãƒƒãƒ•ã‚¡
 for (i = 0; i < LARGE_BUF_SIZE; i++) {
 	output_buffer[i] = 0;
 }
 
-z.avail_in  = 0;               // “ü—Íƒoƒbƒtƒ@’†‚Ìƒf[ƒ^‚ÌƒoƒCƒg”
-z.next_in   = Z_NULL;          // “ü—Íƒoƒbƒtƒ@’†‚Ìƒf[ƒ^‚ÌƒoƒCƒg”
-z.next_out  = output_buffer;   // o—Íƒoƒbƒtƒ@c—Ê
-z.avail_out = LARGE_BUF_SIZE;  // o—Íƒ|ƒCƒ“ƒ^i“WŠJ‚·‚é‚Ì‚Å‘å‚«‚ß‚Éj
+z.avail_in  = 0;               // å…¥åŠ›ãƒãƒƒãƒ•ã‚¡ä¸­ã®ãƒ‡ãƒ¼ã‚¿ã®ãƒã‚¤ãƒˆæ•°
+z.next_in   = Z_NULL;          // å…¥åŠ›ãƒãƒƒãƒ•ã‚¡ä¸­ã®ãƒ‡ãƒ¼ã‚¿ã®ãƒã‚¤ãƒˆæ•°
+z.next_out  = output_buffer;   // å‡ºåŠ›ãƒãƒƒãƒ•ã‚¡æ®‹é‡
+z.avail_out = LARGE_BUF_SIZE;  // å‡ºåŠ›ãƒã‚¤ãƒ³ã‚¿ï¼ˆå±•é–‹ã™ã‚‹ã®ã§å¤§ãã‚ã«ï¼‰
 status      = Z_OK;
 
 while (Terminated == false) {
 
 	//-----------------------------------
-	// “ü—Í
+	// å…¥åŠ›
 	//-----------------------------------
 	if (z.avail_in == 0) {
 
-		// “ü—Íƒoƒbƒtƒ@
+		// å…¥åŠ›ãƒãƒƒãƒ•ã‚¡
 		for (i = 0; i < BUF_SIZE; i++) {
 			source_buffer[i] = 0;
 		}
@@ -552,7 +552,7 @@ while (Terminated == false) {
 	}
 
 	//-----------------------------------
-	// “WŠJ
+	// å±•é–‹
 	//-----------------------------------
 	status = inflate(&z, flush);
 
@@ -561,13 +561,13 @@ while (Terminated == false) {
 	}
 
 	//-----------------------------------
-	// ˆ—ƒXƒe[ƒ^ƒX
+	// å‡¦ç†ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
 	//-----------------------------------
 	if ( status == Z_OK ){
 	}
-	else if ( status == Z_BUF_ERROR ) { //“ü—Í‚ªs‚«‚½‰Â”\«
+	else if ( status == Z_BUF_ERROR ) { //å…¥åŠ›ãŒå°½ããŸå¯èƒ½æ€§
 
-		//o—Íƒoƒbƒtƒ@‚ğƒNƒŠƒA‚É‚µ‚ÄŒp‘±‚³‚¹‚é
+		//å‡ºåŠ›ãƒãƒƒãƒ•ã‚¡ã‚’ã‚¯ãƒªã‚¢ã«ã—ã¦ç¶™ç¶šã•ã›ã‚‹
 		len = LARGE_BUF_SIZE - z.avail_out;
 		ret = OutputBuffer(output_buffer, len,
 											 fsOut, fOutputFileOpen,
@@ -610,7 +610,7 @@ while (Terminated == false) {
 	}
 
 	// -----------------------------------
-	// o—Í
+	// å‡ºåŠ›
 	// -----------------------------------
 	if ( z.avail_out == 0 ) {
 
@@ -621,7 +621,7 @@ while (Terminated == false) {
 											 FileDtChangeList, FileTmChangeList,
 											 FileDtCreateList, FileTmCreateList);
 
-		if ( ret < 0) {      //ƒGƒ‰[
+		if ( ret < 0) {      //ã‚¨ãƒ©ãƒ¼
 			if (ret == -2) {
 				goto LabelStop;
 			}
@@ -642,7 +642,7 @@ while (Terminated == false) {
 	}//end if (z.avail_out == 0);
 
 	//-----------------------------------
-	//i’»ó‹µ•\¦
+	//é€²æ—çŠ¶æ³è¡¨ç¤º
 	ProgressPercentNum = ((float)TotalSize/AllTotalSize)*100;
 
 	if ( z.avail_in == 0 && z.avail_out == 0 ) {
@@ -654,12 +654,12 @@ while (Terminated == false) {
 }//while (!Terminated);
 
 if (Terminated == true) {
-	//ƒ†[ƒU[ƒLƒƒƒ“ƒZƒ‹‚Å”²‚¯‚Ä‚«‚½
+	//ãƒ¦ãƒ¼ã‚¶ãƒ¼ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã§æŠœã‘ã¦ããŸ
 	goto LabelStop;
 }
 
 //----------------------------------------------------------------------
-// –œ‚ªˆêAo—Íƒoƒbƒtƒ@‚É—]‚è‚ª‚ ‚éê‡
+// ä¸‡ãŒä¸€ã€å‡ºåŠ›ãƒãƒƒãƒ•ã‚¡ã«ä½™ã‚ŠãŒã‚ã‚‹å ´åˆ
 //----------------------------------------------------------------------
 if (z.avail_out > 0) {
 
@@ -686,7 +686,7 @@ if (inflateEnd(&z) != Z_OK) {
 }
 
 ProgressPercentNum = 100;
-//'Š®—¹'
+//'å®Œäº†'
 ProgressStatusText = LoadResourceString(&Msgdecrypt::_LABEL_STATUS_TITLE_COMPLETE);
 ProgressMsgText = ExtractFileName(AtcFilePath);
 
@@ -700,28 +700,28 @@ if ( fOutputFileOpen == true ) {
 }
 
 delete FileList;
-delete [] FileSizeList;      // 1: ƒtƒ@ƒCƒ‹ƒTƒCƒYiƒtƒHƒ‹ƒ_‚Í-1j
-delete [] FileAttrList;      // 2: ‘®«
-delete [] FileDtChangeList;  // 3: XV“ú
-delete [] FileTmChangeList;  // 4: XV
-delete [] FileDtCreateList;  // 5: ì¬“ú
-delete [] FileTmCreateList;  // 6: ì¬
+delete [] FileSizeList;      // 1: ãƒ•ã‚¡ã‚¤ãƒ«ã‚µã‚¤ã‚ºï¼ˆãƒ•ã‚©ãƒ«ãƒ€ã¯-1ï¼‰
+delete [] FileAttrList;      // 2: å±æ€§
+delete [] FileDtChangeList;  // 3: æ›´æ–°æ—¥
+delete [] FileTmChangeList;  // 4: æ›´æ–°æ™‚
+delete [] FileDtCreateList;  // 5: ä½œæˆæ—¥
+delete [] FileTmCreateList;  // 6: ä½œæˆæ™‚
 
-//•œ†¬Œ÷
+//å¾©å·æˆåŠŸ
 StatusNum = 1;
 return;
 
 
 //-----------------------------------
-//ƒpƒXƒ[ƒh“ü—Íƒ~ƒX‚ÌŒãn––
+//ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰å…¥åŠ›ãƒŸã‚¹ã®å¾Œå§‹æœ«
 //-----------------------------------
 LabelTypeMiss:
 
 	ProgressPercentNum = 0;
 
-	//'ƒGƒ‰['
+	//'ã‚¨ãƒ©ãƒ¼'
 	ProgressStatusText = LoadResourceString(&Msgdecrypt::_LABEL_STATUS_TITLE_ERROR);
-	//'•œ†‚É¸”s‚µ‚Ü‚µ‚½B'
+	//'å¾©å·ã«å¤±æ•—ã—ã¾ã—ãŸã€‚'
 	ProgressMsgText = LoadResourceString(&Msgdecrypt::_LABEL_STATUS_DETAIL_FAILED);
 
 	if ( fInputFileOpen == true ) {
@@ -746,18 +746,18 @@ LabelTypeMiss:
 
 
 //-----------------------------------
-//ƒGƒ‰[‚ÌŒãn––
+//ã‚¨ãƒ©ãƒ¼ã®å¾Œå§‹æœ«
 //-----------------------------------
 LabelError:
 
 	ProgressPercentNum = 0;
 
 	if ( status < 0 ){
-		//'zlibƒ‰ƒCƒuƒ‰ƒŠ‚©‚çƒGƒ‰[‚ğ•Ô‚³‚ê‚Ü‚µ‚½B'
-		//'ƒGƒ‰[”Ô†F'
+		//'zlibãƒ©ã‚¤ãƒ–ãƒ©ãƒªã‹ã‚‰ã‚¨ãƒ©ãƒ¼ã‚’è¿”ã•ã‚Œã¾ã—ãŸã€‚'
+		//'ã‚¨ãƒ©ãƒ¼ç•ªå·ï¼š'
 		MsgText = LoadResourceString(&Msgdecrypt::_MSG_ERROR_ZLIB) + IntToStr(status) + "\n" + z.msg;
 		if ( fCompare == true ) {
-			//ƒƒbƒZ[ƒW‚É'ƒRƒ“ƒyƒA‚É¸”s‚µ‚Ü‚µ‚½B'‚ğ’Ç‰Á
+			//ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã«'ã‚³ãƒ³ãƒšã‚¢ã«å¤±æ•—ã—ã¾ã—ãŸã€‚'ã‚’è¿½åŠ 
 			MsgText += "\n" + LoadResourceString(&Msgdecrypt::_MSG_ERROR_COMPARE_FILE);
 		}
 		MsgType = mtError;
@@ -766,9 +766,9 @@ LabelError:
 		Synchronize(&PostConfirmMessageForm);
 	}
 
-	//'ƒGƒ‰['
+	//'ã‚¨ãƒ©ãƒ¼'
 	ProgressStatusText = LoadResourceString(&Msgdecrypt::_LABEL_STATUS_TITLE_ERROR);
-	//'•œ†‚É¸”s‚µ‚Ü‚µ‚½B'
+	//'å¾©å·ã«å¤±æ•—ã—ã¾ã—ãŸã€‚'
 	ProgressMsgText = LoadResourceString(&Msgdecrypt::_LABEL_STATUS_DETAIL_FAILED);
 
 	if ( fInputFileOpen == true ) {
@@ -793,14 +793,14 @@ LabelError:
 
 
 //-----------------------------------
-//ƒ†[ƒU[ƒLƒƒƒ“ƒZƒ‹‚ÌŒãn––
+//ãƒ¦ãƒ¼ã‚¶ãƒ¼ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã®å¾Œå§‹æœ«
 //-----------------------------------
 LabelStop:
 
 	ProgressPercentNum = 0;
-	//'ƒLƒƒƒ“ƒZƒ‹'
+	//'ã‚­ãƒ£ãƒ³ã‚»ãƒ«'
 	ProgressStatusText = LoadResourceString(&Msgdecrypt::_LABEL_STATUS_TITLE_USER_CANCEL);
-	//'•œ†‚ª’†~‚³‚ê‚Ü‚µ‚½B'
+	//'å¾©å·ãŒä¸­æ­¢ã•ã‚Œã¾ã—ãŸã€‚'
 	ProgressMsgText = LoadResourceString(&Msgdecrypt::_LABEL_STATUS_DETAIL_STOPPED);
 
 	if ( fInputFileOpen == true ) {
@@ -825,7 +825,7 @@ LabelStop:
 
 }
 //===========================================================================
-// ƒoƒbƒtƒ@‚Ì“ü—Í
+// ãƒãƒƒãƒ•ã‚¡ã®å…¥åŠ›
 //===========================================================================
 __int64 __fastcall TAttacheCaseFileDecrypt2::InputBuffer
 	(int &buff_size, char *source_buffer, char *chain_buffer,
@@ -839,32 +839,32 @@ bool fPKCS;
 int paddingNum;
 char temp_buffer[BUF_SIZE];
 
-// “Ç‚İo‚µƒoƒbƒtƒ@‚Ì‰Šú‰»
+// èª­ã¿å‡ºã—ãƒãƒƒãƒ•ã‚¡ã®åˆæœŸåŒ–
 for (i = 0; i < BUF_SIZE; i++) {
 	source_buffer[i] = 0;
 }
 
-// “ü—Íƒtƒ@ƒCƒ‹‚ªŠJ‚©‚ê‚Ä‚¢‚È‚¢
+// å…¥åŠ›ãƒ•ã‚¡ã‚¤ãƒ«ãŒé–‹ã‹ã‚Œã¦ã„ãªã„
 if ( fOpen == false ) {
 	buff_size = 0;
 	return(TotalSize);
 }
 
-// ÅŒã‚ÌƒuƒƒbƒN‚ğ‰z‚¦‚Ä‚¢‚é
+// æœ€å¾Œã®ãƒ–ãƒ­ãƒƒã‚¯ã‚’è¶Šãˆã¦ã„ã‚‹
 if (TotalSize >= AllTotalSize) {
 	buff_size = 0;
 	return(TotalSize);
 }
 
-// ˆÃ†‰»‚³‚ê‚½ƒf[ƒ^ƒuƒƒbƒN‚Ì“Ç‚İo‚µ
+// æš—å·åŒ–ã•ã‚ŒãŸãƒ‡ãƒ¼ã‚¿ãƒ–ãƒ­ãƒƒã‚¯ã®èª­ã¿å‡ºã—
 TotalSize += fsIn->Read(source_buffer, BUF_SIZE);
 
 for (i = 0; i < BUF_SIZE; i++) {
-	// ‚ ‚Æ‚Ìxor‚Ì‚½‚ß‚É‚æ‚¯‚Ä‚¨‚­
+	// ã‚ã¨ã®xorã®ãŸã‚ã«ã‚ˆã‘ã¦ãŠã
 	temp_buffer[i] = source_buffer[i];
 }
 
-// •œ†ˆ—
+// å¾©å·å‡¦ç†
 rijndael_decrypt(source_buffer);
 
 // xor
@@ -873,7 +873,7 @@ for (i = 0; i < BUF_SIZE; i++) {
 	chain_buffer[i] = temp_buffer[i]; // CBC
 }
 
-// ÅŒã‚ÌƒuƒƒbƒN‚Ì‹«ŠE...
+// æœ€å¾Œã®ãƒ–ãƒ­ãƒƒã‚¯ã®å¢ƒç•Œ...
 if (TotalSize >= AllTotalSize) {
 
 	// Check PKCS #7 pading num
@@ -904,7 +904,7 @@ return(TotalSize);
 
 }
 //===========================================================================
-// ƒoƒbƒtƒ@‚Ìo—Í
+// ãƒãƒƒãƒ•ã‚¡ã®å‡ºåŠ›
 //===========================================================================
 int __fastcall TAttacheCaseFileDecrypt2::OutputBuffer
 	(char *output_buffer, int buff_size,
@@ -915,19 +915,19 @@ int __fastcall TAttacheCaseFileDecrypt2::OutputBuffer
 	int *FileDtCreateList, int *FileTmCreateList)
 {
 
-//•Ô’l@0=<:¬Œ÷, -1:ƒGƒ‰[, -2:ƒ†[ƒU[ƒLƒƒƒ“ƒZƒ‹
+//è¿”å€¤ã€€0=<:æˆåŠŸ, -1:ã‚¨ãƒ©ãƒ¼, -2:ãƒ¦ãƒ¼ã‚¶ãƒ¼ã‚­ãƒ£ãƒ³ã‚»ãƒ«
 
 int i;
 int res;
 
 int rest;
 String FileName, FilePath;
-char read_buffer[LARGE_BUF_SIZE];      //ƒRƒ“ƒyƒA—p
+char read_buffer[LARGE_BUF_SIZE];      //ã‚³ãƒ³ãƒšã‚¢ç”¨
 
-// ‰ğ“€‚³‚ê‚½ƒoƒbƒtƒ@‚ª‚·‚×‚Ä‘‚«‚Ü‚ê‚é‚Ü‚Åƒ‹[ƒv
+// è§£å‡ã•ã‚ŒãŸãƒãƒƒãƒ•ã‚¡ãŒã™ã¹ã¦æ›¸ãè¾¼ã¾ã‚Œã‚‹ã¾ã§ãƒ«ãƒ¼ãƒ—
 while (buff_size > 0 && !Terminated) {
 
-	// ƒtƒ@ƒCƒ‹‚ªŠJ‚©‚ê‚Ä‚¢‚È‚¢‚È‚çƒI[ƒvƒ“‚·‚é
+	// ãƒ•ã‚¡ã‚¤ãƒ«ãŒé–‹ã‹ã‚Œã¦ã„ãªã„ãªã‚‰ã‚ªãƒ¼ãƒ—ãƒ³ã™ã‚‹
 	if ( fOpen == false ) {
 
 		for (i = FileIndex; i < FileList->Count; i++) {
@@ -936,23 +936,23 @@ while (buff_size > 0 && !Terminated) {
 			FilePath = OutDirPath + FileName;
 
 			//-----------------------------------
-			// ƒfƒBƒŒƒNƒgƒŠ
+			// ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
 			//-----------------------------------
 			if (FileName.IsPathDelimiter(FileList->Strings[i].Length()) == true) {
 
-				//ƒRƒ“ƒyƒA
+				//ã‚³ãƒ³ãƒšã‚¢
 				if (fCompare == true) {
 					if (FileName == ExtractRelativePath(OutDirPath, CompareFileList->Strings[i])) {
 						continue;
 					}
 					else{
-						//'ƒRƒ“ƒyƒA‚É¸”s‚µ‚Ü‚µ‚½B'
+						//'ã‚³ãƒ³ãƒšã‚¢ã«å¤±æ•—ã—ã¾ã—ãŸã€‚'
 						MsgText = LoadResourceString(&Msgdecrypt::_MSG_ERROR_COMPARE_FILE_MISMATCH)+"\n";
-						//'Ÿ‚Ìƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒtƒHƒ‹ƒ_‚Ì“à—e‚ªˆÙ‚È‚é‚æ‚¤‚Å‚·B'
+						//'æ¬¡ã®ãƒ•ã‚¡ã‚¤ãƒ«ã¾ãŸã¯ãƒ•ã‚©ãƒ«ãƒ€ã®å†…å®¹ãŒç•°ãªã‚‹ã‚ˆã†ã§ã™ã€‚'
 						MsgText += LoadResourceString(&Msgdecrypt::_MSG_ERROR_COMPARE_FILE_MISMATCH)+"\n";
-						// 'ˆÃ†‰»:'+CompareFileList->Strings[i];
+						// 'æš—å·åŒ–:'+CompareFileList->Strings[i];
 						MsgText += LoadResourceString(&Msgdecrypt::_MSG_ERROR_COMPARE_ENCRYPT_FILE)+"\n"+CompareFileList->Strings[i];
-						// '•œ†  :'+FilePath;
+						// 'å¾©å·  :'+FilePath;
 						MsgText += LoadResourceString(&Msgdecrypt::_MSG_ERROR_COMPARE_DECRYPT_FILE)+"\n"+FilePath;
 						MsgType = mtError;
 						MsgButtons = TMsgDlgButtons() << mbOK;
@@ -967,23 +967,23 @@ while (buff_size > 0 && !Terminated) {
 
 					if (DirectoryExists(FilePath) == true) {
 
-						//“¯–¼ƒtƒHƒ‹ƒ_[‚Ìã‘‚«Šm”FƒƒbƒZ[ƒWƒ_ƒCƒAƒƒO
+						//åŒåãƒ•ã‚©ãƒ«ãƒ€ãƒ¼ã®ä¸Šæ›¸ãç¢ºèªãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒ€ã‚¤ã‚¢ãƒ­ã‚°
 						MsgText = LoadResourceString(&Msgdecrypt::_MSG_CONFIRM_OVER_WRITE_SAME_DIR)+"\n"+FilePath;
 						Synchronize(&PostConfirmOverwriteMessageForm);
 
 						if ( MsgReturnVal == mrYes ) {
-							//ã‘‚«OK‚È‚Ì‚ÅFilePath‚Í‚»‚Ì‚Ü‚Ü
+							//ä¸Šæ›¸ãOKãªã®ã§FilePathã¯ãã®ã¾ã¾
 						}
 						else if ( MsgReturnVal == mrNo ) {
-							//•Ê–¼•Û‘¶‚ÅFilePath•¶š—ñ‚ª‘‚«Š·‚¦‚ç‚ê‚Ä‚«‚Ä‚¢‚é
+							//åˆ¥åä¿å­˜ã§FilePathæ–‡å­—åˆ—ãŒæ›¸ãæ›ãˆã‚‰ã‚Œã¦ãã¦ã„ã‚‹
 							FilePath = MsgReturnPath;
 						}
 						else if ( MsgReturnVal == mrYesToAll ) {
-							//‚·‚×‚Äã‘‚«iYesToAllj
+							//ã™ã¹ã¦ä¸Šæ›¸ãï¼ˆYesToAllï¼‰
 							fOverwirteYesToAll = true;
 						}
 						else if ( MsgReturnVal == mrCancel ) {
-							//ƒLƒƒƒ“ƒZƒ‹
+							//ã‚­ãƒ£ãƒ³ã‚»ãƒ«
 							goto LabelStop;
 						}
 					}
@@ -991,35 +991,35 @@ while (buff_size > 0 && !Terminated) {
 				}
 
 				//-----------------------------------
-				//ˆÃ†‰»ƒtƒ@ƒCƒ‹©g‚Ö‚Ì•œ†‚ÍNG
-				//iex: ..\hoge -> ..\hogej
+				//æš—å·åŒ–ãƒ•ã‚¡ã‚¤ãƒ«è‡ªèº«ã¸ã®å¾©å·ã¯NG
+				//ï¼ˆex: ..\hoge -> ..\hogeï¼‰
 				//-----------------------------------
 				if ( FilePath == AtcFilePath ) {
-					//'ˆÃ†‰»ƒtƒ@ƒCƒ‹©g‚Éƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒtƒHƒ‹ƒ_[‚ğ•œ†‚·‚é‚±‚Æ‚Í‚Å‚«‚Ü‚¹‚ñB'+#13+
-					//'•œ†ˆ—‚ğ’†~‚µ‚Ü‚·B';
+					//'æš—å·åŒ–ãƒ•ã‚¡ã‚¤ãƒ«è‡ªèº«ã«ãƒ•ã‚¡ã‚¤ãƒ«ã¾ãŸã¯ãƒ•ã‚©ãƒ«ãƒ€ãƒ¼ã‚’å¾©å·ã™ã‚‹ã“ã¨ã¯ã§ãã¾ã›ã‚“ã€‚'+#13+
+					//'å¾©å·å‡¦ç†ã‚’ä¸­æ­¢ã—ã¾ã™ã€‚';
 					MsgText = LoadResourceString(&Msgdecrypt::_MSG_ERROR_NOT_OVERWRITE_MYSELF)+"\n"+FilePath;
 					MsgType = mtError;
 					MsgButtons = TMsgDlgButtons() << mbOK;
 					MsgDefaultButton = mbOK;
 					Synchronize(&PostConfirmMessageForm);
-					//ƒGƒ‰[
+					//ã‚¨ãƒ©ãƒ¼
 					goto LabelError;
 				}
 
-				//ƒtƒHƒ‹ƒ_‚Ì¶¬
+				//ãƒ•ã‚©ãƒ«ãƒ€ã®ç”Ÿæˆ
 				ForceDirectories(FilePath);
-				//ƒ^ƒCƒ€ƒXƒ^ƒ“ƒv‚ÌƒZƒbƒg
+				//ã‚¿ã‚¤ãƒ ã‚¹ã‚¿ãƒ³ãƒ—ã®ã‚»ãƒƒãƒˆ
 				FileSetTimeStamp(
 					FilePath,
 					FileDtChangeList[i], FileTmChangeList[i],
 					FileDtCreateList[i], FileTmCreateList[i],
 					false, true);
-				//‘®«‚ÌƒZƒbƒg
+				//å±æ€§ã®ã‚»ãƒƒãƒˆ
 				FileSetAttr(FilePath, FileAttrList[i]);
 
 				if ( fOpenFolder == true && fOpenFolderOnce == false ) {
-					ShellExecuteW(NULL, L"open", L"EXPLORER.EXE", FilePath.c_str(), FilePath.c_str(), SW_NORMAL);  //Æã«‘Îôiver.2.70j
-					//ShellExecuteW(NULL, L"explore", FilePath.c_str(), NULL, NULL, SW_NORMAL);	//‚±‚¿‚ç‚Å‚à³í“®ì‚µ‚½‚æ‚¤‚¾
+					ShellExecuteW(NULL, L"open", L"EXPLORER.EXE", FilePath.c_str(), FilePath.c_str(), SW_NORMAL);  //è„†å¼±æ€§å¯¾ç­–ï¼ˆver.2.70ï¼‰
+					//ShellExecuteW(NULL, L"explore", FilePath.c_str(), NULL, NULL, SW_NORMAL);	//ã“ã¡ã‚‰ã§ã‚‚æ­£å¸¸å‹•ä½œã—ãŸã‚ˆã†ã 
 					fOpenFolderOnce = true;
 				}
 
@@ -1027,30 +1027,30 @@ while (buff_size > 0 && !Terminated) {
 
 			}
 			//-----------------------------------
-			// ƒtƒ@ƒCƒ‹
+			// ãƒ•ã‚¡ã‚¤ãƒ«
 			//-----------------------------------
 			else {
 
 				if ( fCompare == false && fConfirmOverwirte == true && fOverwirteYesToAll == false ) {
 
 					if (FileExists(FilePath) == true) {
-						//“¯–¼ƒtƒ@ƒCƒ‹‚Ìã‘‚«Šm”FƒƒbƒZ[ƒWƒ_ƒCƒAƒƒO
+						//åŒåãƒ•ã‚¡ã‚¤ãƒ«ã®ä¸Šæ›¸ãç¢ºèªãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒ€ã‚¤ã‚¢ãƒ­ã‚°
 						MsgText = LoadResourceString(&Msgdecrypt::_MSG_CONFIRM_OVER_WRITE_SAME_FILE)+"\n"+FilePath;
 						Synchronize(&PostConfirmOverwriteMessageForm);
 
 						if ( MsgReturnVal == mrYes ) {
-							//ã‘‚«OK‚È‚Ì‚ÅFilePath‚Í‚»‚Ì‚Ü‚Ü
+							//ä¸Šæ›¸ãOKãªã®ã§FilePathã¯ãã®ã¾ã¾
 						}
 						else if ( MsgReturnVal == mrNo ) {
-							//•Ê–¼•Û‘¶‚ÅFilePath•¶š—ñ‚ª‘‚«Š·‚¦‚ç‚ê‚Ä‚«‚Ä‚¢‚é
+							//åˆ¥åä¿å­˜ã§FilePathæ–‡å­—åˆ—ãŒæ›¸ãæ›ãˆã‚‰ã‚Œã¦ãã¦ã„ã‚‹
 							FilePath = MsgReturnPath;
 						}
 						else if ( MsgReturnVal == mrYesToAll ) {
-							//‚·‚×‚Äã‘‚«iYesToAllj
+							//ã™ã¹ã¦ä¸Šæ›¸ãï¼ˆYesToAllï¼‰
 							fOverwirteYesToAll = true;
 						}
 						else if ( MsgReturnVal == mrCancel ) {
-							//ƒLƒƒƒ“ƒZƒ‹
+							//ã‚­ãƒ£ãƒ³ã‚»ãƒ«
 							goto LabelStop;
 						}
 					}
@@ -1058,39 +1058,39 @@ while (buff_size > 0 && !Terminated) {
 				}
 
 				//-----------------------------------
-				//ˆÃ†‰»ƒtƒ@ƒCƒ‹©g‚Ö‚Ì•œ†‚ÍNG
-				//iex: ..\hoge -> ..\hogej
+				//æš—å·åŒ–ãƒ•ã‚¡ã‚¤ãƒ«è‡ªèº«ã¸ã®å¾©å·ã¯NG
+				//ï¼ˆex: ..\hoge -> ..\hogeï¼‰
 				//-----------------------------------
 				if ( fCompare == false && FilePath == AtcFilePath ) {
-					//'ˆÃ†‰»ƒtƒ@ƒCƒ‹©g‚Éƒtƒ@ƒCƒ‹‚Ü‚½‚ÍƒtƒHƒ‹ƒ_[‚ğ•œ†‚·‚é‚±‚Æ‚Í‚Å‚«‚Ü‚¹‚ñB'+#13+
-					//'•œ†ˆ—‚ğ’†~‚µ‚Ü‚·B';
+					//'æš—å·åŒ–ãƒ•ã‚¡ã‚¤ãƒ«è‡ªèº«ã«ãƒ•ã‚¡ã‚¤ãƒ«ã¾ãŸã¯ãƒ•ã‚©ãƒ«ãƒ€ãƒ¼ã‚’å¾©å·ã™ã‚‹ã“ã¨ã¯ã§ãã¾ã›ã‚“ã€‚'+#13+
+					//'å¾©å·å‡¦ç†ã‚’ä¸­æ­¢ã—ã¾ã™ã€‚';
 					MsgText = LoadResourceString(&Msgdecrypt::_MSG_ERROR_NOT_OVERWRITE_MYSELF)+"\n"+FilePath;
 					MsgType = mtError;
 					MsgButtons = TMsgDlgButtons() << mbOK;
 					MsgDefaultButton = mbOK;
 					Synchronize(&PostConfirmMessageForm);
-					//ƒGƒ‰[
+					//ã‚¨ãƒ©ãƒ¼
 					goto LabelError;
 				}
 
 				try {
 
 					if (fCompare == true) {
-						//ƒRƒ“ƒyƒA‚ÍŒ³ƒtƒ@ƒCƒ‹‚ğŠJ‚­
+						//ã‚³ãƒ³ãƒšã‚¢ã¯å…ƒãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã
 						fsOut = new TFileStream(CompareFileList->Strings[i], fmOpenRead);
 					}
 					else{
-						//o—Í‚·‚éƒtƒ@ƒCƒ‹‚ğŠJ‚­
+						//å‡ºåŠ›ã™ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã
 						fsOut = new TFileStream(FilePath, fmCreate);
 					}
 
 				}
 				catch(...) {
 
-					//•Û‘¶‚·‚éæ‚Ìƒtƒ@ƒCƒ‹‚ªŠJ‚¯‚Ü‚¹‚ñB‘¼‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚ªg—p’†‚Ì‰Â”\«‚ª‚ ‚è‚Ü‚·B
+					//ä¿å­˜ã™ã‚‹å…ˆã®ãƒ•ã‚¡ã‚¤ãƒ«ãŒé–‹ã‘ã¾ã›ã‚“ã€‚ä»–ã®ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ãŒä½¿ç”¨ä¸­ã®å¯èƒ½æ€§ãŒã‚ã‚Šã¾ã™ã€‚
 					MsgText = LoadResourceString(&Msgdecrypt::_MSG_ERROR_OUT_FILE_OPEN)+"\n"+FilePath;
 					if ( fCompare == true ) {
-						//ƒƒbƒZ[ƒW‚É'ƒRƒ“ƒyƒA‚É¸”s‚µ‚Ü‚µ‚½B'‚ğ’Ç‰Á
+						//ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã«'ã‚³ãƒ³ãƒšã‚¢ã«å¤±æ•—ã—ã¾ã—ãŸã€‚'ã‚’è¿½åŠ 
 						MsgText += "\n" + LoadResourceString(&Msgdecrypt::_MSG_ERROR_COMPARE_FILE);
 					}
 					MsgType = mtError;
@@ -1103,12 +1103,12 @@ while (buff_size > 0 && !Terminated) {
 
 				fOpen = true;
 
-				if (FileSizeList[i] == 0) { // 0ƒoƒCƒgƒtƒ@ƒCƒ‹
+				if (FileSizeList[i] == 0) { // 0ãƒã‚¤ãƒˆãƒ•ã‚¡ã‚¤ãƒ«
 
 					delete fsOut;
 
 					if (fCompare == true) {
-						//ƒRƒ“ƒyƒA‚Ìê‡‚Í”²‚¯‚é
+						//ã‚³ãƒ³ãƒšã‚¢ã®å ´åˆã¯æŠœã‘ã‚‹
 						continue;
 					}
 
@@ -1120,7 +1120,7 @@ while (buff_size > 0 && !Terminated) {
 
 					FileSetAttr(FilePath, (int)FileAttrList[i]);
 
-					//ŠÖ˜A•t‚¯‚ç‚ê‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Åƒtƒ@ƒCƒ‹‚ğŠJ‚­
+					//é–¢é€£ä»˜ã‘ã‚‰ã‚ŒãŸã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã§ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã
 					if ( fTempOpenFile == true ) {
 						ShellExecuteW(NULL, L"open", FilePath.c_str(), NULL, NULL, SW_NORMAL);
 					}
@@ -1138,27 +1138,27 @@ while (buff_size > 0 && !Terminated) {
 	} // end if (fOpen == false);
 
 	//-----------------------------------
-	// ŠJ‚¢‚½ƒtƒ@ƒCƒ‹‚É‘‚«‚Ş
+	// é–‹ã„ãŸãƒ•ã‚¡ã‚¤ãƒ«ã«æ›¸ãè¾¼ã‚€
 	//-----------------------------------
 	if ( fOpen == true ) {
 
 		//-----------------------------------
-		// ƒRƒ“ƒyƒA
+		// ã‚³ãƒ³ãƒšã‚¢
 		//-----------------------------------
 		if ( fCompare == true ) {
 
 			if (fsOut->Position + LARGE_BUF_SIZE < FileSizeList[FileIndex]) {
 
 				if (fsOut->Read(read_buffer, LARGE_BUF_SIZE) != LARGE_BUF_SIZE) {
-					//“Ç‚İ‚İƒGƒ‰[
+					//èª­ã¿è¾¼ã¿ã‚¨ãƒ©ãƒ¼
 					goto LabelReadWriteError;
 				}
 				else{
-					//ƒf[ƒ^‚ÌƒRƒ“ƒyƒA
+					//ãƒ‡ãƒ¼ã‚¿ã®ã‚³ãƒ³ãƒšã‚¢
 					if ( CompareMem(read_buffer, output_buffer, LARGE_BUF_SIZE) == false ){
-						//'ƒf[ƒ^‚Ìˆê’v‚µ‚È‚¢ƒtƒ@ƒCƒ‹‚ªŒ©‚Â‚©‚è‚Ü‚µ‚½B'
+						//'ãƒ‡ãƒ¼ã‚¿ã®ä¸€è‡´ã—ãªã„ãƒ•ã‚¡ã‚¤ãƒ«ãŒè¦‹ã¤ã‹ã‚Šã¾ã—ãŸã€‚'
 						MsgText = LoadResourceString(&Msgdecrypt::_MSG_ERROR_COMPARE_DATA_NOT_MATCH)+"\n"+fsOut->FileName;
-						//'ƒRƒ“ƒyƒA‚É¸”s‚µ‚Ü‚µ‚½B';
+						//'ã‚³ãƒ³ãƒšã‚¢ã«å¤±æ•—ã—ã¾ã—ãŸã€‚';
 						MsgText += LoadResourceString(&Msgdecrypt::_MSG_ERROR_COMPARE_FILE);
 						MsgType = mtError;
 						MsgButtons = TMsgDlgButtons() << mbOK;
@@ -1172,7 +1172,7 @@ while (buff_size > 0 && !Terminated) {
 			else{
 				rest = FileSizeList[FileIndex] - fsOut->Position;
 				if (fsOut->Read(read_buffer, rest) != rest) {
-					//“Ç‚İ‚İƒGƒ‰[
+					//èª­ã¿è¾¼ã¿ã‚¨ãƒ©ãƒ¼
 					goto LabelReadWriteError;
 				}
 				else {
@@ -1187,7 +1187,7 @@ while (buff_size > 0 && !Terminated) {
 						false, true);
 					FileSetAttr(FilePath, FileAttrList[FileIndex]);
 
-					//ŠÖ˜A•t‚¯‚ç‚ê‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Åƒtƒ@ƒCƒ‹‚ğŠJ‚­
+					//é–¢é€£ä»˜ã‘ã‚‰ã‚ŒãŸã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã§ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã
 					if ( fTempOpenFile == true ) {
 						ShellExecuteW(NULL, L"open", FilePath.c_str(), NULL, NULL, SW_NORMAL);
 					}
@@ -1200,7 +1200,7 @@ while (buff_size > 0 && !Terminated) {
 
 		}
 		//-----------------------------------
-		// ’Êí‚Ì•œ†ˆ—
+		// é€šå¸¸ã®å¾©å·å‡¦ç†
 		//-----------------------------------
 		else{
 
@@ -1229,7 +1229,7 @@ while (buff_size > 0 && !Terminated) {
 						false, true);
 					FileSetAttr(FilePath, FileAttrList[FileIndex]);
 
-					//ŠÖ˜A•t‚¯‚ç‚ê‚½ƒAƒvƒŠƒP[ƒVƒ‡ƒ“‚Åƒtƒ@ƒCƒ‹‚ğŠJ‚­
+					//é–¢é€£ä»˜ã‘ã‚‰ã‚ŒãŸã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã§ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã
 					if ( fTempOpenFile == true ) {
 						ShellExecuteW(NULL, L"open", FilePath.c_str(), NULL, NULL, SW_NORMAL);
 					}
@@ -1244,7 +1244,7 @@ while (buff_size > 0 && !Terminated) {
 
 	}
 	else {
-		//‚à‚¤ŠJ‚­ƒtƒ@ƒCƒ‹‚ª‚È‚¢
+		//ã‚‚ã†é–‹ããƒ•ã‚¡ã‚¤ãƒ«ãŒãªã„
 		break;
 
 	}//end if ( fOpen == true );
@@ -1256,17 +1256,17 @@ if ( Terminated == true ) {
 	goto LabelStop;
 }
 
-//¬Œ÷
+//æˆåŠŸ
 return(0);
 
 //-----------------------------------
-//“Ç‚İ‘‚«ƒGƒ‰[
+//èª­ã¿æ›¸ãã‚¨ãƒ©ãƒ¼
 LabelReadWriteError:
 
 	if ( fCompare == true ) {
-		//'ƒRƒ“ƒyƒA‚ğs‚¤Œ³‚Ìƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚Ş‚±‚Æ‚ª‚Å‚«‚Ü‚¹‚ñB'
+		//'ã‚³ãƒ³ãƒšã‚¢ã‚’è¡Œã†å…ƒã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚€ã“ã¨ãŒã§ãã¾ã›ã‚“ã€‚'
 		MsgText = LoadResourceString(&Msgdecrypt::_MSG_ERROR_COMPARE_NOT_READ_SOURCE)+"\n"+fsOut->FileName;
-		//'ƒRƒ“ƒyƒA‚É¸”s‚µ‚Ü‚µ‚½B';
+		//'ã‚³ãƒ³ãƒšã‚¢ã«å¤±æ•—ã—ã¾ã—ãŸã€‚';
 		MsgText += LoadResourceString(&Msgdecrypt::_MSG_ERROR_COMPARE_FILE);
 		MsgType = mtError;
 		MsgButtons = TMsgDlgButtons() << mbOK;
@@ -1274,7 +1274,7 @@ LabelReadWriteError:
 		Synchronize(&PostConfirmMessageForm);
 	}
 	else{
-		//'•Û‘¶‚·‚éæ‚Ìƒtƒ@ƒCƒ‹‚É‘‚«‚ß‚Ü‚¹‚ñB•œ†‚Å‚«‚Ü‚¹‚ñB'
+		//'ä¿å­˜ã™ã‚‹å…ˆã®ãƒ•ã‚¡ã‚¤ãƒ«ã«æ›¸ãè¾¼ã‚ã¾ã›ã‚“ã€‚å¾©å·ã§ãã¾ã›ã‚“ã€‚'
 		MsgText = LoadResourceString(&Msgdecrypt::_MSG_ERROR_OUT_FILE_WRITE)+"\n"+fsOut->FileName;
 		MsgType = mtError;
 		MsgButtons = TMsgDlgButtons() << mbOK;
@@ -1291,10 +1291,10 @@ LabelReadWriteError:
 
 
 //-----------------------------------
-//ƒGƒ‰[
+//ã‚¨ãƒ©ãƒ¼
 LabelError:
 
-	//‚±‚±‚ÌƒGƒ‰[‚Í’¼‘O‚ÅƒƒbƒZ[ƒW‚ğ’ñ¦‚µ‚Ä‚©‚ç—ˆ‚Ä‚¢‚é
+	//ã“ã“ã®ã‚¨ãƒ©ãƒ¼ã¯ç›´å‰ã§ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’æç¤ºã—ã¦ã‹ã‚‰æ¥ã¦ã„ã‚‹
 
 	if ( fOpen == true ) {
 		delete fsOut;
@@ -1304,7 +1304,7 @@ LabelError:
 	return(-1);
 
 //-----------------------------------
-//ƒ†[ƒU[ƒLƒƒƒ“ƒZƒ‹
+//ãƒ¦ãƒ¼ã‚¶ãƒ¼ã‚­ãƒ£ãƒ³ã‚»ãƒ«
 LabelStop:
 
 	if ( fOpen == true ) {
@@ -1317,15 +1317,15 @@ LabelStop:
 
 }
 //===========================================================================
-// ƒtƒ@ƒCƒ‹/ƒfƒBƒŒƒNƒgƒŠ‚Ìƒ^ƒCƒ€ƒXƒ^ƒ“ƒv‚ğİ’è‚·‚é
+// ãƒ•ã‚¡ã‚¤ãƒ«/ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®ã‚¿ã‚¤ãƒ ã‚¹ã‚¿ãƒ³ãƒ—ã‚’è¨­å®šã™ã‚‹
 //===========================================================================
-void __fastcall TAttacheCaseFileDecrypt2::FileSetTimeStamp(String FilePath, // ƒpƒX
-	int tsChangeDateNum, // XV“ú i¦Win98‚Ìê‡‚Í‚±‚±‚ÉFileAge‚ª“ü‚éj
-	int tsChangeTimeNum, // XV
-	int tsCreateDateNum, // ì¬“ú
-	int tsCreateTimeNum, // ì¬
-	bool fNow,           // true‚È‚ç‘¼‚Ìˆø”‚ÉŠÖŒW‚È‚­XV“ú‚ğŒ»İ‚Éİ’è
-	bool fDir            // ƒfƒBƒŒƒNƒgƒŠ
+void __fastcall TAttacheCaseFileDecrypt2::FileSetTimeStamp(String FilePath, // ãƒ‘ã‚¹
+	int tsChangeDateNum, // æ›´æ–°æ—¥ ï¼ˆâ€»Win98ã®å ´åˆã¯ã“ã“ã«FileAgeãŒå…¥ã‚‹ï¼‰
+	int tsChangeTimeNum, // æ›´æ–°æ™‚
+	int tsCreateDateNum, // ä½œæˆæ—¥
+	int tsCreateTimeNum, // ä½œæˆæ™‚
+	bool fNow,           // trueãªã‚‰ä»–ã®å¼•æ•°ã«é–¢ä¿‚ãªãæ›´æ–°æ—¥æ™‚ã‚’ç¾åœ¨ã«è¨­å®š
+	bool fDir            // ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
 		)
 {
 
@@ -1338,25 +1338,25 @@ void __fastcall TAttacheCaseFileDecrypt2::FileSetTimeStamp(String FilePath, // ƒ
 	TTimeStamp tsChangeDate, tsCreateDate;
 
 	// -----------------------------------
-	// 2000, XPŒn
+	// 2000, XPç³»
 
-	// Win95/98¨Win2000/XP‚Ö•œ†‚·‚é‚Æ‚«‚É•s³‚Èƒ^ƒCƒ€ƒXƒ^ƒ“ƒv‚ª
-	// “n‚é‚±‚Æ‚ª‚ ‚é‚Ì‚ÅAˆÈ‰º‚É—áŠOˆ—‚ğ{‚·
+	// Win95/98â†’Win2000/XPã¸å¾©å·ã™ã‚‹ã¨ãã«ä¸æ­£ãªã‚¿ã‚¤ãƒ ã‚¹ã‚¿ãƒ³ãƒ—ãŒ
+	// æ¸¡ã‚‹ã“ã¨ãŒã‚ã‚‹ã®ã§ã€ä»¥ä¸‹ã«ä¾‹å¤–å‡¦ç†ã‚’æ–½ã™
 	try {
 
-		// TTimeStamp‚Ö‘ã“ü
-		tsChangeDate.Date = tsChangeDateNum; // XV“ú
+		// TTimeStampã¸ä»£å…¥
+		tsChangeDate.Date = tsChangeDateNum; // æ›´æ–°æ—¥æ™‚
 		tsChangeDate.Time = tsChangeTimeNum;
-		tsCreateDate.Date = tsCreateDateNum; // ì¬“ú
+		tsCreateDate.Date = tsCreateDateNum; // ä½œæˆæ—¥æ™‚
 		tsCreateDate.Time = tsCreateTimeNum;
 
-		// Œ»İ“ú‚ğ‘ã“ü‚·‚é‚È‚ç
+		// ç¾åœ¨æ—¥æ™‚ã‚’ä»£å…¥ã™ã‚‹ãªã‚‰
 		if (fNow == true) {
 			dtChangeDate = Now();
 			dtCreateDate = Now();
 		}
 		else {
-			// TimeStamp‚©‚çTDateTime‚Ö
+			// TimeStampã‹ã‚‰TDateTimeã¸
 			dtChangeDate = TimeStampToDateTime(tsChangeDate);
 			dtCreateDate = TimeStampToDateTime(tsCreateDate);
 		}
@@ -1364,51 +1364,51 @@ void __fastcall TAttacheCaseFileDecrypt2::FileSetTimeStamp(String FilePath, // ƒ
 	}
 	catch(Exception & e) {
 
-		return; // ƒ^ƒCƒ€ƒXƒ^ƒ“ƒv‚ÍŒ»İ“ú‚Éİ’è‚·‚é
+		return; // ã‚¿ã‚¤ãƒ ã‚¹ã‚¿ãƒ³ãƒ—ã¯ç¾åœ¨æ—¥æ™‚ã«è¨­å®šã™ã‚‹
 
 	}
 
-	// XV“ú
+	// æ›´æ–°æ—¥æ™‚
 	DateTimeToSystemTime(dtChangeDate, sysChangeFileTime);
-	// TDateTime ¨ SystemTime
+	// TDateTime â†’ SystemTime
 	SystemTimeToFileTime(&sysChangeFileTime, &ChangeFileTime);
-	// SystemTime ¨ FILETIME
-	// ì¬“ú
+	// SystemTime â†’ FILETIME
+	// ä½œæˆæ—¥æ™‚
 	DateTimeToSystemTime(dtCreateDate, sysCreateFileTime);
-	// TDateTime ¨ SystemTime
+	// TDateTime â†’ SystemTime
 	SystemTimeToFileTime(&sysCreateFileTime, &CreateFileTime);
-	// SystemTime ¨ FILETIME
+	// SystemTime â†’ FILETIME
 
-	// ƒ[ƒJƒ‹‚Ìƒtƒ@ƒCƒ‹‚ğA¢ŠE‹¦’èiUTCj‚ÉŠî‚Ã‚­ƒtƒ@ƒCƒ‹‚Ö•ÏŠ·‚·‚é
+	// ãƒ­ãƒ¼ã‚«ãƒ«ã®ãƒ•ã‚¡ã‚¤ãƒ«æ™‚åˆ»ã‚’ã€ä¸–ç•Œå”å®šæ™‚åˆ»ï¼ˆUTCï¼‰ã«åŸºã¥ããƒ•ã‚¡ã‚¤ãƒ«æ™‚åˆ»ã¸å¤‰æ›ã™ã‚‹
 	if (fNow == true) {
 		LocalFileTimeToFileTime(&ChangeFileTime, &ChangeFileTime);
 		LocalFileTimeToFileTime(&CreateFileTime, &CreateFileTime);
 	}
 
 	// -----------------------------------
-	// ƒfƒBƒŒƒNƒgƒŠ
+	// ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
 	if (fDir == true) {
-		// ƒfƒBƒŒƒNƒgƒŠƒnƒ“ƒhƒ‹‚ğ“¾‚éi¦NT/2000Œn‚Ì‚İFFILE_FLAG_BACKUP_SEMANTICSj
+		// ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãƒãƒ³ãƒ‰ãƒ«ã‚’å¾—ã‚‹ï¼ˆâ€»NT/2000ç³»ã®ã¿ï¼šFILE_FLAG_BACKUP_SEMANTICSï¼‰
 		hFile = CreateFileW(FilePath.c_str(), GENERIC_WRITE, FILE_SHARE_READ, NULL,
 			OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
 	}
 	// -----------------------------------
-	// ƒtƒ@ƒCƒ‹‚ğŠJ‚­i¦uGENERIC_WRITEv‚É‚µ‚Ä‚¨‚©‚È‚¢‚Æ•ÏX‚Å‚«‚È‚¢‚æ‚¤j
+	// ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ãï¼ˆâ€»ã€ŒGENERIC_WRITEã€ã«ã—ã¦ãŠã‹ãªã„ã¨å¤‰æ›´ã§ããªã„ã‚ˆã†ï¼‰
 	else {
 		hFile = CreateFileW(FilePath.c_str(), GENERIC_WRITE, FILE_SHARE_READ, NULL,
 			OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 	}
 
 	// -----------------------------------
-	// ƒtƒ@ƒCƒ‹‚ªƒI[ƒvƒ“‚³‚ê‚Ä‚¢‚é
+	// ãƒ•ã‚¡ã‚¤ãƒ«ãŒã‚ªãƒ¼ãƒ—ãƒ³ã•ã‚Œã¦ã„ã‚‹
 	if (hFile != INVALID_HANDLE_VALUE) {
 
-		// ì¬“ú‚ª0‚É‚È‚Á‚Ä‚¢‚é‚È‚ç
+		// ä½œæˆæ—¥ãŒ0ã«ãªã£ã¦ã„ã‚‹ãªã‚‰
 		if (tsCreateDateNum == 0) {
-			SetFileTime(hFile, NULL, NULL, &ChangeFileTime); // ƒ^ƒCƒ€ƒXƒ^ƒ“ƒv‚ÌƒZƒbƒg
+			SetFileTime(hFile, NULL, NULL, &ChangeFileTime); // ã‚¿ã‚¤ãƒ ã‚¹ã‚¿ãƒ³ãƒ—ã®ã‚»ãƒƒãƒˆ
 		}
 		else {
-			SetFileTime(hFile, &CreateFileTime, NULL, &ChangeFileTime); // ƒ^ƒCƒ€ƒXƒ^ƒ“ƒv‚ÌƒZƒbƒg
+			SetFileTime(hFile, &CreateFileTime, NULL, &ChangeFileTime); // ã‚¿ã‚¤ãƒ ã‚¹ã‚¿ãƒ³ãƒ—ã®ã‚»ãƒƒãƒˆ
 		}
 
 	}
@@ -1418,7 +1418,7 @@ void __fastcall TAttacheCaseFileDecrypt2::FileSetTimeStamp(String FilePath, // ƒ
 }
 // end SetFileAgeStr;
 //===========================================================================
-//ƒfƒBƒXƒN‚Ì‹ó‚«—e—Ê‚ğ’²‚×‚é
+//ãƒ‡ã‚£ã‚¹ã‚¯ã®ç©ºãå®¹é‡ã‚’èª¿ã¹ã‚‹
 //===========================================================================
 __int64 __fastcall TAttacheCaseFileDecrypt2::GetDiskFreeSpaceNum(String FilePath)
 {
@@ -1431,13 +1431,13 @@ __int64 FreeSpace;
 String DriveName = ExtractFileDrive(FilePath)+":";
 String DirPath = IncludeTrailingPathDelimiter(ExtractFileDir(FilePath));
 
-OSVERSIONINFO ovi;   // ƒo[ƒWƒ‡ƒ“î•ñ‚ğŠi”[‚·‚é\‘¢‘Ì
+OSVERSIONINFO ovi;   // ãƒãƒ¼ã‚¸ãƒ§ãƒ³æƒ…å ±ã‚’æ ¼ç´ã™ã‚‹æ§‹é€ ä½“
 ovi.dwOSVersionInfoSize = sizeof( OSVERSIONINFO );
 
-// ƒo[ƒWƒ‡ƒ“î•ñæ“¾
+// ãƒãƒ¼ã‚¸ãƒ§ãƒ³æƒ…å ±å–å¾—
 GetVersionEx( (LPOSVERSIONINFO)&ovi );
 
-// Windows95 OSR2ˆÈ‘O
+// Windows95 OSR2ä»¥å‰
 if( ( ovi.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS )
 		&& ( int( ovi.dwBuildNumber & 0xffff ) <= 1000 ) ){
 
@@ -1447,12 +1447,12 @@ if( ( ovi.dwPlatformId == VER_PLATFORM_WIN32_WINDOWS )
 		FreeSpace = SCluster*BSector*FCluster;
 	}
 	else{
-		//ƒlƒbƒgƒ[ƒNƒT[ƒoã‚Íæ“¾‚Å‚«‚¸ƒGƒ‰[‚Æ‚È‚é
+		//ãƒãƒƒãƒˆãƒ¯ãƒ¼ã‚¯ã‚µãƒ¼ãƒä¸Šã¯å–å¾—ã§ããšã‚¨ãƒ©ãƒ¼ã¨ãªã‚‹
 		FreeSpace = -1;
 	}
 
 }
-// OSR2ˆÈ~`
+// OSR2ä»¥é™ï½
 else{
 
 	ULARGE_INTEGER pqwFreeCaller;
@@ -1460,7 +1460,7 @@ else{
 	ULARGE_INTEGER pqwFree;
 
 	if(::GetDiskFreeSpaceExW(String(DirPath).c_str(), &pqwFreeCaller, &pqwTot, &pqwFree)){
-		//64bit Integer‚Å•Ô‚·
+		//64bit Integerã§è¿”ã™
 		FreeSpace = pqwFreeCaller.QuadPart;
 	}
 	else{
@@ -1473,7 +1473,7 @@ return(FreeSpace);
 
 }//end GetDiskFreeSpaceNum;
 //===========================================================================
-// —”ƒf[ƒ^‚Ì¶¬
+// ä¹±æ•°ãƒ‡ãƒ¼ã‚¿ã®ç”Ÿæˆ
 //===========================================================================
 void TAttacheCaseFileDecrypt2::fillrand(char *buf, const int len)
 {
@@ -1498,7 +1498,7 @@ for(i = 0; i < len; ++i){
 
 }
 //===========================================================================
-//ƒpƒXƒ[ƒh‚ÉƒoƒCƒiƒŠ’l‚ÅƒZƒbƒg‚·‚é
+//ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã«ãƒã‚¤ãƒŠãƒªå€¤ã§ã‚»ãƒƒãƒˆã™ã‚‹
 //===========================================================================
 void __fastcall TAttacheCaseFileDecrypt2::SetPasswordBinary(char *password)
 {
@@ -1510,7 +1510,7 @@ memcpy(key, password, 32);
 
 }
 //===========================================================================
-//ƒpƒXƒ[ƒh•¶š—ñ‚ğƒZƒbƒg‚·‚é
+//ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰æ–‡å­—åˆ—ã‚’ã‚»ãƒƒãƒˆã™ã‚‹
 //===========================================================================
 /*
 void __fastcall TAttacheCaseFileDecrypt2::SetPasswordString(AnsiString Password)
@@ -1524,13 +1524,13 @@ StrCopy(key, Password.c_str());
 }
 */
 //===========================================================================
-//ƒpƒXƒ[ƒh•¶š—ñ‚©‚çƒoƒCƒiƒŠ’l‚ğƒZƒbƒg‚·‚éFver.1.* `i•ÊƒNƒ‰ƒX‚ÅÀ‘•—\’èj
+//ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰æ–‡å­—åˆ—ã‹ã‚‰ãƒã‚¤ãƒŠãƒªå€¤ã‚’ã‚»ãƒƒãƒˆã™ã‚‹ï¼šver.1.* ï½ï¼ˆåˆ¥ã‚¯ãƒ©ã‚¹ã§å®Ÿè£…äºˆå®šï¼‰
 //===========================================================================
 /*
 void __fastcall TAttacheCaseFileDecrypt2::SetPasswordStringToBinary(AnsiString Password)
 {
 
-//‚Â‚Ü‚è‚Íæ“ª‚Ì32ƒoƒCƒg‚µ‚©password‚É‘ã“ü‚³‚ê‚È‚¢
+//ã¤ã¾ã‚Šã¯å…ˆé ­ã®32ãƒã‚¤ãƒˆã—ã‹passwordã«ä»£å…¥ã•ã‚Œãªã„
 for ( int i = 0; i < 32; i++){
 	key[1][i]=0;
 }
@@ -1539,12 +1539,12 @@ strcpy( key[1], Password.c_str() );
 }
 */
 //===========================================================================
-//ƒƒCƒ“ƒtƒH[ƒ€‚ÉŠm”FƒƒbƒZ[ƒW‚ğ“Š‚°‚Äˆ—‚ğ’†’f‚·‚é
+//ãƒ¡ã‚¤ãƒ³ãƒ•ã‚©ãƒ¼ãƒ ã«ç¢ºèªãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’æŠ•ã’ã¦å‡¦ç†ã‚’ä¸­æ–­ã™ã‚‹
 //===========================================================================
 void __fastcall TAttacheCaseFileDecrypt2::PostConfirmMessageForm()
 {
 
-//ƒOƒ[ƒoƒ‹•Ï”(private)‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚ ‚é
+//ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°(private)ã¨ã—ã¦å®šç¾©ã—ã¦ã‚ã‚‹
 
 //String MsgText;
 //TMsgDlgType MsgType;
@@ -1556,12 +1556,12 @@ MsgReturnVal =
 
 }
 //===========================================================================
-//ƒƒCƒ“ƒtƒH[ƒ€‚Éã‘‚«‚ÌŠm”FƒƒbƒZ[ƒW‚ğ“Š‚°‚Äˆ—‚ğ’†’f‚·‚é
+//ãƒ¡ã‚¤ãƒ³ãƒ•ã‚©ãƒ¼ãƒ ã«ä¸Šæ›¸ãã®ç¢ºèªãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’æŠ•ã’ã¦å‡¦ç†ã‚’ä¸­æ–­ã™ã‚‹
 //===========================================================================
 void __fastcall TAttacheCaseFileDecrypt2::PostConfirmOverwriteMessageForm()
 {
 
-//ƒOƒ[ƒoƒ‹•Ï”(private)‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚ ‚é
+//ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°(private)ã¨ã—ã¦å®šç¾©ã—ã¦ã‚ã‚‹
 
 //String MsgText;
 //String MsgReturnPath;

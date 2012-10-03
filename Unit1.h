@@ -1,4 +1,4 @@
-//---------------------------------------------------------------------------
+ï»¿//---------------------------------------------------------------------------
 #ifndef Unit1H
 #define Unit1H
 //---------------------------------------------------------------------------
@@ -30,15 +30,15 @@
 
 #define INI_FILE_NAME "_AtcCase.ini"
 
-#define TYPE_CRYPT_ENCRYPT 1	//ˆÃ†‰»
-#define TYPE_CRYPT_DECRYPT 2  //•œ†
-#define TYPE_CRYPT_ERROR -1   //ƒGƒ‰[
+#define TYPE_CRYPT_ENCRYPT 1	//æš—å·åŒ–
+#define TYPE_CRYPT_DECRYPT 2  //å¾©å·
+#define TYPE_CRYPT_ERROR -1   //ã‚¨ãƒ©ãƒ¼
 
 
 //---------------------------------------------------------------------------
 class TForm1 : public TForm
 {
-__published:	// IDE ŠÇ—‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg
+__published:	// IDE ç®¡ç†ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
 
 	TStatusBar *StatusBar1;
 	TTimer *TimerEncrypt;
@@ -159,13 +159,13 @@ __published:	// IDE ŠÇ—‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg
 
 
 
-private:	// ƒ†[ƒU[éŒ¾
+private:	// ãƒ¦ãƒ¼ã‚¶ãƒ¼å®£è¨€
 
 	TAttacheCaseFileEncrypt *encrypt;
 	TAttacheCaseFileDecrypt2 *decrypt;
 	TAttacheCaseDelete *cmpdel;
 
-	//ƒTƒCƒhƒƒjƒ…[ƒOƒ‰ƒtƒBƒbƒN
+	//ã‚µã‚¤ãƒ‰ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯
 	Graphics::TBitmap *bmpSideMenu;
 	TPoint ptSideMenu[5];
 	String SideBarCaption[5];
@@ -177,62 +177,62 @@ private:	// ƒ†[ƒU[éŒ¾
 
 
 	//-----------------------------------
-	// Œ»İ‚Ìˆ—“à—e
+	// ç¾åœ¨ã®å‡¦ç†å†…å®¹
 	//-----------------------------------
-	//  0:ˆ—‘Ò‚¿,
-	//  1:ˆÃ†‰»(TYPE_CRYPT_ENCRYPT),
-	//  2:•œ†(TYPE_CRYPT_DECRYPT)
-	// -1:ƒGƒ‰[iTYPE_CRYPT_ERRORj
+	//  0:å‡¦ç†å¾…ã¡,
+	//  1:æš—å·åŒ–(TYPE_CRYPT_ENCRYPT),
+	//  2:å¾©å·(TYPE_CRYPT_DECRYPT)
+	// -1:ã‚¨ãƒ©ãƒ¼ï¼ˆTYPE_CRYPT_ERRORï¼‰
 	int CryptTypeNum;
 
 
-	//æ‚É‹N“®‚µ‚Ä‚¢‚éƒAƒ^ƒbƒVƒFƒP[ƒX‚©‚ç‚ÌƒƒbƒZ[ƒWó‚¯æ‚è
+	//å…ˆã«èµ·å‹•ã—ã¦ã„ã‚‹ã‚¢ã‚¿ãƒƒã‚·ã‚§ã‚±ãƒ¼ã‚¹ã‹ã‚‰ã®ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å—ã‘å–ã‚Š
 	void __fastcall EvWmCOPYDATA(TMessage message);
 
 	BEGIN_MESSAGE_MAP
 		MESSAGE_HANDLER(WM_COPYDATA, TMessage, EvWmCOPYDATA);
 	END_MESSAGE_MAP(TForm);
 
-	//ƒ^ƒXƒNƒo[‚ÉƒvƒƒOƒŒƒXƒo[•\¦ iWin7j
+	//ã‚¿ã‚¹ã‚¯ãƒãƒ¼ã«ãƒ—ãƒ­ã‚°ãƒ¬ã‚¹ãƒãƒ¼è¡¨ç¤º ï¼ˆWin7ï¼‰
 	ITaskbarList3* ptl;
 
-	//“Š‚°‚Ü‚ê‚½ƒtƒ@ƒCƒ‹ƒŠƒXƒg
+	//æŠ•ã’è¾¼ã¾ã‚ŒãŸãƒ•ã‚¡ã‚¤ãƒ«ãƒªã‚¹ãƒˆ
 	TStringList *FileList;
-	//ƒtƒ@ƒCƒ‹‚ª‚Ç‚±‚Ü‚Åˆ—‚³‚ê‚½‚©
+	//ãƒ•ã‚¡ã‚¤ãƒ«ãŒã©ã“ã¾ã§å‡¦ç†ã•ã‚ŒãŸã‹
 	int FileListPosition;
 
-	//ƒpƒXƒ[ƒh‚ÌÄ“ü—Í
+	//ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã®å†å…¥åŠ›
 	String RetryAtcFilePath;
 	int RetryNum;
 
-	//ƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹ƒpƒX
+	//ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹
 	String PasswordFilePath;
 	String ConfirmPasswordFilePath;
 
-	// ƒtƒ@ƒCƒ‹/ƒtƒHƒ‹ƒ_‚ÌˆÃ†‰»ˆ—
+	// ãƒ•ã‚¡ã‚¤ãƒ«/ãƒ•ã‚©ãƒ«ãƒ€ã®æš—å·åŒ–å‡¦ç†
 	void __fastcall FileEncrypt(void);
-	// ƒtƒ@ƒCƒ‹‚ğ•œ†‚·‚éˆ—
+	// ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å¾©å·ã™ã‚‹å‡¦ç†
 	void __fastcall FileDecrypt(void);
-	// ƒtƒ@ƒCƒ‹‚ğƒRƒ“ƒyƒA‚·‚éˆ—i‚Æ‚ÍŒ¾‚Á‚Ä‚àÀÛ‚Í•œ†ˆ—j
+	// ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ã‚³ãƒ³ãƒšã‚¢ã™ã‚‹å‡¦ç†ï¼ˆã¨ã¯è¨€ã£ã¦ã‚‚å®Ÿéš›ã¯å¾©å·å‡¦ç†ï¼‰
 	void __fastcall FileCompare(void);
 
-  // ƒTƒCƒhƒƒjƒ…[‚ğ•`‰æ‚·‚é
+  // ã‚µã‚¤ãƒ‰ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚’æç”»ã™ã‚‹
 	void __fastcall PaintSideMenu(void);
-	//ƒ^ƒuƒV[ƒg‚Ì‘I‘ğ
+	//ã‚¿ãƒ–ã‚·ãƒ¼ãƒˆã®é¸æŠ
 	void __fastcall PageControlActiveSheet(TTabSheet *tb);
 
 
-	//ƒtƒ@ƒCƒ‹‚Ì”»•Ê‚ğs‚¢ˆ—‚ğ•ª‚¯‚ÄÀs
+	//ãƒ•ã‚¡ã‚¤ãƒ«ã®åˆ¤åˆ¥ã‚’è¡Œã„å‡¦ç†ã‚’åˆ†ã‘ã¦å®Ÿè¡Œ
 	void __fastcall DoExecute(TStringList *FileList);
-	//Š®‘Síœˆ—ÀsiƒfƒoƒbƒO—pj
+	//å®Œå…¨å‰Šé™¤å‡¦ç†å®Ÿè¡Œï¼ˆãƒ‡ãƒãƒƒã‚°ç”¨ï¼‰
 	void __fastcall DoDeleteFile(TStringList *FileList);
-	//ƒtƒH[ƒ€“àƒRƒ“ƒ|[ƒlƒ“ƒg‚ğ”z’u‚·‚é
+	//ãƒ•ã‚©ãƒ¼ãƒ å†…ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’é…ç½®ã™ã‚‹
 	void __fastcall SetFormComponent(TObject *Sender);
 
-	// ˆÃ†‰»ƒtƒ@ƒCƒ‹‚Ìƒwƒbƒ_”»’èi‚·‚×‚ÄATCƒtƒ@ƒCƒ‹‚È‚ç^‚ğ•Ô‚·j
+	// æš—å·åŒ–ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ˜ãƒƒãƒ€åˆ¤å®šï¼ˆã™ã¹ã¦ATCãƒ•ã‚¡ã‚¤ãƒ«ãªã‚‰çœŸã‚’è¿”ã™ï¼‰
 	bool __fastcall CheckAtcFileHeader(TStringList *FileList);
 
-	//ˆÃ†‰»ƒtƒ@ƒCƒ‹‚ğ”j‰ó‚·‚é
+	//æš—å·åŒ–ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ç ´å£Šã™ã‚‹
 	bool __fastcall DestroyAtcFile(String AtcFilePath);
 
 
@@ -240,22 +240,22 @@ private:	// ƒ†[ƒU[éŒ¾
 
 
 
-public:		// ƒ†[ƒU[éŒ¾
+public:		// ãƒ¦ãƒ¼ã‚¶ãƒ¼å®£è¨€
 	__fastcall TForm1(TComponent* Owner);
 
 
-	//“®ìİ’è‚ÌƒCƒ“ƒXƒ^ƒ“ƒX
+	//å‹•ä½œè¨­å®šã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
 	TAttacheCaseOptionHandle *opthdl;
 
 
-	//OLEƒhƒ‰ƒbƒO•ƒhƒƒbƒv‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”
+	//OLEãƒ‰ãƒ©ãƒƒã‚°ï¼†ãƒ‰ãƒ­ãƒƒãƒ—ã®ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°
 	void __fastcall FilesDragOver(POINTL ptl);
 	void __fastcall FilesDragLeave(void);
 	void __fastcall FilesDragEnd(POINTL ptl, String FileListText);
 
-	//ƒƒbƒZ[ƒWƒ_ƒCƒAƒƒO‚Ì•\¦iƒXƒŒƒbƒhƒIƒuƒWƒFƒNƒg‚©‚çŒÄ‚Î‚ê‚éj
+	//ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã®è¡¨ç¤ºï¼ˆã‚¹ãƒ¬ãƒƒãƒ‰ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‹ã‚‰å‘¼ã°ã‚Œã‚‹ï¼‰
 	int __fastcall ShowConfirmMassageForm(String MsgText, TMsgDlgType MsgType, TMsgDlgButtons MsgButtons, TMsgDlgBtn MsgDefaultButton);
-	//ã‘‚«Šm”FƒƒbƒZ[ƒWƒ_ƒCƒAƒƒO‚Ì•\¦i•œ†ƒXƒŒƒbƒhƒIƒuƒWƒFƒNƒg‚©‚çŒÄ‚Î‚ê‚éj
+	//ä¸Šæ›¸ãç¢ºèªãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒ€ã‚¤ã‚¢ãƒ­ã‚°ã®è¡¨ç¤ºï¼ˆå¾©å·ã‚¹ãƒ¬ãƒƒãƒ‰ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‹ã‚‰å‘¼ã°ã‚Œã‚‹ï¼‰
 	int __fastcall ShowConfirmOverwriteMassageForm(String MsgText, String &Path);
 
 

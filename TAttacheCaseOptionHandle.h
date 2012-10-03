@@ -5,8 +5,8 @@
 
 #include <System.hpp>
 
-#include <IniFiles.hpp>     //INIƒtƒ@ƒCƒ‹‘€ì—p
-#include <Registry.hpp>     //ƒŒƒWƒXƒgƒŠ‘€ì—p
+#include <IniFiles.hpp>     //INIãƒ•ã‚¡ã‚¤ãƒ«æ“ä½œç”¨
+#include <Registry.hpp>     //ãƒ¬ã‚¸ã‚¹ãƒˆãƒªæ“ä½œç”¨
 #include <Math.hpp>
 
 #include <shlobj.h>
@@ -20,16 +20,16 @@
 #include "TGetAppInfoString.h"
 
 
-//ƒŒƒWƒXƒgƒŠ‚ÌêŠ
+//ãƒ¬ã‚¸ã‚¹ãƒˆãƒªã®å ´æ‰€
 #define ATTACHE_CASE_REGISTRY_PATH "Software\\Hibara\\AttacheCase"
 
-#define TYPE_ENCODE_FILE 0 //ˆÃ†‰»
-#define TYPE_DECODE_FILE 1 //•œ†‰»
+#define TYPE_ENCODE_FILE 0 //æš—å·åŒ–
+#define TYPE_DECODE_FILE 1 //å¾©å·åŒ–
 
-//256 + 8iƒpƒXƒ[ƒh{ƒg[ƒNƒ“j
+//256 + 8ï¼ˆãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ï¼‹ãƒˆãƒ¼ã‚¯ãƒ³ï¼‰
 #define BUF_PASSWORD_SIZE 264
 
-//SHA-1ƒnƒbƒVƒ…ŒvŽZi160bit20bytej
+//SHA-1ãƒãƒƒã‚·ãƒ¥è¨ˆç®—ï¼ˆ160bitï¼20byteï¼‰
 #define BUF_SHA1_SIZE 20
 #define BUF_HASH_DATA 32
 
@@ -40,16 +40,16 @@ class TAttacheCaseOptionHandle : public TObject
 private:
 
 
-	//‹L‰¯ƒpƒXƒ[ƒh‚ðƒŒƒWƒXƒgƒŠ‚Ü‚½‚ÍINIƒtƒ@ƒCƒ‹‚©‚ç“Ç‚Ýo‚·
+	//è¨˜æ†¶ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã‚’ãƒ¬ã‚¸ã‚¹ãƒˆãƒªã¾ãŸã¯INIãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰èª­ã¿å‡ºã™
 	AnsiString __fastcall ReadMyPasswordFromRegistry(int Type);
-	//‹L‰¯ƒpƒXƒ[ƒh‚ðƒŒƒWƒXƒgƒŠ‚Ü‚½‚ÍINIƒtƒ@ƒCƒ‹•Û‘¶‚·‚é
+	//è¨˜æ†¶ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã‚’ãƒ¬ã‚¸ã‚¹ãƒˆãƒªã¾ãŸã¯INIãƒ•ã‚¡ã‚¤ãƒ«ä¿å­˜ã™ã‚‹
 	bool __fastcall SaveMyPasswordToRegistry(String Password, int Type);
 
-	//ƒn[ƒhƒfƒBƒXƒN‚Ìƒ{ƒŠƒ…[ƒ€ƒ‰ƒxƒ‹ID‚ðŽæ“¾‚·‚é
+	//ãƒãƒ¼ãƒ‰ãƒ‡ã‚£ã‚¹ã‚¯ã®ãƒœãƒªãƒ¥ãƒ¼ãƒ ãƒ©ãƒ™ãƒ«IDã‚’å–å¾—ã™ã‚‹
 	String __fastcall GetVolumeLabelIDNumber(void);
-	// ƒƒ“ƒOƒtƒ@ƒCƒ‹–¼‚ðŽæ“¾‚·‚é
+	// ãƒ­ãƒ³ã‚°ãƒ•ã‚¡ã‚¤ãƒ«åã‚’å–å¾—ã™ã‚‹
 	String __fastcall GetLongFilePath(String FilePath);
-	// Windows‚ª‹–‚³‚È‚¢ƒtƒ@ƒCƒ‹–¼•¶Žš—ñ‚ÌŒŸ¸ŠÖ”
+	// WindowsãŒè¨±ã•ãªã„ãƒ•ã‚¡ã‚¤ãƒ«åæ–‡å­—åˆ—ã®æ¤œæŸ»é–¢æ•°
 	bool __fastcall ChkFileNameChr(String ChkText);
 
 	// SaveShellLink
@@ -64,127 +64,127 @@ public:
 	__fastcall ~TAttacheCaseOptionHandle();
 
 	//===================================
-	// •Ï”
+	// å¤‰æ•°
 	//===================================
 
-	// “Ç‚Ýž‚ñ‚¾æ‚ÌƒpƒXiINIƒtƒ@ƒCƒ‹ƒpƒXj
+	// èª­ã¿è¾¼ã‚“ã å…ˆã®ãƒ‘ã‚¹ï¼ˆINIãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ï¼‰
 	String OptionPath;
-	int OptType;                    // 0:ƒŒƒWƒXƒgƒŠ, 1:INIƒtƒ@ƒCƒ‹, 2:ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“ˆø”
+	int OptType;                    // 0:ãƒ¬ã‚¸ã‚¹ãƒˆãƒª, 1:INIãƒ•ã‚¡ã‚¤ãƒ«, 2:ã‚³ãƒžãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³å¼•æ•°
 
-	//ƒAƒvƒŠƒP[ƒVƒ‡ƒ“î•ñ
-	String AppPath;                 //–{‘Ì‚ªƒCƒ“ƒXƒg[ƒ‹‚³‚ê‚½ƒtƒ‹ƒpƒX
-	int VersionNum;                 //ƒo[ƒWƒ‡ƒ“
+	//ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³æƒ…å ±
+	String AppPath;                 //æœ¬ä½“ãŒã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«ã•ã‚ŒãŸãƒ•ãƒ«ãƒ‘ã‚¹
+	int VersionNum;                 //ãƒãƒ¼ã‚¸ãƒ§ãƒ³
 
-	//ƒtƒH[ƒ€ƒ|ƒWƒVƒ‡ƒ“
+	//ãƒ•ã‚©ãƒ¼ãƒ ãƒã‚¸ã‚·ãƒ§ãƒ³
 	int FormTop;
 	int FormLeft;
 	int FormWidth;
 	int FormHeight;
 	int WinStyle;
 
-	int ActiveTabNum;               //ŠJ‚¢‚Ä‚¢‚½ƒ^ƒu
+	int ActiveTabNum;               //é–‹ã„ã¦ã„ãŸã‚¿ãƒ–
 
-	//yŠî–{Ý’èz
-	String MyPassword;              //‹L‰¯‚µ‚Ä‚¢‚éƒpƒXƒ[ƒh
+	//ã€åŸºæœ¬è¨­å®šã€‘
+	String MyPassword;              //è¨˜æ†¶ã—ã¦ã„ã‚‹ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰
 
-	bool fArg;                      //ŽÀsˆø”ˆ—‚ð‚·‚é‚©
-	bool fArgPassword;              //ŽÀsˆø”‚ÉƒpƒXƒ[ƒh‚ðŽw’è
+	bool fArg;                      //å®Ÿè¡Œå¼•æ•°å‡¦ç†ã‚’ã™ã‚‹ã‹
+	bool fArgPassword;              //å®Ÿè¡Œå¼•æ•°ã«ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã‚’æŒ‡å®š
 
-	bool fMyEncodePasswordKeep;     //ˆÃ†‰»ƒpƒXƒ[ƒh‚ð‹L‰¯‚·‚é‚©
-	bool fMyDecodePasswordKeep;     //•œ†ƒpƒXƒ[ƒh‚ð‹L‰¯‚·‚é‚©
-	AnsiString MyEncodePassword;    //‹L‰¯ˆÃ†‰»ƒpƒXƒ[ƒh
-	AnsiString MyDecodePassword;    //‹L‰¯•œ†‰»ƒpƒXƒ[ƒh
+	bool fMyEncodePasswordKeep;     //æš—å·åŒ–ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã‚’è¨˜æ†¶ã™ã‚‹ã‹
+	bool fMyDecodePasswordKeep;     //å¾©å·ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã‚’è¨˜æ†¶ã™ã‚‹ã‹
+	AnsiString MyEncodePassword;    //è¨˜æ†¶æš—å·åŒ–ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰
+	AnsiString MyDecodePassword;    //è¨˜æ†¶å¾©å·åŒ–ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰
 
-	bool fMemPasswordExe;           //‹L‰¯ƒpƒXƒ[ƒh‚Å‘¦À‚ÉŽÀs‚·‚é
-	bool fOpenFolder;               //ƒtƒHƒ‹ƒ_‚Ìê‡‚É•œ†Œã‚ÉŠJ‚­‚©
-	bool fOpenFile;                 //•œ†‚µ‚½ƒtƒ@ƒCƒ‹‚ðŠÖ˜A•t‚¯‚³‚ê‚½ƒ\ƒtƒg‚ÅŠJ‚­
-	bool fEndToExit;                //ˆ—Œã‚ÉI—¹‚·‚é‚©
-	bool fWindowForeground;         //ƒfƒXƒNƒgƒbƒv‚ÅÅ‘O–Ê‚ÉƒEƒBƒ“ƒhƒE‚ð•\Ž¦‚·‚é
-	bool fNoHidePassword;           //u*v‚Å‰B‚³‚¸ƒpƒXƒ[ƒh‚ðŠm”F‚µ‚È‚ª‚ç“ü—Í‚·‚é
-	bool fSaveToExeout;             //í‚ÉŽ©ŒÈŽÀsŒ`Ž®‚Åo—Í‚·‚é
-	bool fShowExeoutChkBox;         //ƒƒCƒ“ƒtƒH[ƒ€‚Éƒ`ƒFƒbƒNƒ{ƒbƒNƒX‚ð•\Ž¦‚·‚é
-	bool fAskEncDecode;             //ˆÃ†/•œ†ˆ—‚©‚ð–â‚¢‡‚í‚¹‚é
-	int ProcTypeWithoutAsk;         //ˆÃ†/•œ†ˆ—‚©i“®ìÝ’è‚É‚Í‚È‚¢BƒRƒ}ƒ“ƒhƒ‰ƒCƒ“‚Ì‚Ýj
-	bool fNoMultipleInstance;       //•¡”‹N“®‚µ‚È‚¢
+	bool fMemPasswordExe;           //è¨˜æ†¶ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã§å³åº§ã«å®Ÿè¡Œã™ã‚‹
+	bool fOpenFolder;               //ãƒ•ã‚©ãƒ«ãƒ€ã®å ´åˆã«å¾©å·å¾Œã«é–‹ãã‹
+	bool fOpenFile;                 //å¾©å·ã—ãŸãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–¢é€£ä»˜ã‘ã•ã‚ŒãŸã‚½ãƒ•ãƒˆã§é–‹ã
+	bool fEndToExit;                //å‡¦ç†å¾Œã«çµ‚äº†ã™ã‚‹ã‹
+	bool fWindowForeground;         //ãƒ‡ã‚¹ã‚¯ãƒˆãƒƒãƒ—ã§æœ€å‰é¢ã«ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’è¡¨ç¤ºã™ã‚‹
+	bool fNoHidePassword;           //ã€Œ*ã€ã§éš ã•ãšãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã‚’ç¢ºèªã—ãªãŒã‚‰å…¥åŠ›ã™ã‚‹
+	bool fSaveToExeout;             //å¸¸ã«è‡ªå·±å®Ÿè¡Œå½¢å¼ã§å‡ºåŠ›ã™ã‚‹
+	bool fShowExeoutChkBox;         //ãƒ¡ã‚¤ãƒ³ãƒ•ã‚©ãƒ¼ãƒ ã«ãƒã‚§ãƒƒã‚¯ãƒœãƒƒã‚¯ã‚¹ã‚’è¡¨ç¤ºã™ã‚‹
+	bool fAskEncDecode;             //æš—å·/å¾©å·å‡¦ç†ã‹ã‚’å•ã„åˆã‚ã›ã‚‹
+	int ProcTypeWithoutAsk;         //æš—å·/å¾©å·å‡¦ç†ã‹ï¼ˆå‹•ä½œè¨­å®šã«ã¯ãªã„ã€‚ã‚³ãƒžãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³ã®ã¿ï¼‰
+	bool fNoMultipleInstance;       //è¤‡æ•°èµ·å‹•ã—ãªã„
 
-	//y•Û‘¶Ý’èz
-	bool fSaveToSameFldr;           //ˆÃ†‰»ƒtƒ@ƒCƒ‹‚ðí‚É“¯‚¶êŠ‚É•Û‘¶‚·‚é‚©
-	String SaveToSameFldrPath;      //‚»‚Ì•Û‘¶êŠ
-	bool fDecodeToSameFldr;         //í‚É“¯‚¶êŠ‚Öƒtƒ@ƒCƒ‹‚ð•œ†‚·‚é‚©
-	String DecodeToSameFldrPath;    //‚»‚Ì•Û‘¶êŠ
-	bool fConfirmOverwirte;         //“¯–¼ƒtƒ@ƒCƒ‹‚Ìã‘‚«‚ðŠm”F‚·‚é‚©
-	bool fKeepTimeStamp;            //ˆÃ†‰»ƒtƒ@ƒCƒ‹‚Ìƒ^ƒCƒ€ƒXƒ^ƒ“ƒv‚ðŒ³ƒtƒ@ƒCƒ‹‚É‡‚í‚¹‚é
-	bool fSameTimeStamp;            //•œ†‚µ‚½ƒtƒ@ƒCƒ‹‚Ìƒ^ƒCƒ€ƒXƒ^ƒ“ƒv‚ð¶¬“úŽž‚É‚·‚é
-	bool fAllFilePack;              //•¡”‚Ìƒtƒ@ƒCƒ‹‚ðˆÃ†‰»‚·‚éÛ‚Íˆê‚Â‚É‚Ü‚Æ‚ß‚é
-	bool fFilesOneByOne;            //ƒtƒHƒ‹ƒ_“à‚Ìƒtƒ@ƒCƒ‹‚ÍŒÂ•Ê‚ÉˆÃ†‰»/•œ†‚·‚é
-	bool fNoParentFldr;             //•œ†‚·‚é‚Æ‚«‚ÉeƒtƒHƒ‹ƒ_‚ð¶¬‚µ‚È‚¢
-	bool fExtInAtcFileName;         //ˆÃ†‰»ƒtƒ@ƒCƒ‹–¼‚ÉŠg’£Žq‚ðŠÜ‚ß‚é
-	bool fAutoName;                 //Ž©“®‚ÅˆÃ†‰»ƒtƒ@ƒCƒ‹–¼‚ð•t‰Á‚·‚é
-	String AutoNameFormatText;	    //Ž©“®‚Å•t‰Á‚·‚éƒtƒ@ƒCƒ‹–¼‘Ž®
+	//ã€ä¿å­˜è¨­å®šã€‘
+	bool fSaveToSameFldr;           //æš—å·åŒ–ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å¸¸ã«åŒã˜å ´æ‰€ã«ä¿å­˜ã™ã‚‹ã‹
+	String SaveToSameFldrPath;      //ãã®ä¿å­˜å ´æ‰€
+	bool fDecodeToSameFldr;         //å¸¸ã«åŒã˜å ´æ‰€ã¸ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å¾©å·ã™ã‚‹ã‹
+	String DecodeToSameFldrPath;    //ãã®ä¿å­˜å ´æ‰€
+	bool fConfirmOverwirte;         //åŒåãƒ•ã‚¡ã‚¤ãƒ«ã®ä¸Šæ›¸ãã‚’ç¢ºèªã™ã‚‹ã‹
+	bool fKeepTimeStamp;            //æš—å·åŒ–ãƒ•ã‚¡ã‚¤ãƒ«ã®ã‚¿ã‚¤ãƒ ã‚¹ã‚¿ãƒ³ãƒ—ã‚’å…ƒãƒ•ã‚¡ã‚¤ãƒ«ã«åˆã‚ã›ã‚‹
+	bool fSameTimeStamp;            //å¾©å·ã—ãŸãƒ•ã‚¡ã‚¤ãƒ«ã®ã‚¿ã‚¤ãƒ ã‚¹ã‚¿ãƒ³ãƒ—ã‚’ç”Ÿæˆæ—¥æ™‚ã«ã™ã‚‹
+	bool fAllFilePack;              //è¤‡æ•°ã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚’æš—å·åŒ–ã™ã‚‹éš›ã¯ä¸€ã¤ã«ã¾ã¨ã‚ã‚‹
+	bool fFilesOneByOne;            //ãƒ•ã‚©ãƒ«ãƒ€å†…ã®ãƒ•ã‚¡ã‚¤ãƒ«ã¯å€‹åˆ¥ã«æš—å·åŒ–/å¾©å·ã™ã‚‹
+	bool fNoParentFldr;             //å¾©å·ã™ã‚‹ã¨ãã«è¦ªãƒ•ã‚©ãƒ«ãƒ€ã‚’ç”Ÿæˆã—ãªã„
+	bool fExtInAtcFileName;         //æš—å·åŒ–ãƒ•ã‚¡ã‚¤ãƒ«åã«æ‹¡å¼µå­ã‚’å«ã‚ã‚‹
+	bool fAutoName;                 //è‡ªå‹•ã§æš—å·åŒ–ãƒ•ã‚¡ã‚¤ãƒ«åã‚’ä»˜åŠ ã™ã‚‹
+	String AutoNameFormatText;	    //è‡ªå‹•ã§ä»˜åŠ ã™ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«åæ›¸å¼
 
-	//yíœÝ’èz
-	bool fDelOrgFile;               //ˆÃ†‰»‚µ‚½ŒãAŒ³ƒtƒ@ƒCƒ‹‚ðíœ‚·‚é
-	bool fDelEncFile;               //•œ†‰»‚µ‚½ŒãAˆÃ†‰»ƒtƒ@ƒCƒ‹‚ðíœ‚·‚é
-	bool fShowDeleteChkBox;         //ƒƒCƒ“ƒtƒH[ƒ€‚Éƒ`ƒFƒbƒNƒ{ƒbƒNƒX‚ð•\Ž¦‚·‚é
-	int fCompleteDelete;            //Š®‘Síœ‚ðs‚¤‚©(0:’ÊíC1:Š®‘SíœC2:‚²‚Ý” j
-	int DelRandNum;                 //—”‚ð‰½‰ñ‘‚«ž‚ÝÁ‹Ž‚·‚é‚©
-	int DelZeroNum;                 //NULL‚ð‰½‰ñ‘‚«ž‚ÝÁ‹Ž‚·‚é‚©
+	//ã€å‰Šé™¤è¨­å®šã€‘
+	bool fDelOrgFile;               //æš—å·åŒ–ã—ãŸå¾Œã€å…ƒãƒ•ã‚¡ã‚¤ãƒ«ã‚’å‰Šé™¤ã™ã‚‹
+	bool fDelEncFile;               //å¾©å·åŒ–ã—ãŸå¾Œã€æš—å·åŒ–ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å‰Šé™¤ã™ã‚‹
+	bool fShowDeleteChkBox;         //ãƒ¡ã‚¤ãƒ³ãƒ•ã‚©ãƒ¼ãƒ ã«ãƒã‚§ãƒƒã‚¯ãƒœãƒƒã‚¯ã‚¹ã‚’è¡¨ç¤ºã™ã‚‹
+	int fCompleteDelete;            //å®Œå…¨å‰Šé™¤ã‚’è¡Œã†ã‹(0:é€šå¸¸ï¼Œ1:å®Œå…¨å‰Šé™¤ï¼Œ2:ã”ã¿ç®±ï¼‰
+	int DelRandNum;                 //ä¹±æ•°ã‚’ä½•å›žæ›¸ãè¾¼ã¿æ¶ˆåŽ»ã™ã‚‹ã‹
+	int DelZeroNum;                 //NULLã‚’ä½•å›žæ›¸ãè¾¼ã¿æ¶ˆåŽ»ã™ã‚‹ã‹
 
-	//y“®ìÝ’èz
-	int CompressRate;               //ˆ³k—¦
-	bool fCompareFile;              //ˆÃ†ˆ—Œã‚Éƒtƒ@ƒCƒ‹ƒRƒ“ƒyƒA‚ðs‚¤‚©
+	//ã€å‹•ä½œè¨­å®šã€‘
+	int CompressRate;               //åœ§ç¸®çŽ‡
+	bool fCompareFile;              //æš—å·å‡¦ç†å¾Œã«ãƒ•ã‚¡ã‚¤ãƒ«ã‚³ãƒ³ãƒšã‚¢ã‚’è¡Œã†ã‹
 
-	//yƒVƒXƒeƒ€z
-	bool fAssociationFile;          //ŠÖ˜A•t‚¯Ý’è‚ð•ÛŽ‚·‚é‚©
-	int AtcsFileIconIndex;          //ƒtƒ@ƒCƒ‹ƒAƒCƒRƒ“”Ô†
-	String UserRegIconFilePath;     //ƒ†[ƒU[Žw’è‚Ìƒtƒ@ƒCƒ‹ƒAƒCƒRƒ“ƒpƒX
+	//ã€ã‚·ã‚¹ãƒ†ãƒ ã€‘
+	bool fAssociationFile;          //é–¢é€£ä»˜ã‘è¨­å®šã‚’ä¿æŒã™ã‚‹ã‹
+	int AtcsFileIconIndex;          //ãƒ•ã‚¡ã‚¤ãƒ«ã‚¢ã‚¤ã‚³ãƒ³ç•ªå·
+	String UserRegIconFilePath;     //ãƒ¦ãƒ¼ã‚¶ãƒ¼æŒ‡å®šã®ãƒ•ã‚¡ã‚¤ãƒ«ã‚¢ã‚¤ã‚³ãƒ³ãƒ‘ã‚¹
 
-	//y‚“x‚ÈÝ’èz
-	bool fAllowPassFile;            //ƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚ð‹–‰Â‚·‚é
-	bool fCheckPassFile;            //ˆÃ†Žž‚ÉƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚ðŽ©“®ƒ`ƒFƒbƒN‚·‚é
-	String PassFilePath;            //ˆÃ†Žž‚ÌƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹ƒpƒX
-	bool fCheckPassFileDecrypt;     //•œ†Žž‚ÉƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚ðŽ©“®ƒ`ƒFƒbƒN‚·‚é
-	String PassFilePathDecrypt;     //•œ†Žž‚ÌƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹ƒpƒX
-	bool fNoErrMsgOnPassFile;       //ƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹‚ª‚È‚¢ê‡ƒGƒ‰[‚ðo‚³‚È‚¢
-	bool fAddCamoExt;               //ˆÃ†‰»ƒtƒ@ƒCƒ‹‚ÌŠg’£Žq‚ð‹U‘•‚·‚é
-	String CamoExt;                 //‚»‚ÌŠg’£Žq
-	int MissTypeLimitsNum;          //ƒpƒXƒ[ƒh‚Ìƒ^ƒCƒvƒ~ƒX§ŒÀ‰ñ”iver.2.70`j
-	bool fBroken;                   //ƒ^ƒCƒvƒ~ƒX‰ñ”‚ð’´‚¦‚½‚Æ‚«‚Éƒtƒ@ƒCƒ‹‚ð”j‰ó‚·‚é‚©”Û‚©iver.2.70`j
+	//ã€é«˜åº¦ãªè¨­å®šã€‘
+	bool fAllowPassFile;            //ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«ã‚’è¨±å¯ã™ã‚‹
+	bool fCheckPassFile;            //æš—å·æ™‚ã«ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«ã‚’è‡ªå‹•ãƒã‚§ãƒƒã‚¯ã™ã‚‹
+	String PassFilePath;            //æš—å·æ™‚ã®ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹
+	bool fCheckPassFileDecrypt;     //å¾©å·æ™‚ã«ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«ã‚’è‡ªå‹•ãƒã‚§ãƒƒã‚¯ã™ã‚‹
+	String PassFilePathDecrypt;     //å¾©å·æ™‚ã®ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹
+	bool fNoErrMsgOnPassFile;       //ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«ãŒãªã„å ´åˆã‚¨ãƒ©ãƒ¼ã‚’å‡ºã•ãªã„
+	bool fAddCamoExt;               //æš—å·åŒ–ãƒ•ã‚¡ã‚¤ãƒ«ã®æ‹¡å¼µå­ã‚’å½è£…ã™ã‚‹
+	String CamoExt;                 //ãã®æ‹¡å¼µå­
+	int MissTypeLimitsNum;          //ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã®ã‚¿ã‚¤ãƒ—ãƒŸã‚¹åˆ¶é™å›žæ•°ï¼ˆver.2.70ï½žï¼‰
+	bool fBroken;                   //ã‚¿ã‚¤ãƒ—ãƒŸã‚¹å›žæ•°ã‚’è¶…ãˆãŸã¨ãã«ãƒ•ã‚¡ã‚¤ãƒ«ã‚’ç ´å£Šã™ã‚‹ã‹å¦ã‹ï¼ˆver.2.70ï½žï¼‰
 
-	//y‚»‚Ì‘¼zƒRƒ}ƒ“ƒhƒ‰ƒCƒ“‚©‚ç‚Ì‚ÝŽw’è
-	bool fOver4GBok;                //4GB’´‚¦‚ð—e”F
-	bool fHideMainForm;             //ƒƒCƒ“ƒtƒH[ƒ€‚ð”ñ•\Ž¦
+	//ã€ãã®ä»–ã€‘ã‚³ãƒžãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³ã‹ã‚‰ã®ã¿æŒ‡å®š
+	bool fOver4GBok;                //4GBè¶…ãˆã‚’å®¹èª
+	bool fHideMainForm;             //ãƒ¡ã‚¤ãƒ³ãƒ•ã‚©ãƒ¼ãƒ ã‚’éžè¡¨ç¤º
 
 
 	//===================================
-	// ŠÖ”
+	// é–¢æ•°
 	//===================================
 
-	//“®ìÝ’è‚Ì“Ç‚Ýž‚Ý
+	//å‹•ä½œè¨­å®šã®èª­ã¿è¾¼ã¿
 	bool __fastcall LoadOptionData(String IniFilePath);
-	//“®ìÝ’è‚ð‹L˜^‚·‚é
+	//å‹•ä½œè¨­å®šã‚’è¨˜éŒ²ã™ã‚‹
 	bool __fastcall SaveOptionData(void);
-	//ƒRƒ}ƒ“ƒhƒ‰ƒCƒ“ƒIƒvƒVƒ‡ƒ“‚©‚ç‚ÌÝ’è“Ç‚Ýž‚Ý
+	//ã‚³ãƒžãƒ³ãƒ‰ãƒ©ã‚¤ãƒ³ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‹ã‚‰ã®è¨­å®šèª­ã¿è¾¼ã¿
 	bool __fastcall LoadOptionDataFromParamString(TStringList *FileList);
 
-	//“®ìÝ’è‚ðKeyValueŒ`Ž®‚ÌTStringList‚ÅŽæ“¾‚·‚é
+	//å‹•ä½œè¨­å®šã‚’KeyValueå½¢å¼ã®TStringListã§å–å¾—ã™ã‚‹
 	void __fastcall GetKeyValueData(TStringList *KeyValueList);
 
-	//ƒJƒXƒ^ƒ}ƒCƒY‚³‚ê‚½•¶Žš—ñ‚ð‰ðŽß‚µ‚Äƒtƒ@ƒCƒ‹–¼‚ð’u‚«Š·‚¦‚é
+	//ã‚«ã‚¹ã‚¿ãƒžã‚¤ã‚ºã•ã‚ŒãŸæ–‡å­—åˆ—ã‚’è§£é‡ˆã—ã¦ãƒ•ã‚¡ã‚¤ãƒ«åã‚’ç½®ãæ›ãˆã‚‹
 	String __fastcall InterpretFormatText(String FileName, String InputText, int Num);
-	//ŽÀÛ‚ÉƒJƒXƒ^ƒ}ƒCƒY•¶Žš—ñ‚ð‰ðŽß‚µ‚Äd•¡‚Ì‚È‚¢(˜A”Ô‚Ì)ƒtƒ@ƒCƒ‹ƒpƒX‚ð•Ô‚·
+	//å®Ÿéš›ã«ã‚«ã‚¹ã‚¿ãƒžã‚¤ã‚ºæ–‡å­—åˆ—ã‚’è§£é‡ˆã—ã¦é‡è¤‡ã®ãªã„(é€£ç•ªã®)ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã‚’è¿”ã™
 	String __fastcall InterpretFormatTextToFilePath(String FilePath, String InputText);
-	//Žw’è‚Ìƒ‰ƒ“ƒ_ƒ€•¶Žš—ñ‚ð¶¬
+	//æŒ‡å®šã®ãƒ©ãƒ³ãƒ€ãƒ æ–‡å­—åˆ—ã‚’ç”Ÿæˆ
 	String __fastcall MakeRandomFileName(int MojiNum, bool fNum, bool fKigo);
-	//ƒtƒ@ƒCƒ‹‚©‚çSHA-1ƒnƒbƒVƒ…’l‚ðŽæ“¾‚·‚é
+	//ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰SHA-1ãƒãƒƒã‚·ãƒ¥å€¤ã‚’å–å¾—ã™ã‚‹
 	bool __fastcall GetSHA1HashFromFile(
-		String FilePath,              //ƒpƒXƒ[ƒhƒtƒ@ƒCƒ‹ƒpƒX
-		AnsiString &HashDataVer2,     //ver.2.*  `FSHA-1ƒnƒbƒVƒ…’li‘«‚è‚È‚¢ƒf[ƒ^‚ð•â“U‚µ‚½•sŠ®‘S‚È32bytej
-		AnsiString &HashDataVer1 );   //ver.1.*  `Fƒwƒbƒ_ƒf[ƒ^iæ“ª•¶Žš—ñ32•¶Žšj
+		String FilePath,              //ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹
+		AnsiString &HashDataVer2,     //ver.2.*  ï½žï¼šSHA-1ãƒãƒƒã‚·ãƒ¥å€¤ï¼ˆè¶³ã‚Šãªã„ãƒ‡ãƒ¼ã‚¿ã‚’è£œå¡«ã—ãŸä¸å®Œå…¨ãª32byteï¼‰
+		AnsiString &HashDataVer1 );   //ver.1.*  ï½žï¼šãƒ˜ãƒƒãƒ€ãƒ‡ãƒ¼ã‚¿ï¼ˆå…ˆé ­æ–‡å­—åˆ—32æ–‡å­—ï¼‰
 
-	//u‘—‚évƒtƒHƒ‹ƒ_[‚Ü‚Å‚ÌƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒtƒ‹ƒpƒX‚ð¶¬‚·‚é
+	//ã€Œé€ã‚‹ã€ãƒ•ã‚©ãƒ«ãƒ€ãƒ¼ã¾ã§ã®ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ãƒ•ãƒ«ãƒ‘ã‚¹ã‚’ç”Ÿæˆã™ã‚‹
 	String __fastcall CreateSendToFolderAppFullPath(void);
-	// ƒVƒ‡[ƒgƒJƒbƒgƒtƒ@ƒCƒ‹‚ðì¬‚·‚é
+	// ã‚·ãƒ§ãƒ¼ãƒˆã‚«ãƒƒãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã‚’ä½œæˆã™ã‚‹
 	bool __fastcall CreateShortCutFile
 		( String LinkFilePath,  String TargetFilePath, String Arguments, String WorkDir, int ShowCmd );
 

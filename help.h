@@ -1,5 +1,5 @@
 
-//ƒwƒ‹ƒvƒtƒ@ƒCƒ‹iAttacheCase.chmj“à‚ÌŠeƒy[ƒW
+//ãƒ˜ãƒ«ãƒ—ãƒ•ã‚¡ã‚¤ãƒ«ï¼ˆAttacheCase.chmï¼‰å†…ã®å„ãƒšãƒ¼ã‚¸
 #define IDH_INDEX_PAGE 0
 #define IDH_BASIC_OPTION 10000
 #define IDH_SAVE_OPTION 20000

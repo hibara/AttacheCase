@@ -4,31 +4,31 @@ interface
 
 resourcestring
 
-	//ƒƒbƒZ[ƒWƒLƒƒƒvƒVƒ‡ƒ“
-	MSG_CAPTION_ERROR                        = 'ƒGƒ‰[';
-	MSG_CAPTION_CONFIRMATION                 = 'Šm”F';
+	//ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚­ãƒ£ãƒ—ã‚·ãƒ§ãƒ³
+	MSG_CAPTION_ERROR                        = 'ã‚¨ãƒ©ãƒ¼';
+	MSG_CAPTION_CONFIRMATION                 = 'ç¢ºèª';
 
-  //ƒƒbƒZ[ƒWƒ_ƒCƒAƒƒO
-  MSG_ERROR_NOT_FILE_OPEN                  = 'ƒtƒ@ƒCƒ‹íœ’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½Bƒtƒ@ƒCƒ‹‚ðŠJ‚­‚±‚Æ‚ª‚Å‚«‚Ü‚¹‚ñB';
-  MSG_ERROR_GO_TO_TRASH_FAILED             = '‚²‚Ý” ‚Ö‚Ìíœ‚ÉŽ¸”s‚µ‚Ü‚µ‚½B'+#13+
-                                             'ˆê•”‚Ìƒtƒ@ƒCƒ‹/ƒtƒHƒ‹ƒ_‚ªíœ‚Å‚«‚¸‚ÉŽc‚Á‚Ä‚µ‚Ü‚Á‚½‰Â”\«‚ª‚ ‚è‚Ü‚·B';
+  //ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãƒ€ã‚¤ã‚¢ãƒ­ã‚°
+  MSG_ERROR_NOT_FILE_OPEN                  = 'ãƒ•ã‚¡ã‚¤ãƒ«å‰Šé™¤ä¸­ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ã¾ã—ãŸã€‚ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ãã“ã¨ãŒã§ãã¾ã›ã‚“ã€‚';
+  MSG_ERROR_GO_TO_TRASH_FAILED             = 'ã”ã¿ç®±ã¸ã®å‰Šé™¤ã«å¤±æ•—ã—ã¾ã—ãŸã€‚'+#13+
+                                             'ä¸€éƒ¨ã®ãƒ•ã‚¡ã‚¤ãƒ«/ãƒ•ã‚©ãƒ«ãƒ€ãŒå‰Šé™¤ã§ããšã«æ®‹ã£ã¦ã—ã¾ã£ãŸå¯èƒ½æ€§ãŒã‚ã‚Šã¾ã™ã€‚';
 
-  //ƒ‰ƒxƒ‹
-  LABEL_STATUS_TITLE_LISTING               = 'ƒtƒ@ƒCƒ‹ƒŠƒXƒg‚Ì¶¬';
-  LABEL_STATUS_TITLE_DELETING              = 'íœ‚µ‚Ä‚¢‚Ü‚·...';
-  LABEL_STATUS_TITLE_COMPLETE_DELETING     = 'Š®‘Síœ‚µ‚Ä‚¢‚Ü‚·...';
-  LABEL_STATUS_TITLE_GO_TO_TRASH           = '‚²‚Ý” ‚ÖˆÚ“®‚µ‚Ä‚¢‚Ü‚·...';
-  LABEL_STATUS_TITLE_ERROR                 = 'ƒGƒ‰[';
-  LABEL_STATUS_TITLE_USER_CANCEL           = 'ƒLƒƒƒ“ƒZƒ‹';
-  LABEL_STATUS_TITLE_COMPLETE              = 'Š®—¹';
+  //ãƒ©ãƒ™ãƒ«
+  LABEL_STATUS_TITLE_LISTING               = 'ãƒ•ã‚¡ã‚¤ãƒ«ãƒªã‚¹ãƒˆã®ç”Ÿæˆ';
+  LABEL_STATUS_TITLE_DELETING              = 'å‰Šé™¤ã—ã¦ã„ã¾ã™...';
+  LABEL_STATUS_TITLE_COMPLETE_DELETING     = 'å®Œå…¨å‰Šé™¤ã—ã¦ã„ã¾ã™...';
+  LABEL_STATUS_TITLE_GO_TO_TRASH           = 'ã”ã¿ç®±ã¸ç§»å‹•ã—ã¦ã„ã¾ã™...';
+  LABEL_STATUS_TITLE_ERROR                 = 'ã‚¨ãƒ©ãƒ¼';
+  LABEL_STATUS_TITLE_USER_CANCEL           = 'ã‚­ãƒ£ãƒ³ã‚»ãƒ«';
+  LABEL_STATUS_TITLE_COMPLETE              = 'å®Œäº†';
 
-  //ƒ‰ƒxƒ‹iÚ×à–¾j
-  LABEL_STATUS_DETAIL_PREPARING            = 'íœ‚·‚é‚½‚ß‚Ì€”õ‚ð‚µ‚Ä‚¢‚Ü‚·...';
-  LABEL_STATUS_DETAIL_WRITE_RAND           = '—”‚ð‘‚«ž‚ÝAŠ®‘Síœ‚ðs‚Á‚Ä‚¢‚Ü‚·...(Step:%d/%d)';
-  LABEL_STATUS_DETAIL_WRITE_ZERO           = 'ƒ[ƒ(NULL)‚ð‘‚«ž‚ÝAŠ®‘Síœ‚ðs‚Á‚Ä‚¢‚Ü‚·...(Step:%d/%d)';
-  LABEL_STATUS_DETAIL_FAILED               = 'íœ‚ÉŽ¸”s‚µ‚Ü‚µ‚½B';
-  LABEL_STATUS_DETAIL_STOPPED              = 'íœ‚ª’†Ž~‚³‚ê‚Ü‚µ‚½B';
-  LABEL_STATUS_DETAIL_COMPLETE             = 'íœ‚ª³í‚ÉŠ®—¹‚µ‚Ü‚µ‚½B';
+  //ãƒ©ãƒ™ãƒ«ï¼ˆè©³ç´°èª¬æ˜Žï¼‰
+  LABEL_STATUS_DETAIL_PREPARING            = 'å‰Šé™¤ã™ã‚‹ãŸã‚ã®æº–å‚™ã‚’ã—ã¦ã„ã¾ã™...';
+  LABEL_STATUS_DETAIL_WRITE_RAND           = 'ä¹±æ•°ã‚’æ›¸ãè¾¼ã¿ã€å®Œå…¨å‰Šé™¤ã‚’è¡Œã£ã¦ã„ã¾ã™...(Step:%d/%d)';
+  LABEL_STATUS_DETAIL_WRITE_ZERO           = 'ã‚¼ãƒ­(NULL)ã‚’æ›¸ãè¾¼ã¿ã€å®Œå…¨å‰Šé™¤ã‚’è¡Œã£ã¦ã„ã¾ã™...(Step:%d/%d)';
+  LABEL_STATUS_DETAIL_FAILED               = 'å‰Šé™¤ã«å¤±æ•—ã—ã¾ã—ãŸã€‚';
+  LABEL_STATUS_DETAIL_STOPPED              = 'å‰Šé™¤ãŒä¸­æ­¢ã•ã‚Œã¾ã—ãŸã€‚';
+  LABEL_STATUS_DETAIL_COMPLETE             = 'å‰Šé™¤ãŒæ­£å¸¸ã«å®Œäº†ã—ã¾ã—ãŸã€‚';
 
 
 
@@ -36,7 +36,7 @@ implementation
 
 initialization
 
-	//DelphiƒRƒ“ƒpƒCƒ‰‚É‚æ‚éÅ“K‰»‚ð–h‚®
+	//Delphiã‚³ãƒ³ãƒ‘ã‚¤ãƒ©ã«ã‚ˆã‚‹æœ€é©åŒ–ã‚’é˜²ã
 
 	MSG_CAPTION_ERROR;
 	MSG_CAPTION_CONFIRMATION;

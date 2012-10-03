@@ -1,6 +1,6 @@
 //======================================================================
 //
-//	TGetAppInfoStringƒNƒ‰ƒX     Ver.1.00      Copyright(C) 2009 M.Hibara
+//	TGetAppInfoStringã‚¯ãƒ©ã‚¹     Ver.1.00      Copyright(C) 2009 M.Hibara
 //
 //======================================================================
 
@@ -12,7 +12,7 @@
 __fastcall TGetAppInfoString::TGetAppInfoString() : TObject()
 {
 
-//‰Šú‰»
+//åˆæœŸåŒ–
 Comments = "";
 InternalName = "";
 ProductName = "";
@@ -38,68 +38,68 @@ String SubBlock;
 String sInfo;
 String Result="";
 
-//ƒo[ƒWƒ‡ƒ“î•ñ‚ÌƒTƒCƒY‚ğæ“¾‚·‚é
+//ãƒãƒ¼ã‚¸ãƒ§ãƒ³æƒ…å ±ã®ã‚µã‚¤ã‚ºã‚’å–å¾—ã™ã‚‹
 DWORD dwInfoSize = GetFileVersionInfoSizeW(Application->ExeName.c_str(), &dwHandleTemp);
 pVersionInfo = new LPVOID[dwInfoSize];
 
 
 if(GetFileVersionInfoW(Application->ExeName.c_str(), dwHandleTemp, dwInfoSize, pVersionInfo)){
 
-	//Œ¾ŒêID‚ÆƒLƒƒƒ‰ƒNƒ^ID‚ğæ“¾‚·‚é
+	//è¨€èªIDã¨ã‚­ãƒ£ãƒ©ã‚¯ã‚¿IDã‚’å–å¾—ã™ã‚‹
 	if (VerQueryValue(pVersionInfo, TEXT("\\VarFileInfo\\Translation"), &lpLang, &dwLength)){
 
 		lpTranslate = (WORD*)lpLang;
 
-		//ƒRƒƒ“ƒg
+		//ã‚³ãƒ¡ãƒ³ãƒˆ
 		SubBlock.sprintf(L"\\StringFileInfo\\%04x%04x\\Comments", *lpTranslate, *(lpTranslate + 1));
 		if ( VerQueryValueW(pVersionInfo, SubBlock.w_str(), &lpInfoItem, &dwLength) ){
 			Result.sprintf(L"%s", lpInfoItem);
 			Comments = Result;
 		}
 
-		//“à•”–¼
+		//å†…éƒ¨å
 		SubBlock.sprintf(L"\\StringFileInfo\\%04x%04x\\InternalName", *lpTranslate, *(lpTranslate + 1));
 		if ( VerQueryValueW(pVersionInfo, SubBlock.w_str(), &lpInfoItem, &dwLength) ){
 			Result.sprintf(L"%s", lpInfoItem);
 			InternalName = Result;
 		}
 
-		//»•i–¼
+		//è£½å“å
 		SubBlock.sprintf(L"\\StringFileInfo\\%04x%04x\\ProductName", *lpTranslate, *(lpTranslate + 1));
 		if ( VerQueryValueW(pVersionInfo, SubBlock.w_str(), &lpInfoItem, &dwLength) ){
 			Result.sprintf(L"%s", lpInfoItem);
 			ProductName = Result;
 		}
 
-		//‰ïĞ–¼
+		//ä¼šç¤¾å
 		SubBlock.sprintf(L"\\StringFileInfo\\%04x%04x\\CompanyName", *lpTranslate, *(lpTranslate + 1));
 		if ( VerQueryValueW(pVersionInfo, SubBlock.w_str(), &lpInfoItem, &dwLength) ){
 			Result.sprintf(L"%s", lpInfoItem);
 			CompanyName = Result;
 		}
 
-		//’˜ìŒ 
+		//è‘—ä½œæ¨©
 		SubBlock.sprintf(L"\\StringFileInfo\\%04x%04x\\LegalCopyright", *lpTranslate, *(lpTranslate + 1));
 		if ( VerQueryValueW(pVersionInfo, SubBlock.w_str(), &lpInfoItem, &dwLength) ){
 			Result.sprintf(L"%s", lpInfoItem);
 			LegalCopyright = Result;
 		}
 
-		//»•iƒo[ƒWƒ‡ƒ“
+		//è£½å“ãƒãƒ¼ã‚¸ãƒ§ãƒ³
 		SubBlock.sprintf(L"\\StringFileInfo\\%04x%04x\\ProductVersion", *lpTranslate, *(lpTranslate + 1));
 		if ( VerQueryValueW(pVersionInfo, SubBlock.w_str(), &lpInfoItem, &dwLength) ){
 			Result.sprintf(L"%s", lpInfoItem);
 			ProductVersion = Result;
 		}
 
-		//à–¾
+		//èª¬æ˜
 		SubBlock.sprintf(L"\\StringFileInfo\\%04x%04x\\FileDescription", *lpTranslate, *(lpTranslate + 1));
 		if ( VerQueryValueW(pVersionInfo, SubBlock.w_str(), &lpInfoItem, &dwLength) ){
 			Result.sprintf(L"%s", lpInfoItem);
 			FileDescription = Result;
 		}
 
-		//¤•W
+		//å•†æ¨™
 		SubBlock.sprintf(L"\\StringFileInfo\\%04x%04x\\LegalTrademarks", *lpTranslate, *(lpTranslate + 1));
 		if ( VerQueryValueW(pVersionInfo, SubBlock.w_str(), &lpInfoItem, &dwLength) ){
 			Result.sprintf(L"%s", lpInfoItem);
@@ -113,14 +113,14 @@ if(GetFileVersionInfoW(Application->ExeName.c_str(), dwHandleTemp, dwInfoSize, p
 			PrivateBuild = Result;
 		}
 
-		//ƒtƒ@ƒCƒ‹ƒo[ƒWƒ‡ƒ“
+		//ãƒ•ã‚¡ã‚¤ãƒ«ãƒãƒ¼ã‚¸ãƒ§ãƒ³
 		SubBlock.sprintf(L"\\StringFileInfo\\%04x%04x\\FileVersion", *lpTranslate, *(lpTranslate + 1));
 		if ( VerQueryValueW(pVersionInfo, SubBlock.w_str(), &lpInfoItem, &dwLength) ){
 			Result.sprintf(L"%s", lpInfoItem);
 			FileVersion = Result;
 		}
 
-		//³®ƒtƒ@ƒCƒ‹–¼
+		//æ­£å¼ãƒ•ã‚¡ã‚¤ãƒ«å
 		SubBlock.sprintf(L"\\StringFileInfo\\%04x%04x\\OriginalFilename", *lpTranslate, *(lpTranslate + 1));
 		if ( VerQueryValueW(pVersionInfo, SubBlock.w_str(), &lpInfoItem, &dwLength) ){
 			Result.sprintf(L"%s", lpInfoItem);

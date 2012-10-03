@@ -1,4 +1,4 @@
-//---------------------------------------------------------------------------
+ï»¿//---------------------------------------------------------------------------
 
 #ifndef Unit3H
 #define Unit3H
@@ -33,7 +33,7 @@
 //---------------------------------------------------------------------------
 class TForm3 : public TForm
 {
-__published:	// IDE ŠÇ—‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg
+__published:	// IDE ç®¡ç†ã®ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
 	TPanel *Panel1;
 	TButton *cmdOK;
 	TButton *cmdCancel;
@@ -203,9 +203,9 @@ __published:	// IDE ŠÇ—‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg
 	void __fastcall PaintBoxMenuMouseMove(TObject *Sender, TShiftState Shift, int X,
           int Y);
 
-private:	// ƒ†[ƒU[éŒ¾
+private:	// ãƒ¦ãƒ¼ã‚¶ãƒ¼å®£è¨€
 
-	//ƒTƒCƒhƒƒjƒ…[ƒOƒ‰ƒtƒBƒbƒN
+	//ã‚µã‚¤ãƒ‰ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚°ãƒ©ãƒ•ã‚£ãƒƒã‚¯
 	Graphics::TBitmap *bmpSideMenu;
 	TPoint ptSideMenu[7];
 	String SideMenuLabelCaption[7];
@@ -213,38 +213,38 @@ private:	// ƒ†[ƒU[éŒ¾
 	int optSelectedMenu;
 
 
-	//ƒ†[ƒU[w’è‚ÌƒAƒCƒRƒ“ƒtƒ@ƒCƒ‹ƒpƒXiOKƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚é‚Ü‚Å‚Ìƒeƒ“ƒ|ƒ‰ƒŠj
+	//ãƒ¦ãƒ¼ã‚¶ãƒ¼æŒ‡å®šã®ã‚¢ã‚¤ã‚³ãƒ³ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ï¼ˆOKãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚Œã‚‹ã¾ã§ã®ãƒ†ãƒ³ãƒãƒ©ãƒªï¼‰
 	String TempUserRegIconFilePath;
 
-	//İ’è’l‚ğ“®ìİ’èƒtƒH[ƒ€‚É”½‰f•\¦‚·‚é
+	//è¨­å®šå€¤ã‚’å‹•ä½œè¨­å®šãƒ•ã‚©ãƒ¼ãƒ ã«åæ˜ è¡¨ç¤ºã™ã‚‹
 	void __fastcall FormShowOptionData(void);
-	//“®ìİ’èƒtƒH[ƒ€‚©‚çİ’è’l‚É”½‰f‚·‚éiŠeƒƒfƒBƒA‚Ö•Û‘¶‚às‚¤j
+	//å‹•ä½œè¨­å®šãƒ•ã‚©ãƒ¼ãƒ ã‹ã‚‰è¨­å®šå€¤ã«åæ˜ ã™ã‚‹ï¼ˆå„ãƒ¡ãƒ‡ã‚£ã‚¢ã¸ä¿å­˜ã‚‚è¡Œã†ï¼‰
 	void __fastcall FormSaveOptionData(void);
 
-	//ƒtƒ@ƒCƒ‹ƒAƒCƒRƒ“‚ğƒRƒ“ƒ{ƒ{ƒbƒNƒX‚Ö“o˜^‚·‚é
+	//ãƒ•ã‚¡ã‚¤ãƒ«ã‚¢ã‚¤ã‚³ãƒ³ã‚’ã‚³ãƒ³ãƒœãƒœãƒƒã‚¯ã‚¹ã¸ç™»éŒ²ã™ã‚‹
 	void __fastcall RegIconFileToComboBox(void);
 
-	//UACƒGƒŒƒx[ƒVƒ‡ƒ“‚ğ—v‹‚µ‚ÄŠÖ˜A•t‚¯ƒvƒƒOƒ‰ƒ€‚ğÀs
+	//UACã‚¨ãƒ¬ãƒ™ãƒ¼ã‚·ãƒ§ãƒ³ã‚’è¦æ±‚ã—ã¦é–¢é€£ä»˜ã‘ãƒ—ãƒ­ã‚°ãƒ©ãƒ ã‚’å®Ÿè¡Œ
 	bool __fastcall RunAsAdmin(int Option);
 
-	//u'íœ‚ÌÚ×İ’èF'vƒOƒ‹[ƒvƒ{ƒbƒNƒX“à‚Ì—LŒøE–³Œø‚ğ§Œä‚·‚é
+	//ã€Œ'å‰Šé™¤ã®è©³ç´°è¨­å®šï¼š'ã€ã‚°ãƒ«ãƒ¼ãƒ—ãƒœãƒƒã‚¯ã‚¹å†…ã®æœ‰åŠ¹ãƒ»ç„¡åŠ¹ã‚’åˆ¶å¾¡ã™ã‚‹
 	bool __fastcall DeleteGroupEnabled(void);
 
-	// ƒTƒCƒhƒƒjƒ…[‚ğ•`‰æ‚·‚é
+	// ã‚µã‚¤ãƒ‰ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã‚’æç”»ã™ã‚‹
 	void __fastcall PaintSideMenu(void);
 
 
 
-public:		// ƒ†[ƒU[éŒ¾
+public:		// ãƒ¦ãƒ¼ã‚¶ãƒ¼å®£è¨€
 	__fastcall TForm3(TComponent* Owner, TAttacheCaseOptionHandle *opt);
 
 	TAttacheCaseOptionHandle *pOpt;
 
-	//‹L‰¯ƒpƒXƒ[ƒh‚ª•ÏX‚³‚ê‚½‚Æ‚«‚ÉŠi”[‚·‚é
+	//è¨˜æ†¶ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ãŒå¤‰æ›´ã•ã‚ŒãŸã¨ãã«æ ¼ç´ã™ã‚‹
 	AnsiString TempMyEncodePassword;
 	AnsiString TempMyDecodePassword;
 
-	//OLEƒhƒ‰ƒbƒO•ƒhƒƒbƒv‚ÌƒR[ƒ‹ƒoƒbƒNŠÖ”
+	//OLEãƒ‰ãƒ©ãƒƒã‚°ï¼†ãƒ‰ãƒ­ãƒƒãƒ—ã®ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°
 	void __fastcall FilesDragOver(POINTL ptl);
 	void __fastcall FilesDragLeave(void);
 	void __fastcall FilesDragEnd(POINTL ptl, String FileListText);

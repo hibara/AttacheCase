@@ -2,21 +2,21 @@
 #include <System.hpp>
 
 //===========================================================================
-//ƒRƒ“ƒXƒgƒ‰ƒNƒ^
+//ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 //===========================================================================
 __fastcall TDragAndDrop::TDragAndDrop(TForm *_Form): _RefCount(1), Form(_Form)
 {
 
-//•¡”ƒtƒ@ƒCƒ‹‚Ìó‚¯“ü‚ê‚ğ‹–‰Â‚·‚é‚©
+//è¤‡æ•°ãƒ•ã‚¡ã‚¤ãƒ«ã®å—ã‘å…¥ã‚Œã‚’è¨±å¯ã™ã‚‹ã‹
 fMultipleFilesOk = true;
 
-//ƒhƒƒbƒvƒCƒ[ƒWƒ^ƒCƒviƒfƒtƒHƒ‹ƒgƒRƒs[j
+//ãƒ‰ãƒ­ãƒƒãƒ—ã‚¤ãƒ¡ãƒ¼ã‚¸ã‚¿ã‚¤ãƒ—ï¼ˆãƒ‡ãƒ•ã‚©ãƒ«ãƒˆï¼ã‚³ãƒ”ãƒ¼ï¼‰
 DropImageType = DROPIMAGE_COPY;
 
 
 }
 //===========================================================================
-//ƒfƒXƒgƒ‰ƒNƒ^
+//ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 //===========================================================================
 __fastcall TDragAndDrop::~TDragAndDrop(void)
 {
@@ -67,7 +67,7 @@ HRESULT __stdcall TDragAndDrop::
 _DataObject = pDataObject;
 
 
-// IDataObject ¨ HDROP ‚Ì’l‚ğæ“¾‚µ‚Ä‚¢‚­
+// IDataObject â†’ HDROP ã®å€¤ã‚’å–å¾—ã—ã¦ã„ã
 STGMEDIUM td = { TYMED_HGLOBAL };
 FORMATETC fr = { CF_HDROP, NULL, DVASPECT_CONTENT, -1, TYMED_HGLOBAL };
 
@@ -83,10 +83,10 @@ if (!hDrop){
 	return E_INVALIDARG;
 }
 
-//‚¢‚Â‚à‚Ìƒhƒƒbƒv‚³‚ê‚½ƒtƒ@ƒCƒ‹”‚ğæ“¾
+//ã„ã¤ã‚‚ã®ãƒ‰ãƒ­ãƒƒãƒ—ã•ã‚ŒãŸãƒ•ã‚¡ã‚¤ãƒ«æ•°ã‚’å–å¾—
 FileCount = DragQueryFileW(hDrop, 0xFFFFFFFF, NULL, 0);
 
-// Windows‚ğÅ‘O–Ê‚É
+// Windowsã‚’æœ€å‰é¢ã«
 SetForegroundWindow(Form->Handle);
 SetCapture(Form->Handle);
 Form->Cursor = crDefault;
@@ -104,7 +104,7 @@ else{
 	}
 }
 
-//ƒfƒoƒbƒO
+//ãƒ‡ãƒãƒƒã‚°
 *pdwEffect = DropImageType;
 
 
@@ -127,10 +127,10 @@ else{
 	}
 }
 
-//ƒfƒoƒbƒO
+//ãƒ‡ãƒãƒƒã‚°
 *pdwEffect = DropImageType;
 
-FilesDragOver(ptl);	         //ƒR[ƒ‹ƒoƒbƒNŠÖ”
+FilesDragOver(ptl);	         //ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°
 
 return S_OK;
 
@@ -141,7 +141,7 @@ HRESULT __stdcall TDragAndDrop::DragLeave()
 
 Form->Cursor = crDefault;
 
-FilesDragLeave();	//ƒR[ƒ‹ƒoƒbƒNŠÖ”
+FilesDragLeave();	//ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°
 ReleaseCapture();
 
 _DataObject = NULL;
@@ -159,7 +159,7 @@ wchar_t filename[MAX_PATH];
 
 TStringList *FileList = new TStringList;
 
-// IDataObject ¨ HDROP ‚Ì’l‚ğæ“¾‚µ‚Ä‚¢‚­
+// IDataObject â†’ HDROP ã®å€¤ã‚’å–å¾—ã—ã¦ã„ã
 STGMEDIUM td = { TYMED_HGLOBAL };
 FORMATETC fr = { CF_HDROP, NULL, DVASPECT_CONTENT, -1, TYMED_HGLOBAL };
 
@@ -175,19 +175,19 @@ if (!hDrop){
 	return E_INVALIDARG;
 }
 
-//‚¢‚Â‚à‚Ìƒhƒƒbƒv‚³‚ê‚½ƒtƒ@ƒCƒ‹”‚ğæ“¾
+//ã„ã¤ã‚‚ã®ãƒ‰ãƒ­ãƒƒãƒ—ã•ã‚ŒãŸãƒ•ã‚¡ã‚¤ãƒ«æ•°ã‚’å–å¾—
 int FileCount = DragQueryFileW(hDrop, 0xFFFFFFFF, NULL, 0);
 
 for (i = 0; i < FileCount; i++) {
-	//ƒtƒ@ƒCƒ‹–¼‚ğæ“¾‚·‚é
+	//ãƒ•ã‚¡ã‚¤ãƒ«åã‚’å–å¾—ã™ã‚‹
 	DragQueryFileW(hDrop, i, filename, MAX_PATH);
 	FileList->Add(filename);
 }
 
-//ƒR[ƒ‹ƒoƒbƒNŠÖ”
+//ã‚³ãƒ¼ãƒ«ãƒãƒƒã‚¯é–¢æ•°
 FilesDragEnd(ptl, FileList->Text);
 
-//Œãn––
+//å¾Œå§‹æœ«
 GlobalUnlock(td.hGlobal);
 ReleaseStgMedium(&td);
 Form->Cursor = crDefault;

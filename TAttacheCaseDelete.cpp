@@ -34,43 +34,43 @@ http://www.gnu.org/licenses/
 
 #pragma package(smart_init)
 // ---------------------------------------------------------------------------
-// ’ˆÓFˆÙ‚È‚éƒXƒŒƒbƒh‚ªŠ—L‚·‚é VCL ‚Ìƒƒ\ƒbƒh/ŠÖ”/ƒvƒƒpƒeƒB‚ğ•Ê‚Ì
-// ƒŒƒbƒhŠ—L‚ÌƒIƒuƒWƒFƒNƒg‚É‘Î‚µ‚Ä‚Í Synchronize ‚ğg—p‚Å‚«‚Ü‚·B
+// æ³¨æ„ï¼šç•°ãªã‚‹ã‚¹ãƒ¬ãƒƒãƒ‰ãŒæ‰€æœ‰ã™ã‚‹ VCL ã®ãƒ¡ã‚½ãƒƒãƒ‰/é–¢æ•°/ãƒ—ãƒ­ãƒ‘ãƒ†ã‚£ã‚’åˆ¥ã®
+// ãƒ¬ãƒƒãƒ‰æ‰€æœ‰ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«å¯¾ã—ã¦ã¯ Synchronize ã‚’ä½¿ç”¨ã§ãã¾ã™ã€‚
 //
 // Synchronize(&UpdateCaption);
 //
-// —á‚¦‚Î UpdateCaption ‚ğˆÈ‰º‚Ì‚æ‚¤‚É’è‹`‚µ
+// ä¾‹ãˆã° UpdateCaption ã‚’ä»¥ä¸‹ã®ã‚ˆã†ã«å®šç¾©ã—
 //
 // void __fastcall TAttacheCaseDelete::UpdateCaption()
 // {
-// Form1->Caption = "ƒXƒŒƒbƒh‚©‚ç‘‚«Š·‚¦‚Ü‚µ‚½";
+// Form1->Caption = "ã‚¹ãƒ¬ãƒƒãƒ‰ã‹ã‚‰æ›¸ãæ›ãˆã¾ã—ãŸ";
 // }
 // ---------------------------------------------------------------------------
 __fastcall TAttacheCaseDelete::TAttacheCaseDelete
 (bool CreateSuspended) : TThread(CreateSuspended)
 {
 
-Opt = 0;	                //’Êííœ
-RandClearNum = 0;         //—”‘‚«‚İ‰ñ”
-ZeroClearNum = 0;         //ƒ[ƒ‘‚«‚İ‰ñ”
+Opt = 0;	                //é€šå¸¸å‰Šé™¤
+RandClearNum = 0;         //ä¹±æ•°æ›¸ãè¾¼ã¿å›æ•°
+ZeroClearNum = 0;         //ã‚¼ãƒ­æ›¸ãè¾¼ã¿å›æ•°
 
-ProgressPercentNum = -1;  //i’»ƒp[ƒZƒ“ƒg
-ProgressStatusText = "";  //i’»ƒXƒe[ƒ^ƒX
-ProgressMsgText = "";     //i’»ƒƒbƒZ[ƒW
+ProgressPercentNum = -1;  //é€²æ—ãƒ‘ãƒ¼ã‚»ãƒ³ãƒˆ
+ProgressStatusText = "";  //é€²æ—ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹
+ProgressMsgText = "";     //é€²æ—ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
 
-StatusNum = 0;            //ƒXƒe[ƒ^ƒX•\¦“à—e”Ô†
-MsgErrorString = "";      //ƒGƒ‰[ƒƒbƒZ[ƒW
+StatusNum = 0;            //ã‚¹ãƒ†ãƒ¼ã‚¿ã‚¹è¡¨ç¤ºå†…å®¹ç•ªå·
+MsgErrorString = "";      //ã‚¨ãƒ©ãƒ¼ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸
 
 }
 //===========================================================================
-//ƒfƒXƒgƒ‰ƒNƒ^
+//ãƒ‡ã‚¹ãƒˆãƒ©ã‚¯ã‚¿
 //===========================================================================
 __fastcall TAttacheCaseDelete::~TAttacheCaseDelete(void)
 {
 //
 }
 //===========================================================================
-//ƒXƒŒƒbƒhÀs
+//ã‚¹ãƒ¬ãƒƒãƒ‰å®Ÿè¡Œ
 //===========================================================================
 void __fastcall TAttacheCaseDelete::Execute()
 {
@@ -89,8 +89,8 @@ int Attrs;
 String FilePath;
 
 //-----------------------------------
-// ƒSƒ~” ‚Ìê‡‚Íƒtƒ@ƒCƒ‹/ƒtƒHƒ‹ƒ_‚ğ
-// ‚»‚Ì‚Ü‚ÜˆÚ“®
+// ã‚´ãƒŸç®±ã®å ´åˆã¯ãƒ•ã‚¡ã‚¤ãƒ«/ãƒ•ã‚©ãƒ«ãƒ€ã‚’
+// ãã®ã¾ã¾ç§»å‹•
 //-----------------------------------
 if (Opt == 2) {
 	for (i = 0; i < FileList->Count; i++) {
@@ -100,27 +100,27 @@ if (Opt == 2) {
 		}
 
 		if ( GoToTrash(FileList->Strings[i]) == false ){
-			//ƒGƒ‰[
+			//ã‚¨ãƒ©ãƒ¼
 			goto LabelStop;
 		}
 	}
 
 	ProgressPercentNum = 100;
-	//'Š®—¹'
+	//'å®Œäº†'
 	ProgressStatusText = LoadResourceString(&Msgdelete::_LABEL_STATUS_TITLE_COMPLETE);
-	//'íœ‚ª³í‚ÉŠ®—¹‚µ‚Ü‚µ‚½B'
+	//'å‰Šé™¤ãŒæ­£å¸¸ã«å®Œäº†ã—ã¾ã—ãŸã€‚'
 	ProgressMsgText = LoadResourceString(&Msgdelete::_LABEL_STATUS_DETAIL_COMPLETE);
 	return;
 
 }
 
 //-----------------------------------
-// íœ‚·‚éƒtƒ@ƒCƒ‹ƒŠƒXƒgî•ñ‚ğæ“¾
+// å‰Šé™¤ã™ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«ãƒªã‚¹ãƒˆæƒ…å ±ã‚’å–å¾—
 //-----------------------------------
 ProgressPercentNum = -1;
-//'ƒtƒ@ƒCƒ‹ƒŠƒXƒg‚Ì¶¬'
+//'ãƒ•ã‚¡ã‚¤ãƒ«ãƒªã‚¹ãƒˆã®ç”Ÿæˆ'
 ProgressStatusText = LoadResourceString(&Msgdelete::_LABEL_STATUS_TITLE_LISTING);
-//'íœ‚·‚é‚½‚ß‚Ì€”õ‚ğ‚µ‚Ä‚¢‚Ü‚·...'
+//'å‰Šé™¤ã™ã‚‹ãŸã‚ã®æº–å‚™ã‚’ã—ã¦ã„ã¾ã™...'
 ProgressMsgText = LoadResourceString(&Msgdelete::_LABEL_STATUS_DETAIL_PREPARING);
 
 for (i = 0; i < FileList->Count; i++) {
@@ -128,7 +128,7 @@ for (i = 0; i < FileList->Count; i++) {
 	while (ret == 0) {
 		if (sr.Name != "." && sr.Name != "..") {
 			if (sr.Attr & faDirectory) {
-				//ƒfƒBƒŒƒNƒgƒŠ
+				//ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
 				if ( (ErrorNum = GetDeleteFileListInfo(FileList->Strings[i], TotalFileCount, TotalFileSize)) < 0 ){
 					FindClose(sr);
 					if (ErrorNum == -1) {
@@ -141,7 +141,7 @@ for (i = 0; i < FileList->Count; i++) {
 				TotalFileCount++;
 			}
 			else{
-				//ƒtƒ@ƒCƒ‹
+				//ãƒ•ã‚¡ã‚¤ãƒ«
 				TotalFileSize += sr.Size;
 				TotalFileCount++;
 			}
@@ -157,16 +157,16 @@ for (i = 0; i < FileList->Count; i++) {
 FindClose(sr);
 
 //-----------------------------------
-// íœA‚Ü‚½‚ÍŠ®‘Síœ
+// å‰Šé™¤ã€ã¾ãŸã¯å®Œå…¨å‰Šé™¤
 //-----------------------------------
 if ( Opt == 0){
-	//'íœ‚µ‚Ä‚¢‚Ü‚·...'
+	//'å‰Šé™¤ã—ã¦ã„ã¾ã™...'
 	ProgressStatusText = LoadResourceString(&Msgdelete::_LABEL_STATUS_TITLE_DELETING);
 }
 else if ( Opt == 1 ) {
-	//'Š®‘Síœ‚µ‚Ä‚¢‚Ü‚·...'
+	//'å®Œå…¨å‰Šé™¤ã—ã¦ã„ã¾ã™...'
 	ProgressStatusText = LoadResourceString(&Msgdelete::_LABEL_STATUS_TITLE_COMPLETE_DELETING);
-	//Š®‘Síœ‰ñ”•ª~‡ŒvƒTƒCƒY‚ª‘‚¦‚é
+	//å®Œå…¨å‰Šé™¤å›æ•°åˆ†Ã—åˆè¨ˆã‚µã‚¤ã‚ºãŒå¢—ãˆã‚‹
 	TotalFileSize = TotalFileSize * (RandClearNum + ZeroClearNum > 0 ? RandClearNum + ZeroClearNum : 1 );
 }
 
@@ -181,54 +181,54 @@ for (i = 0; i < FileList->Count; i++) {
 		if (sr.Name != "." && sr.Name != "..") {
 
 			//-----------------------------------
-			// ƒfƒBƒŒƒNƒgƒŠ
+			// ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
 			//-----------------------------------
 			if (sr.Attr & faDirectory) {
 
-				//Ä‹AŒÄ‚Ño‚µ
+				//å†å¸°å‘¼ã³å‡ºã—
 				if ( DeleteDirAndFiles(FilePath, FileCount, TotalFileCount, CountFileSize, TotalFileSize) == false ){
 					FindClose(sr);
 					goto LabelError;
 				}
 
-				//‹ó‚É‚È‚Á‚½ƒfƒBƒŒƒNƒgƒŠ‚Ìíœ
+				//ç©ºã«ãªã£ãŸãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®å‰Šé™¤
 				if ( !RemoveDir(FilePath) ){
-					//íœ‚É¸”s‚µ‚½‚Æ‚«‚Í‘®«‚ğ•ÏX
+					//å‰Šé™¤ã«å¤±æ•—ã—ãŸã¨ãã¯å±æ€§ã‚’å¤‰æ›´
 					Attrs = FileGetAttr(FilePath);
-					if (Attrs & faHidden){   //‰B‚µƒtƒ@ƒCƒ‹‘®«‚Ì‚Æ‚«‚ÍŠO‚·
+					if (Attrs & faHidden){   //éš ã—ãƒ•ã‚¡ã‚¤ãƒ«å±æ€§ã®ã¨ãã¯å¤–ã™
 						FileSetAttr( FilePath, Attrs & !faHidden);
 					}
-					if (Attrs & faReadOnly){ //“Ç‚İæ‚èê—p‘®«‚Ì‚Æ‚«‚àŠO‚·
+					if (Attrs & faReadOnly){ //èª­ã¿å–ã‚Šå°‚ç”¨å±æ€§ã®ã¨ãã‚‚å¤–ã™
 						FileSetAttr( FilePath, Attrs & !faReadOnly	);
 					}
-					RemoveDir(FilePath);      //Äƒ`ƒƒƒŒƒ“ƒW
+					RemoveDir(FilePath);      //å†ãƒãƒ£ãƒ¬ãƒ³ã‚¸
 				}
 
 				FileCount++;
 			}
 			//-----------------------------------
-			// ƒtƒ@ƒCƒ‹
+			// ãƒ•ã‚¡ã‚¤ãƒ«
 			//-----------------------------------
 			else{
-				//“Ç‚İæ‚èê—p‚È‚çŠO‚µ‚Ä‚©‚ç
+				//èª­ã¿å–ã‚Šå°‚ç”¨ãªã‚‰å¤–ã—ã¦ã‹ã‚‰
 				if ( FileIsReadOnly(FilePath) == true ){
 					FileSetReadOnly(FilePath, false);
 				}
 
 				//-----------------------------------
-				// ’Êííœ
+				// é€šå¸¸å‰Šé™¤
 				//-----------------------------------
 				if ( Opt == 0){
 					DeleteFile(FilePath);
 					FileCount++;
-					//ƒtƒ@ƒCƒ‹”‚ÅƒvƒƒOƒŒƒX•\¦
+					//ãƒ•ã‚¡ã‚¤ãƒ«æ•°ã§ãƒ—ãƒ­ã‚°ãƒ¬ã‚¹è¡¨ç¤º
 					ProgressPercentNum = ((float)FileCount/TotalFileCount)*100;
 				}
 				//-----------------------------------
-				// Š®‘Síœ
+				// å®Œå…¨å‰Šé™¤
 				//-----------------------------------
 				else if ( Opt == 1 ) {
-					//ˆ—ƒTƒCƒY‚ÅƒvƒƒOƒŒƒX•\¦iuŠ®‘SíœvŠÖ”“à‚Åˆ—j
+					//å‡¦ç†ã‚µã‚¤ã‚ºã§ãƒ—ãƒ­ã‚°ãƒ¬ã‚¹è¡¨ç¤ºï¼ˆã€Œå®Œå…¨å‰Šé™¤ã€é–¢æ•°å†…ã§å‡¦ç†ï¼‰
 					if ( CompleteDeleteFile(FilePath, CountFileSize, TotalFileSize) == false ){
 						FindClose(sr);
 						goto LabelError;
@@ -250,22 +250,22 @@ for (i = 0; i < FileList->Count; i++) {
 FindClose(sr);
 
 ProgressPercentNum = 100;
-//'Š®—¹'
+//'å®Œäº†'
 ProgressStatusText = LoadResourceString(&Msgdelete::_LABEL_STATUS_TITLE_COMPLETE);
-//'íœ‚ª³í‚ÉŠ®—¹‚µ‚Ü‚µ‚½B'
+//'å‰Šé™¤ãŒæ­£å¸¸ã«å®Œäº†ã—ã¾ã—ãŸã€‚'
 ProgressMsgText = LoadResourceString(&Msgdelete::_LABEL_STATUS_DETAIL_COMPLETE);
 
 return;
 
 //-----------------------------------
-// ƒGƒ‰[
+// ã‚¨ãƒ©ãƒ¼
 //-----------------------------------
 LabelError:
 
 	ProgressPercentNum = 0;
-	//'ƒGƒ‰['
+	//'ã‚¨ãƒ©ãƒ¼'
 	ProgressStatusText = LoadResourceString(&Msgencrypt::_LABEL_STATUS_TITLE_ERROR);
-	//'íœ‚É¸”s‚µ‚Ü‚µ‚½B'
+	//'å‰Šé™¤ã«å¤±æ•—ã—ã¾ã—ãŸã€‚'
 	ProgressMsgText = LoadResourceString(&Msgencrypt::_LABEL_STATUS_DETAIL_FAILED);
 
 	StatusNum = -1;
@@ -274,14 +274,14 @@ LabelError:
 
 
 //-----------------------------------
-// ƒ†[ƒU[ƒLƒƒƒ“ƒZƒ‹
+// ãƒ¦ãƒ¼ã‚¶ãƒ¼ã‚­ãƒ£ãƒ³ã‚»ãƒ«
 //-----------------------------------
 LabelStop:
 
 	ProgressPercentNum = 0;
-	//'ƒLƒƒƒ“ƒZƒ‹'
+	//'ã‚­ãƒ£ãƒ³ã‚»ãƒ«'
 	ProgressStatusText = LoadResourceString(&Msgdelete::_LABEL_STATUS_TITLE_USER_CANCEL);
-	//'íœ‚ª’†~‚³‚ê‚Ü‚µ‚½B'
+	//'å‰Šé™¤ãŒä¸­æ­¢ã•ã‚Œã¾ã—ãŸã€‚'
 	ProgressMsgText = LoadResourceString(&Msgdelete::_LABEL_STATUS_DETAIL_STOPPED);
 
 	StatusNum = -2;
@@ -291,7 +291,7 @@ LabelStop:
 
 }
 //===========================================================================
-// íœ‚·‚éƒtƒ@ƒCƒ‹ƒŠƒXƒgî•ñiƒtƒ@ƒCƒ‹”A‡ŒvƒTƒCƒYj‚ğûW‚·‚é
+// å‰Šé™¤ã™ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«ãƒªã‚¹ãƒˆæƒ…å ±ï¼ˆãƒ•ã‚¡ã‚¤ãƒ«æ•°ã€åˆè¨ˆã‚µã‚¤ã‚ºï¼‰ã‚’åé›†ã™ã‚‹
 //===========================================================================
 int __fastcall TAttacheCaseDelete::
 	GetDeleteFileListInfo(String DirPath, int &TotalFileCount, __int64 &TotalFileSize)
@@ -309,9 +309,9 @@ while (ret == 0) {
 		FilePath = IncludeTrailingPathDelimiter(DirPath)+sr.Name;
 
 		if (sr.Attr & faDirectory) {
-			// Ä‹AŒÄ‚Ño‚µ
+			// å†å¸°å‘¼ã³å‡ºã—
 			GetDeleteFileListInfo(FilePath, TotalFileCount, TotalFileSize);
-			TotalFileCount++;	//ƒfƒBƒŒƒNƒgƒŠ•ª
+			TotalFileCount++;	//ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªåˆ†
 		}
 		else{
 			TotalFileSize += sr.Size;
@@ -335,7 +335,7 @@ return(1);
 
 }
 //===========================================================================
-// ƒfƒBƒŒƒNƒgƒŠ/ƒtƒ@ƒCƒ‹‚ğÄ‹A“I‚Éíœ‚·‚é
+// ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª/ãƒ•ã‚¡ã‚¤ãƒ«ã‚’å†å¸°çš„ã«å‰Šé™¤ã™ã‚‹
 //===========================================================================
 int __fastcall TAttacheCaseDelete::DeleteDirAndFiles
 	(String DirPath, int &FileCount, int TotalFileCount, __int64 &CountFileSize, __int64 TotalFileSize)
@@ -356,27 +356,27 @@ while (ret == 0 && !Terminated) {
 		FilePath = IncludeTrailingPathDelimiter(DirPath)+sr.Name;
 
 		//-----------------------------------
-		// ƒfƒBƒŒƒNƒgƒŠ
+		// ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
 		//-----------------------------------
 		if (sr.Attr & faDirectory) {
 
-			// Ä‹AŒÄ‚Ño‚µ
+			// å†å¸°å‘¼ã³å‡ºã—
 			if ( (ErrorNum = DeleteDirAndFiles(FilePath, FileCount, TotalFileCount, CountFileSize, TotalFileSize)) < 0 ){
 				FindClose(sr);
 				return(ErrorNum);
 			}
 
-			//‹ó‚É‚È‚Á‚½ƒfƒBƒŒƒNƒgƒŠ‚Ìíœ
+			//ç©ºã«ãªã£ãŸãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®å‰Šé™¤
 			if ( RemoveDir(FilePath) == false){
-				//íœ‚É¸”s‚µ‚½‚Æ‚«‚Í‘®«‚ğ•ÏX
+				//å‰Šé™¤ã«å¤±æ•—ã—ãŸã¨ãã¯å±æ€§ã‚’å¤‰æ›´
 				Attrs = FileGetAttr(FilePath);
-				if (Attrs & faHidden){   //‰B‚µƒtƒ@ƒCƒ‹‘®«‚Ì‚Æ‚«‚ÍŠO‚·
+				if (Attrs & faHidden){   //éš ã—ãƒ•ã‚¡ã‚¤ãƒ«å±æ€§ã®ã¨ãã¯å¤–ã™
 					FileSetAttr( FilePath, Attrs & !faHidden);
 				}
-				if (Attrs & faReadOnly){ //“Ç‚İæ‚èê—p‘®«‚Ì‚Æ‚«‚àŠO‚·
+				if (Attrs & faReadOnly){ //èª­ã¿å–ã‚Šå°‚ç”¨å±æ€§ã®ã¨ãã‚‚å¤–ã™
 					FileSetAttr( FilePath, Attrs & !faReadOnly	);
 				}
-				if ( RemoveDir(FilePath)== false ){      //Äƒ`ƒƒƒŒƒ“ƒW
+				if ( RemoveDir(FilePath)== false ){      //å†ãƒãƒ£ãƒ¬ãƒ³ã‚¸
 					FindClose(sr);
 					return(-1);
 				}
@@ -385,23 +385,23 @@ while (ret == 0 && !Terminated) {
 
 		}
 		//-----------------------------------
-		// ƒtƒ@ƒCƒ‹
+		// ãƒ•ã‚¡ã‚¤ãƒ«
 		//-----------------------------------
 		else{
 
-			//“Ç‚İæ‚èê—p‚È‚çŠO‚µ‚Ä‚©‚ç
+			//èª­ã¿å–ã‚Šå°‚ç”¨ãªã‚‰å¤–ã—ã¦ã‹ã‚‰
 			if ( FileIsReadOnly(FilePath) == true ){
 				FileSetReadOnly(FilePath, false);
 			}
 
-			if ( Opt == 0){                                  //’Êííœ
+			if ( Opt == 0){                                  //é€šå¸¸å‰Šé™¤
 				DeleteFile(FilePath);
 				FileCount++;
-				//ƒtƒ@ƒCƒ‹”‚ÅƒvƒƒOƒŒƒX•\¦
+				//ãƒ•ã‚¡ã‚¤ãƒ«æ•°ã§ãƒ—ãƒ­ã‚°ãƒ¬ã‚¹è¡¨ç¤º
 				ProgressPercentNum = ((float)FileCount/TotalFileCount)*100;
 			}
-			else if ( Opt == 1 ) {                           //Š®‘Síœ
-				//ˆ—ƒTƒCƒY‚ÅƒvƒƒOƒŒƒX•\¦iŠÖ”“à‚Åˆ—j
+			else if ( Opt == 1 ) {                           //å®Œå…¨å‰Šé™¤
+				//å‡¦ç†ã‚µã‚¤ã‚ºã§ãƒ—ãƒ­ã‚°ãƒ¬ã‚¹è¡¨ç¤ºï¼ˆé–¢æ•°å†…ã§å‡¦ç†ï¼‰
 				if ( (ErrorNum = CompleteDeleteFile(FilePath, CountFileSize, TotalFileSize)) < 0 ){
 					FindClose(sr);
 					return(ErrorNum);
@@ -421,14 +421,14 @@ if (Terminated == true) {
 	return(-2);
 }
 else{
-	//³íI—¹
+	//æ­£å¸¸çµ‚äº†
 	return(1);
 }
 
 
 }
 //===========================================================================
-//ƒtƒ@ƒCƒ‹‚ÌŠ®‘Síœ
+//ãƒ•ã‚¡ã‚¤ãƒ«ã®å®Œå…¨å‰Šé™¤
 //===========================================================================
 int __fastcall TAttacheCaseDelete::
 	CompleteDeleteFile(String FilePath, __int64 &CountSize, __int64 TotalFileSize)
@@ -448,22 +448,22 @@ __int64 uiWriteSize;
 __int64 uiFileSize = FileSeek(fh,(__int64)0, 2);
 FileClose(fh);
 
-//“Ç‚İæ‚èê—p‚È‚çŠO‚µ‚Ä‚¨‚­
+//èª­ã¿å–ã‚Šå°‚ç”¨ãªã‚‰å¤–ã—ã¦ãŠã
 if ( FileIsReadOnly(FilePath) == true ){
 	FileSetReadOnly(FilePath, false);
 }
 
 //-----------------------------------
-//ƒ‰ƒ“ƒ_ƒ€‚È’l‚Åw’è‰ñ”‘‚«‚İ‚ğs‚¤
+//ãƒ©ãƒ³ãƒ€ãƒ ãªå€¤ã§æŒ‡å®šå›æ•°æ›¸ãè¾¼ã¿ã‚’è¡Œã†
 //-----------------------------------
 for ( i = 0; i < RandClearNum; i++ ){
 
-	//'—”‚ğ‘‚«‚İAŠ®‘Síœ‚ğs‚Á‚Ä‚¢‚Ü‚·...(Step:%d/%d)'
+	//'ä¹±æ•°ã‚’æ›¸ãè¾¼ã¿ã€å®Œå…¨å‰Šé™¤ã‚’è¡Œã£ã¦ã„ã¾ã™...(Step:%d/%d)'
 	ProgressMsgText =
 		String().Format(LoadResourceString(&Msgdelete::_LABEL_STATUS_DETAIL_WRITE_RAND),
 										 ARRAYOFCONST((i + 1, RandClearNum+ZeroClearNum))) + "\n" + FilePath;
 
-	//ƒLƒƒƒbƒVƒ…‚ğ’¼ÚƒfƒBƒXƒN‚Ö‘‚«‚Ş
+	//ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚’ç›´æ¥ãƒ‡ã‚£ã‚¹ã‚¯ã¸æ›¸ãè¾¼ã‚€
 	hFile = CreateFileW(
 		FilePath.c_str(), GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ,
 			NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_WRITE_THROUGH, NULL);
@@ -476,7 +476,7 @@ for ( i = 0; i < RandClearNum; i++ ){
 
 			fillrand(buffer, LARGE_BUF);
 
-			//ƒ‰ƒ“ƒ_ƒ€‚Ì’l‚Å–„‚ßs‚­‚·
+			//ãƒ©ãƒ³ãƒ€ãƒ ã®å€¤ã§åŸ‹ã‚å°½ãã™
 			if ( WriteFile( hFile, buffer, LARGE_BUF, &uniWriteByte, NULL) == 0 ){
 				break;
 			}
@@ -484,21 +484,21 @@ for ( i = 0; i < RandClearNum; i++ ){
 			uiWriteSize+=uniWriteByte;
 			CountSize+=uniWriteByte;
 
-			//“r’†ƒLƒƒƒ“ƒZƒ‹‚³‚ê‚½‚Æ‚«‚Ìˆ—
+			//é€”ä¸­ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã•ã‚ŒãŸã¨ãã®å‡¦ç†
 			if ( Terminated == true ){
 				CloseHandle( hFile );
-				DeleteFile(FilePath);  //‚Ó‚Â‚¤‚Éíœ‚·‚é
+				DeleteFile(FilePath);  //ãµã¤ã†ã«å‰Šé™¤ã™ã‚‹
 				return(-2);
 			}
 
-			//ƒvƒƒOƒŒƒX•\¦
+			//ãƒ—ãƒ­ã‚°ãƒ¬ã‚¹è¡¨ç¤º
 			ProgressPercentNum = ((float)CountSize/TotalFileSize)*100;
 
 		}//while;
 
 	}
 	else{
-		//'ƒtƒ@ƒCƒ‹íœ’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½Bƒtƒ@ƒCƒ‹‚ğŠJ‚­‚±‚Æ‚ª‚Å‚«‚Ü‚¹‚ñB'
+		//'ãƒ•ã‚¡ã‚¤ãƒ«å‰Šé™¤ä¸­ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ã¾ã—ãŸã€‚ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ãã“ã¨ãŒã§ãã¾ã›ã‚“ã€‚'
 		MsgText = LoadResourceString(&Msgdelete::_MSG_ERROR_NOT_FILE_OPEN) + "\n" + FilePath;
 		MsgType = mtError;
 		MsgButtons = TMsgDlgButtons() << mbOK;
@@ -514,7 +514,7 @@ for ( i = 0; i < RandClearNum; i++ ){
 }//loop;
 
 //-----------------------------------
-//NULL’l‚Åw’è‰ñ”‘‚«‚Ş
+//NULLå€¤ã§æŒ‡å®šå›æ•°æ›¸ãè¾¼ã‚€
 //-----------------------------------
 
 for ( c = 0; c < LARGE_BUF; c++ ){
@@ -523,13 +523,13 @@ for ( c = 0; c < LARGE_BUF; c++ ){
 
 for ( i = 0; i < ZeroClearNum; i++ ){
 
-	//'ƒ[ƒ(NULL)‚ğ‘‚«‚İAŠ®‘Síœ‚ğs‚Á‚Ä‚¢‚Ü‚·...(Step:%d/%d)'
+	//'ã‚¼ãƒ­(NULL)ã‚’æ›¸ãè¾¼ã¿ã€å®Œå…¨å‰Šé™¤ã‚’è¡Œã£ã¦ã„ã¾ã™...(Step:%d/%d)'
 	ProgressMsgText =
 		String().Format(LoadResourceString(&Msgdelete::_LABEL_STATUS_DETAIL_WRITE_ZERO),
 										 ARRAYOFCONST((i + 1 + RandClearNum, RandClearNum+ZeroClearNum))) +
 										 "\n" + FilePath;
 
-	//ƒLƒƒƒbƒVƒ…‚ğ’¼ÚƒfƒBƒXƒN‚Ö‘‚«‚Ş
+	//ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚’ç›´æ¥ãƒ‡ã‚£ã‚¹ã‚¯ã¸æ›¸ãè¾¼ã‚€
 	hFile = CreateFileW(
 		FilePath.c_str(), GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ,
 		NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_WRITE_THROUGH, NULL);
@@ -540,28 +540,28 @@ for ( i = 0; i < ZeroClearNum; i++ ){
 
 		while ( uiWriteSize < uiFileSize ){
 
-			//NULL’l‚Å–„‚ßs‚­‚·
+			//NULLå€¤ã§åŸ‹ã‚å°½ãã™
 			if ( WriteFile( hFile, buffer, LARGE_BUF, &uniWriteByte, NULL) == 0 ){
 				break;
 			}
 			uiWriteSize+=uniWriteByte;
 			CountSize+=uniWriteByte;
 
-			//“r’†ƒLƒƒƒ“ƒZƒ‹‚³‚ê‚½‚Æ‚«‚Ìˆ—
+			//é€”ä¸­ã‚­ãƒ£ãƒ³ã‚»ãƒ«ã•ã‚ŒãŸã¨ãã®å‡¦ç†
 			if ( Terminated == true ){
 				CloseHandle( hFile );
-				DeleteFile(FilePath);  //‚Ó‚Â‚¤‚Éíœ‚·‚é
+				DeleteFile(FilePath);  //ãµã¤ã†ã«å‰Šé™¤ã™ã‚‹
 				return(-2);
 			}
 
-			//ƒvƒƒOƒŒƒX•\¦
+			//ãƒ—ãƒ­ã‚°ãƒ¬ã‚¹è¡¨ç¤º
 			ProgressPercentNum = ((float)CountSize/TotalFileSize)*100;
 
 		}//while;
 
 	}
 	else{
-		//'ƒtƒ@ƒCƒ‹íœ’†‚ÉƒGƒ‰[‚ª”­¶‚µ‚Ü‚µ‚½Bƒtƒ@ƒCƒ‹‚ğŠJ‚­‚±‚Æ‚ª‚Å‚«‚Ü‚¹‚ñB'
+		//'ãƒ•ã‚¡ã‚¤ãƒ«å‰Šé™¤ä¸­ã«ã‚¨ãƒ©ãƒ¼ãŒç™ºç”Ÿã—ã¾ã—ãŸã€‚ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ãã“ã¨ãŒã§ãã¾ã›ã‚“ã€‚'
 		MsgText = LoadResourceString(&Msgdelete::_MSG_ERROR_NOT_FILE_OPEN) + "\n" + FilePath;
 		MsgType = mtError;
 		MsgButtons = TMsgDlgButtons() << mbOK;
@@ -577,7 +577,7 @@ for ( i = 0; i < ZeroClearNum; i++ ){
 }//loop;
 
 //-----------------------------------
-//‚³‚ç‚Éƒtƒ@ƒCƒ‹ƒTƒCƒY‚ğ0ƒoƒCƒg‚É‚·‚é
+//ã•ã‚‰ã«ãƒ•ã‚¡ã‚¤ãƒ«ã‚µã‚¤ã‚ºã‚’0ãƒã‚¤ãƒˆã«ã™ã‚‹
 
 hFile = CreateFileW(
 	FilePath.c_str(), GENERIC_READ | GENERIC_WRITE, FILE_SHARE_READ,
@@ -586,7 +586,7 @@ hFile = CreateFileW(
 CloseHandle( hFile );
 
 //-----------------------------------
-//‚æ‚¤‚â‚­‚±‚±‚Åíœ
+//ã‚ˆã†ã‚„ãã“ã“ã§å‰Šé™¤
 
 DeleteFile(FilePath);
 
@@ -595,13 +595,13 @@ return(1);
 
 }//end CompleteDeleteFile;
 //===========================================================================
-//‚²‚İ” ‚Ö‚ÌˆÚ“®
+//ã”ã¿ç®±ã¸ã®ç§»å‹•
 //===========================================================================
 bool __fastcall TAttacheCaseDelete::GoToTrash(String Path)
 {
 
 ProgressPercentNum = -1;
-//'‚²‚İ” ‚ÖˆÚ“®‚µ‚Ä‚¢‚Ü‚·...'
+//'ã”ã¿ç®±ã¸ç§»å‹•ã—ã¦ã„ã¾ã™...'
 ProgressStatusText = LoadResourceString(&Msgdelete::_LABEL_STATUS_TITLE_GO_TO_TRASH);
 ProgressMsgText = Path;
 
@@ -612,8 +612,8 @@ else{
 		Path = ExcludeTrailingPathDelimiter(Path);
 	}
 	else{
-		//'‚²‚İ” ‚Ö‚Ìíœ‚É¸”s‚µ‚Ü‚µ‚½B'+#13+
-		//'ˆê•”‚Ìƒtƒ@ƒCƒ‹/ƒtƒHƒ‹ƒ_‚ªíœ‚Å‚«‚¸‚Éc‚Á‚Ä‚µ‚Ü‚Á‚½‰Â”\«‚ª‚ ‚è‚Ü‚·B';
+		//'ã”ã¿ç®±ã¸ã®å‰Šé™¤ã«å¤±æ•—ã—ã¾ã—ãŸã€‚'+#13+
+		//'ä¸€éƒ¨ã®ãƒ•ã‚¡ã‚¤ãƒ«/ãƒ•ã‚©ãƒ«ãƒ€ãŒå‰Šé™¤ã§ããšã«æ®‹ã£ã¦ã—ã¾ã£ãŸå¯èƒ½æ€§ãŒã‚ã‚Šã¾ã™ã€‚';
 		MsgText = LoadResourceString(&Msgdelete::_MSG_ERROR_GO_TO_TRASH_FAILED);
 		MsgType = mtError;
 		MsgButtons = TMsgDlgButtons() << mbOK;
@@ -623,7 +623,7 @@ else{
 	}
 }
 
-const int len = Path.Length() + 2;  //I’[\0\0
+const int len = Path.Length() + 2;  //çµ‚ç«¯\0\0
 wchar_t* from = new wchar_t[len];
 wcscpy(from, Path.c_str());
 from[len-1] = 0;
@@ -631,15 +631,15 @@ from[len-1] = 0;
 SHFILEOPSTRUCTW sh;
 ZeroMemory(&sh, sizeof(SHFILEOPSTRUCT));
 sh.hwnd = Application->Handle;
-sh.wFunc = FO_DELETE;              // ƒSƒ~” ‚ÖÌ‚Ä‚é
-sh.pFrom = from;                   // ƒtƒ@ƒCƒ‹‚Ìƒ|ƒCƒ“ƒ^
+sh.wFunc = FO_DELETE;              // ã‚´ãƒŸç®±ã¸æ¨ã¦ã‚‹
+sh.pFrom = from;                   // ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒã‚¤ãƒ³ã‚¿
 sh.pTo = NULL;
-// Undo‰Â, Šm”F‚È‚µi¦‚Å‚àŒ‹‰Ê“I‚ÉUndo‚Í•s‰Â”\‚É‚È‚é‚İ‚½‚¢j
+// Undoå¯, ç¢ºèªãªã—ï¼ˆâ€»ã§ã‚‚çµæœçš„ã«Undoã¯ä¸å¯èƒ½ã«ãªã‚‹ã¿ãŸã„ï¼‰
 sh.fFlags= FOF_ALLOWUNDO + FOF_NOCONFIRMATION;
 
 if ( SHFileOperationW(&sh) != 0 ){
-	//'‚²‚İ” ‚Ö‚Ìíœ‚É¸”s‚µ‚Ü‚µ‚½B'+#13+
-	//'ˆê•”‚Ìƒtƒ@ƒCƒ‹/ƒtƒHƒ‹ƒ_‚ªíœ‚Å‚«‚¸‚Éc‚Á‚Ä‚µ‚Ü‚Á‚½‰Â”\«‚ª‚ ‚è‚Ü‚·B';
+	//'ã”ã¿ç®±ã¸ã®å‰Šé™¤ã«å¤±æ•—ã—ã¾ã—ãŸã€‚'+#13+
+	//'ä¸€éƒ¨ã®ãƒ•ã‚¡ã‚¤ãƒ«/ãƒ•ã‚©ãƒ«ãƒ€ãŒå‰Šé™¤ã§ããšã«æ®‹ã£ã¦ã—ã¾ã£ãŸå¯èƒ½æ€§ãŒã‚ã‚Šã¾ã™ã€‚';
 	MsgText = LoadResourceString(&Msgdelete::_MSG_ERROR_GO_TO_TRASH_FAILED);
 	MsgType = mtError;
 	MsgButtons = TMsgDlgButtons() << mbOK;
@@ -650,7 +650,7 @@ if ( SHFileOperationW(&sh) != 0 ){
 
 delete[] from;
 
-//ƒtƒHƒ‹ƒ_“à‚Ì•\¦XV
+//ãƒ•ã‚©ãƒ«ãƒ€å†…ã®è¡¨ç¤ºæ›´æ–°
 SHChangeNotify(SHCNE_UPDATEDIR, SHCNF_PATH, Path.c_str(), 0);
 
 return(true);
@@ -658,7 +658,7 @@ return(true);
 
 }//end GotoTrashOneFile;
 //===========================================================================
-// ƒ‰ƒ“ƒ_ƒ€’l‚Ì¶¬iCRNGj
+// ãƒ©ãƒ³ãƒ€ãƒ å€¤ã®ç”Ÿæˆï¼ˆCRNGï¼‰
 //===========================================================================
 void TAttacheCaseDelete::fillrand(char *buf, const int len)
 {
@@ -683,12 +683,12 @@ for(i = 0; i < len; ++i){
 
 }
 //===========================================================================
-//ƒƒCƒ“ƒtƒH[ƒ€‚ÉŠm”FƒƒbƒZ[ƒW‚ğ“Š‚°‚Äˆ—‚ğ’†’f‚·‚é
+//ãƒ¡ã‚¤ãƒ³ãƒ•ã‚©ãƒ¼ãƒ ã«ç¢ºèªãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’æŠ•ã’ã¦å‡¦ç†ã‚’ä¸­æ–­ã™ã‚‹
 //===========================================================================
 void __fastcall TAttacheCaseDelete::PostConfirmMessageForm()
 {
 
-//ƒOƒ[ƒoƒ‹•Ï”(private)‚Æ‚µ‚Ä’è‹`‚µ‚Ä‚ ‚é
+//ã‚°ãƒ­ãƒ¼ãƒãƒ«å¤‰æ•°(private)ã¨ã—ã¦å®šç¾©ã—ã¦ã‚ã‚‹
 
 //String MsgText;
 //TMsgDlgType MsgType;
