@@ -1,4 +1,4 @@
-//----------------------------------------------------------------------
+﻿//----------------------------------------------------------------------
 #ifndef TAttacheCaseOptionHandleH
 #define TAttacheCaseOptionHandleH
 
@@ -28,6 +28,7 @@
 
 //256 + 8（パスワード＋トークン）
 #define BUF_PASSWORD_SIZE 264
+
 
 //SHA-1ハッシュ計算（160bit＝20byte）
 #define BUF_SHA1_SIZE 20

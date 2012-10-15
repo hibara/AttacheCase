@@ -1,4 +1,4 @@
-unit MsgEncrypt;
+﻿unit MsgEncrypt;
 
 interface
 

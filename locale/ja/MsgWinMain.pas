@@ -1,4 +1,4 @@
-unit MsgWinMain;
+﻿unit MsgWinMain;
 
 interface
 

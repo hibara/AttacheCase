@@ -1,4 +1,4 @@
-AttacheCase
+﻿AttacheCase
 ===========
 
 'AttacheCase' is file / folder encryption software for Windows.

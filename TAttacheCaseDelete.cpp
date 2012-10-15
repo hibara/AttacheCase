@@ -1,4 +1,4 @@
-/*
+﻿/*
 
 'AttacheCase' - file encryption software for Windows.
 

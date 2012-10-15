@@ -1,4 +1,4 @@
-object Form2: TForm2
+﻿object Form2: TForm2
   Left = 437
   Top = 293
   AlphaBlendValue = 0

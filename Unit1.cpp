@@ -271,6 +271,7 @@ ptSideMenu[4].y = PaintBoxMenu->Height - 84;
 ptSideMenu[3].x = posX;
 ptSideMenu[3].y = ptSideMenu[4].y - 40;
 
+
 // 中央配置
 ptSideMenu[0].x = posX;
 ptSideMenu[0].y = PaintBoxMenu->Height/2 - 40;

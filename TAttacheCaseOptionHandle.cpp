@@ -1,4 +1,4 @@
-/*
+﻿/*
 
 'AttacheCase' - file encryption software for Windows.
 
@@ -927,18 +927,20 @@ AnsiString Password;
 char buffer[BUF_PASSWORD_SIZE];
 char newbuffer[BUF_PASSWORD_SIZE];
 
+TMemoryStream *ms;
+CBlowFish *bf;
 TCustomIniFile *pOpt;
-TMemoryStream *ms = new TMemoryStream();
-CBlowFish *bf = new CBlowFish;
 
 try{
 
-	if ( FileExists(OptionPath) == true ){
-		pOpt = new TIniFile(OptionPath);
+	ms = new TMemoryStream();
+	bf = new CBlowFish;
+
+	if ( OptType == 0 ) {
+		pOpt = new TRegistryIniFile("Software\\Hibara\\AttacheCase");
 	}
 	else{
-		//なければレジストリ
-		pOpt = new TRegistryIniFile(ATTACHE_CASE_REGISTRY_PATH);  //"Software\\Hibara\\AttacheCase"
+		pOpt = new TIniFile(OptionPath);
 	}
 
 	//-----------------------------------
@@ -970,7 +972,7 @@ try{
 	}
 
 	ms->Position = 0;
-	ms->Write(buffer, BUF_PASSWORD_SIZE);
+	ms->Read(buffer, BUF_PASSWORD_SIZE);
 
 
 	//-----------------------------------
@@ -1052,13 +1054,11 @@ TMemoryStream *ms = new TMemoryStream();
 
 try{
 
-	if ( FileExists(OptionPath) == true ){
-		//通常なら読み込んだ先へ保存する
-		pOpt = new TIniFile(OptionPath);
+	if ( OptType == 0 ) {
+		pOpt = new TRegistryIniFile("Software\\Hibara\\AttacheCase");
 	}
 	else{
-		//なければレジストリへ
-		pOpt = new TRegistryIniFile("Software\\Hibara\\AttacheCase");
+		pOpt = new TIniFile(OptionPath);
 	}
 
 	//パスコードをクリアする

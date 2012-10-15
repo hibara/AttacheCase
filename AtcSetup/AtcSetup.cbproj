@@ -59,12 +59,6 @@
 			<TASM_Debugging>None</TASM_Debugging>
 		</PropertyGroup>
 		<ItemGroup>
-			<CppCompile Include="AtcSetup.cpp">
-				<BuildOrder>0</BuildOrder>
-			</CppCompile>
-			<ResFiles Include="AtcSetup.res">
-				<BuildOrder>1</BuildOrder>
-			</ResFiles>
 			<CppCompile Include="Unit1.cpp">
 				<Form>Form1</Form>
 				<DependentOn>Unit1.h</DependentOn>
@@ -73,6 +67,12 @@
 			<DelphiCompile Include="locale\ja\MsgMain.pas">
 				<BuildOrder>3</BuildOrder>
 			</DelphiCompile>
+			<CppCompile Include="AtcSetup.cpp">
+				<BuildOrder>0</BuildOrder>
+			</CppCompile>
+			<ResFiles Include="AtcSetup.res">
+				<BuildOrder>1</BuildOrder>
+			</ResFiles>
 			<FormResources Include="Unit1.dfm"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
@@ -111,7 +111,7 @@
 						<VersionInfo Name="CodePage">932</VersionInfo>
 					</VersionInfo>
 					<VersionInfoKeys>
-						<VersionInfoKeys Name="CompanyName"/>
+						<VersionInfoKeys Name="CompanyName">http://hibara.org</VersionInfoKeys>
 						<VersionInfoKeys Name="FileDescription"/>
 						<VersionInfoKeys Name="FileVersion">2.8.0.4</VersionInfoKeys>
 						<VersionInfoKeys Name="InternalName"/>

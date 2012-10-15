@@ -1,4 +1,4 @@
-unit MsgOption;
+﻿unit MsgOption;
 
 interface
 

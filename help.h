@@ -1,4 +1,4 @@
-
+﻿
 //ヘルプファイル（AttacheCase.chm）内の各ページ
 #define IDH_INDEX_PAGE 0
 #define IDH_BASIC_OPTION 10000

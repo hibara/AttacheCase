@@ -1,4 +1,4 @@
-unit MsgDecrypt;
+﻿unit MsgDecrypt;
 
 interface
 

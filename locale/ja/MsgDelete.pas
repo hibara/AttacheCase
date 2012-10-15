@@ -1,4 +1,4 @@
-unit MsgDelete;
+﻿unit MsgDelete;
 
 interface
 

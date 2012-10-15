@@ -1,4 +1,4 @@
-object Form4: TForm4
+﻿object Form4: TForm4
   Left = 413
   Top = 237
   BorderStyle = bsSingle

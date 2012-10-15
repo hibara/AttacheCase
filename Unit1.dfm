@@ -1,11 +1,11 @@
-object Form1: TForm1
+﻿object Form1: TForm1
   Left = 392
   Top = 161
   Caption = 'AttacheCase'
   ClientHeight = 489
   ClientWidth = 562
   Color = clWindow
-  Constraints.MinHeight = 400
+  Constraints.MinHeight = 440
   Constraints.MinWidth = 480
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
