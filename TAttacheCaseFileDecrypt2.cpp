@@ -89,6 +89,7 @@ void __fastcall TAttacheCaseFileDecrypt2::Execute()
 {
 
 int i, c, len;
+float ProgressPercentNumF;  //進捗パーセンテージ（浮動小数点）
 
 // バッファ
 char source_buffer[BUF_SIZE];
@@ -643,13 +644,18 @@ while (Terminated == false) {
 
 	//-----------------------------------
 	//進捗状況表示
-	ProgressPercentNum = ((float)TotalSize/AllTotalSize)*100;
-
-	if ( z.avail_in == 0 && z.avail_out == 0 ) {
-  	break;
+	ProgressPercentNumF = (float)TotalSize/AllTotalSize;
+	ProgressPercentNum = (int)(ProgressPercentNumF*100);
+	if (AllTotalSize < 104857600) {	// 100MB未満
+		ProgressPercentNumText = IntToStr(ProgressPercentNum)+"%";
+	}
+	else{
+		ProgressPercentNumText = FloatToStrF(ProgressPercentNumF*100, ffNumber, 4, 1)+"%";
 	}
 
-
+	if ( z.avail_in == 0 && z.avail_out == 0 ) {
+		break;
+	}
 
 }//while (!Terminated);
 

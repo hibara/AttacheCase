@@ -67,6 +67,7 @@ public:
 	int ZeroClearNum;                  // 完全削除時のNULL書き込み回数
 
 	int ProgressPercentNum;            // 進捗パーセント
+	String ProgressPercentNumText;     // 進捗パーセント（小数点第一位までの文字列）
 	String ProgressStatusText;         // 進捗ステータス
 	String ProgressMsgText;            // 進捗メッセージ
 

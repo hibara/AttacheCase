@@ -115,6 +115,7 @@ public:
 	String MsgErrorString;             //エラーメッセージ
 
 	int ProgressPercentNum;            //進捗パーセント
+	String ProgressPercentNumText;     //進捗パーセント（小数点第一位までの文字列）
 	String ProgressStatusText;         //進捗ステータス
 	String ProgressMsgText;            //進捗メッセージ
 

@@ -1,0 +1,209 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+	"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>アタッシェケース - ヘルプ</title>
+
+<link rel="stylesheet" type="text/css" href="css/jquery-ui-1.8.22.custom.css">
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<link rel="stylesheet" href="css/jquery.treeview.css" />
+
+<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script> 
+<script type="text/javascript" src="js/jquery-ui-1.8.22.custom.min.js"></script> 
+<script type="text/javascript" src="js/jquery.cookie.js" charset="utf-8"></script>
+<script type="text/javascript" src="js/jquery.treeview.js" charset="utf-8"></script>
+<script type="text/javascript" src="js/jquery.livesearch.js" charset="utf-8"></script>
+
+<script type="text/javascript">
+
+$(function() {
+
+	$('#contents').load('pages/overview.html');
+	$(".selected").removeClass("selected");
+	$("span#overview").addClass("selected");
+
+	//-----------------------------------
+	//左ペインのタブ化
+	$("#tabs").tabs();
+
+	//-----------------------------------
+	//ページ左上のHOMEボタン
+	$("#button-home").button({
+		icons: {
+			primary: "ui-icon-home"
+		},
+		text: true});
+
+	//-----------------------------------
+	// json形式データからヘルプ目次項目をパースしてツリービュー表示
+	function parse_json(data_array, result_html){
+		var anchor_tag = "";
+		var icon_type = "";
+		for ( var i = 0; i < data_array.length; i++ ){
+			var data = data_array[i];
+			//アイコンタイプ
+			if ( data['group'] === true ){
+				icon_type = "folder";
+			}
+			else{
+				icon_type = "file";
+			}
+			//表示URLファイルパスをIDに格納
+			if ( data['path'] === "" ){
+				anchor_tag = data['name'];
+			}
+			else{
+				anchor_tag = "<a href='"+data['path']+"'>"+data['name']+"</a>"
+			}
+			//タグ化
+			result_html = result_html +
+				"<li><span id='" + data['id'] + "' class='" + icon_type + "'>" + anchor_tag + "</span>";
+
+			if (typeof data['children'] === "undefined") {
+				result_html = result_html + "</li>\n";
+			}
+			else{
+				//子ノードがある
+				result_html = result_html + "<ul>\n";
+				result_html = parse_json(data['children'], result_html);  //再帰呼び出し
+				result_html = result_html + "</li>\n</ul>\n";
+			}
+		}
+		return(result_html);
+	}
+	//-----------------------------------
+	//ヘルプ目次
+	var help_contents_list = "";
+	$.getJSON("json/help_contents.json", function(data){
+		help_contents_list = parse_json(data, help_contents_list);
+		//タグ化したデータを挿入する
+		$('#browser').html(help_contents_list);
+		//左ペインのツリービュー表示の生成
+		$("#browser").treeview(
+			{
+			animated: "fast",
+			//persist: "cookie",
+			persist: "location",
+			//unique: true,
+			prerendered: true,
+			collapsed: true
+			}
+		);
+	});
+
+	$("#browser span.file").live('click', function (){
+		//alert($(this).attr("id"));
+		var filename = "pages/" + $(this).attr("id")+ ".html";
+		//var filename = $(this).attr("id");
+		$('#contents').load(filename);
+		$(".selected").removeClass("selected");
+		$(this).addClass("selected");
+		return false;
+	});
+
+	//-----------------------------------
+	//検索キーワード
+	var keyword_list = "";
+	$.getJSON("json/keyword.json", function(data){
+		for(var i = 0; i < data.length; i++){
+			var name = data[i][0];
+			var url = data[i][1];
+			keyword_list =
+				keyword_list + "<li id='" + url + "'>" +
+					"<a href='"+ url +	"'target='page_item'>" + name + "</a></li>" + "\n";
+		}
+		$('#keyword').html(keyword_list);
+	});
+
+	//キーワード検索用表示
+	$('input[name="search_word"]').search('#keyword li', function(on) {
+		on.all(function(results) {
+			var size = results ? results.size() : 0;
+			$('#result_count').text(size + ' results');
+		});
+		on.reset(function() {
+			$('#none').hide();
+			$('#keyword li').show();
+		});
+		on.empty(function() {
+			$('#none').show();
+			$('#keyword li').hide();
+		});
+		on.results(function(results) {
+			$('#none').hide();
+			$('#keyword li').hide();
+			results.show();
+		});
+	});
+
+});
+</script>
+
+</head>
+<body>
+
+<div id="header">
+	<button id="button-home" class="ui-icon-home">HOME</button>
+</div>
+<!-- /header -->
+
+<div id="container2">
+<div id="container1">
+
+<div id="left_column">
+
+
+<div id="tabs">
+
+	<ul>
+		<li><a href="#tabs01">目次</a></li>
+		<li><a href="#tabs02">キーワード検索</a></li>
+	</ul>
+
+	<!-- ヘルプコンテンツ目次 -->
+	<div id="tabs01">
+
+		<h4>目次 - TreeView</h4>
+		<ul id="browser" class="filetree">
+
+		</ul>
+
+	</div>
+
+	<!-- キーワード検索 -->
+	<div id="tabs02">
+		<label for="search">検索：&nbsp;</label><input id="search" type="text" name="search_word" value=""><br/>
+		<span id="result_count"></span>
+		<p id="none" style="display:none">0件 見つかりませんでした。</p>
+		<ul id="keyword">
+
+		</ul>
+	</div>
+
+</div>
+<!-- /tabs  -->
+
+
+</div>
+<!-- /left_column  -->
+
+
+<!-- contents ------------------------------------>
+<div id="contents"></div>
+<!-- /contents  -->
+
+
+</div>
+<!--/container1 -->
+
+</div>
+<!--/container2 -->
+
+<div id="footer">
+	Copyright &copy; 2012 M.Hibara, All rights reserved.
+</div>
+<!-- /footer -->
+
+</body>
+</html>

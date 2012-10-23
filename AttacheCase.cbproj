@@ -62,123 +62,123 @@
 			<ILINK_TranslatedLibraryPath>$(BDS)\lib\$(LANGDIR)\release;$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
 		</PropertyGroup>
 		<ItemGroup>
-			<DelphiCompile Include="locale\ja\MsgDelete.pas">
-				<BuildOrder>21</BuildOrder>
-			</DelphiCompile>
-			<RcItem Include="Icon\addicon01.ico">
-				<ResourceType>Icon</ResourceType>
-				<ResourceId>SUBICON0</ResourceId>
-			</RcItem>
-			<DelphiCompile Include="locale\ja\MsgEncrypt.pas">
-				<BuildOrder>13</BuildOrder>
-			</DelphiCompile>
-			<CppCompile Include="TGetAppInfoString.cpp">
-				<DependentOn>TGetAppInfoString.h</DependentOn>
-				<BuildOrder>26</BuildOrder>
-			</CppCompile>
-			<DelphiCompile Include="locale\ja\MsgUnit3.pas">
-				<BuildOrder>26</BuildOrder>
-			</DelphiCompile>
-			<CppCompile Include="TAttacheCaseFileEncrypt.cpp">
-				<DependentOn>TAttacheCaseFileEncrypt.h</DependentOn>
-				<BuildOrder>13</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="TAttacheCaseDelete.cpp">
-				<DependentOn>TAttacheCaseDelete.h</DependentOn>
-				<BuildOrder>20</BuildOrder>
-			</CppCompile>
-			<None Include="isaac.h">
-				<BuildOrder>13</BuildOrder>
-			</None>
-			<DelphiCompile Include="locale\ja\MsgOption.pas">
-				<BuildOrder>28</BuildOrder>
-			</DelphiCompile>
-			<DelphiCompile Include="locale\ja\MsgWinMain.pas">
-				<BuildOrder>29</BuildOrder>
-			</DelphiCompile>
-			<DelphiCompile Include="locale\ja\MsgUnit2.pas">
-				<BuildOrder>31</BuildOrder>
-			</DelphiCompile>
-			<LibFiles Include="zlib127.lib">
-				<IgnorePath>true</IgnorePath>
-				<BuildOrder>30</BuildOrder>
-			</LibFiles>
-			<ResFiles Include="AttacheCase.res">
+			<CppCompile Include="rijndael.c">
 				<BuildOrder>1</BuildOrder>
-			</ResFiles>
-			<CppCompile Include="Unit4.cpp">
-				<Form>Form4</Form>
-				<DependentOn>Unit4.h</DependentOn>
-				<BuildOrder>25</BuildOrder>
 			</CppCompile>
-			<CppCompile Include="TDragAndDrop.cpp">
-				<BuildOrder>30</BuildOrder>
-			</CppCompile>
-			<DelphiCompile Include="locale\ja\MsgUnit4.pas">
-				<BuildOrder>26</BuildOrder>
+			<DelphiCompile Include="locale\ja\MsgUnit1.pas">
+				<BuildOrder>14</BuildOrder>
 			</DelphiCompile>
-			<None Include="standard.h">
-				<BuildOrder>12</BuildOrder>
-			</None>
+			<CppCompile Include="isaac.c">
+				<BuildOrder>2</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="AttacheCase.cpp">
+				<BuildOrder>0</BuildOrder>
+			</CppCompile>
 			<CppCompile Include="Unit3.cpp">
 				<Form>Form3</Form>
 				<DependentOn>Unit3.h</DependentOn>
 				<BuildOrder>16</BuildOrder>
 			</CppCompile>
-			<CppCompile Include="TAttacheCaseOptionHandle.cpp">
-				<DependentOn>TAttacheCaseOptionHandle.h</DependentOn>
-				<BuildOrder>26</BuildOrder>
-			</CppCompile>
+			<None Include="standard.h">
+				<BuildOrder>12</BuildOrder>
+			</None>
 			<CppCompile Include="Unit2.cpp">
 				<Form>Form2</Form>
 				<DependentOn>Unit2.h</DependentOn>
 				<BuildOrder>7</BuildOrder>
 			</CppCompile>
-			<DelphiCompile Include="locale\ja\MsgUnit1.pas">
-				<BuildOrder>14</BuildOrder>
+			<CppCompile Include="TAttacheCaseOptionHandle.cpp">
+				<DependentOn>TAttacheCaseOptionHandle.h</DependentOn>
+				<BuildOrder>26</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="sha1.c">
+				<BuildOrder>27</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="blowfish.cpp">
+				<BuildOrder>18</BuildOrder>
+			</CppCompile>
+			<RcItem Include="Icon\addicon00.ico">
+				<ResourceType>Icon</ResourceType>
+				<ResourceId>SUBICON1</ResourceId>
+			</RcItem>
+			<None Include="rijndael.h">
+				<BuildOrder>8</BuildOrder>
+			</None>
+			<DelphiCompile Include="locale\ja\MsgDecrypt.pas">
+				<BuildOrder>19</BuildOrder>
 			</DelphiCompile>
-			<CppCompile Include="rijndael.c">
-				<BuildOrder>1</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="AttacheCase.cpp">
-				<BuildOrder>0</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="isaac.c">
-				<BuildOrder>2</BuildOrder>
-			</CppCompile>
 			<CppCompile Include="Unit1.cpp">
 				<Form>Form1</Form>
 				<DependentOn>Unit1.h</DependentOn>
 				<BuildOrder>6</BuildOrder>
 			</CppCompile>
-			<DelphiCompile Include="locale\ja\MsgDecrypt.pas">
-				<BuildOrder>19</BuildOrder>
-			</DelphiCompile>
-			<CppCompile Include="TAttacheCaseFileDecrypt2.cpp">
-				<DependentOn>TAttacheCaseFileDecrypt2.h</DependentOn>
-				<BuildOrder>12</BuildOrder>
-			</CppCompile>
 			<RcItem Include="Icon\addicon02.ico">
 				<ResourceType>Icon</ResourceType>
 				<ResourceId>SUBICON2</ResourceId>
 			</RcItem>
-			<CppCompile Include="blowfish.cpp">
-				<BuildOrder>18</BuildOrder>
+			<CppCompile Include="TAttacheCaseFileDecrypt2.cpp">
+				<DependentOn>TAttacheCaseFileDecrypt2.h</DependentOn>
+				<BuildOrder>12</BuildOrder>
 			</CppCompile>
-			<CppCompile Include="sha1.c">
-				<BuildOrder>27</BuildOrder>
+			<CppCompile Include="TAttacheCaseFileEncrypt.cpp">
+				<DependentOn>TAttacheCaseFileEncrypt.h</DependentOn>
+				<BuildOrder>13</BuildOrder>
 			</CppCompile>
-			<None Include="rijndael.h">
-				<BuildOrder>8</BuildOrder>
+			<DelphiCompile Include="locale\ja\MsgUnit3.pas">
+				<BuildOrder>26</BuildOrder>
+			</DelphiCompile>
+			<None Include="isaac.h">
+				<BuildOrder>13</BuildOrder>
 			</None>
-			<RcItem Include="Icon\addicon00.ico">
+			<CppCompile Include="TAttacheCaseDelete.cpp">
+				<DependentOn>TAttacheCaseDelete.h</DependentOn>
+				<BuildOrder>20</BuildOrder>
+			</CppCompile>
+			<RcItem Include="Icon\addicon01.ico">
 				<ResourceType>Icon</ResourceType>
-				<ResourceId>SUBICON1</ResourceId>
+				<ResourceId>SUBICON0</ResourceId>
 			</RcItem>
-			<FormResources Include="Unit4.dfm"/>
+			<DelphiCompile Include="locale\ja\MsgDelete.pas">
+				<BuildOrder>21</BuildOrder>
+			</DelphiCompile>
+			<CppCompile Include="TGetAppInfoString.cpp">
+				<DependentOn>TGetAppInfoString.h</DependentOn>
+				<BuildOrder>26</BuildOrder>
+			</CppCompile>
+			<DelphiCompile Include="locale\ja\MsgEncrypt.pas">
+				<BuildOrder>13</BuildOrder>
+			</DelphiCompile>
+			<CppCompile Include="Unit4.cpp">
+				<Form>Form4</Form>
+				<DependentOn>Unit4.h</DependentOn>
+				<BuildOrder>25</BuildOrder>
+			</CppCompile>
+			<ResFiles Include="AttacheCase.res">
+				<BuildOrder>1</BuildOrder>
+			</ResFiles>
+			<DelphiCompile Include="locale\ja\MsgUnit4.pas">
+				<BuildOrder>26</BuildOrder>
+			</DelphiCompile>
+			<CppCompile Include="TDragAndDrop.cpp">
+				<BuildOrder>30</BuildOrder>
+			</CppCompile>
+			<DelphiCompile Include="locale\ja\MsgWinMain.pas">
+				<BuildOrder>29</BuildOrder>
+			</DelphiCompile>
+			<DelphiCompile Include="locale\ja\MsgOption.pas">
+				<BuildOrder>28</BuildOrder>
+			</DelphiCompile>
+			<LibFiles Include="zlib127.lib">
+				<IgnorePath>true</IgnorePath>
+				<BuildOrder>30</BuildOrder>
+			</LibFiles>
+			<DelphiCompile Include="locale\ja\MsgUnit2.pas">
+				<BuildOrder>31</BuildOrder>
+			</DelphiCompile>
 			<FormResources Include="Unit3.dfm"/>
 			<FormResources Include="Unit2.dfm"/>
 			<FormResources Include="Unit1.dfm"/>
+			<FormResources Include="Unit4.dfm"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>
@@ -203,7 +203,7 @@
 						<VersionInfo Name="MajorVer">2</VersionInfo>
 						<VersionInfo Name="MinorVer">8</VersionInfo>
 						<VersionInfo Name="Release">0</VersionInfo>
-						<VersionInfo Name="Build">4</VersionInfo>
+						<VersionInfo Name="Build">5</VersionInfo>
 						<VersionInfo Name="Debug">False</VersionInfo>
 						<VersionInfo Name="PreRelease">True</VersionInfo>
 						<VersionInfo Name="Special">False</VersionInfo>
@@ -215,13 +215,13 @@
 					<VersionInfoKeys>
 						<VersionInfoKeys Name="CompanyName">http://hibara.org/</VersionInfoKeys>
 						<VersionInfoKeys Name="FileDescription"/>
-						<VersionInfoKeys Name="FileVersion">2.8.0.4</VersionInfoKeys>
+						<VersionInfoKeys Name="FileVersion">2.8.0.5</VersionInfoKeys>
 						<VersionInfoKeys Name="InternalName"/>
 						<VersionInfoKeys Name="LegalCopyright">Copyright(C) 2012 M.Hibara, All rights reserved.</VersionInfoKeys>
 						<VersionInfoKeys Name="LegalTrademarks"/>
 						<VersionInfoKeys Name="OriginalFilename"/>
 						<VersionInfoKeys Name="ProductName">AttacheCase</VersionInfoKeys>
-						<VersionInfoKeys Name="ProductVersion">2.8.0.4</VersionInfoKeys>
+						<VersionInfoKeys Name="ProductVersion">2.8.0.5</VersionInfoKeys>
 						<VersionInfoKeys Name="Comments"/>
 					</VersionInfoKeys>
 					<Debugging>

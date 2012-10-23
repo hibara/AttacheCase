@@ -1,0 +1,259 @@
+[
+	{
+		"id": "overview",
+		"name": "はじめに",
+		"path": "pages/overview.html",
+		"group": false
+	},
+	{
+		"id": "require",
+		"name": "動作環境",
+		"path": "pages/require.html",
+		"group": false
+	},
+	{
+		"id": "setup",
+		"name": "インストール/アンインストール",
+		"path": "pages/setup.html",
+		"group": false
+	},
+	{
+		"id": "limits",
+		"name": "制限",
+		"path": "pages/limits.html",
+		"group": false
+	},
+	{
+		"id": "password_forgotten",
+		"name": "パスワードを忘れてしまったら",
+		"path": "pages/password_forgotten.html",
+		"group": false
+	},
+	{
+		"id": "howto",
+		"name": "使用方法",
+		"path": "",
+		"group": true,
+		"children": [
+			{
+				"id": "howto/file_encrypt",
+				"name": "ファイルを暗号化する",
+				"path": "pages/howto/file_encrypt.html",
+				"group": false
+			},
+			{
+				"id": "howto/file_decrypt",
+				"name": "ファイルを復号する（元に戻す）",
+				"path": "pages/howto/file_decrypt.html",
+				"group": false
+			},
+			{
+				"id": "howto/exeout",
+				"name": "自己実行形式での出力",
+				"path": "pages/howto/exeout.html",
+				"group": false
+			},
+			{
+				"id": "howto/command_option",
+				"name": "起動時のコマンドオプション",
+				"path": "pages/howto/command_option.html",
+				"group": false
+			}
+		]
+	},
+	{
+		"id": "option",
+		"name": "動作設定",
+		"path": "",
+		"group": true,
+		"children": [
+			{
+				"id": "option/basic_option",
+				"name": "基本設定",
+				"path": "pages/option/basic_option.html",
+				"group": false
+			},
+			{
+				"id": "option/save_option",
+				"name": "保存設定",
+				"path": "pages/option/save_option.html",
+				"group": false,
+				"children": [
+					{
+						"id": "option/date_format",
+						"name": "自動で暗号化ファイル名を付加する（日付書式）",
+						"path": "pages/option/date_format.html",
+						"group": false
+					}
+				]
+			},
+			{
+				"id": "option/delete_option",
+				"name": "削除設定",
+				"path": "pages/option/delete_option.html",
+				"group": false
+			},
+			{
+				"id": "option/action_option",
+				"name": "動作設定",
+				"path": "pages/option/action_option.html",
+				"group": false
+			},
+			{
+				"id": "option/system_option",
+				"name": "システム設定",
+				"path": "pages/option/system_option.html",
+				"group": false,
+				"children": [
+					{
+						"id": "option/howto_ini",
+						"name": "INIファイルの活用方法",
+						"path": "pages/option/howto_ini.html",
+						"group": false
+					}
+				]
+			},
+			{
+				"id": "option/advanced_option",
+				"name": "高度な設定",
+				"path": "pages/option/advanced_option.html",
+				"group": false,
+				"children": [
+					{
+						"id": "option/ini_file",
+						"name": "INIファイルの活用方法",
+						"path": "pages/option/howto_ini.html",
+						"group": false
+					}
+				]
+			}
+		]
+	},
+	{
+		"id": "techinfo",
+		"name": "技術情報",
+		"path": "",
+		"group": true,
+		"children": [
+			{
+				"id": "techinfo/safety_oss",
+				"name": "オープンソース化による安全性について",
+				"path": "pages/techinfo/safety_oss.html",
+				"group": false
+			},
+			{
+				"id": "techinfo/delete_algorithm",
+				"name": "元ファイルの削除方法について",
+				"path": "pages/techinfo/delete_algorithm.html",
+				"group": false
+			},
+			{
+				"id": "techinfo/aes_algorithm",
+				"name": "暗号化アルゴリズムについて",
+				"path": "pages/techinfo/aes_algorithm.html",
+				"group": false
+			},
+			{
+				"id": "techinfo/encryption_mode",
+				"name": "暗号化モードについて",
+				"path": "pages/techinfo/encryption_mode.html",
+				"group": false
+			},
+			{
+				"id": "techinfo/sha1",
+				"name": "SHA-1とその後継策定について",
+				"path": "pages/techinfo/sha1.html",
+				"group": false
+			},
+			{
+				"id": "techinfo/zlib",
+				"name": "圧縮アルゴリズムについて",
+				"path": "pages/techinfo/zlib.html",
+				"group": false
+			},
+			{
+				"id": "techinfo/blowfish",
+				"name": "旧バージョンの暗号化アルゴリズムについて",
+				"path": "pages/techinfo/blowfish.html",
+				"group": false
+			}
+		]
+	},
+	{
+		"id": "support_license",
+		"name": "サポート/ライセンス",
+		"path": "",
+		"group": true,
+		"children": [
+			{
+				"id": "support_license/copyrights",
+				"name": "著作権表示",
+				"path": "pages/support_license/copyrights.html",
+				"group": false
+			},
+			{
+				"id": "support_license/license",
+				"name": "ライセンス",
+				"path": "pages/support_license/license.html",
+				"group": false
+			},
+			{
+				"id": "support_license/about_me",
+				"name": "作者について",
+				"path": "pages/support_license/about_me.html",
+				"group": false
+			},
+			{
+				"id": "support_license/faq",
+				"name": "ＦＡＱ（よくある質問）",
+				"path": "pages/support_license/faq.html",
+				"group": false
+			},
+			{
+				"id": "support_license/support",
+				"name": "連絡先（サポート）",
+				"path": "pages/support_license/support.html",
+				"group": false
+			}
+		]
+	},
+	{
+		"id": "other",
+		"name": "その他",
+		"path": "",
+		"group": true,
+		"children": [
+			{
+				"id": "other/not_attashecase",
+				"name": "アタッシュケースではない",
+				"path": "pages/other/not_attashecase.html",
+				"group": false
+			},
+			{
+				"id": "other/started_and_oss",
+				"name": "開発のキッカケとオープンソース化",
+				"path": "pages/other/started_and_oss.html",
+				"group": false
+			},
+			{
+				"id": "other/future_plans",
+				"name": "今後の予定",
+				"path": "pages/other/future_plans.html",
+				"group": false
+			},
+			{
+				"id": "other/fork_version",
+				"name": "アタッシェケース派生版のご紹介",
+				"path": "pages/other/fork_version.html",
+				"group": false
+			}
+		]
+	},
+	{
+		"id": "version",
+		"name": "改版履歴",
+		"path": "pages/version.html",
+		"group": false
+	}
+
+]

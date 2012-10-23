@@ -13,6 +13,7 @@ DefaultDirName={pf}\AttacheCase
 UsePreviousAppDir=yes
 AppendDefaultDirName=yes 
 OutputDir=.\
+TouchTime=00:00
 
 ;-----------------------------------
 ;インストーラプログラム
@@ -51,10 +52,10 @@ AppUpdatesURL=http://hibara.org/software/attachecase/
 AppComments=ファイル/フォルダー暗号化ソフトウェア
 
 [Files]
-Source: "bin\AttacheCase.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\AtcSetup.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\AttacheCase.chm"; DestDir: "{app}"; Flags: ignoreversion
-Source: "bin\readme.txt"; DestDir: "{app}"; Flags: isreadme  ignoreversion
+Source: "bin\AttacheCase.exe"; DestDir: "{app}"; Flags: ignoreversion touch
+Source: "bin\AtcSetup.exe"; DestDir: "{app}"; Flags: ignoreversion touch
+Source: "bin\AttacheCase.chm"; DestDir: "{app}"; Flags: ignoreversion touch
+Source: "bin\readme.txt"; DestDir: "{app}"; Flags: isreadme ignoreversion touch
 
 [Languages]
 Name: japanese; MessagesFile: compiler:Languages\Japanese.isl

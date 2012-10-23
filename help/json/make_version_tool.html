@@ -1,0 +1,110 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<title>Make Indexes from json file</title>
+<script type="text/javascript" src="../js/jquery-1.7.2.min.js"></script> 
+<script type="text/javascript" src="../js/jquery-ui-1.8.22.custom.min.js"></script> 
+</head>
+<body>
+<!--
+
+このHTMLファイルは、同ディレクトリに置かれたjsonファイル、
+
+・attachecase_beta_history.json
+・attachecase_ver2_history.json
+・attachecase_ver1_history.json
+
+を順番にパースして、ヘルプファイル（.CHM）生成に必要な
+「改版履歴」ページ（version.html）を生成するツールです。
+
+バージョン履歴が記載されたこれらjsonファイルは、
+作者サイト（http://hibara.org)でも併用しているため、
+こうしたツールを用意しました。
+
+-->
+<h2>History version:</h2>
+<textarea id="ver" rows="50" cols="100"></textarea>
+
+<script type="text/javascript">
+<!--
+$(function() {
+
+	//-----------------------------------
+	// json形式データから改版履歴を生成
+	//-----------------------------------
+	function parse_json(data_array, result_html){
+
+		for ( var i = 0; i < data_array.length; i++ ){
+
+			var data = data_array[i];
+
+			if ( data['version'] == "" ){	//区切り
+				result_html = result_html + "<br />\n<br />\n<hr />\n<br />\n";
+			}
+			else{
+				result_html = result_html + "<h2>" + data['version'] + "&nbsp;&nbsp;-&nbsp;&nbsp;" + data['date'] + "</h2>\n";
+				for ( var c = 0; c < data['contents'].length; c++ ){
+					var cnt = data['contents'][c];
+					if ( cnt['title'] != "" ){
+						result_html = result_html + cnt['title'] + "\n";
+					}
+					var itm = cnt['items'];
+					if ( itm.length > 0 ){
+						result_html = result_html + "<blockquote>\n<ul>\n";
+						for ( var j = 0; j < itm.length; j++ ){
+							result_html = result_html + "<li>" + itm[j] + "</li>\n";
+						}
+						result_html = result_html + "</ul>\n</blockquote>\n";
+					}
+				}
+			}
+		}
+		return(result_html);
+	}
+
+	//-----------------------------------
+	// ページヘッダ
+	//-----------------------------------
+
+	var header_string = "\
+<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\n\
+<head xmlns=\"http://www.w3.org/1999/html\">\n\
+\t<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">\n\
+\t<link rel=\"stylesheet\" type=\"text/css\" href=\"css/help.css\" />\n\
+\t<title>バージョン履歴</title>\n\
+</head>\n\
+<body>\n\
+\n<h1>バージョン履歴</h1>\n<p>『アタッシェケース』の改版履歴は以下の通りです。</p>\n";
+
+	$('#ver').val(header_string);
+
+	//-----------------------------------
+	// ページフッタ
+	//-----------------------------------
+	var footer_string = "\n<br />\n\
+<hr />\n\
+<p>Copyright&copy; 2012 M.Hibara, All rights Reserved. </p>\n\
+</body>";
+
+	//-----------------------------------
+	// getJSON
+	//-----------------------------------
+
+	//最新（ベータ版）
+	var result_string = "";
+	$.getJSON("attachecase_history.json", function(data){
+		result_string = parse_json(data, result_string);
+		$('#ver').val( $('#ver').val() + result_string + "<br />\n");	//テキストエリアに挿入
+		//フッター挿入
+		$('#ver').val( $('#ver').val() + footer_string );
+	});
+
+});
+
+// -->
+</script>
+
+</body>
+</html>

@@ -387,6 +387,7 @@ try{
 	//バージョン番号
 	pAppInfoString = new TGetAppInfoString();
 	VersionNum = StrToIntDef(StringReplace(pAppInfoString->FileVersion, ".", "", TReplaceFlags()<<rfReplaceAll), -1);
+	pOpt->WriteInteger( "AppInfo", "AppVersion", VersionNum);
 
 	//-----------------------------------
 	// フォームポジションなど

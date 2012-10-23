@@ -138,7 +138,6 @@ __published:	// IDE 管理のコンポーネント
 	void __fastcall cmdDecryptPasswordOKClick(TObject *Sender);
 	void __fastcall chkExeFileOutClick(TObject *Sender);
 	void __fastcall mnuFileClick(TObject *Sender);
-	void __fastcall mnuOptionClick(TObject *Sender);
 	void __fastcall imgBackMouseEnter(TObject *Sender);
 	void __fastcall imgBackMouseLeave(TObject *Sender);
 	void __fastcall PaintBoxMainMouseEnter(TObject *Sender);
@@ -194,7 +193,7 @@ private:	// ユーザー宣言
 	END_MESSAGE_MAP(TForm);
 
 	//タスクバーにプログレスバー表示 （Win7）
-	ITaskbarList3* ptl;
+	ITaskbarList3 *tskpbr;
 
 	//投げ込まれたファイルリスト
 	TStringList *FileList;

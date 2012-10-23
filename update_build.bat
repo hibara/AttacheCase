@@ -13,14 +13,20 @@
 @echo. 
 @echo. ======================================================================
 
-set /p NUM="リリース日を（yyyy mm dd）半角スペース区切りで入力してください。>"
+set /p NUM="ビルドを開始します。Enterキーを押してください。>"
 
 @echo. 
 @echo. -----------------------------------
-@echo. HTML Helpファイルの生成
+@echo. HTML Help Workshopファイルの生成
 @echo. -----------------------------------
 
+if "%PROCESSOR_ARCHITECTURE%" == "AMD64" (
+"%ProgramFiles(x86)%\HTML Help Workshop\hhc.exe" help\AttacheCase.hhp
+) else (
+"%ProgramFiles%\HTML Help Workshop\hhc.exe" help\AttacheCase.hhp
+)
 
+copy help\AttacheCase.chm AttacheCase.chm
 
 
 @echo 
@@ -32,7 +38,7 @@ mkdir installer\bin
 
 @rem  必要ファイルをinstallerへコピー
 copy readme\readme.txt installer\bin\readme.txt
-copy help\Output\chm\AttacheCase.chm installer\bin\AttacheCase.chm
+copy help\AttacheCase.chm installer\bin\AttacheCase.chm
 copy AtcSetup\AtcSetup.exe installer\bin\AtcSetup.exe
 copy exeout\exeout.exe installer\bin\exeout.exe
 copy AttacheCase.exe installer\bin\AttacheCase.exe
@@ -46,16 +52,6 @@ copy AttacheCase.exe installer\bin\AttacheCase.exe
 upx308w\upx --compress-icons=0 -6 installer\bin\AttacheCase.exe
 upx308w\upx --compress-resources=0 --best installer\bin\exeout.exe
 
-@echo. 
-@echo. -----------------------------------
-@echo. 各ファイルのタイムスタンプを変更
-@echo. -----------------------------------
-
-tools\chgtm\chgtm.exe "installer\bin\AttacheCase.exe" %NUM%
-tools\chgtm\chgtm.exe "installer\bin\exeout.exe" %NUM%
-tools\chgtm\chgtm.exe "installer\bin\AtcSetup.exe" %NUM%
-tools\chgtm\chgtm.exe "installer\bin\AttacheCase.chm" %NUM%
-tools\chgtm\chgtm.exe "installer\bin\readme.txt" %NUM%
 
 @echo. 
 @echo. -----------------------------------

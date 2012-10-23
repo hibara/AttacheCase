@@ -1,4 +1,4 @@
-﻿object Form1: TForm1
+object Form1: TForm1
   Left = 392
   Top = 161
   Caption = 'AttacheCase'
@@ -5488,7 +5488,7 @@
     Margins.Top = 4
     Margins.Right = 4
     Margins.Bottom = 4
-    ActivePage = TabSheetExecute
+    ActivePage = TabSheetMain
     DoubleBuffered = False
     ParentDoubleBuffered = False
     TabOrder = 1
@@ -6808,7 +6808,6 @@
     end
     object mnuOption: TMenuItem
       Caption = #12458#12503#12471#12519#12531'(&O)'
-      OnClick = mnuOptionClick
       object mnuSetting: TMenuItem
         Bitmap.Data = {
           36030000424D3603000000000000360000002800000010000000100000000100

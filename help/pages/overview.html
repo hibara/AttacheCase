@@ -1,0 +1,70 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link rel="stylesheet" type="text/css" href="css/help.css" />
+	<title>概要</title>
+</head>
+<body>
+
+<p><img src="attachecase_title.png" alt="「アタッシェケース」タイトル" title="" /></p>
+
+<h1>ご紹介</h1>
+
+<p>
+「アタッシェケース」は日常的に使うことを想定し、見た目のシンプルさと簡便な操作性に注力しながらも、
+世界標準の暗号アルゴリズムを採用した強力なファイル暗号化ソフトです。
+</p>
+
+<h2>ファイル/フォルダーをドラッグ＆ドロップするだけ</h2>
+<p><img src="encrypt_flow.png" alt="暗号化の流れ" class="aligncenter"/></p>
+<p>
+ファイルをドラッグ＆ドロップするだけで、簡単に暗号化することができ、フォルダごとドラッグ＆ドロップした場合には、
+１つにまとめて暗号化ファイルを作ります（フォルダごとパックします）。
+暗号化の際にはデータに圧縮がかかりますので、サイズがコンパクトになります。
+</p>
+
+<p>
+復号化する（元に戻す）際にもドラッグ＆ドロップするか、ダブルクリックしてパスワードを入力するだけで、
+簡単に元のファイルやフォルダに戻すことができます。
+</p>
+
+<p>
+また、実行形式（*.exe）ファイルとして出力できますので、
+アタッシェケースを持たない人へ暗号化ファイルを渡すことができ、復号することができます。
+</p>
+
+
+<h2>さまざまな動作設定を豊富に用意</h2>
+<p>
+<img src="attachecase_option.png" alt="動作設定パネル" class="alignleft"/>
+保存場所の指定、処理後のファイル削除、暗号/復号毎に異なるパスワード記憶、圧縮率の調整、
+パスワード入力回数による制限やデータ破壊などあり、コマンドラインからのオプションも用意されています。
+これにより、細かい指定による暗号化/復号にともなうファイル/フォルダーの操作や処理が可能になっています。
+</p>
+
+
+<h2>世界的な暗号化標準である強力な暗号アルゴリズムを採用</h2>
+<p>
+暗号化アルゴリズムには、2000年10月に
+（NIST: <a href="http://csrc.nist.gov/" target="_blank" class="external">http://csrc.nist.gov/</a>）によって、
+次世代暗号化標準 AES（Advanced Encryption Standard）として選定された
+“Rijndael（ラインダール）”を採用し組み込んでいます。
+AESではブロック長が128ビット固定となっていますが、アタッシェケースではRijndaelの仕様を採用し、
+鍵、ブロック長ともに256ビットになっています。
+</p>
+
+<p>
+なお、乱数による初期化ベクトル（IV）を生成してからCBCモードで暗号化し、
+第三者による解析も防ぐよう工夫されています。
+（→詳しくは、「<a href="techinfo/aes_algorithm.html">暗号化アルゴリズムについて</a>」のページを参照ください。）
+</p>
+
+<p>
+「アタッシェケース」は2012年7月からオープンソース化し、
+ライセンスについても変更されました。詳細は、「<a href="support_lisence/license.html">ライセンス</a>」のページをご覧ください。
+</p>
+
+<hr />
+<p>Copyright&copy; 2012 M.Hibara, All rights Reserved. </p>
+
+</body>

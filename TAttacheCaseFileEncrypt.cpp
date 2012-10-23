@@ -99,8 +99,10 @@ void __fastcall TAttacheCaseFileEncrypt::Execute()
 int i, c;
 int res;
 
-z_stream z;          // zlibライブラリとやりとりするための構造体
-int flush, status;   // zlib
+float ProgressPercentNumF;  //進捗パーセンテージ（浮動小数点）
+
+z_stream z;                 // zlibライブラリとやりとりするための構造体
+int flush, status;          // zlib
 
 //出力する暗号化ファイルのタイムスタンプを元ファイルに合わせる
 HANDLE hFile;
@@ -113,7 +115,6 @@ String FilePath;
 
 int HeaderSize;                          //ヘッダデータサイズ
 __int64 CurrentDriveFreeSpaceSize = -1;  //保存するドライブの空き容量
-
 
 //実行可能形式出力ファイルのデータサイズ
 __int64 ExeAllSize = 0;
@@ -528,7 +529,15 @@ while(!Terminated) {
 
 	//-----------------------------------
 	//進捗状況表示
-	ProgressPercentNum = ((float)TotalSize/AllTotalSize)*100;
+	ProgressPercentNumF = (float)TotalSize/AllTotalSize;
+	ProgressPercentNum = (int)(ProgressPercentNumF*100);
+
+	if (AllTotalSize < 104857600) {	// 100MB未満
+		ProgressPercentNumText = IntToStr(ProgressPercentNum)+"%";
+	}
+	else{
+		ProgressPercentNumText = FloatToStrF(ProgressPercentNumF*100, ffNumber, 4, 1)+"%";
+	}
 
 	if ( fOpenIn == true ){
 		ProgressMsgText = ExtractFileName(fsIn->FileName);

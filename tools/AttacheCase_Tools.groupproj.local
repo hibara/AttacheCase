@@ -4,6 +4,6 @@
     <Transaction>2012/07/05 12:46:49.229.groupproj,C:\Users\hibara\Documents\RAD Studio\Projects\ProjectGroup1.groupproj=C:\Users\hibara\Documents\GitHub\AttacheCase\tools\AttacheCase_Tools.groupproj</Transaction>
   </Transactions>
 	<Default.Personality>
-		<Projects ActiveProject="initlang.exe"/>
+		<Projects ActiveProject="chgtm.exe"/>
 	</Default.Personality>
 </BorlandProject>

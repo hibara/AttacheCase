@@ -438,6 +438,8 @@ int i, c;
 int res;
 char buffer[LARGE_BUF];
 
+float ProgressPercentNumF;
+
 HANDLE  hFile;
 DWORD uniWriteByte;
 
@@ -492,7 +494,14 @@ for ( i = 0; i < RandClearNum; i++ ){
 			}
 
 			//プログレス表示
-			ProgressPercentNum = ((float)CountSize/TotalFileSize)*100;
+			ProgressPercentNumF = (float)CountSize/TotalFileSize;
+			ProgressPercentNum = (int)(ProgressPercentNumF*100);
+			if (TotalFileSize < 104857600) {	// 100MB未満
+				ProgressPercentNumText = IntToStr(ProgressPercentNum)+"%";
+			}
+			else{
+				ProgressPercentNumText = FloatToStrF(ProgressPercentNumF*100, ffNumber, 4, 1)+"%";
+			}
 
 		}//while;
 
@@ -555,7 +564,14 @@ for ( i = 0; i < ZeroClearNum; i++ ){
 			}
 
 			//プログレス表示
-			ProgressPercentNum = ((float)CountSize/TotalFileSize)*100;
+			ProgressPercentNumF = (float)CountSize/TotalFileSize;
+			ProgressPercentNum = (int)(ProgressPercentNumF*100);
+			if (TotalFileSize < 104857600) {	// 100MB未満
+				ProgressPercentNumText = IntToStr(ProgressPercentNum)+"%";
+			}
+			else{
+				ProgressPercentNumText = FloatToStrF(ProgressPercentNumF*100, ffNumber, 4, 1)+"%";
+			}
 
 		}//while;
 

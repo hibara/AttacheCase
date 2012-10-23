@@ -1,0 +1,126 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<head xmlns="http://www.w3.org/1999/html">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="../css/help.css" />
+    <title>日付の書式例</title>
+</head>
+<body>
+
+<h1>日付の書式例</h1>
+
+<p>日時で指定できる書式は以下の通りです。</p>
+
+<table>
+<tbody>
+<tr>
+    <td>d</td>
+    <td>日付文字先頭にゼロを含めないで表示。1～31</td>
+</tr>
+<tr>
+    <td>dd</td>
+    <td>日付文字先頭にゼロを含めて表示。01～31</td>
+</tr>
+<tr>
+    <td>ddd</td>
+    <td>曜日の省略形。日～土</td>
+</tr>
+<tr>
+    <td>dddd</td>
+    <td>曜日。日曜日～土曜日</td>
+</tr>
+<tr>
+    <td>aaa</td>
+    <td>曜日の省略形。日～土</td>
+</tr>
+<tr>
+    <td>aaaa</td>
+    <td>曜日。日曜日～土曜日</td>
+</tr>
+<tr>
+    <td>dddddd</td>
+    <td>日付を標準形式（2004年1月31日）と表示。基本的には、「yyyy'年'mm'月'dd'日'」とやっても同じ。</td>
+</tr>
+<tr>
+    <td>m</td>
+    <td>月文字先頭にゼロを含めないで表示。1～12　hhの直後に指定すると、分として表示される。</td>
+</tr>
+<tr>
+    <td>mm</td>
+    <td>月文字先頭にゼロを含めて表示。1～12　hhの直後に指定すると、分として表示される。</td>
+</tr>
+<tr>
+    <td>mmm</td>
+    <td>月の省略形。1～12　(※英語版なら、Jan～Decと表示)</td>
+</tr>
+<tr>
+    <td>mmmm</td>
+    <td>月を標準形式で表示。1月～12月</td>
+</tr>
+<tr>
+    <td>yy</td>
+    <td>年を２桁で表示。00～04</td>
+</tr>
+<tr>
+    <td>yyyy</td>
+    <td>年を４桁で表示。0000～2004</td>
+</tr>
+<tr>
+    <td>h</td>
+    <td>時にゼロを含めないで表示。0～23</td>
+</tr>
+<tr>
+    <td>hh</td>
+    <td>時にゼロを含めて表示。00～23</td>
+</tr>
+<tr>
+    <td>n</td>
+    <td>分にゼロを含めないで表示。0～59</td>
+</tr>
+<tr>
+    <td>nn</td>
+    <td>分にゼロを含めて表示。00～59</td>
+</tr>
+<tr>
+    <td>s</td>
+    <td>秒にゼロを含めないで表示。0～59</td>
+</tr>
+<tr>
+    <td>ss</td>
+    <td>秒にゼロを含めて表示。00～59</td>
+</tr>
+<tr>
+    <td>am/pm</td>
+    <td>午前なら「am」と、午後なら「pm」と表示。「AM/PM」と指定すれば大文字で表示。</td>
+</tr>
+<tr>
+    <td>a/p</td>
+    <td>午前なら「a」と、午後なら「p」と表示。「A/P」と指定すれば大文字で表示。</td>
+</tr>
+<tr>
+    <td>ampm</td>
+    <td>「午前」「午後」と表示。</td>
+</tr>
+</tbody>
+</table>
+
+<p>' '（シングルコーテーション）、" "（ダブルコーテーション）で囲まれた文字はそのまま表示します。</p>
+
+<p>上記の書式には影響を与えません。たとえば、こんなふうにやります。「yyyy"年"mm"月"dd"日"」。</p>
+
+<p>
+また、日付を区切るときに使う /（スラッシュ）や、時間を区切るときに使う : （コロン）は、
+Windows上でファイル名として使うことができない「禁止文字」ですので、指定の際は、ご注意ください。
+</p>
+
+<p class="notice">禁止文字<br />
+ファイルパスやワイルドカードなどでWindowsが使用するため、
+以下の文字はファイル名として付けることができません。<br />
+￥ \ / : , * ? " &lt; &gt; |<br />
+</p>
+
+<p>&nbsp;</p>
+
+<hr />
+<p>Copyright&copy; 2012 M.Hibara, All rights Reserved. </p>
+
+</body>

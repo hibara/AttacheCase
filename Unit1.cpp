@@ -18,7 +18,6 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 {
 
 int i;
-
 //サイドメニューグラフィック
 bmpSideMenu = new Graphics::TBitmap;
 bmpSideMenu->Canvas->Brush->Style = bsClear;
@@ -92,27 +91,34 @@ if ( ParamCount() > 0){
 	opthdl->LoadOptionDataFromParamString(FileList);
 
 	//ファイルリストがあれば、その同ディレクトリにINIファイルがあるか？
-	if ( FileList->Count > 0 ){
+	for (i = 0; i < FileList->Count; i++) {
 
-		if ( DirectoryExists(FileList->Strings[0]) == true ){
+		if ( DirectoryExists(FileList->Strings[i]) == true ){
 			//フォルダならその中にあるファイル
-			IniFilePath = IncludeTrailingPathDelimiter(FileList->Strings[0])+INI_FILE_NAME;
+			IniFilePath = IncludeTrailingPathDelimiter(FileList->Strings[i])+INI_FILE_NAME;
 		}
 		else {
 			//ファイルなら同じディレクトリから
-			IniFilePath = IncludeTrailingPathDelimiter(ExtractFileDir(FileList->Strings[0]))+INI_FILE_NAME;
+			IniFilePath = IncludeTrailingPathDelimiter(ExtractFileDir(FileList->Strings[i]))+INI_FILE_NAME;
 		}
 
-		// INIファイルがあればそこから、なければレジストリから読み込む
-		opthdl->LoadOptionData(IniFilePath);
+		if (FileExists(IniFilePath) == true) {
+			break;
+		}
 
 	}
-	//ファイルリストはない
-	else{
-		// レジストリから読み込む
-		opthdl->LoadOptionData("");
+
+	if (FileExists(IniFilePath) == false ) {
+		//カレントディレクトリに設定INIファイルがあるか？
+		IniFilePath = IncludeTrailingPathDelimiter(GetCurrentDir())+INI_FILE_NAME;
+		if ( FileExists(IniFilePath) == false ){
+			//なければ本体ディレクトリから
+			IniFilePath = IncludeTrailingPathDelimiter(ExtractFileDir(Application->ExeName))+INI_FILE_NAME;
+		}
 	}
 
+	// INIファイルがあればそこから、なければレジストリから読み込む
+	opthdl->LoadOptionData(IniFilePath);
 	//もう一度、その上からコマンドライン引数を上書きする
 	opthdl->LoadOptionDataFromParamString(FileList);
 
@@ -125,7 +131,7 @@ else{
 	//-----------------------------------
 
 	//カレントディレクトリに設定INIファイルがあるか？
-	String IniFilePath = IncludeTrailingPathDelimiter(GetCurrentDir())+INI_FILE_NAME;
+	IniFilePath = IncludeTrailingPathDelimiter(GetCurrentDir())+INI_FILE_NAME;
 
 	if ( FileExists(IniFilePath) == false ){
 		//なければ本体ディレクトリから
@@ -734,7 +740,7 @@ if ( PageControl1->ActivePage == TabSheetMain ) {
 	//暗号化/復号処理を自動判定し実行する
 	//-----------------------------------
 	if (FileList->Count > 0) {
-		Form1->Caption = Application->Title + " - " + ExtractFileName(FileList->Strings[0]);
+		Form1->Caption = ExtractFileName(FileList->Strings[0]) + " - " + Application->Title;
 		DoExecute(FileList);
 	}
 
@@ -1218,10 +1224,9 @@ cmpdel->FreeOnTerminate = true;
 cmpdel->Start();
 
 //タスクバー進捗表示（Win7）
-if(CoCreateInstance(CLSID_TaskbarList, NULL, CLSCTX_ALL, IID_ITaskbarList3, (void**)&ptl) != S_OK) {
-	//失敗
+if(CoCreateInstance(CLSID_TaskbarList, NULL, CLSCTX_ALL, IID_ITaskbarList3, (void**)&tskpbr) == S_OK) {
+	tskpbr->SetProgressState(this->Handle, TBPF_NORMAL);
 }
-if (ptl) ptl->SetProgressState(Application->Handle, TBPF_NORMAL);
 
 //進捗をTimerで監視
 TimerDelete->Enabled = true;
@@ -1248,10 +1253,10 @@ else{
 lblStatus->Caption = encrypt->ProgressStatusText;
 lblMsg->Caption = encrypt->ProgressMsgText;
 
-if(ptl){
-	ptl->SetProgressValue(Application->Handle, 100, 100);
-	ptl->Release();
-	ptl = NULL;
+if(tskpbr){
+	tskpbr->SetProgressValue(this->Handle, 100, 100);
+	tskpbr->Release();
+	tskpbr = NULL;
 }
 
 //暗号化成功
@@ -1309,10 +1314,10 @@ ProgressBar1->Position = decrypt->ProgressPercentNum;
 lblStatus->Caption = decrypt->ProgressStatusText;
 lblMsg->Caption = decrypt->ProgressMsgText;
 
-if(ptl){
-	ptl->SetProgressValue(Application->Handle, 100, 100);
-	ptl->Release();
-	ptl = NULL;
+if(tskpbr){
+	tskpbr->SetProgressValue(this->Handle, 100, 100);
+	tskpbr->Release();
+	tskpbr = NULL;
 }
 
 TimerDecrypt->Enabled = false;
@@ -1417,10 +1422,10 @@ ProgressBar1->Position = cmpdel->ProgressPercentNum;
 lblStatus->Caption = cmpdel->ProgressStatusText;
 lblMsg->Caption = cmpdel->ProgressMsgText;
 
-if(ptl){
-	ptl->SetProgressValue(Application->Handle, 100, 100);
-	ptl->Release();
-	ptl = NULL;
+if(tskpbr){
+	tskpbr->SetProgressValue(this->Handle, 100, 100);
+	tskpbr->Release();
+	tskpbr = NULL;
 }
 
 TimerDelete->Enabled = false;
@@ -1474,18 +1479,17 @@ if (encrypt != NULL) {
 		//マーキー表示
 		ProgressBar1->Style = pbstMarquee;
 		lblProgressPercentNum->Caption = " - %";
-		if (ptl) {
-			ptl->SetProgressState(Application->Handle, TBPF_INDETERMINATE);
+		if (tskpbr) {
+			tskpbr->SetProgressState(this->Handle, TBPF_INDETERMINATE);
 		}
-
 	}
 	else{
 		ProgressBar1->Style = pbstNormal;
 		ProgressBar1->Position = encrypt->ProgressPercentNum;
-		lblProgressPercentNum->Caption = IntToStr(encrypt->ProgressPercentNum)+"%";
+		lblProgressPercentNum->Caption = encrypt->ProgressPercentNumText;
 		//タスクバー進捗表示（Win7）
-		if(ptl){
-			ptl->SetProgressValue(Application->Handle, encrypt->ProgressPercentNum, 100);
+		if(tskpbr){
+			tskpbr->SetProgressValue(this->Handle, encrypt->ProgressPercentNum, 100);
 		}
 	}
 	lblStatus->Caption = encrypt->ProgressStatusText;
@@ -1505,14 +1509,14 @@ void __fastcall TForm1::TimerDecryptTimer(TObject *Sender)
 
 if (decrypt != NULL) {
 	ProgressBar1->Position = decrypt->ProgressPercentNum;
-	lblProgressPercentNum->Caption = IntToStr(decrypt->ProgressPercentNum)+"%";
+	lblProgressPercentNum->Caption = decrypt->ProgressPercentNumText;
 
 	lblStatus->Caption = decrypt->ProgressStatusText;
 	lblMsg->Caption = decrypt->ProgressMsgText;
 
 	//タスクバー進捗表示（Win7）
-	if(ptl){
-		ptl->SetProgressValue(Application->Handle, decrypt->ProgressPercentNum, 100);
+	if(tskpbr){
+		tskpbr->SetProgressValue(this->Handle, decrypt->ProgressPercentNum, 100);
 	}
 }
 else{
@@ -1531,17 +1535,17 @@ if (cmpdel != NULL) {
 		//マーキー表示
 		ProgressBar1->Style = pbstMarquee;
 		lblProgressPercentNum->Caption = " - %";
-		if (ptl) {
-			ptl->SetProgressState(Application->Handle, TBPF_INDETERMINATE);
+		if (tskpbr) {
+			tskpbr->SetProgressState(this->Handle, TBPF_INDETERMINATE);
 		}
 	}
 	else{
 		ProgressBar1->Style = pbstNormal;
 		ProgressBar1->Position = cmpdel->ProgressPercentNum;
-		lblProgressPercentNum->Caption = IntToStr(cmpdel->ProgressPercentNum)+"%";
+		lblProgressPercentNum->Caption = cmpdel->ProgressPercentNumText;
 		//タスクバー進捗表示（Win7）
-		if(ptl){
-			ptl->SetProgressValue(Application->Handle, cmpdel->ProgressPercentNum, 100);
+		if(tskpbr){
+			tskpbr->SetProgressValue(this->Handle, cmpdel->ProgressPercentNum, 100);
 		}
 	}
 	lblStatus->Caption = cmpdel->ProgressStatusText;
@@ -1556,31 +1560,7 @@ else{
 void __fastcall TForm1::mnuFileClick(TObject *Sender)
 {
 
-if ( PageControl1->ActivePage == TabSheetMain ){
-	mnuEncryptFiles->Enabled = true;
-	mnuEncryptDir->Enabled = true;
-	mnuDecrypt->Enabled = true;
-}
-else if ( PageControl1->ActivePage == TabSheetInputEncPass ){
-	mnuEncryptFiles->Enabled = true;
-	mnuEncryptDir->Enabled = true;
-	mnuDecrypt->Enabled = false;
-}
-else if ( PageControl1->ActivePage == TabSheetInputEncPassConfirm ){
-	mnuEncryptFiles->Enabled = false;
-	mnuEncryptDir->Enabled = false;
-	mnuDecrypt->Enabled = false;
-}
-else if ( PageControl1->ActivePage == TabSheetInputDecPass ){
-	mnuEncryptFiles->Enabled = false;
-	mnuEncryptDir->Enabled = false;
-	mnuDecrypt->Enabled = true;
-}
-else if ( PageControl1->ActivePage == TabSheetExecute ){
-	mnuEncryptFiles->Enabled = false;
-	mnuEncryptDir->Enabled = false;
-	mnuDecrypt->Enabled = false;
-}
+//
 
 }
 //---------------------------------------------------------------------------
@@ -1755,25 +1735,15 @@ void __fastcall TForm1::mnuExitClick(TObject *Sender)
 Close();
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::mnuOptionClick(TObject *Sender)
-{
-
-if ( PageControl1->ActivePage == TabSheetMain ){
-	mnuSetting->Enabled = true;
-}
-else{
-	mnuSetting->Enabled = false;
-}
-
-}
-//---------------------------------------------------------------------------
 void __fastcall TForm1::mnuSettingClick(TObject *Sender)
 {
+
 //オプションパネルの表示
 Form3 = new TForm3(this, opthdl);
 Form3->PopupParent = Screen->ActiveForm;
 Form3->ShowModal();
 Form3->Release();
+
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::mnuContentsClick(TObject *Sender)
@@ -2064,6 +2034,8 @@ encrypt->fConfirmOverwirte = opthdl->fConfirmOverwirte;            //同名フ�
 encrypt->intOptMissTypeLimitsNumOption = opthdl->MissTypeLimitsNum;//タイプミスできる回数
 encrypt->AppExeFilePath = Application->ExeName;	                   //アタッシェケース本体の場所（実行形式出力のときに参照する）
 
+Form1->Caption = ExtractFileName(FilePath) + " - " + Application->Title;
+
 //パスワードファイルを使用するか
 if ( PasswordFilePath != "") {
 
@@ -2094,11 +2066,10 @@ else{
 //暗号化の実行
 encrypt->Start();
 
-//タスクバー進捗表示（Win7）
-if(CoCreateInstance(CLSID_TaskbarList, NULL, CLSCTX_ALL, IID_ITaskbarList3, (void**)&ptl) != S_OK) {
-	//失敗した場合は無視
+//タスクバー進捗表示（Win7）失敗した場合は無視
+if(CoCreateInstance(CLSID_TaskbarList, NULL, CLSCTX_ALL, IID_ITaskbarList3, (void**)&tskpbr) == S_OK) {
+	tskpbr->SetProgressState(this->Handle, TBPF_NORMAL);
 }
-if (ptl) ptl->SetProgressState(Application->Handle, TBPF_NORMAL);
 
 //進捗をTimerで監視
 TimerEncrypt->Enabled = true;
@@ -2184,6 +2155,8 @@ if ( FileList->Count > 0) {
 		decrypt->NumOfTrials = RetryNum;
 	}
 
+	Form1->Caption = ExtractFileName(AtcFilePath) + " - " + Application->Title;
+
 	//-----------------------------------
 	//パスワードのセット
 	//-----------------------------------
@@ -2218,10 +2191,12 @@ if ( FileList->Count > 0) {
 	decrypt->Start();
 
 	//タスクバー進捗表示（Win7）
-	if(CoCreateInstance(CLSID_TaskbarList, NULL, CLSCTX_ALL, IID_ITaskbarList3, (void**)&ptl) != S_OK) {
+	if(CoCreateInstance(CLSID_TaskbarList, NULL, CLSCTX_ALL, IID_ITaskbarList3, (void**)&tskpbr) != S_OK) {
 		//失敗
 	}
-	if (ptl) ptl->SetProgressState(Application->Handle, TBPF_NORMAL);
+	if (tskpbr){
+		tskpbr->SetProgressState(this->Handle, TBPF_NORMAL);
+	}
 
 	//進捗をTimerで監視
 	TimerDecrypt->Enabled = true;
@@ -2293,10 +2268,12 @@ decrypt->SetPasswordBinary(password);
 decrypt->Start();
 
 //タスクバー進捗表示（Win7）
-if(CoCreateInstance(CLSID_TaskbarList, NULL, CLSCTX_ALL, IID_ITaskbarList3, (void**)&ptl) != S_OK) {
+if(CoCreateInstance(CLSID_TaskbarList, NULL, CLSCTX_ALL, IID_ITaskbarList3, (void**)&tskpbr) != S_OK) {
 	//失敗
 }
-if (ptl) ptl->SetProgressState(Application->Handle, TBPF_NORMAL);
+if (tskpbr){
+	tskpbr->SetProgressState(this->Handle, TBPF_NORMAL);
+}
 
 //進捗をTimerで監視
 TimerDecrypt->Enabled = true;
@@ -2707,10 +2684,11 @@ PageControl1Change(Sender);    // OnChangeイベント
 void __fastcall TForm1::PageControl1Change(TObject *Sender)
 {
 
-int i;
-
-//メイン画面に戻ったとき
-if (PageControl1->ActivePage == TabSheetMain) {
+if ( PageControl1->ActivePage == TabSheetMain ){
+	mnuEncryptFiles->Enabled = true;
+	mnuEncryptDir->Enabled = true;
+	mnuDecrypt->Enabled = true;
+	mnuSetting->Enabled = true;
 
 	txtEncryptPassword->Text = "";
 	txtPasswordConfirm->Text = "";
@@ -2723,9 +2701,37 @@ if (PageControl1->ActivePage == TabSheetMain) {
 	//実行中パネルのボタンを「キャンセル」に戻す
 	cmdCancel->Caption = "&Cancel";
 
-  this->Caption = Application->Title;
+	this->Caption = Application->Title;
 
 	CryptTypeNum = 0;
+
+}
+else if ( PageControl1->ActivePage == TabSheetInputEncPass ){
+	mnuEncryptFiles->Enabled = true;
+	mnuEncryptDir->Enabled = true;
+	mnuDecrypt->Enabled = false;
+	mnuSetting->Enabled = false;
+
+}
+else if ( PageControl1->ActivePage == TabSheetInputEncPassConfirm ){
+	mnuEncryptFiles->Enabled = false;
+	mnuEncryptDir->Enabled = false;
+	mnuDecrypt->Enabled = false;
+	mnuSetting->Enabled = false;
+
+}
+else if ( PageControl1->ActivePage == TabSheetInputDecPass ){
+	mnuEncryptFiles->Enabled = false;
+	mnuEncryptDir->Enabled = false;
+	mnuDecrypt->Enabled = true;
+	mnuSetting->Enabled = false;
+
+}
+else if ( PageControl1->ActivePage == TabSheetExecute ){
+	mnuEncryptFiles->Enabled = false;
+	mnuEncryptDir->Enabled = false;
+	mnuDecrypt->Enabled = false;
+	mnuSetting->Enabled = false;
 
 }
 
@@ -2949,22 +2955,24 @@ for (ptIndex = 4; ptIndex > 0; ptIndex--) {
 
 switch(ptIndex){
 case 1:	//暗号化
-	mnuEncryptFilesClick(Sender);
-	fEncryptMenu = false;
+	if (mnuEncryptFiles->Enabled == true) {
+		mnuEncryptFilesClick(Sender);
+		fEncryptMenu = false;
+	}
 	break;
 
 case 2:	//復号
-	mnuDecryptClick(Sender);
-	fDecryptMenu = false;
+	if (mnuDecrypt->Enabled == true) {
+		mnuDecryptClick(Sender);
+		fDecryptMenu = false;
+	}
 	break;
 
 case 4:	//オプション
-	//オプションパネルの表示
-	Form3 = new TForm3(this, opthdl);
-	Form3->PopupParent = Screen->ActiveForm;
-	Form3->ShowModal();
-	Form3->Release();
-	fOptionMenu = false;
+	if (mnuSetting->Enabled == true) {
+		mnuSettingClick(Sender);
+		fOptionMenu = false;
+	}
 	break;
 
 default:

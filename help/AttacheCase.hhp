@@ -1,0 +1,92 @@
+[OPTIONS]
+Compatibility=1.1 or later
+Compiled file=AttacheCase.chm
+Contents file=Table of Contents.hhc
+Default Window=アタッシェケース
+Default topic=pages\overview.html
+Display compile progress=Yes
+Full-text search=Yes
+Index file=Index.hhk
+Language=0x411 日本語 (日本)
+Title=アタッシェケース
+
+[WINDOWS]
+アタッシェケース="アタッシェケース　-　ヘルプ","Table of Contents.hhc","Index.hhk","pages\overview.html","pages\overview.html",,,,,0x22520,240,0x304e,[0,0,920,640],0x30000,,,,,,0
+
+[FILES]
+pages\limits.html
+pages\overview.html
+pages\password_forgotten.html
+pages\require.html
+pages\setup.html
+pages\version.html
+pages\attachecase_title.png
+pages\encrypt_flow.png
+pages\main_icon_48x48.png
+pages\attachecase_option.png
+
+pages\howto\command_option.html
+pages\howto\exeout.html
+pages\howto\file_decrypt.html
+pages\howto\file_encrypt.html
+pages\howto\decryption_complete.png
+pages\howto\decryption_start.png
+pages\howto\drag_and_drop.png
+pages\howto\drag_and_drop_atc.png
+pages\howto\encryption_complete.png
+pages\howto\encryption_start.png
+pages\howto\exeout_icon_48x48.png
+pages\howto\input_password.png
+pages\howto\input_password_atc.png
+pages\howto\input_password_confirm.png
+pages\howto\start_window.png
+
+pages\option\action_option.html
+pages\option\advanced_option.html
+pages\option\basic_option.html
+pages\option\date_format.html
+pages\option\delete_option.html
+pages\option\howto_ini.html
+pages\option\save_option.html
+pages\option\system_option.html
+
+pages\other\fork_version.html
+pages\other\future_plans.html
+pages\other\not_attashecase.html
+pages\other\started_and_oss.html
+
+pages\support_license\about_me.html
+pages\support_license\copyrights.html
+pages\support_license\faq.html
+pages\support_license\license.html
+pages\support_license\support.html
+pages\support_license\GitHub_Logo.png
+pages\support_license\gplv3-127x51.png
+pages\support_license\Octocat.png
+
+pages\techinfo\aes_algorithm.html
+pages\techinfo\blowfish.html
+pages\techinfo\delete_algorithm.html
+pages\techinfo\encryption_mode.html
+pages\techinfo\safety_oss.html
+pages\techinfo\sha1.html
+pages\techinfo\zlib.html
+pages\techinfo\cbc_mode_decryption.png
+pages\techinfo\cbc_mode_encryption.png
+pages\techinfo\ebc_mode.png
+
+
+[ALIAS]
+IDH_ACTION_OPTION=pages\option\action_option.html
+IDH_ADVANCED_OPTION=pages\option\advanced_option.html
+IDH_BASIC_OPTION=pages\option\basic_option.html
+IDH_DELETE_OPTION=pages\option\delete_option.html
+IDH_INDEX_PAGE=pages\overview.html
+IDH_SAVE_OPTION=pages\option\save_option.html
+IDH_SYSTEM_OPTION=pages\option\system_option.html
+
+[MAP]
+#include text.h
+
+[INFOTYPES]
+
