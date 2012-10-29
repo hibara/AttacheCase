@@ -17,7 +17,6 @@
 class TForm1 : public TForm
 {
 __published:	// IDE 管理のコンポーネント
-	void __fastcall FormCreate(TObject *Sender);
 
 
 private:	// ユーザー宣言

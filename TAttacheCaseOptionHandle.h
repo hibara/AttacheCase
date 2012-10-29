@@ -4,7 +4,7 @@
 
 
 #include <System.hpp>
-
+#include <SysUtils.hpp>
 #include <IniFiles.hpp>     //INIファイル操作用
 #include <Registry.hpp>     //レジストリ操作用
 #include <Math.hpp>
@@ -54,7 +54,7 @@ private:
 	bool __fastcall ChkFileNameChr(String ChkText);
 
 	// SaveShellLink
-	bool __fastcall SaveShellLink(IShellLink *psl, String LinkName, BOOL bRemember);
+	bool __fastcall SaveShellLink(IShellLinkW *psl, String LinkName, BOOL bRemember);
 
 
 protected:

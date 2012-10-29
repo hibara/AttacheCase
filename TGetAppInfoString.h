@@ -8,6 +8,8 @@
 #ifndef TGetAppInfoStringH
 #define TGetAppInfoStringH
 
+#include <Forms.hpp>
+
 //----------------------------------------------------------------------
 class TGetAppInfoString : public TObject
 {

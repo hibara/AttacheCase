@@ -8,7 +8,12 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
+
+#if __CODEGEARC__ < 0x640
 #pragma link "HTMLHelpViewer"
+#else
+#pragma link "Vcl.HTMLHelpViewer"
+#endif
 
 TForm1 *Form1;
 TDragAndDrop *DragAndDropTarget;
@@ -295,6 +300,63 @@ PaintSideMenu();
 
 }
 //---------------------------------------------------------------------------
+//ジェスチャ（タッチ）イベント
+//---------------------------------------------------------------------------
+void __fastcall TForm1::FormGesture(TObject *Sender, const TGestureEventInfo &EventInfo,
+					bool &Handled)
+{
+
+int PosX, PosY;
+
+switch(EventInfo.GestureID){
+
+//igZoom
+case 259:
+
+	Handled = true;
+
+	if(EventInfo.Flags.Contains(gfBegin) == true){	        //ズーム開始
+
+		//基準座標を保存
+		TouchFormStartPos.x = (int)EventInfo.Location.x;
+		TouchFormStartPos.y = (int)EventInfo.Location.y;
+		TouchFormWidth = Form1->Width;
+		TouchFormHeight = Form1->Height;
+
+	}
+	else if (EventInfo.Flags.Contains(gfInertia) == true ){ //イナーシャ中
+
+	}
+	else if ( EventInfo.Flags.Contains(gfEnd) == true  ){   //ズーム終了
+
+		TouchFormStartPos = TPoint(0,0);
+		TouchFormWidth = Form1->Width;
+		TouchFormHeight = Form1->Height;
+
+	}
+	else{
+
+		PosX = TouchFormStartPos.x - (int)EventInfo.Location.x;
+		PosY = TouchFormStartPos.y - (int)EventInfo.Location.y;
+
+		//フォームをそれに伴って拡大縮小する
+		Form1->Width = TouchFormWidth - PosX*2;
+		Form1->Height = TouchFormHeight - PosY*2;
+
+	}
+
+	break;
+
+
+default:
+	break;
+
+
+}//switch;
+
+
+}
+//---------------------------------------------------------------------------
 //フォーム内コンポーネントを配置する
 //---------------------------------------------------------------------------
 void __fastcall TForm1::SetFormComponent(TObject *Sender)
@@ -540,6 +602,17 @@ PaintBoxMain->Canvas->FillRect(rc);
 
 //サイドバーメニューを再描画しておく
 PaintBoxMenuPaint(Sender);
+
+}
+//---------------------------------------------------------------------------
+// PaintBoxをドラッグしてフォームを移動する
+//---------------------------------------------------------------------------
+void __fastcall TForm1::PaintBoxMainMouseDown(TObject *Sender, TMouseButton Button,
+					TShiftState Shift, int X, int Y)
+{
+
+ReleaseCapture();
+SendMessage(this->Handle, WM_SYSCOMMAND, SC_MOVE | 2, 0);
 
 }
 //---------------------------------------------------------------------------
@@ -2985,7 +3058,7 @@ SetFormComponent(Sender);
 //メニューを再描画
 PaintSideMenu();
 
+
 }
 //---------------------------------------------------------------------------
-
 

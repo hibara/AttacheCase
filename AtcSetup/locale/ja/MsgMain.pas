@@ -6,7 +6,9 @@ resourcestring
 
 	SYSTEM_CONTEXT_MENU_DECYPTION             = 'アタッシェケースファイルを復号する';
 
-  MSG_ERROR_DO_NOT_READ_REGISTRY            = '理由はわかりませんが、レジストリからの読み込みに失敗しました。';
+  MSG_ERROR_DO_NOT_READ_REGISTRY            = '理由はわかりませんが、レジストリからの読み込みに失敗しました。'+#13+
+                                              '制限ユーザーである可能性があります。管理者権限での実行が必要です。';
+  
   MSG_ERROR_THIS_APP_DOES_NOT_EXECUTE_ALONE = 'このプログラムは単体では動作しません。'+#13+
                                               'アタッシェケースからファイルの関連付け設定で呼び出されるときのみ使用されます。';
 

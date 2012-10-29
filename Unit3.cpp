@@ -7,6 +7,13 @@
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
+
+#if __CODEGEARC__ < 0x640
+#pragma link "HTMLHelpViewer"
+#else
+#pragma link "Vcl.HTMLHelpViewer"
+#endif
+
 TForm3 *Form3;
 TDragAndDrop *DragAndDropOptionTarget;
 //---------------------------------------------------------------------------
@@ -1604,7 +1611,7 @@ try{
 			}
 
 			//SHA-1ハッシュを求める
-			if ( pOpt->GetSHA1HashFromFile(FilePath, SHA1HashPassword, (AnsiString)NULL) == true ){
+			if ( pOpt->GetSHA1HashFromFile(FilePath, SHA1HashPassword, (AnsiString&)"") == true ){
 				//仮の記憶暗号化パスワード
 				TempMyEncodePassword = SHA1HashPassword;
 				btneditMyEncPassword->Text = String::StringOfChar('*', 32);
@@ -1654,7 +1661,7 @@ try{
         delete dialog;
       }
 			//SHA-1ハッシュを求める
-			if ( pOpt->GetSHA1HashFromFile(FilePath, SHA1HashPassword, (AnsiString)NULL) == true ){
+			if ( pOpt->GetSHA1HashFromFile(FilePath, SHA1HashPassword, (AnsiString&)"") == true ){
 				//仮の記憶暗号化パスワード
 				TempMyDecodePassword = SHA1HashPassword;
 				btneditMyDecPassword->Text = String::StringOfChar('*', 32);

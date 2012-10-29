@@ -24,6 +24,7 @@
 #include "TDragAndDrop.h"
 #include "shlobj.h"
 
+
 #include "Unit2.h"
 #include "Unit3.h"
 
@@ -148,14 +149,16 @@ __published:	// IDE 管理のコンポーネント
 	void __fastcall txtPasswordConfirmChange(TObject *Sender);
 	void __fastcall PaintBoxMenuPaint(TObject *Sender);
 	void __fastcall PaintBoxMenuMouseMove(TObject *Sender, TShiftState Shift, int X,
-          int Y);
+					int Y);
 	void __fastcall PaintBoxMenuMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
 					int X, int Y);
 	void __fastcall chkExeFileOutConfClick(TObject *Sender);
 	void __fastcall chkDeleteSourceDataClick(TObject *Sender);
 	void __fastcall chkDeleteSourceDataConfClick(TObject *Sender);
-
-
+	void __fastcall FormGesture(TObject *Sender, const TGestureEventInfo &EventInfo,
+					bool &Handled);
+	void __fastcall PaintBoxMainMouseDown(TObject *Sender, TMouseButton Button,
+          TShiftState Shift, int X, int Y);
 
 
 private:	// ユーザー宣言
@@ -174,6 +177,10 @@ private:	// ユーザー宣言
 	bool fDecryptMenu;
 	bool fOptionMenu;
 
+	//タッチイベントのウィンドウリサイズで使うサイズ格納
+	TPoint TouchFormStartPos;
+	int TouchFormWidth;
+	int TouchFormHeight;
 
 	//-----------------------------------
 	// 現在の処理内容

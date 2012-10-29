@@ -56,6 +56,7 @@ object Form1: TForm1
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
   OnDestroy = FormDestroy
+  OnGesture = FormGesture
   OnKeyDown = FormKeyDown
   OnResize = FormResize
   OnShow = FormShow
@@ -5505,10 +5506,11 @@ object Form1: TForm1
         437
         272)
       object PaintBoxMain: TPaintBox
-        Left = 11
+        Left = 3
         Top = 11
         Width = 74
         Height = 64
+        OnMouseDown = PaintBoxMainMouseDown
         OnMouseEnter = PaintBoxMainMouseEnter
         OnMouseLeave = PaintBoxMainMouseLeave
       end

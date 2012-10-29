@@ -1546,7 +1546,7 @@ bool __fastcall TAttacheCaseOptionHandle::CreateShortCutFile
 // WorkDir    : 作業ディレクトリ
 // ShowCmd    : 実行時の大きさ
 
-IShellLink *psl;
+IShellLinkW *psl;
 
 //IShellLinkW *psl;	// これだとうまくショートカットファイルが生成できない？
 
@@ -1555,13 +1555,13 @@ CoInitialize( NULL );
 if ( CoCreateInstance
 		( CLSID_ShellLink, NULL, CLSCTX_INPROC_SERVER, IID_IShellLink, (void **)&psl ) == S_OK){
 
-	psl->SetPath(TargetFilePath.t_str());          // リンク先を設定
+	psl->SetPath(TargetFilePath.c_str());          // リンク先を設定
 
 	if ( Arguments != "" ){
-		psl->SetArguments( Arguments.t_str() );      // コマンドライン引数を設定
+		psl->SetArguments( Arguments.c_str() );      // コマンドライン引数を設定
 	}
 	if ( WorkDir != "" ){                          // 作業フォルダを設定
-		psl->SetWorkingDirectory( WorkDir.t_str() );
+		psl->SetWorkingDirectory( WorkDir.c_str() );
 	}
 	psl->SetShowCmd( ShowCmd );                    // 実行時の大きさを設定
 
@@ -1586,7 +1586,7 @@ return(false);
 // SaveShellLink
 //===========================================================================
 bool __fastcall TAttacheCaseOptionHandle::SaveShellLink
-	( IShellLink *psl, String LinkName, BOOL bRemember )
+	( IShellLinkW *psl, String LinkName, BOOL bRemember )
 {
 
 bool fResult;

@@ -9,7 +9,11 @@
 @echo. 実行してください。
 @echo. 
 @echo. ■Inno Setup（インストーラー作成ソフト）
+@echo. 　http://www.jrsoftware.org/isinfo.php
 @echo. ■UPX（実行ファイル圧縮ソフト）
+@echo. 　http://upx.sourceforge.net/
+@echo. ■HTML Help Workshop
+@echo. 　http://www.microsoft.com/en-us/download/details.aspx?id=21138
 @echo. 
 @echo. ======================================================================
 
