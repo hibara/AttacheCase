@@ -351,6 +351,7 @@ DataList->LoadFromStream(pms);                                 // default encodi
 
 delete pms;
 
+
 //-----------------------------------
 // 復号正否（復号できたか）
 //-----------------------------------
@@ -435,6 +436,7 @@ for (i = 0; i < DataList->Count; i++) {
 
 delete tsv;
 delete DataList;
+
 
 //-----------------------------------
 //ディスクの空き容量チェック
@@ -610,9 +612,9 @@ while (Terminated == false) {
 		goto LabelError;
 	}
 
-	// -----------------------------------
+	//-----------------------------------
 	// 出力
-	// -----------------------------------
+	//-----------------------------------
 	if ( z.avail_out == 0 ) {
 
 		ret = OutputBuffer(output_buffer, LARGE_BUF_SIZE,
@@ -923,32 +925,33 @@ int __fastcall TAttacheCaseFileDecrypt2::OutputBuffer
 
 //返値　0=<:成功, -1:エラー, -2:ユーザーキャンセル
 
-int i;
 int res;
 
 int rest;
 String FileName, FilePath;
 char read_buffer[LARGE_BUF_SIZE];      //コンペア用
 
+//----------------------------------------------------------------------
 // 解凍されたバッファがすべて書き込まれるまでループ
+//----------------------------------------------------------------------
 while (buff_size > 0 && !Terminated) {
 
 	// ファイルが開かれていないならオープンする
 	if ( fOpen == false ) {
 
-		for (i = FileIndex; i < FileList->Count; i++) {
+		for (FileIndex; FileIndex < FileList->Count; FileIndex++) {
 
-			FileName = FileList->Strings[i];
+			FileName = FileList->Strings[FileIndex];
 			FilePath = OutDirPath + FileName;
 
 			//-----------------------------------
 			// ディレクトリ
 			//-----------------------------------
-			if (FileName.IsPathDelimiter(FileList->Strings[i].Length()) == true) {
+			if (FileName.IsPathDelimiter(FileList->Strings[FileIndex].Length()) == true) {
 
 				//コンペア
 				if (fCompare == true) {
-					if (FileName == ExtractRelativePath(OutDirPath, CompareFileList->Strings[i])) {
+					if (FileName == ExtractRelativePath(OutDirPath, CompareFileList->Strings[FileIndex])) {
 						continue;
 					}
 					else{
@@ -957,7 +960,7 @@ while (buff_size > 0 && !Terminated) {
 						//'次のファイルまたはフォルダの内容が異なるようです。'
 						MsgText += LoadResourceString(&Msgdecrypt::_MSG_ERROR_COMPARE_FILE_MISMATCH)+"\n";
 						// '暗号化:'+CompareFileList->Strings[i];
-						MsgText += LoadResourceString(&Msgdecrypt::_MSG_ERROR_COMPARE_ENCRYPT_FILE)+"\n"+CompareFileList->Strings[i];
+						MsgText += LoadResourceString(&Msgdecrypt::_MSG_ERROR_COMPARE_ENCRYPT_FILE)+"\n"+CompareFileList->Strings[FileIndex];
 						// '復号  :'+FilePath;
 						MsgText += LoadResourceString(&Msgdecrypt::_MSG_ERROR_COMPARE_DECRYPT_FILE)+"\n"+FilePath;
 						MsgType = mtError;
@@ -1017,11 +1020,11 @@ while (buff_size > 0 && !Terminated) {
 				//タイムスタンプのセット
 				FileSetTimeStamp(
 					FilePath,
-					FileDtChangeList[i], FileTmChangeList[i],
-					FileDtCreateList[i], FileTmCreateList[i],
+					FileDtChangeList[FileIndex], FileTmChangeList[FileIndex],
+					FileDtCreateList[FileIndex], FileTmCreateList[FileIndex],
 					false, true);
 				//属性のセット
-				FileSetAttr(FilePath, FileAttrList[i]);
+				FileSetAttr(FilePath, FileAttrList[FileIndex]);
 
 				if ( fOpenFolder == true && fOpenFolderOnce == false ) {
 					ShellExecuteW(NULL, L"open", L"EXPLORER.EXE", FilePath.c_str(), FilePath.c_str(), SW_NORMAL);  //脆弱性対策（ver.2.70）
@@ -1081,13 +1084,13 @@ while (buff_size > 0 && !Terminated) {
 
 				try {
 
-					if (fCompare == true) {
-						//コンペアは元ファイルを開く
-						fsOut = new TFileStream(CompareFileList->Strings[i], fmOpenRead);
-					}
-					else{
+					if (fCompare == false) {
 						//出力するファイルを開く
 						fsOut = new TFileStream(FilePath, fmCreate);
+					}
+					else{
+						//コンペアは元ファイルを開く
+						fsOut = new TFileStream(CompareFileList->Strings[FileIndex], fmOpenRead);
 					}
 
 				}
@@ -1109,22 +1112,21 @@ while (buff_size > 0 && !Terminated) {
 
 				fOpen = true;
 
-				if (FileSizeList[i] == 0) { // 0バイトファイル
+				if (FileSizeList[FileIndex] == 0) { // 0バイトファイル？
 
 					delete fsOut;
+					fOpen = false;
 
 					if (fCompare == true) {
 						//コンペアの場合は抜ける
 						continue;
 					}
 
-					fOpen = false;
-
 					FileSetTimeStamp(FilePath,
-						(int)FileDtChangeList[i], (int)FileTmChangeList[i],
-						(int)FileDtCreateList[i], (int)FileTmCreateList[i],	false, true);
+						(int)FileDtChangeList[FileIndex], (int)FileTmChangeList[FileIndex],
+						(int)FileDtCreateList[FileIndex], (int)FileTmCreateList[FileIndex],	false, true);
 
-					FileSetAttr(FilePath, (int)FileAttrList[i]);
+					FileSetAttr(FilePath, (int)FileAttrList[FileIndex]);
 
 					//関連付けられたアプリケーションでファイルを開く
 					if ( fTempOpenFile == true ) {
@@ -1137,11 +1139,10 @@ while (buff_size > 0 && !Terminated) {
 
 			}
 
-		} // end for;
+		}//end for;
 
-		FileIndex = i;
 
-	} // end if (fOpen == false);
+	}//end if (fOpen == false);
 
 	//-----------------------------------
 	// 開いたファイルに書き込む
@@ -1149,9 +1150,66 @@ while (buff_size > 0 && !Terminated) {
 	if ( fOpen == true ) {
 
 		//-----------------------------------
+		// 通常書き込み
+		//-----------------------------------
+		if (fCompare == false) {
+
+			if (fsOut->Position + buff_size < FileSizeList[FileIndex]) {
+
+				if (fsOut->Write(output_buffer, buff_size) != buff_size) {
+					goto LabelReadWriteError;
+				}
+				else {
+					buff_size = 0;
+				}
+
+			}
+			else {
+
+				rest = FileSizeList[FileIndex] - fsOut->Position;
+
+				if (fsOut->Write(output_buffer, rest) != rest) {
+					goto LabelReadWriteError;
+				}
+				else {
+
+					buff_size -= rest;
+
+					//残ったバッファを前に詰める
+					for (int i = 0; i < LARGE_BUF_SIZE; i++) {
+						if ( i < buff_size ) {
+							output_buffer[i] = output_buffer[LARGE_BUF_SIZE-buff_size+i];
+						}
+						else{
+							output_buffer[i] = NULL;
+						}
+					}
+
+					delete fsOut;
+					fOpen = false;
+
+					FileSetTimeStamp(
+						FilePath,
+						FileDtChangeList[FileIndex], FileTmChangeList[FileIndex],
+						FileDtCreateList[FileIndex], FileTmCreateList[FileIndex],
+						false, true);
+
+					FileSetAttr(FilePath, FileAttrList[FileIndex]);
+
+					//関連付けられたアプリケーションでファイルを開く
+					if ( fTempOpenFile == true ) {
+						ShellExecuteW(NULL, L"open", FilePath.c_str(), NULL, NULL, SW_NORMAL);
+					}
+					FileIndex++;
+				}
+
+			}
+
+		}
+		//-----------------------------------
 		// コンペア
 		//-----------------------------------
-		if ( fCompare == true ) {
+		else {
 
 			if (fsOut->Position + LARGE_BUF_SIZE < FileSizeList[FileIndex]) {
 
@@ -1204,49 +1262,7 @@ while (buff_size > 0 && !Terminated) {
 
 			}
 
-		}
-		//-----------------------------------
-		// 通常の復号処理
-		//-----------------------------------
-		else{
-
-			if (fsOut->Position + LARGE_BUF_SIZE < FileSizeList[FileIndex]) {
-				if (fsOut->Write(output_buffer, LARGE_BUF_SIZE) != LARGE_BUF_SIZE) {
-					goto LabelReadWriteError;
-				}
-				else {
-					buff_size -= LARGE_BUF_SIZE;
-				}
-			}
-			else {
-				rest = FileSizeList[FileIndex] - fsOut->Position;
-				if (fsOut->Write(output_buffer, rest) != rest) {
-					goto LabelReadWriteError;
-				}
-				else {
-					buff_size -= rest;
-					delete fsOut;
-					fOpen = false;
-
-					FileSetTimeStamp(
-						FilePath,
-						FileDtChangeList[FileIndex], FileTmChangeList[FileIndex],
-						FileDtCreateList[FileIndex], FileTmCreateList[FileIndex],
-						false, true);
-					FileSetAttr(FilePath, FileAttrList[FileIndex]);
-
-					//関連付けられたアプリケーションでファイルを開く
-					if ( fTempOpenFile == true ) {
-						ShellExecuteW(NULL, L"open", FilePath.c_str(), NULL, NULL, SW_NORMAL);
-					}
-
-					FileIndex++;
-
-				}
-
-			}
-
-		}//end if ( fCompare == true );
+		}//end if ( fCompare == false );
 
 	}
 	else {
@@ -1256,7 +1272,8 @@ while (buff_size > 0 && !Terminated) {
 	}//end if ( fOpen == true );
 	//-----------------------------------
 
-}//end while ( buf_size < 0 );
+}//end while ( buf_size > 0 );
+//----------------------------------------------------------------------
 
 if ( Terminated == true ) {
 	goto LabelStop;

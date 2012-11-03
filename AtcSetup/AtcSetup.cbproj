@@ -59,6 +59,12 @@
 			<TASM_Debugging>None</TASM_Debugging>
 		</PropertyGroup>
 		<ItemGroup>
+			<CppCompile Include="AtcSetup.cpp">
+				<BuildOrder>0</BuildOrder>
+			</CppCompile>
+			<ResFiles Include="AtcSetup.res">
+				<BuildOrder>1</BuildOrder>
+			</ResFiles>
 			<CppCompile Include="Unit1.cpp">
 				<Form>Form1</Form>
 				<DependentOn>Unit1.h</DependentOn>
@@ -67,12 +73,6 @@
 			<DelphiCompile Include="locale\ja\MsgMain.pas">
 				<BuildOrder>3</BuildOrder>
 			</DelphiCompile>
-			<CppCompile Include="AtcSetup.cpp">
-				<BuildOrder>0</BuildOrder>
-			</CppCompile>
-			<ResFiles Include="AtcSetup.res">
-				<BuildOrder>1</BuildOrder>
-			</ResFiles>
 			<FormResources Include="Unit1.dfm"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
@@ -101,7 +101,7 @@
 						<VersionInfo Name="MajorVer">2</VersionInfo>
 						<VersionInfo Name="MinorVer">8</VersionInfo>
 						<VersionInfo Name="Release">0</VersionInfo>
-						<VersionInfo Name="Build">6</VersionInfo>
+						<VersionInfo Name="Build">7</VersionInfo>
 						<VersionInfo Name="Debug">False</VersionInfo>
 						<VersionInfo Name="PreRelease">False</VersionInfo>
 						<VersionInfo Name="Special">False</VersionInfo>
@@ -113,13 +113,13 @@
 					<VersionInfoKeys>
 						<VersionInfoKeys Name="CompanyName">http://hibara.org</VersionInfoKeys>
 						<VersionInfoKeys Name="FileDescription"/>
-						<VersionInfoKeys Name="FileVersion">2.8.0.6</VersionInfoKeys>
+						<VersionInfoKeys Name="FileVersion">2.8.0.7</VersionInfoKeys>
 						<VersionInfoKeys Name="InternalName"/>
 						<VersionInfoKeys Name="LegalCopyright">Copyright(C) 2012 M.Hibara, All rights reserved.</VersionInfoKeys>
 						<VersionInfoKeys Name="LegalTrademarks"/>
 						<VersionInfoKeys Name="OriginalFilename">AtcSetup.exe</VersionInfoKeys>
 						<VersionInfoKeys Name="ProductName">AtcSetup</VersionInfoKeys>
-						<VersionInfoKeys Name="ProductVersion">2.8.0.6</VersionInfoKeys>
+						<VersionInfoKeys Name="ProductVersion">2.8.0.7</VersionInfoKeys>
 						<VersionInfoKeys Name="Comments"/>
 					</VersionInfoKeys>
 					<Debugging>
