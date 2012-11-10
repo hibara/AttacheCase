@@ -273,19 +273,19 @@ SetFormComponent(Sender);
 //各メニューアイコンの位置・描画
 //-----------------------------------
 
-const int posX = 18;
+const int posX = 22;
 
 //「オプション」
 ptSideMenu[4].x = posX;
-ptSideMenu[4].y = PaintBoxMenu->Height - 84;
+ptSideMenu[4].y = PaintBoxMenu->Height - 72;
 // 分割線
 ptSideMenu[3].x = posX;
-ptSideMenu[3].y = ptSideMenu[4].y - 40;
+ptSideMenu[3].y = ptSideMenu[4].y - 30;
 
 
 // 中央配置
 ptSideMenu[0].x = posX;
-ptSideMenu[0].y = PaintBoxMenu->Height/2 - 40;
+ptSideMenu[0].y = PaintBoxMenu->Height/2 - 36;
 
 //「暗号化」
 ptSideMenu[1].x = posX;
@@ -293,7 +293,7 @@ ptSideMenu[1].y = 16;
 
 //「復号する」
 ptSideMenu[2].x = posX;
-ptSideMenu[2].y = ptSideMenu[1].y + 100;
+ptSideMenu[2].y = ptSideMenu[1].y + 90;
 
 //サイドメニューを再描画する
 PaintSideMenu();
@@ -2881,7 +2881,7 @@ if ( PageControl1->ActivePage == TabSheetMain){
 		bmpSideMenu->Canvas->Draw(ptSideMenu[1].x, ptSideMenu[1].y, imgMenuEncryptOff->Picture->Icon);
 		bmpSideMenu->Canvas->Font->Color = TColor(RGB(160,160,160)); //ラベル文字列を暗い色に
 	}
-	bmpSideMenu->Canvas->TextOut(SideBarCaptionPosX[1], ptSideMenu[1].y+64, SideBarCaption[1]);
+	bmpSideMenu->Canvas->TextOut(SideBarCaptionPosX[1], ptSideMenu[1].y+48, SideBarCaption[1]);
 
 	//復号する
 	if ( fDecryptMenu == true ) {
@@ -2892,7 +2892,7 @@ if ( PageControl1->ActivePage == TabSheetMain){
 		bmpSideMenu->Canvas->Draw(ptSideMenu[2].x, ptSideMenu[2].y, imgMenuDecryptOff->Picture->Icon);
 		bmpSideMenu->Canvas->Font->Color = TColor(RGB(160,160,160));
 	}
-	bmpSideMenu->Canvas->TextOut(SideBarCaptionPosX[2], ptSideMenu[2].y+64, SideBarCaption[2]);
+	bmpSideMenu->Canvas->TextOut(SideBarCaptionPosX[2], ptSideMenu[2].y+48, SideBarCaption[2]);
 
 	//水平線
 	bmpSideMenu->Canvas->Draw(ptSideMenu[3].x, ptSideMenu[3].y, imgMenuHorizontalLine->Picture->Icon);
@@ -2907,7 +2907,7 @@ if ( PageControl1->ActivePage == TabSheetMain){
 		bmpSideMenu->Canvas->Draw(ptSideMenu[4].x, ptSideMenu[4].y, imgMenuOptionOff->Picture->Icon);
 		bmpSideMenu->Canvas->Font->Color = TColor(RGB(160,160,160));
 	}
-	bmpSideMenu->Canvas->TextOut(SideBarCaptionPosX[4], ptSideMenu[4].y+64, SideBarCaption[4]);
+	bmpSideMenu->Canvas->TextOut(SideBarCaptionPosX[4], ptSideMenu[4].y+48, SideBarCaption[4]);
 
 
 }
@@ -2917,7 +2917,7 @@ else if ( PageControl1->ActivePage == TabSheetInputEncPass ||
 		 PageControl1->ActivePage == TabSheetInputEncPassConfirm ){
 	bmpSideMenu->Canvas->Draw(ptSideMenu[0].x, ptSideMenu[0].y, imgMenuEncryptOn->Picture->Icon);
 	bmpSideMenu->Canvas->Font->Color = clWhite;
-	bmpSideMenu->Canvas->TextOut(SideBarCaptionPosX[1], ptSideMenu[0].y+64, SideBarCaption[1]);
+	bmpSideMenu->Canvas->TextOut(SideBarCaptionPosX[1], ptSideMenu[0].y+48, SideBarCaption[1]);
 
 }
 //-----------------------------------
@@ -2925,7 +2925,7 @@ else if ( PageControl1->ActivePage == TabSheetInputEncPass ||
 else if ( PageControl1->ActivePage == TabSheetInputDecPass ){
 	bmpSideMenu->Canvas->Draw(ptSideMenu[0].x, ptSideMenu[0].y, imgMenuDecryptOn->Picture->Icon);
 	bmpSideMenu->Canvas->Font->Color = clWhite;
-	bmpSideMenu->Canvas->TextOut(SideBarCaptionPosX[2], ptSideMenu[0].y+64, SideBarCaption[2]);
+	bmpSideMenu->Canvas->TextOut(SideBarCaptionPosX[2], ptSideMenu[0].y+48, SideBarCaption[2]);
 
 }
 //-----------------------------------
@@ -2936,11 +2936,11 @@ else if ( PageControl1->ActivePage == TabSheetExecute ){
 
 	if (CryptTypeNum == 1 ) {   //暗号化
 		bmpSideMenu->Canvas->Draw(ptSideMenu[0].x, ptSideMenu[0].y, imgMenuEncryptOn->Picture->Icon);
-		bmpSideMenu->Canvas->TextOut(SideBarCaptionPosX[1], ptSideMenu[0].y+64, SideBarCaption[1]);
+		bmpSideMenu->Canvas->TextOut(SideBarCaptionPosX[1], ptSideMenu[0].y+48, SideBarCaption[1]);
 	}
 	else{
 		bmpSideMenu->Canvas->Draw(ptSideMenu[0].x, ptSideMenu[0].y, imgMenuDecryptOn->Picture->Icon);
-		bmpSideMenu->Canvas->TextOut(SideBarCaptionPosX[2], ptSideMenu[0].y+64, SideBarCaption[2]);
+		bmpSideMenu->Canvas->TextOut(SideBarCaptionPosX[2], ptSideMenu[0].y+48, SideBarCaption[2]);
 	}
 }
 
@@ -2968,8 +2968,8 @@ if ( PageControl1->ActivePage != TabSheetMain ) {
 //カーソルの位置にアイコンがあるか
 for (ptIndex = 4; ptIndex > 0; ptIndex--) {
 	if ( Y > ptSideMenu[ptIndex].y) {
-		if (Y < ptSideMenu[ptIndex].y+64) {
-			if (X > ptSideMenu[ptIndex].x && X < ptSideMenu[ptIndex].x+64) {
+		if (Y < ptSideMenu[ptIndex].y+48) {
+			if (X > ptSideMenu[ptIndex].x && X < ptSideMenu[ptIndex].x+48) {
 				break;
 			}
 		}

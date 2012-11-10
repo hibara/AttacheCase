@@ -7,12 +7,12 @@ resourcestring
   //パネル
 	DRAG_AND_DROP_HERE                        = '暗号化/復号するファイルかフォルダーを'+#13+'「ここ」へドラッグ＆ドロップしてください。';
 	SIDEBAR_CAPTION_ENCRYPT                   = '暗号化';
-	SIDEBAR_CAPTION_DECRYPT                   = '復号(元に戻す)';
+	SIDEBAR_CAPTION_DECRYPT                   = '復号'+#13+'(元に戻す)';
 	SIDEBAR_CAPTION_OPTION                    = '動作設定';
 
-  INPUT_PASSWORD                            = 'ファイル/フォルダーを暗号化します。パスワードを入力してください：';
+  INPUT_PASSWORD                            = 'ファイル/フォルダーを暗号化します。'+#13+'パスワードを入力してください：';
   CONFIRM_PASSWORD                          = '確認のため、もう一度パスワードを入力してください：';
-  INPUT_DECRYPT_PASSWORD                    = '復号して元のファイル/フォルダに戻します。パスワードを入力してください：';
+  INPUT_DECRYPT_PASSWORD                    = '復号して元のファイル/フォルダに戻します。'+#13+'パスワードを入力してください：';
 
 	BUTTON_OPEN_FILES_FOR_ENCRYPTION_CAPTION  = '暗号化したい「ファイル」を選択するウィンドウを開く';
 	BUTTON_OPEN_DIR_FOR_ENCRYPTION_CAPTION    = '暗号化したい「フォルダー」を選択するウィンドウを開く';

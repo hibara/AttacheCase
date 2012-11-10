@@ -152,10 +152,10 @@ public:
 	int MissTypeLimitsNum;          //パスワードのタイプミス制限回数（ver.2.70～）
 	bool fBroken;                   //タイプミス回数を超えたときにファイルを破壊するか否か（ver.2.70～）
 
-	//【その他】コマンドラインからのみ指定
+	//【コマンドラインからのみ指定】
 	bool fOver4GBok;                //4GB超えを容認
 	bool fHideMainForm;             //メインフォームを非表示
-
+	//int WinStyle;                 //ウィンドウの状態(0: wsNormal, 1: wsMinimized, 2: wsMaximized）
 
 	//===================================
 	// 関数

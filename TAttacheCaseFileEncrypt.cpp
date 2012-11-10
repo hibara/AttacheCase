@@ -874,8 +874,6 @@ pms->Write(chain_buffer, BUF_SIZE);
 tpms->Seek((__int64)0, TSeekOrigin::soBeginning);
 EncryptHeaderSize = 0;
 
-tpms->Size;
-
 //CBCモードで書き込む
 while (tpms->Read( buffer, BUF_SIZE ) != NULL){
 

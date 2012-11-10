@@ -1,32 +1,44 @@
-merge tool
+﻿merge tool
 ===================================
 
-�T�v
+概要
 -----------------------------------
 
-�A�^�b�V�F�P�[�X�{�́iAttacheCase.exe�j�ɑ΂��āA���Ȏ��s�`���{�̂̃t�@�C���iexeout\exeout.exe�j���}�[�W���čŏI�I�Ȑ��i������c�[���ł��B  
+アタッシェケース本体（AttacheCase.exe）に対して、自己実行形式本体のファイル（exeout\exeout.exe）などのファイルをマージして最終的な製品化するツールです。  
 
-�ŏI�I�Ȍ`�ɂȂ����A�^�b�V�F�P�[�X�́A�����ɂ��鎩�Ȏ��s�`���{�̂̃f�[�^�������Ŏ��o���ăR�s�[���A�����ɈÍ������ꂽ�f�[�^���������āA���Ȏ��s�`���t�@�C����f���o����悤�ɂȂ�܂��B
+複数のファイルを連続してマージして出力することもできます。
 
-�c�[���́A�ȉ��̂悤�Ɉ������Z�b�g���Ď��s���܂��B��̓I�ɂ́Aupdate_build.bat�������Ă��������B  
+最終的な形になったアタッシェケースは、末尾にある自己実行形式本体のデータを自分で取り出してコピーし、そこに暗号化されたデータをくっつけて、自己実行形式ファイルを吐き出せるようになります。
 
-merge.exe AttacheCase.exe exeout.exe  
+ツールは、以下のように引数をセットして実行します。具体的には、update_build.bat内を見てください。  
 
-�Ȃ��Amerge.exe���ǂ��������������Ă��邩�́A�\�[�X�iFile1.cpp�j���Q�Ƃ��Ă��������B  
+merge.exe [AttacheCase.exe（本体）] [exeout.exe] [merge01.exe] [merge02.exe] ...
+
+なお、merge.exeがどういう動きをしているかは、ソース（File1.cpp）を参照してください。  
 
 
-���쌠
+著作権
 -----------------------------------
 
 Copyright (C) 2012 M.Hibara, All rights reserved.  
 http://hibara.org/  
 
 
-���C�Z���X
+ライセンス
 -----------------------------------
-GPLv3��K�p���܂��B  
-
-http://www.gnu.org/licenses/gpl-3.0.html  
+GPLv3を適用します。  
 
 
+改版履歴
+-----------------------------------
+
+ver.1.0.0.1   2012/11/09
+             ・他のアプリケーション開発でも汎用的に使いたいため、複数
+               のファイルを連続してマージできるように改良した。
+
+ver.1.0.0.0   2012/07/06
+             ・リリース。
+              
+
+---
 

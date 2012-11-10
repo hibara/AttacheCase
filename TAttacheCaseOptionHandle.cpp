@@ -113,8 +113,8 @@ try{
 	//-----------------------------------
 	// フォームポジションなど
 	//-----------------------------------
-	FormWidth = pOpt->ReadInteger( "WindowPos", "WindowWidth", 350);
-	FormHeight = pOpt->ReadInteger( "WindowPos", "WindowHeight", 290);
+	FormWidth = pOpt->ReadInteger( "WindowPos", "WindowWidth", 420);
+	FormHeight = pOpt->ReadInteger( "WindowPos", "WindowHeight", 360);
 	FormTop = pOpt->ReadInteger( "WindowPos", "WindowTop", Screen->Height/2-FormHeight/2);
 	FormLeft = pOpt->ReadInteger( "WindowPos", "WindowLeft", Screen->Width/2-FormWidth/2);
 	WinStyle = pOpt->ReadInteger( "WindowPos", "FormStyle", 0);
@@ -843,9 +843,12 @@ for ( i = 1; i < ParamCount()+1 ; i++){
 				CamoExt = strvalue;
 			}
 		}
-		//その他（コマンドラインからのみ）-------------
+		//-----------------------------------
+		//その他（コマンドラインからのみ）
+		//-----------------------------------
+
+		//4GB超えを容認
 		else if (CmdStr == "4gbok"){
-			//4GB超えを容認
 			if ( StrToIntDef(strvalue.Trim(), -1) == 1 ){
 				fOver4GBok = true;
 			}
@@ -853,9 +856,19 @@ for ( i = 1; i < ParamCount()+1 ; i++){
 				fOver4GBok = false;
 			}
 		}
-		//その他（コマンドラインからのみ）-------------
+		//ウィンドウの状態
+		//(0: Normal, 1: Minimize，2: Maximize）
+		else if (CmdStr == "ws"){
+			intvalue = StrToIntDef(strvalue.Trim(),-1);
+			if (intvalue == 1 || intvalue == 2) {
+				WinStyle = intvalue;
+			}
+			else{
+				WinStyle = 0;
+			}
+		}
+		//指定のファイルリストを読み込む
 		else if (CmdStr == "list"){
-			//指定のファイルリストを読み込む
 			if ( strvalue != "" ){
 				String ListFilePath = GetLongFilePath(ExpandUNCFileName(strvalue)); //ロングパスに変換
 				if ( FileExists(ListFilePath) == true ){

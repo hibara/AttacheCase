@@ -533,11 +533,6 @@ while (Terminated == false) {
 	//-----------------------------------
 	if (z.avail_in == 0) {
 
-		// 入力バッファ
-		for (i = 0; i < BUF_SIZE; i++) {
-			source_buffer[i] = 0;
-		}
-
 		TotalSize =
 			InputBuffer(
 				len, source_buffer, chain_buffer,
@@ -548,10 +543,6 @@ while (Terminated == false) {
 		z.avail_in = len;
 		z.next_in = source_buffer;
 
-		if ( len < BUF_SIZE ) {
-			status = Z_FINISH;
-		}
-
 	}
 
 	//-----------------------------------
@@ -559,16 +550,40 @@ while (Terminated == false) {
 	//-----------------------------------
 	status = inflate(&z, flush);
 
-	if (status == Z_STREAM_END) {
-		break;
-	}
 
 	//-----------------------------------
 	// 処理ステータス
 	//-----------------------------------
 	if ( status == Z_OK ){
+
+		if ( z.avail_out == 0 ) {
+
+			ret = OutputBuffer(output_buffer, LARGE_BUF_SIZE,
+												 fsOut, fOutputFileOpen,
+												 FileList, FileIndex,
+												 FileSizeList, FileAttrList,
+												 FileDtChangeList, FileTmChangeList,
+												 FileDtCreateList, FileTmCreateList);
+
+			if ( ret == 0) {
+				z.next_out = output_buffer;
+				z.avail_out = LARGE_BUF_SIZE;
+			}
+			else if (ret == -1) {
+				goto LabelError;
+			}
+			else{
+				goto LabelStop;
+			}
+
+		}//end if (z.avail_out == 0);
+
+
 	}
-	else if ( status == Z_BUF_ERROR ) { //入力が尽きた可能性
+	//-----------------------------------
+	// バッファエラー
+	//-----------------------------------
+	else if ( status == Z_BUF_ERROR ) { //出力バッファがいっぱいの可能性
 
 		//出力バッファをクリアにして継続させる
 		len = LARGE_BUF_SIZE - z.avail_out;
@@ -578,27 +593,27 @@ while (Terminated == false) {
 											 FileSizeList, FileAttrList,
 											 FileDtChangeList, FileTmChangeList,
 											 FileDtCreateList, FileTmCreateList);
-		if (len == 0) {
-			z.avail_out = 0;
-			break;
-		}
-		else if (ret == 0) {
+		if (ret == 0) {
 			z.next_out = output_buffer;
 			z.avail_out = LARGE_BUF_SIZE;
 		}
-		else if ( ret == 1) {
-			break;
+		else if ( ret == -1) {
+			goto LabelError;
 		}
 		else{
-			if ( ret == -2) {
-				goto LabelStop;
-			}
-			else {
-				goto LabelError;
-			}
+			goto LabelStop;
 		}
 
 	}
+	//-----------------------------------
+	// 終了
+	//-----------------------------------
+	else if (status == Z_STREAM_END) {
+		break;
+	}
+	//-----------------------------------
+	// エラー
+	//-----------------------------------
 	else{
 		// #define Z_OK              0
 		// #define Z_STREAM_END      1
@@ -612,37 +627,6 @@ while (Terminated == false) {
 		goto LabelError;
 	}
 
-	//-----------------------------------
-	// 出力
-	//-----------------------------------
-	if ( z.avail_out == 0 ) {
-
-		ret = OutputBuffer(output_buffer, LARGE_BUF_SIZE,
-											 fsOut, fOutputFileOpen,
-											 FileList, FileIndex,
-											 FileSizeList, FileAttrList,
-											 FileDtChangeList, FileTmChangeList,
-											 FileDtCreateList, FileTmCreateList);
-
-		if ( ret < 0) {      //エラー
-			if (ret == -2) {
-				goto LabelStop;
-			}
-			else{
-				goto LabelError;
-			}
-		}
-		else{
-
-			for (i = 0; i < LARGE_BUF_SIZE; i++) {
-				output_buffer[i] = 0;
-			}
-			z.next_out = output_buffer;
-			z.avail_out = LARGE_BUF_SIZE;
-		}
-
-
-	}//end if (z.avail_out == 0);
 
 	//-----------------------------------
 	//進捗状況表示
@@ -669,25 +653,23 @@ if (Terminated == true) {
 //----------------------------------------------------------------------
 // 万が一、出力バッファに余りがある場合
 //----------------------------------------------------------------------
-if (z.avail_out > 0) {
 
-	len = LARGE_BUF_SIZE - z.avail_out;
-	ret = OutputBuffer(output_buffer, len,
-									 fsOut, fOutputFileOpen,
-									 FileList, FileIndex,
-									 FileSizeList, FileAttrList,
-									 FileDtChangeList, FileTmChangeList,
-									 FileDtCreateList, FileTmCreateList);
-	if ( ret < 0 ) {
-		if ( ret == -2 ){
-			goto LabelStop;
-		}
-		else{
-			goto LabelError;
-		}
-	}
-
+len = LARGE_BUF_SIZE - z.avail_out;
+ret = OutputBuffer(output_buffer, len,
+								 fsOut, fOutputFileOpen,
+								 FileList, FileIndex,
+								 FileSizeList, FileAttrList,
+								 FileDtChangeList, FileTmChangeList,
+								 FileDtCreateList, FileTmCreateList);
+if ( ret == 0 ) {
 }
+else if ( ret == -1 ){
+	goto LabelError;
+}
+else{
+	goto LabelStop;
+}
+
 
 if (inflateEnd(&z) != Z_OK) {
 	goto LabelError;
@@ -842,15 +824,11 @@ __int64 __fastcall TAttacheCaseFileDecrypt2::InputBuffer
 {
 
 int i;
+int len;
 
 bool fPKCS;
-int paddingNum;
+char paddingNum;
 char temp_buffer[BUF_SIZE];
-
-// 読み出しバッファの初期化
-for (i = 0; i < BUF_SIZE; i++) {
-	source_buffer[i] = 0;
-}
 
 // 入力ファイルが開かれていない
 if ( fOpen == false ) {
@@ -858,14 +836,14 @@ if ( fOpen == false ) {
 	return(TotalSize);
 }
 
-// 最後のブロックを越えている
-if (TotalSize >= AllTotalSize) {
-	buff_size = 0;
-	return(TotalSize);
+// 読み出しバッファの初期化
+for (i = 0; i < BUF_SIZE; i++) {
+	source_buffer[i] = 0;
 }
 
 // 暗号化されたデータブロックの読み出し
-TotalSize += fsIn->Read(source_buffer, BUF_SIZE);
+len = fsIn->Read(source_buffer, BUF_SIZE);
+TotalSize += len;
 
 for (i = 0; i < BUF_SIZE; i++) {
 	// あとのxorのためによけておく
@@ -882,22 +860,21 @@ for (i = 0; i < BUF_SIZE; i++) {
 }
 
 // 最後のブロックの境界...
-if (TotalSize >= AllTotalSize) {
+if (TotalSize > AllTotalSize) {
 
 	// Check PKCS #7 pading num
 	fPKCS = false;
 	paddingNum = source_buffer[BUF_SIZE - 1];
 	for (i = 0; i < paddingNum; i++) {
-		if (source_buffer[BUF_SIZE - 1 - i] == paddingNum) {
+		if (source_buffer[BUF_SIZE - i - 1] == paddingNum) {
 			fPKCS = true;
 		}
 		else {
-			fPKCS = false;
 			break;
 		}
 	}
 	if (fPKCS == true) {
-		buff_size = BUF_SIZE - paddingNum;
+		buff_size = BUF_SIZE - i - 1;
 	}
 	else {
 		buff_size = BUF_SIZE;
@@ -907,6 +884,7 @@ if (TotalSize >= AllTotalSize) {
 else {
 	buff_size = BUF_SIZE;
 }
+
 
 return(TotalSize);
 
@@ -930,6 +908,7 @@ int res;
 int rest;
 String FileName, FilePath;
 char read_buffer[LARGE_BUF_SIZE];      //コンペア用
+char temp_buffer[LARGE_BUF_SIZE];      //データ詰める用
 
 //----------------------------------------------------------------------
 // 解凍されたバッファがすべて書き込まれるまでループ
@@ -1154,7 +1133,7 @@ while (buff_size > 0 && !Terminated) {
 		//-----------------------------------
 		if (fCompare == false) {
 
-			if (fsOut->Position + buff_size < FileSizeList[FileIndex]) {
+			if (fsOut->Size + buff_size < FileSizeList[FileIndex]) {
 
 				if (fsOut->Write(output_buffer, buff_size) != buff_size) {
 					goto LabelReadWriteError;
@@ -1166,7 +1145,7 @@ while (buff_size > 0 && !Terminated) {
 			}
 			else {
 
-				rest = FileSizeList[FileIndex] - fsOut->Position;
+				rest = FileSizeList[FileIndex] - fsOut->Size;
 
 				if (fsOut->Write(output_buffer, rest) != rest) {
 					goto LabelReadWriteError;
@@ -1177,13 +1156,14 @@ while (buff_size > 0 && !Terminated) {
 
 					//残ったバッファを前に詰める
 					for (int i = 0; i < LARGE_BUF_SIZE; i++) {
-						if ( i < buff_size ) {
-							output_buffer[i] = output_buffer[LARGE_BUF_SIZE-buff_size+i];
+						if (i < buff_size) {
+							temp_buffer[i] = output_buffer[rest+i];
 						}
 						else{
-							output_buffer[i] = NULL;
+							temp_buffer[i] = 0;
 						}
 					}
+					memcpy(output_buffer, temp_buffer, LARGE_BUF_SIZE);
 
 					delete fsOut;
 					fOpen = false;
@@ -1262,18 +1242,27 @@ while (buff_size > 0 && !Terminated) {
 
 			}
 
+		//-----------------------------------
 		}//end if ( fCompare == false );
+		//-----------------------------------
 
 	}
 	else {
 		//もう開くファイルがない
 		break;
 
+	//-----------------------------------
 	}//end if ( fOpen == true );
 	//-----------------------------------
 
+
 }//end while ( buf_size > 0 );
 //----------------------------------------------------------------------
+
+//出力バッファはきれいにしておく
+for (int i = 0; i < LARGE_BUF_SIZE; i++) {
+	output_buffer[i] = 0;
+}
 
 if ( Terminated == true ) {
 	goto LabelStop;
@@ -1533,34 +1522,6 @@ memcpy(key, password, 32);
 
 }
 //===========================================================================
-//パスワード文字列をセットする
-//===========================================================================
-/*
-void __fastcall TAttacheCaseFileDecrypt2::SetPasswordString(AnsiString Password)
-{
-
-for ( int i = 0; i < 32; i++){
-	key[i]=0;
-}
-StrCopy(key, Password.c_str());
-
-}
-*/
-//===========================================================================
-//パスワード文字列からバイナリ値をセットする：ver.1.* ～（別クラスで実装予定）
-//===========================================================================
-/*
-void __fastcall TAttacheCaseFileDecrypt2::SetPasswordStringToBinary(AnsiString Password)
-{
-
-//つまりは先頭の32バイトしかpasswordに代入されない
-for ( int i = 0; i < 32; i++){
-	key[1][i]=0;
-}
-strcpy( key[1], Password.c_str() );
-
-}
-*/
 //===========================================================================
 //メインフォームに確認メッセージを投げて処理を中断する
 //===========================================================================

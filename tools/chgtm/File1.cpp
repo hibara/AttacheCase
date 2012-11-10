@@ -1,4 +1,4 @@
-//---------------------------------------------------------------------------
+﻿//---------------------------------------------------------------------------
 
 #include <vcl.h>
 
@@ -15,26 +15,26 @@
 int _tmain(int argc, _TCHAR* argv[])
 {
 
-setlocale(LC_CTYPE, "");  //���ꂪ�Ȃ��ƕ�����������
+setlocale(LC_CTYPE, "");  //これがないと文字化けする
 
-//�����w�肪�Ȃ��Ƃ��͌��ݓ���
+//引数指定がないときは現在日時
 TDateTime BaseDateTime = Now();
 
 String FilePath = String(argv[1]);
 
 //-----------------------------------
-//�쐬������ύX
+//作成日時を変更
 
 SYSTEMTIME      sysTime;
 FILETIME        fTime,   fLocTime;
 
-//�t�@�C�����J��
+//ファイルを開く
 HANDLE hFile = CreateFileW( FilePath.c_str(), GENERIC_READ | GENERIC_WRITE,
 										0, NULL, OPEN_EXISTING,
 										FILE_ATTRIBUTE_NORMAL, NULL );
 
 if( hFile == INVALID_HANDLE_VALUE ) {
-	wprintf(L"\"%s\" �̍쐬�����̕ύX�Ɏ��s���܂���\n", FilePath.c_str());
+	wprintf(L"\"%s\" の作成日時の変更に失敗しました\n", FilePath.c_str());
 	return 1;
 }
 else{
@@ -58,7 +58,7 @@ else{
 
 }
 
-wprintf(L"\"%s\" �̃^�C���X�^���v��ύX���܂���\n", FilePath.c_str());
+wprintf(L"\"%s\" のタイムスタンプを変更しました\n", FilePath.c_str());
 
 return 0;
 

@@ -1,4 +1,4 @@
-//---------------------------------------------------------------------------
+ï»¿//---------------------------------------------------------------------------
 
 #include <vcl.h>
 
@@ -10,9 +10,9 @@
 
 #include <tchar.h>
 
-// ƒtƒHƒ‹ƒ_[“à‚É‚ ‚épasƒtƒ@ƒCƒ‹‚ğŒŸõ‚µ‚Ä‚Ü‚Æ‚ß‚Äˆ—‚·‚é
+// ãƒ•ã‚©ãƒ«ãƒ€ãƒ¼å†…ã«ã‚ã‚‹pasãƒ•ã‚¡ã‚¤ãƒ«ã‚’æ¤œç´¢ã—ã¦ã¾ã¨ã‚ã¦å‡¦ç†ã™ã‚‹
 bool SearchFolderForPasFiles(String DirPath);
-// éŒ¾‚³‚ê‚½ƒƒbƒZ[ƒW’è”–¼‚ğ initialization ‚É‘‚«‚Ş
+// å®£è¨€ã•ã‚ŒãŸãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å®šæ•°åã‚’ initialization ã«æ›¸ãè¾¼ã‚€
 bool WriteToInitializationSection(String FilePath);
 
 //---------------------------------------------------------------------------
@@ -28,20 +28,20 @@ for (i = 1; i < argc; i++) {
 
 	FilePath = argv[i];
 
-	//ƒtƒ@ƒCƒ‹
+	//ãƒ•ã‚¡ã‚¤ãƒ«
 	if (FileExists(FilePath) == true) {
 
 		WriteToInitializationSection(FilePath);
 
 	}
-	//ƒfƒBƒŒƒNƒgƒŠ
+	//ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒª
 	else{
 
 		if (DirectoryExists(FilePath) == true) {
 			SearchFolderForPasFiles(FilePath);
 		}
 		else{
-			MsgErrorString = "w’è‚³‚ê‚½ƒtƒ@ƒCƒ‹/ƒtƒHƒ‹ƒ_[‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB\nˆ—‚ğ’†~‚µ‚Ü‚·B\n"+FilePath;
+			MsgErrorString = "æŒ‡å®šã•ã‚ŒãŸãƒ•ã‚¡ã‚¤ãƒ«/ãƒ•ã‚©ãƒ«ãƒ€ãƒ¼ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ã€‚\nå‡¦ç†ã‚’ä¸­æ­¢ã—ã¾ã™ã€‚\n"+FilePath;
 			MessageDlg(MsgErrorString, mtConfirmation, TMsgDlgButtons()<<mbOK, 0);
 			return 1;
 		}
@@ -55,7 +55,7 @@ return 0;
 
 }
 //===========================================================================
-// ƒtƒHƒ‹ƒ_[“à‚É‚ ‚épasƒtƒ@ƒCƒ‹‚ğŒŸõ‚µ‚Ä‚Ü‚Æ‚ß‚Äˆ—‚·‚é
+// ãƒ•ã‚©ãƒ«ãƒ€ãƒ¼å†…ã«ã‚ã‚‹pasãƒ•ã‚¡ã‚¤ãƒ«ã‚’æ¤œç´¢ã—ã¦ã¾ã¨ã‚ã¦å‡¦ç†ã™ã‚‹
 //===========================================================================
 bool SearchFolderForPasFiles(String DirPath)
 {
@@ -71,10 +71,10 @@ while (ret == 0) {
 		FilePath = IncludeTrailingPathDelimiter(DirPath) + sr.Name;
 
 		if (sr.Attr & faDirectory) {
-			//ƒfƒBƒŒƒNƒgƒŠ‚Í–³‹
+			//ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã¯ç„¡è¦–
 		}
 		else{
-			//ƒtƒ@ƒCƒ‹
+			//ãƒ•ã‚¡ã‚¤ãƒ«
 			WriteToInitializationSection(FilePath);
 		}
 	}
@@ -85,7 +85,7 @@ return(true);
 
 }
 //===========================================================================
-// éŒ¾‚³‚ê‚½ƒƒbƒZ[ƒW’è”–¼‚ğ initialization ‚É‘‚«‚Ş
+// å®£è¨€ã•ã‚ŒãŸãƒ¡ãƒƒã‚»ãƒ¼ã‚¸å®šæ•°åã‚’ initialization ã«æ›¸ãè¾¼ã‚€
 //===========================================================================
 bool WriteToInitializationSection(String FilePath)
 {
@@ -98,11 +98,11 @@ FileList->LoadFromFile(FilePath);
 
 TStringList *OutFileList = new TStringList;
 
-//—ñ‹“‚·‚é’è”ƒŠƒXƒg‚ğ‘}“ü‚·‚é
+//åˆ—æŒ™ã™ã‚‹å®šæ•°ãƒªã‚¹ãƒˆã‚’æŒ¿å…¥ã™ã‚‹
 TStringList *InitList = new TStringList;
-InitList->Add("\n\t//DelphiƒRƒ“ƒpƒCƒ‰‚É‚æ‚éÅ“K‰»‚ğ–h‚®");
+InitList->Add("\n\t//Delphiã‚³ãƒ³ãƒ‘ã‚¤ãƒ©ã«ã‚ˆã‚‹æœ€é©åŒ–ã‚’é˜²ã");
 
-// '='‹æØ‚è‚Ì•¶š—ñ‚ğ•ª‚¯‚é
+// '='åŒºåˆ‡ã‚Šã®æ–‡å­—åˆ—ã‚’åˆ†ã‘ã‚‹
 TStringList* tsv = new TStringList();
 tsv->StrictDelimiter = true;
 tsv->Delimiter = '=';
@@ -120,7 +120,7 @@ for (i = 0; i < FileList->Count; i++) {
 	else if ( Trim(FileList->Strings[i]) == "initialization" ) {
 		fSection = "initialization";
 		OutFileList->Add(FileList->Strings[i]);
-		//’™‚ß‚Ä‚¢‚½“à—e‚ğ“f‚«o‚·
+		//è²¯ã‚ã¦ã„ãŸå†…å®¹ã‚’åãå‡ºã™
 		OutFileList->Add(InitList->Text);
 	}
 	else if ( Trim(FileList->Strings[i]) == "end." ) {
@@ -128,18 +128,18 @@ for (i = 0; i < FileList->Count; i++) {
 		OutFileList->Add(FileList->Strings[i]);
 	}
 	else{
-		if ( fSection == "resourcestring" ) {   // resourcestring•”‚ğ¸¸’†...
+		if ( fSection == "resourcestring" ) {   // resourcestringéƒ¨ã‚’ç²¾æŸ»ä¸­...
 			if (FileList->Strings[i].Pos("=") > 0) {
 				tsv->DelimitedText = FileList->Strings[i];
-				InitList->Add("\t" + Trim(tsv->Strings[0]) + ";");  //’è”–¼‚¾‚¯”²‚¢‚Ä‚¨‚­
+				InitList->Add("\t" + Trim(tsv->Strings[0]) + ";");  //å®šæ•°åã ã‘æŠœã„ã¦ãŠã
 			}
-			else if (Trim(FileList->Strings[i]) == "") {          //‹ós‚àˆê‰ÄŒ»
+			else if (Trim(FileList->Strings[i]) == "") {          //ç©ºè¡Œã‚‚ä¸€å¿œå†ç¾
 				InitList->Add("");
 			}
 			OutFileList->Add(FileList->Strings[i]);
 		}
 		else if ( fSection == "initialization" ) {
-			// "initialization" ƒZƒNƒVƒ‡ƒ“‚Í‚·‚Å‚É‘‚«o‚µ‚½‚Ì‚Å–³‹
+			// "initialization" ã‚»ã‚¯ã‚·ãƒ§ãƒ³ã¯ã™ã§ã«æ›¸ãå‡ºã—ãŸã®ã§ç„¡è¦–
 		}
 		else{
 			OutFileList->Add(FileList->Strings[i]);

@@ -1,4 +1,4 @@
-//---------------------------------------------------------------------------
+ï»¿//---------------------------------------------------------------------------
 
 #include <vcl.h>
 
@@ -16,75 +16,99 @@
 int _tmain(int argc, _TCHAR* argv[])
 {
 
-//ƒƒP[ƒ‹‚Ìİ’è
+int i;
+
+//ãƒ­ã‚±ãƒ¼ãƒ«ã®è¨­å®š
 _tsetlocale(LC_ALL, _T(""));
 
 //-----------------------------------
-//ƒpƒ‰ƒ[ƒ^ƒ`ƒFƒbƒN
+//ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒã‚§ãƒƒã‚¯
 //-----------------------------------
-String FilePath = ExpandFileName(String(argv[1]));  //ƒAƒ^ƒbƒVƒFƒP[ƒX–{‘Ì
-String mFilePath = ExpandFileName(String(argv[2])); //Merge‚·‚é©ŒÈÀsƒtƒ@ƒCƒ‹
+
+String mFilePath;
+String FilePath = ExpandFileName(String(argv[1]));  //æœ¬ä½“ã¨ãªã‚‹å®Ÿè¡Œãƒ•ã‚¡ã‚¤ãƒ«
+
+TStringList *FileList = new TStringList;
+for (i = 2; i < argc; i++) {
+	mFilePath = ExpandFileName(String(argv[i]));
+	if (FileExists(mFilePath) == true ) {
+		FileList->Add(mFilePath);
+	}
+}
 
 if ( FileExists(FilePath) == false ){
-	wprintf(L"\"%s\" - ƒ}[ƒW‚·‚é–{‘Ì‚Ìƒtƒ@ƒCƒ‹‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB\n", FilePath.c_str());
+	wprintf(L"\"%s\" - ãƒãƒ¼ã‚¸ã™ã‚‹æœ¬ä½“ã®ãƒ•ã‚¡ã‚¤ãƒ«ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ã€‚\n", FilePath.c_str());
+	delete FileList;
 	return 1;
 }
 
-if ( FileExists(mFilePath) == false ){
-	wprintf(L"\"%s\" - ƒ}[ƒW‚·‚éƒtƒ@ƒCƒ‹‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñB\n", mFilePath.c_str());
+if ( FileList->Count == 0 ){
+	wprintf(L"ãƒãƒ¼ã‚¸ã™ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«ãŒä¸€ã¤ã‚‚è¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ã€‚\n");
+	delete FileList;
 	return 1;
 }
 
 //-----------------------------------
-// ƒ}[ƒW
+// ãƒãƒ¼ã‚¸
 //-----------------------------------
 
-int i;
-
+int fh, mfh;
 int pos;
 int bufsize;
 char buffer[BUF_SIZE];
 
-//’Ç‰Áƒtƒ@ƒCƒ‹‚ğŠJ‚­
-int fh = FileOpen(FilePath, fmOpenReadWrite);
-int mfh = FileOpen(mFilePath, fmOpenRead);
+fh = FileOpen(FilePath, fmOpenReadWrite);
 
-if (fh == -1 || mfh == -1) {
-	wprintf(L"%s - ƒ}[ƒW‚·‚éƒtƒ@ƒCƒ‹‚ªŠJ‚¯‚Ü‚¹‚ñB", FilePath.c_str());
-	FileClose(fh);
-	FileClose(mfh);
-	return 1;
-}
 
-//ƒ}[ƒWƒtƒ@ƒCƒ‹‚ÌƒTƒCƒYæ“¾
-__int64 size = FileSeek(mfh, (__int64)0, 2);
-FileSeek(mfh, 0, 0);
+for (i = 0; i < FileList->Count; i++) {
 
-//–{‘Ì––”ö‚Öƒ|ƒCƒ“ƒg
-FileSeek(fh, 0, 2);
+	mFilePath = FileList->Strings[i];
 
-while ((pos = FileRead( mfh, buffer, BUF_SIZE )) != 0 ){
+	//æœ¬ä½“ã¸ãƒãƒ¼ã‚¸ã™ã‚‹è¿½åŠ ãƒ•ã‚¡ã‚¤ãƒ«ã‚’é–‹ã
+	mfh = FileOpen(mFilePath, fmOpenRead);
 
-	if ( FileWrite( fh, buffer, pos) == -1 ){
-		wprintf(L"%s - ‘‚«‚İ‚Å¸”s‚µ‚Ü‚µ‚½B", FilePath.c_str());
+	if (fh == -1 || mfh == -1) {
+		wprintf(L"%s\n%s\n - æœ¬ä½“ã€ã¾ãŸã¯ãƒãƒ¼ã‚¸ã™ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«ãŒé–‹ã‘ã¾ã›ã‚“ã€‚", FilePath.c_str(), mFilePath.c_str());
 		FileClose(fh);
 		FileClose(mfh);
+		delete FileList;
 		return 1;
 	}
 
-	for ( i = 0; i < BUF_SIZE; i++ ){
-		buffer[i] = NULL;
+	//ãƒãƒ¼ã‚¸ã™ã‚‹ãƒ•ã‚¡ã‚¤ãƒ«ã®ã‚µã‚¤ã‚ºå–å¾—
+	__int64 size = FileSeek(mfh, (__int64)0, 2);
+	FileSeek(mfh, 0, 0);
+
+	//æœ¬ä½“æœ«å°¾ã¸ãƒã‚¤ãƒ³ãƒˆ
+	FileSeek(fh, 0, 2);
+
+	while ((pos = FileRead( mfh, buffer, BUF_SIZE )) != 0 ){
+
+		if ( FileWrite( fh, buffer, pos) == -1 ){
+			wprintf(L"%s - æ›¸ãè¾¼ã¿ã§å¤±æ•—ã—ã¾ã—ãŸã€‚", FilePath.c_str());
+			FileClose(fh);
+			FileClose(mfh);
+			delete FileList;
+			return 1;
+		}
+
+		for ( i = 0; i < BUF_SIZE; i++ ){
+			buffer[i] = NULL;
+		}
+
 	}
+
+	//ãŠå°»ã«ãƒãƒ¼ã‚¸ã—ãŸãƒ•ã‚¡ã‚¤ãƒ«ã‚µã‚¤ã‚ºã‚’åŸ‹ã‚è¾¼ã‚€
+	FileWrite( fh, &size, sizeof(__int64));
+	wprintf(L"%s - ãƒãƒ¼ã‚¸ã—ã¾ã—ãŸã€‚\n", mFilePath.c_str());
+	FileClose(mfh);
 
 }
 
-//‚¨K‚Éƒ}[ƒW‚µ‚½ƒtƒ@ƒCƒ‹ƒTƒCƒY‚ğ–„‚ß‚Ş
-FileWrite( fh, &size, sizeof(__int64));
-
 FileClose(fh);
-FileClose(mfh);
+wprintf(L"%s - ãƒãƒ¼ã‚¸å®Œäº†ã—ã¾ã—ãŸã€‚\n", FilePath.c_str());
 
-wprintf(L"%s - ƒ}[ƒWŠ®—¹‚µ‚Ü‚µ‚½B\n", FilePath.c_str());
+delete FileList;
 
 return 0;
 

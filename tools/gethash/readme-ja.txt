@@ -1,42 +1,42 @@
-gethash tool
+﻿gethash tool
 ===================================
 
-�T�v
+概要
 -----------------------------------
 
-�t�@�C����MD5�n�b�V���ƁASHA-1�n�b�V�������߂āA�t�@�C���ɏ����o���c�[���ł��B  
+ファイルのMD5ハッシュと、SHA-1ハッシュを求めて、ファイルに書き出すツールです。  
 
-�A�^�b�V�F�P�[�X�����J���邽�߁A�z�z��Ԃ̂��̂̃n�b�V���l�������ŏo�͂��ď������Ċȕ։������������̂ō��܂����B�A�^�b�V�F�P�[�X�Ƃ͒��ړI�ȓ���̊֌W�͂���܂���B�O���c�[���ł��B  
+アタッシェケースを公開するため、配布状態のもののハッシュ値を自動で出力して処理して簡便化したかったので作りました。アタッシェケースとは直接的な動作の関係はありません。外部ツールです。  
 
-��̓I�ɂ͈ȉ��̂悤�Ɏg���܂��B  
+具体的には以下のように使います。  
 
-genhash.exe [�t�@�C����]  
+genhash.exe [ファイル名]  
 
-���̌��ʁA�o�͂����̂́A�Q�̃t�@�C���ł��B  
+その結果、出力されるのは、２つのファイルです。  
 
-* [�t�@�C����].md5  
-* [��].sha1  
+* [ファイル名].md5  
+* [名].sha1  
 
-���g�͒P�Ȃ�e�L�X�g�t�@�C���ŁA���Ƃ��΁A  
-.md5�Ȃ�A  
+中身は単なるテキストファイルで、たとえば、  
+.md5なら、  
 b7bcee26b42eb7d3d8831bb184cab042  
 
-.sha1�Ȃ�A  
+.sha1なら、  
 dd23d8e9019a979da0578e6e9ed08b936d666aac  
 
-�Ƃ����������񂪏������܂��͂��ł��B  
+といった文字列が書き込まれるはずです。  
 
 
-���쌠
+著作権
 -----------------------------------
 
 Copyright (C) 2012 M.Hibara, All rights reserved.  
 http://hibara.org/  
 
 
-���C�Z���X
+ライセンス
 -----------------------------------
-GPLv3��K�p���܂��B  
+GPLv3を適用します。  
 
 http://www.gnu.org/licenses/gpl-3.0.html  
 

@@ -1,28 +1,28 @@
-initlang tool
+﻿initlang tool
 ===================================
 
-�T�v
+概要
 -----------------------------------
 
-�e�|��f�[�^�t�@�C���i.pas�j��ǂݍ��܂��āA�錾���ɂ���uresourcestring�v�̃��b�Z�[�W������ϐ����擾���ADelphi�R���p�C���ɂ��œK����h�����߂ɁA  �uinitialization�v�錾���ɁA���̕ϐ���������񋓂��Ă����A�������ꂾ���̃c�[���ł��B  
+各翻訳データファイル（.pas）を読み込ませて、宣言部にある「resourcestring」のメッセージ文字列変数を取得し、Delphiコンパイラによる最適化を防ぐために、  「initialization」宣言部に、その変数名だけを列挙していく、ただそれだけのツールです。  
 
-���Ȃ݂ɁA*.pas�Ƃ��������C���h�J�[�h�̓ǂݍ��݂Ȃ񂩂ɂ͖ʓ|�Ȃ�őΉ����Ă��܂���(��)�B  
+ちなみに、*.pasといったワイルドカードの読み込みなんかには面倒なんで対応していません(笑)。  
 
-�ȉ��̂悤�Ɏw�肵�܂��B
+以下のように指定します。
 
-initlang.exe [�w�肳�ꂽpas�t�@�C���p�X]
+initlang.exe [指定されたpasファイルパス]
 
 
-���쌠
+著作権
 -----------------------------------
 
 Copyright (C) 2012 M.Hibara, All rights reserved.  
 http://hibara.org/  
 
 
-���C�Z���X
+ライセンス
 -----------------------------------
-GPLv3��K�p���܂��B  
+GPLv3を適用します。  
 
 http://www.gnu.org/licenses/gpl-3.0.html  
 

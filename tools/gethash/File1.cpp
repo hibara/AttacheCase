@@ -1,4 +1,4 @@
-//---------------------------------------------------------------------------
+ï»¿//---------------------------------------------------------------------------
 
 #include <vcl.h>
 
@@ -18,9 +18,9 @@
 
 //---------------------------------------------------------------------------
 
-// ƒtƒ@ƒCƒ‹‚©‚çMD5‚ğZo‚µ‚Ä•¶š—ñ‚Å•Ô‚·
+// ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰MD5ã‚’ç®—å‡ºã—ã¦æ–‡å­—åˆ—ã§è¿”ã™
 String __fastcall GetMD5FromFile(String FilePath);
-// ƒtƒ@ƒCƒ‹‚©‚çSHA1‚ğZo‚µ‚Ä•¶š—ñ‚Å•Ô‚·
+// ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰SHA1ã‚’ç®—å‡ºã—ã¦æ–‡å­—åˆ—ã§è¿”ã™
 String __fastcall GetSHA1FromFile(String FilePath);
 
 //---------------------------------------------------------------------------
@@ -28,7 +28,7 @@ String __fastcall GetSHA1FromFile(String FilePath);
 int _tmain(int argc, _TCHAR* argv[])
 {
 
-setlocale(LC_CTYPE, "");  //‚±‚ê‚ª‚È‚¢‚Æ•¶š‰»‚¯‚·‚é
+setlocale(LC_CTYPE, "");  //ã“ã‚ŒãŒãªã„ã¨æ–‡å­—åŒ–ã‘ã™ã‚‹
 
 int i;
 String DirPath, FilePath, FileName;
@@ -70,7 +70,7 @@ for (i = 1; i < argc; i++) {
 }
 
 if (FileList->Count == 0) {
-	wprintf(L"w’è‚Ìƒtƒ@ƒCƒ‹‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ‚Å‚µ‚½B\n");
+	wprintf(L"æŒ‡å®šã®ãƒ•ã‚¡ã‚¤ãƒ«ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ã§ã—ãŸã€‚\n");
 	delete FileList;
 	return 1;
 }
@@ -81,18 +81,18 @@ for (i = 0; i < FileList->Count; i++) {
 	wprintf(L"%s\n", FilePath);
 
 	//-----------------------------------
-	wprintf(L"MD5ƒnƒbƒVƒ…‚ğŒvZ’†...\n");
-	MD5String = LowerCase(GetMD5FromFile(FilePath));   //¬•¶š‚Å
+	wprintf(L"MD5ãƒãƒƒã‚·ãƒ¥ã‚’è¨ˆç®—ä¸­...\n");
+	MD5String = LowerCase(GetMD5FromFile(FilePath));   //å°æ–‡å­—ã§
 
 	if (MD5String == "") {
-		wprintf(L"%s\nMD5ƒnƒbƒVƒ…‚Ìæ“¾‚É¸”s‚µ‚Ü‚µ‚½B\n", FilePath);
+		wprintf(L"%s\nMD5ãƒãƒƒã‚·ãƒ¥ã®å–å¾—ã«å¤±æ•—ã—ã¾ã—ãŸã€‚\n", FilePath);
 		break;
 	}
 	else{
 		wprintf(L"%s\n", MD5String.c_str());
 	}
 
-	//ƒeƒLƒXƒgƒtƒ@ƒCƒ‹‚É•Û‘¶‚·‚é
+	//ãƒ†ã‚­ã‚¹ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã«ä¿å­˜ã™ã‚‹
 	OutFilePathMD5 = FilePath + ".md5";
 	SaveFileList = new TStringList;
 	SaveFileList->Add(MD5String);
@@ -100,18 +100,18 @@ for (i = 0; i < FileList->Count; i++) {
 	delete SaveFileList;
 
 	//-----------------------------------
-	wprintf(L"SHA-1ƒnƒbƒVƒ…‚ğŒvZ’†...\n");
-	SHA1String = LowerCase(GetSHA1FromFile(FilePath));   //¬•¶š‚Å
+	wprintf(L"SHA-1ãƒãƒƒã‚·ãƒ¥ã‚’è¨ˆç®—ä¸­...\n");
+	SHA1String = LowerCase(GetSHA1FromFile(FilePath));   //å°æ–‡å­—ã§
 
 	if (SHA1String == "") {
-		wprintf(L"%s\nSHA-1ƒnƒbƒVƒ…‚Ìæ“¾‚É¸”s‚µ‚Ü‚µ‚½B\n", FilePath);
+		wprintf(L"%s\nSHA-1ãƒãƒƒã‚·ãƒ¥ã®å–å¾—ã«å¤±æ•—ã—ã¾ã—ãŸã€‚\n", FilePath);
 		break;
 	}
 	else{
 		wprintf(L"%s\n", SHA1String.c_str());
 	}
 
-	//ƒeƒLƒXƒgƒtƒ@ƒCƒ‹‚É•Û‘¶‚·‚é
+	//ãƒ†ã‚­ã‚¹ãƒˆãƒ•ã‚¡ã‚¤ãƒ«ã«ä¿å­˜ã™ã‚‹
 	OutFilePathSHA1 = FilePath + ".sha1";
 	SaveFileList = new TStringList;
 	SaveFileList->Add(SHA1String);
@@ -127,7 +127,7 @@ return 0;
 
 }
 //---------------------------------------------------------------------------
-// ƒtƒ@ƒCƒ‹‚©‚çMD5‚ğZo‚µ‚Ä•¶š—ñ‚Å•Ô‚·
+// ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰MD5ã‚’ç®—å‡ºã—ã¦æ–‡å­—åˆ—ã§è¿”ã™
 //---------------------------------------------------------------------------
 String __fastcall GetMD5FromFile(String FilePath)
 {
@@ -151,8 +151,8 @@ if ( !FileExists(FilePath)) return("");
 int fh = FileOpen(FilePath, fmOpenRead);
 
 if (fh < 0) {
-	//ƒI[ƒvƒ“‚É¸”s
-	wprintf(L"ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“‚É¸”s‚µ‚Ü‚µ‚½B\n", FilePath);
+	//ã‚ªãƒ¼ãƒ—ãƒ³ã«å¤±æ•—
+	wprintf(L"ãƒ•ã‚¡ã‚¤ãƒ«ã‚ªãƒ¼ãƒ—ãƒ³ã«å¤±æ•—ã—ã¾ã—ãŸã€‚\n", FilePath);
 	return("");
 }
 
@@ -161,10 +161,10 @@ FileSeek(fh, 0, 0);
 
 MD5_CTX mdContext;
 
-//MD5 - ‰Šú‰»
+//MD5 - åˆæœŸåŒ–
 MD5Init(&mdContext);
 
-//ƒtƒ@ƒCƒ‹“Ç‚İo‚µ
+//ãƒ•ã‚¡ã‚¤ãƒ«èª­ã¿å‡ºã—
 while ((bytes = FileRead (fh, buffer, BUF_SIZE)) != 0){
 
 	MD5Update (&mdContext, buffer, bytes);
@@ -172,11 +172,11 @@ while ((bytes = FileRead (fh, buffer, BUF_SIZE)) != 0){
 
 	percent = (float)TotalSize/FileSize;
 	PercentNum = int(percent*100);
-	wprintf(L"MD5 ŒvZ’† - %d%%\r", PercentNum);
+	wprintf(L"MD5 è¨ˆç®—ä¸­ - %d%%\r", PercentNum);
 
 }
 
-wprintf(L"MD5 ŒvZŠ®—¹ - 100%%\n");
+wprintf(L"MD5 è¨ˆç®—å®Œäº† - 100%%\n");
 
 MD5Final(&mdContext);
 
@@ -194,7 +194,7 @@ return((String)textbuffer);
 
 }
 //---------------------------------------------------------------------------
-// ƒtƒ@ƒCƒ‹‚©‚çSHA1‚ğZo‚µ‚Ä•¶š—ñ‚Å•Ô‚·
+// ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰SHA1ã‚’ç®—å‡ºã—ã¦æ–‡å­—åˆ—ã§è¿”ã™
 //---------------------------------------------------------------------------
 String __fastcall GetSHA1FromFile(String FilePath)
 {
@@ -221,18 +221,18 @@ if ( !FileExists(FilePath)) return("");
 int fh = FileOpen(FilePath, fmOpenRead);
 
 if (fh < 0) {
-	//ƒI[ƒvƒ“‚É¸”s
-	wprintf(L"ƒtƒ@ƒCƒ‹ƒI[ƒvƒ“‚É¸”s‚µ‚Ü‚µ‚½B\n", FilePath);
+	//ã‚ªãƒ¼ãƒ—ãƒ³ã«å¤±æ•—
+	wprintf(L"ãƒ•ã‚¡ã‚¤ãƒ«ã‚ªãƒ¼ãƒ—ãƒ³ã«å¤±æ•—ã—ã¾ã—ãŸã€‚\n", FilePath);
 	return("");
 }
 
 FileSize = FileSeek(fh, (__int64)0, 2);
 FileSeek(fh, 0, 0);
 
-//‰Šú‰»iƒŠƒZƒbƒgj
+//åˆæœŸåŒ–ï¼ˆãƒªã‚»ãƒƒãƒˆï¼‰
 if ( SHA1Reset(&sha))return("");
 
-//ƒtƒ@ƒCƒ‹“Ç‚İo‚µ
+//ãƒ•ã‚¡ã‚¤ãƒ«èª­ã¿å‡ºã—
 while ((bytes = FileRead (fh, buffer, BUF_SIZE)) != 0){
 	if ( SHA1Input(&sha, (const unsigned char *)buffer, bytes) ){
 		return("");
@@ -241,13 +241,13 @@ while ((bytes = FileRead (fh, buffer, BUF_SIZE)) != 0){
 	TotalSize+=bytes;
 	percent = (float)TotalSize/FileSize;
 	PercentNum = int(percent*100);
-	wprintf(L"SHA-1 ŒvZ’† - %d%%\r", PercentNum);
+	wprintf(L"SHA-1 è¨ˆç®—ä¸­ - %d%%\r", PercentNum);
 
 }
 
-wprintf(L"SHA-1 ŒvZŠ®—¹ - 100%%\n");
+wprintf(L"SHA-1 è¨ˆç®—å®Œäº† - 100%%\n");
 
-//o—Í
+//å‡ºåŠ›
 if ( SHA1Result(&sha, Message_Digest) )	return("");
 
 FileClose(fh);

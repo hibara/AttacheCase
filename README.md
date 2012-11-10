@@ -1,7 +1,17 @@
 ﻿AttacheCase
-===========
+===================================
 
 'AttacheCase' is file / folder encryption software for Windows.
+
+
+Screenshots
+-----------------------------------
+
+![ScreenShot-00](http://hibara.org/software/img/attachecase_screenshot_00.png)
+
+
+License
+-----------------------------------
 
 Copyright (C) 2012 M.Hibara, All rights reserved.
 http://hibara.org/
