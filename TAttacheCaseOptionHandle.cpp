@@ -38,7 +38,94 @@ http://www.gnu.org/licenses/
 __fastcall TAttacheCaseOptionHandle::TAttacheCaseOptionHandle() : TObject()
 {
 
-//
+	OptionPath = "";                // 読み込んだ先のパス（INIファイルパス）
+	OptType = 0;                    // 0:レジストリ, 1:INIファイル, 2:コマンドライン引数
+
+	//アプリケーション情報
+	String AppPath = "";            //本体がインストールされたフルパス
+	VersionNum = 0;                 //バージョン
+
+	//フォームポジション
+	FormTop = 0;
+	FormLeft = 0;
+	FormWidth = 420;
+	FormHeight = 360;
+	WinStyle = 0;
+
+	ActiveTabNum = 0;               //開いていたタブ
+
+	//【基本設定】
+	MyPassword = "";                //記憶しているパスワード
+
+	fArg = false;                   //実行引数処理をするか
+	fArgPassword = false;           //実行引数にパスワードを指定
+
+	fMyEncodePasswordKeep = false;  //暗号化パスワードを記憶するか
+	fMyDecodePasswordKeep = false;  //復号パスワードを記憶するか
+	MyEncodePassword = "";          //記憶暗号化パスワード
+	MyDecodePassword = "";          //記憶復号化パスワード
+
+	fMemPasswordExe = false;        //記憶パスワードで即座に実行する
+	fOpenFolder = false;            //フォルダの場合に復号後に開くか
+	fOpenFile = false;              //復号したファイルを関連付けされたソフトで開く
+	fEndToExit = false;             //処理後に終了するか
+	fWindowForeground = true;       //デスクトップで最前面にウィンドウを表示する
+	fNoHidePassword = false;        //「*」で隠さずパスワードを確認しながら入力する
+	fSaveToExeout = false;          //常に自己実行形式で出力する
+	fShowExeoutChkBox = true;       //メインフォームにチェックボックスを表示する
+	fAskEncDecode = false;          //暗号/復号処理かを問い合わせる
+	ProcTypeWithoutAsk = 0;         //暗号/復号処理か（動作設定にはない。コマンドラインのみ）
+	fNoMultipleInstance = false;    //複数起動しない
+
+	//【保存設定】
+	fSaveToSameFldr = false;        //暗号化ファイルを常に同じ場所に保存するか
+	SaveToSameFldrPath = "";        //その保存場所
+	fDecodeToSameFldr = false;      //常に同じ場所へファイルを復号するか
+	DecodeToSameFldrPath = "";      //その保存場所
+	fConfirmOverwirte = true;       //同名ファイルの上書きを確認するか
+	fKeepTimeStamp = false;         //暗号化ファイルのタイムスタンプを元ファイルに合わせる
+	fSameTimeStamp = false;         //復号したファイルのタイムスタンプを生成日時にする
+	fAllFilePack = false;           //複数のファイルを暗号化する際は一つにまとめる
+	fFilesOneByOne = false;         //フォルダ内のファイルは個別に暗号化/復号する
+	fNoParentFldr = false;          //復号するときに親フォルダを生成しない
+	fExtInAtcFileName = false;      //暗号化ファイル名に拡張子を含める
+	fAutoName = false;              //自動で暗号化ファイル名を付加する
+	AutoNameFormatText = "";	      //自動で付加するファイル名書式
+
+	//【削除設定】
+	fDelOrgFile = false;            //暗号化した後、元ファイルを削除する
+	fDelEncFile = false;            //復号化した後、暗号化ファイルを削除する
+	fShowDeleteChkBox = false;      //メインフォームにチェックボックスを表示する
+	fCompleteDelete = 0;            //完全削除を行うか(0:通常，1:完全削除，2:ごみ箱）
+	DelRandNum = 0;                 //乱数を何回書き込み消去するか
+	DelZeroNum = 0;                 //NULLを何回書き込み消去するか
+
+	//【動作設定】
+	CompressRate = 6;               //圧縮率
+	fCompareFile = false;           //暗号処理後にファイルコンペアを行うか
+
+	//【システム】
+	fAssociationFile = true;        //関連付け設定を保持するか
+	AtcsFileIconIndex = 1;          //ファイルアイコン番号
+	UserRegIconFilePath = "";       //ユーザー指定のファイルアイコンパス
+
+	//【高度な設定】
+	fAllowPassFile = false;         //パスワードファイルを許可する
+	fCheckPassFile = false;         //暗号時にパスワードファイルを自動チェックする
+	PassFilePath = "";              //暗号時のパスワードファイルパス
+	fCheckPassFileDecrypt = false;  //復号時にパスワードファイルを自動チェックする
+	PassFilePathDecrypt = "";       //復号時のパスワードファイルパス
+	fNoErrMsgOnPassFile = false;    //パスワードファイルがない場合エラーを出さない
+	fAddCamoExt = false;            //暗号化ファイルの拡張子を偽装する
+	CamoExt = "";                   //その拡張子
+	MissTypeLimitsNum = 3;          //パスワードのタイプミス制限回数（ver.2.70～）
+	fBroken = false;                //タイプミス回数を超えたときにファイルを破壊するか否か（ver.2.70～）
+
+	//【コマンドラインからのみ指定】
+	fOver4GBok = false;             //4GB超えを容認
+	fHideMainForm = false;          //メインフォームを非表示
+	//int WinStyle;                 //ウィンドウの状態(0: wsNormal, 1: wsMinimized, 2: wsMaximized）
+	fNoErrorMsg = false;            //エラーメッセージ表示の抑制
 
 }
 //===========================================================================
@@ -867,7 +954,19 @@ for ( i = 1; i < ParamCount()+1 ; i++){
 				WinStyle = 0;
 			}
 		}
+		//エラーメッセージ表示の抑制
+		else if (CmdStr == "noerr"){
+			if ( StrToIntDef(strvalue.Trim(), -1) == 1 ){
+				fNoErrorMsg = true;
+			}
+			else{
+				fNoErrorMsg = false;
+			}
+		}
+
+		//-----------------------------------
 		//指定のファイルリストを読み込む
+		//-----------------------------------
 		else if (CmdStr == "list"){
 			if ( strvalue != "" ){
 				String ListFilePath = GetLongFilePath(ExpandUNCFileName(strvalue)); //ロングパスに変換

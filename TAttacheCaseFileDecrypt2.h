@@ -68,9 +68,7 @@ private:
 	//バッファの入力
 	__int64 __fastcall InputBuffer(
 		int &buff_size, char *source_buffer, char *chain_buffer,
-		TFileStream *fsIn, bool &fOpen,
-		__int64 TotalSize, __int64 AllTotalSize
-	);
+		TFileStream *fsIn, bool &fOpen, __int64 TotalSize );
 	//バッファの出力
 	int __fastcall OutputBuffer(
 		char *output_buffer, int buff_size,

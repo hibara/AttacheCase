@@ -147,7 +147,7 @@ TStringList *FilePathList = new TStringList;
 int MarginBufSize = MARGIN_BUF_SIZE;
 
 // PKCS #7 Pading num.
-int paddingNum = 0;
+unsigned char paddingNum = 0;
 
 //---------------------------------------
 // 同名ファイルがあるのでダイアログ表示
@@ -557,10 +557,10 @@ if (Terminated == true) {
 //残りのバッファ
 if (z.avail_out > 0) {
 
-		// PKCS #7
-		paddingNum = z.avail_out;
-		len = BUF_SIZE - paddingNum;
+		// PKCS #7 パディング
+		len = BUF_SIZE - z.avail_out;
 
+		paddingNum = (char)z.avail_out;
 		for(i = len; i < BUF_SIZE; i++){
 			out_buffer[i] = paddingNum;
 		}

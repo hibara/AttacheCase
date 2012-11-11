@@ -156,6 +156,8 @@ public:
 	bool fOver4GBok;                //4GB超えを容認
 	bool fHideMainForm;             //メインフォームを非表示
 	//int WinStyle;                 //ウィンドウの状態(0: wsNormal, 1: wsMinimized, 2: wsMaximized）
+	bool fNoErrorMsg;               //エラーメッセージ表示の抑制
+
 
 	//===================================
 	// 関数

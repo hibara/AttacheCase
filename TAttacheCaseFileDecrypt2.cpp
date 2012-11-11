@@ -138,20 +138,21 @@ int PlainHeaderSize = 0;
 // 暗号化部分のヘッダサイズ
 int EncryptHeaderSize = 0;
 
-int DataVersion;      // ver.2.00～は "5", ver.2.70～は "6"
+int DataVersion;        // ver.2.00～は "5", ver.2.70～は "6"
 int AlgorismType;
 
-char reserved;        // 0
-//int TypeLimits;     // ミスタイプ回数 0～10  （グローバル:public宣言とした）
-//bool fDestroy;      // 破壊するか否か 0 or 1 （グローバル:public宣言とした）
+char reserved;          // 0
+//int TypeLimits;       // ミスタイプ回数 0～10  （グローバル:public宣言とした）
+//bool fDestroy;        // 破壊するか否か 0 or 1 （グローバル:public宣言とした）
 
-String PrefixString;	//ファイルリストの接頭辞（Fn_*, U_*）
+String PrefixString;	  //ファイルリストの接頭辞（Fn_*, U_*）
 
-int flush, status;    // zlib
-z_stream z;           // zlibライブラリとやりとりするための構造体
+int flush, status;      // zlib
+z_stream z;             // zlibライブラリとやりとりするための構造体
+bool fInputEnd = false; // 入力ストリームの終了
 
 //ヘッダデータから必要情報を取り出すための
-TMemoryStream *pms;   // メモリストリーム
+TMemoryStream *pms;     // メモリストリーム
 
 int idx;
 TStringList *DataList;
@@ -413,7 +414,6 @@ tsv = new TStringList;
 tsv->Delimiter = '\t';
 tsv->StrictDelimiter = true;
 
-AllTotalSize = 0;
 for (i = 0; i < DataList->Count; i++) {
 
 	idx = DataList->IndexOfName(PrefixString+IntToStr(i));
@@ -422,9 +422,6 @@ for (i = 0; i < DataList->Count; i++) {
 		tsv->DelimitedText = DataList->ValueFromIndex[idx];
 		FileList->Add(tsv->Strings[0]);
 		FileSizeList[i] = StrToIntDef(tsv->Strings[1], -1);    // 1: ファイルサイズ（フォルダは-1）
-		if (FileSizeList[i] > 0) {
-			AllTotalSize += FileSizeList[i];
-		}
 		FileAttrList[i] = StrToIntDef(tsv->Strings[2], -1);    // 2: 属性
 		FileDtChangeList[i] = StrToIntDef(tsv->Strings[3], -1);// 3: 更新日
 		FileTmChangeList[i] = StrToIntDef(tsv->Strings[4], -1);// 4: 更新時
@@ -495,8 +492,8 @@ if ( fTempOpenFile == true && FileList->Count > 4 && fCompare == false) {
 ProgressStatusText = LoadResourceString(&Msgdecrypt::_LABEL_STATUS_TITLE_DECRYPTING);
 ProgressMsgText = ExtractFileName(AtcFilePath);
 
-// ファイルサイズを取得する
-AllTotalSize = fsIn->Size - fsIn->Position;
+// ファイル（データ本体）サイズを取得する
+AllTotalSize = fsIn->Size - fsIn->Position + 1;
 // 初期化ベクトルの読み出し
 TotalSize = fsIn->Read(chain_buffer, BUF_SIZE);
 
@@ -533,15 +530,13 @@ while (Terminated == false) {
 	//-----------------------------------
 	if (z.avail_in == 0) {
 
-		TotalSize =
-			InputBuffer(
-				len, source_buffer, chain_buffer,
-				fsIn, fInputFileOpen,
-				TotalSize, AllTotalSize
-			);
-
+		TotalSize = InputBuffer(len, source_buffer, chain_buffer, fsIn, fInputFileOpen, TotalSize);
 		z.avail_in = len;
 		z.next_in = source_buffer;
+
+		if ( len == 0 ) {  //入力ストリーム終了
+			fInputEnd = true;
+		}
 
 	}
 
@@ -639,7 +634,7 @@ while (Terminated == false) {
 		ProgressPercentNumText = FloatToStrF(ProgressPercentNumF*100, ffNumber, 4, 1)+"%";
 	}
 
-	if ( z.avail_in == 0 && z.avail_out == 0 ) {
+	if ( fInputEnd == true) {
 		break;
 	}
 
@@ -819,15 +814,13 @@ LabelStop:
 //===========================================================================
 __int64 __fastcall TAttacheCaseFileDecrypt2::InputBuffer
 	(int &buff_size, char *source_buffer, char *chain_buffer,
-	 TFileStream *fsIn, bool &fOpen,
-	 __int64 TotalSize, __int64 AllTotalSize )
+	 TFileStream *fsIn, bool &fOpen, __int64 TotalSize)
 {
 
-int i;
+char i;
 int len;
 
-bool fPKCS;
-char paddingNum;
+char paddingNum = 0;
 char temp_buffer[BUF_SIZE];
 
 // 入力ファイルが開かれていない
@@ -843,6 +836,11 @@ for (i = 0; i < BUF_SIZE; i++) {
 
 // 暗号化されたデータブロックの読み出し
 len = fsIn->Read(source_buffer, BUF_SIZE);
+if ( len == 0 ) {
+	buff_size = 0;
+	return(TotalSize);
+}
+
 TotalSize += len;
 
 for (i = 0; i < BUF_SIZE; i++) {
@@ -859,33 +857,32 @@ for (i = 0; i < BUF_SIZE; i++) {
 	chain_buffer[i] = temp_buffer[i]; // CBC
 }
 
-// 最後のブロックの境界...
-if (TotalSize > AllTotalSize) {
+//-----------------------------------
+// 最後の入力ブロック
+//-----------------------------------
+if (fsIn->Position+1 > fsIn->Size) {
 
 	// Check PKCS #7 pading num
-	fPKCS = false;
 	paddingNum = source_buffer[BUF_SIZE - 1];
-	for (i = 0; i < paddingNum; i++) {
-		if (source_buffer[BUF_SIZE - i - 1] == paddingNum) {
-			fPKCS = true;
+
+	if (paddingNum > -1) {
+
+		for (i = 0; i < BUF_SIZE; i++) {
+			if (source_buffer[BUF_SIZE - 1 - i] != paddingNum) {
+				break;
+			}
 		}
-		else {
-			break;
+
+		if (paddingNum == i) {
+			buff_size = BUF_SIZE - (int)i;  //パディングを除いた分だけ補充
+			return(TotalSize);
 		}
-	}
-	if (fPKCS == true) {
-		buff_size = BUF_SIZE - i - 1;
-	}
-	else {
-		buff_size = BUF_SIZE;
+
 	}
 
 }
-else {
-	buff_size = BUF_SIZE;
-}
 
-
+buff_size = BUF_SIZE;
 return(TotalSize);
 
 }
