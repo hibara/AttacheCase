@@ -60,6 +60,9 @@ txtDecryptPassword->EditLabel->Caption = LoadResourceString(&Msgunit1::_INPUT_DE
 chkDeleteSourceData->Caption = LoadResourceString(&Msgunit1::_CHECK_BOX_DELETE_SOURCE_DATA);
 chkDeleteSourceDataConf->Caption = chkDeleteSourceData->Caption;
 chkDeleteAtcData->Caption = LoadResourceString(&Msgunit1::_CHECK_BOX_DELETE_ATC_DATA);
+lblStatus->Caption = "-";
+lblMsg->Caption = "-";
+lblProgressPercentNum->Caption = "- %";
 
 //サイドバーメニューキャプション
 SideBarCaption[1] = LoadResourceString(&Msgunit1::_SIDEBAR_CAPTION_ENCRYPT);
@@ -378,7 +381,6 @@ else{
 lblMain->Left = TabSheetMain->Width/2 - lblMain->Width/2;
 lblMain->Top = TabSheetMain->Height/2 - lblMain->Height/2;
 
-
 //-----------------------------------
 //暗号化パスワード入力パネル
 //-----------------------------------
@@ -386,45 +388,15 @@ txtEncryptPassword->Left = 24;
 txtEncryptPassword->Top = TabSheetInputEncPass->Height/2 - txtEncryptPassword->Height;
 txtEncryptPassword->Width = TabSheetInputEncPass->Width - txtEncryptPassword->Left*2;
 
-//「*」で隠さずパスワードを確認しながら入力する
-if ( opthdl->fNoHidePassword == true ){
-	txtEncryptPassword->PasswordChar = NULL;
-}
-else{
-	txtEncryptPassword->PasswordChar = '*';
-}
-
+//チェックボックス
 chkExeFileOut->Top = txtEncryptPassword->BoundsRect.Bottom + 8;
 chkExeFileOut->Left = txtEncryptPassword->Left;
 chkExeFileOut->Width = txtEncryptPassword->Width;
-if ( Sender == NULL) {
-	//リサイズイベントからは変更しない
-	chkExeFileOut->Checked = opthdl->fSaveToExeout;     //常に自己実行形式で出力する
-}
-chkExeFileOut->Visible = opthdl->fShowExeoutChkBox;   //メインフォームにチェックボックスを表示する
-
-//「元ファイルを削除する」チェックボックスの表示
-if ( opthdl->fShowDeleteChkBox == true ) {
-	chkDeleteSourceData->Left = chkExeFileOut->Left;
-	if ( chkExeFileOut->Visible == true ) {
-		chkDeleteSourceData->Top = chkExeFileOut->BoundsRect.Bottom + 8;
-	}
-	else{
-		chkDeleteSourceData->Top = chkExeFileOut->Top;
-	}
-	chkDeleteSourceData->Visible = true;
-}
-else{
-	chkDeleteSourceData->Visible = false;
-}
-
-if ( Sender == NULL) {
-	chkDeleteSourceData->Checked = opthdl->fDelOrgFile;
-}
+chkDeleteSourceData->Left = chkExeFileOut->Left;
+chkDeleteSourceData->Top = chkExeFileOut->BoundsRect.Bottom + 8;
 
 //各ボタン
-cmdEncryptPasswordCancel->Top =
-	(chkDeleteSourceData->Visible ? chkDeleteSourceData->BoundsRect.Bottom : chkExeFileOut->BoundsRect.Bottom )+ 8;
+cmdEncryptPasswordCancel->Top = chkDeleteSourceData->BoundsRect.Bottom + 8;
 cmdEncryptPasswordCancel->Left = chkExeFileOut->BoundsRect.Right - cmdEncryptPasswordCancel->Width;
 cmdEncryptPasswordOK->Top = cmdEncryptPasswordCancel->Top;
 cmdEncryptPasswordOK->Left = cmdEncryptPasswordCancel->Left - cmdEncryptPasswordOK->Width - 8;
@@ -439,39 +411,15 @@ txtPasswordConfirm->Left = 24;
 txtPasswordConfirm->Top = TabSheetInputEncPassConfirm->Height/2 - txtPasswordConfirm->Height;
 txtPasswordConfirm->Width = TabSheetInputEncPassConfirm->Width - txtPasswordConfirm->Left*2;
 
-//「*」で隠さずパスワードを確認しながら入力する
-if ( opthdl->fNoHidePassword == true ){
-	txtPasswordConfirm->PasswordChar = NULL;
-}
-else{
-	txtPasswordConfirm->PasswordChar = '*';
-}
-
+//チェックボックス
 chkExeFileOutConf->Top = txtPasswordConfirm->BoundsRect.Bottom + 8;
 chkExeFileOutConf->Left = txtPasswordConfirm->Left;
 chkExeFileOutConf->Width = txtPasswordConfirm->Width;
-//chkExeFileOut->Checked = true;                	//クリックイベントで制御する
-
-//「元ファイルを削除する」チェックボックス
-chkExeFileOutConf->Visible = opthdl->fShowExeoutChkBox;   //メインフォームにチェックボックスを表示する
-if ( chkDeleteSourceData->Visible == true ) {
-	chkDeleteSourceDataConf->Left = chkExeFileOutConf->Left;
-	if ( chkExeFileOutConf->Visible == true ) {
-		chkDeleteSourceDataConf->Top = chkExeFileOutConf->BoundsRect.Bottom + 8;
-	}
-	else{
-		chkDeleteSourceDataConf->Top = chkExeFileOut->Top;
-	}
-	chkDeleteSourceDataConf->Visible = true;
-}
-else{
-	chkDeleteSourceDataConf->Visible = false;
-}
-//chkDeleteSourceDataConf->Checked = fDelOrgFile;  //クリックイベントで制御する
+chkDeleteSourceDataConf->Left = chkExeFileOutConf->Left;
+chkDeleteSourceDataConf->Top = chkExeFileOutConf->BoundsRect.Bottom + 8;
 
 //各ボタン
-cmdConfirmCancel->Top =
-	(chkDeleteSourceDataConf->Visible ? chkDeleteSourceDataConf->BoundsRect.Bottom : chkExeFileOutConf->BoundsRect.Bottom )+ 8;
+cmdConfirmCancel->Top = chkDeleteSourceDataConf->BoundsRect.Bottom + 8;
 cmdConfirmCancel->Left = chkExeFileOutConf->BoundsRect.Right - cmdConfirmCancel->Width;
 cmdConfirmOK->Top = cmdConfirmCancel->Top;
 cmdConfirmOK->Left = cmdConfirmCancel->Left - cmdConfirmOK->Width - 8;
@@ -487,27 +435,14 @@ txtDecryptPassword->Left = 24;
 txtDecryptPassword->Top = TabSheetInputDecPass->Height/2 - txtDecryptPassword->Height;
 txtDecryptPassword->Width = TabSheetInputDecPass->Width - txtDecryptPassword->Left*2;
 
-//「*」で隠さずパスワードを確認しながら入力する
-if ( opthdl->fNoHidePassword == true ){
-	txtDecryptPassword->PasswordChar = NULL;
-}
-else{
-	txtDecryptPassword->PasswordChar = '*';
-}
-
 //「暗号化ファイルを削除する」チェックボックス
 chkDeleteAtcData->Top = txtDecryptPassword->BoundsRect.Bottom + 8;
 chkDeleteAtcData->Left = txtDecryptPassword->Left;
 chkDeleteAtcData->Width = txtDecryptPassword->Width;
-chkDeleteAtcData->Visible = opthdl->fShowDeleteChkBox;
-if ( Sender == NULL) {
-	chkDeleteAtcData->Checked = opthdl->fDelEncFile;
-}
 
 //各ボタン
 cmdDecryptPasswordCancel->Top = chkDeleteAtcData->BoundsRect.Bottom + 8;
-cmdDecryptPasswordCancel->Left =
-	txtDecryptPassword->BoundsRect.Right - cmdDecryptPasswordCancel->Width;
+cmdDecryptPasswordCancel->Left = txtDecryptPassword->BoundsRect.Right - cmdDecryptPasswordCancel->Width;
 cmdDecryptPasswordOK->Top = cmdDecryptPasswordCancel->Top;
 cmdDecryptPasswordOK->Left = cmdDecryptPasswordCancel->Left - cmdDecryptPasswordOK->Width - 8;
 
@@ -538,8 +473,7 @@ cmdCancel->Left = ProgressBar1->BoundsRect.Right - cmdCancel->Width;
 //戻るボタン
 imgBackFromExecute->Picture = imgBackNormal->Picture;
 
-if (TimerEncrypt->Enabled == false &&
-		TimerDecrypt->Enabled == false && TimerDelete->Enabled == false) {
+if (TimerEncrypt->Enabled == false && TimerDecrypt->Enabled == false && TimerDelete->Enabled == false) {
 	imgBackFromExecute->Visible = true;
 }
 else{
@@ -939,7 +873,7 @@ delete DropFileList;
 //---------------------------------------------------------------------------
 // 暗号化ファイルのヘッダ判定
 //---------------------------------------------------------------------------
-bool __fastcall TForm1::CheckAtcFileHeader(TStringList *FileList)
+bool __fastcall TForm1::CheckAtcFileHeader(TStringList *AtcFileList)
 {
 
 int i;
@@ -955,9 +889,9 @@ bool fDecrypt = true;
 //-----------------------------------
 // ファイルヘッダを判定
 //-----------------------------------
-for (i = 0; i < FileList->Count; i++) {
+for (i = 0; i < AtcFileList->Count; i++) {
 
-	FilePath = FileList->Strings[i];
+	FilePath = AtcFileList->Strings[i];
 
 	if ( FileExists(FilePath) == true ) {
 
@@ -992,7 +926,7 @@ for (i = 0; i < FileList->Count; i++) {
 		fDecrypt = false;
 	}
 
-}//end for (i = 0; i < FileList->Count; i++);
+}//end for (i = 0; i < AtcFileList->Count; i++);
 
 return(fDecrypt);
 
@@ -1000,7 +934,7 @@ return(fDecrypt);
 //---------------------------------------------------------------------------
 //ファイルの判別を行った後に処理を分けて実行
 //---------------------------------------------------------------------------
-void __fastcall TForm1::DoExecute(TStringList *FileList)
+void __fastcall TForm1::DoExecute(TStringList *ExeFileList)
 {
 
 int i;
@@ -1035,10 +969,10 @@ if ( opthdl->fAskEncDecode == true ) {
 
 	//'ドラッグ＆ドロップされたファイルまたはフォルダーをどのように処理しますか？'
 	MsgText = LoadResourceString(&Msgunit1::_MSG_CONFIRM_ENCRYPT_OR_DECRYPT)+"\n"+
-									 FileList->Strings[0];
+									 ExeFileList->Strings[0];
 
-	if ( FileList->Count > 1) {
-		MsgText = MsgText + "\n..." + IntToStr(FileList->Count) + " files.";
+	if ( ExeFileList->Count > 1) {
+		MsgText = MsgText + "\n..." + IntToStr(ExeFileList->Count) + " files.";
 	}
 
 	dlgconf = CreateMessageDialog(MsgText, mtConfirmation, TMsgDlgButtons()<<mbYes<<mbNo<<mbCancel, mbCancel);
@@ -1067,7 +1001,7 @@ if ( opthdl->fAskEncDecode == true ) {
 	//-----------------------------------
 	//キャンセル
 	else {
-		FileList->Clear();
+		ExeFileList->Clear();
 		return;
 	}
 
@@ -1082,9 +1016,9 @@ else{
 	//-----------------------------------
 	// ファイルヘッダを判定
 	//-----------------------------------
-	for (i = 0; i < FileList->Count; i++) {
+	for (i = 0; i < ExeFileList->Count; i++) {
 
-		FilePath = FileList->Strings[i];
+		FilePath = ExeFileList->Strings[i];
 
 		if ( FileExists(FilePath) == true ) {
 
@@ -1128,7 +1062,7 @@ else{
 			CryptTypeNum = TYPE_CRYPT_ENCRYPT;
 		}
 
-	}//end for (i = 0; i < FileList->Count; i++);
+	}//end for (i = 0; i < ExeFileList->Count; i++);
 
 }//end if ( opthdl->fAskEncDecode == true );
 
@@ -1268,7 +1202,7 @@ else if ( CryptTypeNum == TYPE_CRYPT_DECRYPT) {
 else {
 	//メインへ戻る
 	PageControlActiveSheet(TabSheetMain);
-	FileList->Clear();
+	ExeFileList->Clear();
 	return;
 }
 
@@ -1277,7 +1211,7 @@ else {
 //---------------------------------------------------------------------------
 //完全削除処理実行
 //---------------------------------------------------------------------------
-void __fastcall TForm1::DoDeleteFile(TStringList *FileList)
+void __fastcall TForm1::DoDeleteFile(TStringList *DelFileList)
 {
 
 //実行パネル表示
@@ -1285,7 +1219,7 @@ PageControlActiveSheet(TabSheetExecute);
 
 //完全削除インスタンスの作成
 cmpdel = new TAttacheCaseDelete(true);
-cmpdel->FileList = FileList;
+cmpdel->DeleteFileList = DelFileList;
 cmpdel->Opt = opthdl->fCompleteDelete;     // 0:通常削除, 1:完全削除, 2:ゴミ箱
 cmpdel->RandClearNum = opthdl->DelRandNum; //完全削除（乱数書き込み回数）
 cmpdel->ZeroClearNum = opthdl->DelZeroNum; //完全削除（NULL書き込み回数）
@@ -1335,13 +1269,13 @@ if(tskpbr){
 //暗号化成功
 if ( encrypt->StatusNum > 0 ) {
 
-	FileListPosition++;
-
 	//コンペア
 	if ( opthdl->fCompareFile == true && FileListPosition < FileList->Count ){
 		FileCompare();
 		return;
 	}
+
+	FileListPosition++;
 
 	//個別に暗号化するオプションでまだ処理するファイルが残っている
 	if (FileListPosition < FileList->Count) {
@@ -1349,8 +1283,8 @@ if ( encrypt->StatusNum > 0 ) {
 		return;
 	}
 
+	//暗号化処理終了
 	TimerEncrypt->Enabled = false;
-
 	encrypt = NULL;
 
 	//元ファイルの削除処理
@@ -1403,20 +1337,20 @@ if ( decrypt->StatusNum > 0 ) {
 
 	//コンペアしてきた
 	if (decrypt->fCompare == true) {
-		//デバッグメッセージ
-		//ShowMessage("コンペア処理スレッドが終了しました。");
 		//元の暗号化処理スレッドへ戻る
 		EncryptThreadTerminated(Sender);
 		return;
 	}
-
-	decrypt = NULL;
 
 	//個別に暗号化するオプションでまだ処理するファイルが残っている
 	if (FileListPosition < FileList->Count) {
 		FileDecrypt();
 		return;
 	}
+
+	//復号処理終了
+	TimerDecrypt->Enabled = false;
+	decrypt = NULL;
 
 	//暗号化ファイルの削除処理
 	if ( chkDeleteAtcData->Checked == true ) {
@@ -1457,6 +1391,7 @@ else{
 				}
 				else{
 					decrypt = NULL;
+					TimerDecrypt->Enabled = false;
 					Application->Terminate();
 				}
 			}
@@ -1477,6 +1412,7 @@ else{
 	}
 
 	//エラーで終了してきた
+	TimerDecrypt->Enabled = false;
 	decrypt = NULL;
 
 }
@@ -1487,6 +1423,8 @@ else{
 //---------------------------------------------------------------------------
 void __fastcall TForm1::DeleteThreadTerminated(TObject *Sender)
 {
+
+String MsgText;
 
 ProgressBar1->Style = pbstNormal;
 ProgressBar1->Position = cmpdel->ProgressPercentNum;
@@ -1501,32 +1439,21 @@ if(tskpbr){
 	tskpbr = NULL;
 }
 
+//-----------------------------------
+//削除処理に失敗
+if ( cmpdel->StatusNum < 0 ) {
+	//'ファイル/フォルダー削除処理に失敗しました。'+#13+
+	//'一部のファイル/フォルダーが削除できずに残ってしまった可能性があります。';
+	MsgText = LoadResourceString(&Msgunit1::_MSG_ERROR_DELETE_FIlES_FAILED);
+	MessageDlg(MsgText, mtError, TMsgDlgButtons() << mbOK, 0);
+}
+
+//削除処理の終了
+cmpdel = NULL;
 TimerDelete->Enabled = false;
 
-//-----------------------------------
-//完全削除に成功
-if ( cmpdel->StatusNum > 0 ) {
-
-	FileListPosition++;
-
-	//まだ処理するファイルが残っている
-	if (FileListPosition < FileList->Count) {
-		//完全削除処理へ再び
-		DoDeleteFile(FileList);
-		return;
-	}
-}
-//完全削除に失敗
-else{
-
-}
-
-cmpdel = NULL;
-
-FileList->Clear();
-
 //処理後に終了する
-if ( opthdl->fEndToExit == true ) {
+if ( opthdl->fEndToExit == true && cmpdel->StatusNum > -1) {
 	Application->Terminate();
 }
 
@@ -1644,7 +1571,6 @@ String MsgText;
 
 if (OpenDialogEncrypt->Execute() == true) {
 
-	FileList->Clear();
 	FileList->Text = OpenDialogEncrypt->Files->Text;  //暗号化する元ファイルリスト
 
 	//記憶パスワードで即座に実行する
@@ -1704,7 +1630,6 @@ TSelectDirExtOpts opt =
 // "暗号化するディレクトリ（フォルダ）を選択してください。"
 if (SelectDirectory(LoadResourceString(&Msgunit1::_DIALOG_SELECT_DIRECTORY_TEXT), L"", DirPath, opt) == true){
 
-	FileList->Clear();
 	FileList->Text = DirPath;
 
 		//記憶パスワードで即座に実行する
@@ -1816,6 +1741,7 @@ Form3 = new TForm3(this, opthdl);
 Form3->PopupParent = Screen->ActiveForm;
 Form3->ShowModal();
 Form3->Release();
+
 
 }
 //---------------------------------------------------------------------------
@@ -2006,17 +1932,14 @@ if ( opthdl->fAllFilePack == true && FileList->Count > 1){
 	if ( opthdl->fAutoName == false) {
 
 		SaveDialog1->InitialDir = DirPath;
-		SaveDialog1->FileName = FileName;
+		SaveDialog1->FileName = ChangeFileExt(FileName, "");
 		Extension = ExtractFileExt(FileList->Strings[0]);
 		// FilterIndex
-		if ( Extension.UpperCase() == ".ATC" ){
-			SaveDialog1->FilterIndex = 1;
-		}
-		else if ( Extension.UpperCase() == ".EXE" ){
-			SaveDialog1->FilterIndex = 2;
+		if ( chkExeFileOutConf->Checked == true ){
+			SaveDialog1->FilterIndex = 2;  //".EXE"
 		}
 		else{
-			SaveDialog1->FilterIndex = 3;
+			SaveDialog1->FilterIndex = 1;	 //".ATC"
 		}
 
 		//保存ダイアログ表示
@@ -2439,36 +2362,6 @@ else{
 
 }
 //---------------------------------------------------------------------------
-void __fastcall TForm1::chkExeFileOutClick(TObject *Sender)
-{
-
-//「暗号化パスワードの入力再確認」パネルのチェックボックスも変更する
-chkExeFileOutConf->Checked = chkExeFileOut->Checked;
-
-}
-//---------------------------------------------------------------------------
-void __fastcall TForm1::chkExeFileOutConfClick(TObject *Sender)
-{
-
-//「暗号化パスワード入力」パネルのチェックボックスも変更する（上のイベントと反対）
-chkExeFileOut->Checked = chkExeFileOutConf->Checked;
-
-}
-//---------------------------------------------------------------------------
-void __fastcall TForm1::chkDeleteSourceDataClick(TObject *Sender)
-{
-
-chkDeleteSourceDataConf->Checked = chkDeleteSourceData->Checked;
-
-}
-//---------------------------------------------------------------------------
-void __fastcall TForm1::chkDeleteSourceDataConfClick(TObject *Sender)
-{
-
-chkDeleteSourceData->Checked = chkDeleteSourceDataConf->Checked;
-
-}
-//---------------------------------------------------------------------------
 // 二重起動した先からのメッセージ受け取り
 //---------------------------------------------------------------------------
 void __fastcall TForm1::EvWmCOPYDATA(TMessage message)
@@ -2757,7 +2650,11 @@ PageControl1Change(Sender);    // OnChangeイベント
 void __fastcall TForm1::PageControl1Change(TObject *Sender)
 {
 
+//-----------------------------------
+// メインパネル
+//-----------------------------------
 if ( PageControl1->ActivePage == TabSheetMain ){
+
 	mnuEncryptFiles->Enabled = true;
 	mnuEncryptDir->Enabled = true;
 	mnuDecrypt->Enabled = true;
@@ -2779,27 +2676,84 @@ if ( PageControl1->ActivePage == TabSheetMain ){
 	CryptTypeNum = 0;
 
 }
+
+//-----------------------------------
+// 暗号化パスワード入力パネル
+//-----------------------------------
 else if ( PageControl1->ActivePage == TabSheetInputEncPass ){
+
 	mnuEncryptFiles->Enabled = true;
 	mnuEncryptDir->Enabled = true;
 	mnuDecrypt->Enabled = false;
 	mnuSetting->Enabled = false;
 
+	chkExeFileOut->Checked = opthdl->fSaveToExeout;           //常に自己実行形式で出力する
+	chkExeFileOut->Visible = opthdl->fShowExeoutChkBox;       //メインフォームにチェックボックスを表示する
+	chkDeleteSourceData->Visible = opthdl->fShowDeleteChkBox; //「元ファイルを削除する」チェックボックス
+	chkDeleteSourceData->Checked = opthdl->fDelOrgFile;
+
+	//「*」で隠さずパスワードを確認しながら入力する
+	if ( opthdl->fNoHidePassword == true ){
+		txtEncryptPassword->PasswordChar = NULL;
+		txtPasswordConfirm->PasswordChar = NULL;
+	}
+	else{
+		txtEncryptPassword->PasswordChar = '*';
+		txtPasswordConfirm->PasswordChar = '*';
+	}
+
+	//「元ファイルを削除する」チェックボックスの表示
+	if ( chkDeleteSourceData->Visible == true ) {
+		chkDeleteSourceData->Left = chkExeFileOut->Left;
+		if ( chkExeFileOut->Visible == true ) {
+			chkDeleteSourceData->Top = chkExeFileOut->BoundsRect.Bottom + 8;
+		}
+		else{
+			chkDeleteSourceData->Top = chkExeFileOut->Top;
+		}
+	}
+
 }
+//-----------------------------------
+// 暗号化パスワード再確認パネル
+//-----------------------------------
 else if ( PageControl1->ActivePage == TabSheetInputEncPassConfirm ){
+
 	mnuEncryptFiles->Enabled = false;
 	mnuEncryptDir->Enabled = false;
 	mnuDecrypt->Enabled = false;
 	mnuSetting->Enabled = false;
 
+	chkExeFileOutConf->Visible = chkExeFileOut->Visible;
+	chkExeFileOutConf->Checked = chkExeFileOut->Checked;
+	chkDeleteSourceDataConf->Visible = chkDeleteSourceData->Visible;
+	chkDeleteSourceDataConf->Checked = chkDeleteSourceData->Checked;
+
 }
+//-----------------------------------
+// 復号パスワード入力パネル
+//-----------------------------------
 else if ( PageControl1->ActivePage == TabSheetInputDecPass ){
 	mnuEncryptFiles->Enabled = false;
 	mnuEncryptDir->Enabled = false;
 	mnuDecrypt->Enabled = true;
 	mnuSetting->Enabled = false;
 
+	//「*」で隠さずパスワードを確認しながら入力する
+	if ( opthdl->fNoHidePassword == true ){
+		txtDecryptPassword->PasswordChar = NULL;
+	}
+	else{
+		txtDecryptPassword->PasswordChar = '*';
+	}
+
+	chkDeleteAtcData->Visible = opthdl->fShowDeleteChkBox;
+	chkDeleteAtcData->Checked = opthdl->fDelEncFile;
+
 }
+//-----------------------------------
+// 実行パネル
+//-----------------------------------
 else if ( PageControl1->ActivePage == TabSheetExecute ){
 	mnuEncryptFiles->Enabled = false;
 	mnuEncryptDir->Enabled = false;

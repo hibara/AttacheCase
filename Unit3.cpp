@@ -305,9 +305,9 @@ Close();
 void __fastcall TForm3::FormShowOptionData(void)
 {
 
-//-----------------------------------
+//----------------------------------------------------------------------
 //【基本設定】タブ
-//-----------------------------------
+//----------------------------------------------------------------------
 //文字数分だけ"*"を表示する
 int pNum;
 chkMyEncPasswordKeep->Checked = pOpt->fMyEncodePasswordKeep;
@@ -333,9 +333,9 @@ chkShowExeoutChkBox->Checked = pOpt->fShowExeoutChkBox;
 chkAskEncDecode->Checked = pOpt->fAskEncDecode;
 chkNoMultipleInstance->Checked = pOpt->fNoMultipleInstance;
 
-//-----------------------------------
+//----------------------------------------------------------------------
 //【保存設定】タブ
-//-----------------------------------
+//----------------------------------------------------------------------
 chkSaveToSameFldr->Checked = pOpt->fSaveToSameFldr;
 btneditSaveToSameFldrPath->Text = pOpt->SaveToSameFldrPath;
 if (chkSaveToSameFldr->Checked == true) {
@@ -382,51 +382,38 @@ chkAutoName->Checked = pOpt->fAutoName;
 btneditAutoNameFormatText->Text = pOpt->AutoNameFormatText;
 
 
-//-----------------------------------
+//----------------------------------------------------------------------
 //【削除設定】タブ
-//-----------------------------------
+//----------------------------------------------------------------------
 chkDelOrgFile->Checked = pOpt->fDelOrgFile;
 chkDelEncFile->Checked = pOpt->fDelEncFile;
 chkShowDeleteChkBox->Checked = pOpt->fShowDeleteChkBox;
 
-//削除の詳細設定
-if (pOpt->fCompleteDelete == 1) {      //完全削除
-	optCompleteDelete->Checked = true;
-	imgArrowEnabled->Visible = true;
-	imgArrowDiabled->Visible = false;
-	UpDownDelRand->Enabled = true;
-	UpDownDelZero->Enabled = true;
-	txtDelRandNum->Color = clWindow;
-	txtDelZeroNum->Color = clWindow;
-}
-else if (pOpt->fCompleteDelete == 2) { //ごみ箱へ移動
-	optGoToTrash->Checked = true;
-	imgArrowEnabled->Visible = false;
-	imgArrowDiabled->Visible = true;
-	UpDownDelRand->Enabled = false;
-	UpDownDelZero->Enabled = false;
-	txtDelRandNum->Color = clBtnFace;
-	txtDelZeroNum->Color = clBtnFace;
-}
-else{                                           //通常削除
-	optNormalDelete->Checked = true;
-	imgArrowEnabled->Visible = false;
-	imgArrowDiabled->Visible = true;
-	UpDownDelRand->Enabled = false;
-	UpDownDelZero->Enabled = false;
-	txtDelRandNum->Color = clBtnFace;
-	txtDelZeroNum->Color = clBtnFace;
-}
 //削除回数
 UpDownDelRand->Position = pOpt->DelRandNum;
 UpDownDelZero->Position = pOpt->DelZeroNum;
 
-//「削除の詳細設定」グループボックス内の有効/無効を制御する
-DeleteGroupEnabled();
+//削除の詳細設定
+if (pOpt->fCompleteDelete == 1) {      //完全削除
+	optNormalDelete->Checked = false;
+	optGoToTrash->Checked = false;
+	optCompleteDelete->Checked = true;
+}
+else if (pOpt->fCompleteDelete == 2) { //ごみ箱へ移動
+	optNormalDelete->Checked = false;
+	optGoToTrash->Checked = true;
+	optCompleteDelete->Checked = false;
+}
+else{                                  //通常削除
+	optNormalDelete->Checked = true;
+	optGoToTrash->Checked = false;
+	optCompleteDelete->Checked = false;
+}
 
-//-----------------------------------
+
+//----------------------------------------------------------------------
 //【動作設定】タブ
-//-----------------------------------
+//----------------------------------------------------------------------
 //圧縮率設定
 if ( pOpt->CompressRate == 0 ) {
 	chkCompress->Checked = false;
@@ -439,9 +426,10 @@ TrackBar1->Position = pOpt->CompressRate;
 //コンペア
 chkCompareFile->Checked = pOpt->fCompareFile;
 
-//-----------------------------------
+
+//----------------------------------------------------------------------
 //【システム設定】タブ
-//-----------------------------------
+//----------------------------------------------------------------------
 
 //'「送る」フォルダーにアタッシェケースを追加(&S)';
 String SendToFilePath = pOpt->CreateSendToFolderAppFullPath();
@@ -477,9 +465,10 @@ else{
 	cmdChangeTempOptionData->Enabled = false;
 }
 
-//-----------------------------------
+
+//----------------------------------------------------------------------
 //【高度設定】タブ
-//-----------------------------------
+//----------------------------------------------------------------------
 //パスワードファイル
 chkAllowPassFile->Checked = pOpt->fAllowPassFile;
 
@@ -541,9 +530,9 @@ chkBroken->Checked = pOpt->fBroken;
 void __fastcall TForm3::FormSaveOptionData(void)
 {
 
-//-----------------------------------
+//----------------------------------------------------------------------
 //【基本設定】タブ
-//-----------------------------------
+//----------------------------------------------------------------------
 
 //暗号化パスワードを記憶する
 pOpt->fMyEncodePasswordKeep = chkMyEncPasswordKeep->Checked;
@@ -579,9 +568,10 @@ pOpt->fShowExeoutChkBox = chkShowExeoutChkBox->Checked;
 pOpt->fAskEncDecode = chkAskEncDecode->Checked;
 pOpt->fNoMultipleInstance = chkNoMultipleInstance->Checked;
 
-//-----------------------------------
+
+//----------------------------------------------------------------------
 //【保存設定】タブ
-//-----------------------------------
+//----------------------------------------------------------------------
 pOpt->fSaveToSameFldr = chkSaveToSameFldr->Checked;
 pOpt->SaveToSameFldrPath = btneditSaveToSameFldrPath->Text;
 pOpt->fDecodeToSameFldr = chkDecodeToSameFldr->Checked;
@@ -612,9 +602,10 @@ pOpt->fExtInAtcFileName = chkExtInAtcFileName->Checked;
 pOpt->fAutoName = chkAutoName->Checked;
 pOpt->AutoNameFormatText = btneditAutoNameFormatText->Text;
 
-//-----------------------------------
+
+//----------------------------------------------------------------------
 //【削除設定】タブ
-//-----------------------------------
+//----------------------------------------------------------------------
 pOpt->fDelOrgFile = chkDelOrgFile->Checked;
 pOpt->fDelEncFile = chkDelEncFile->Checked;
 pOpt->fShowDeleteChkBox = chkShowDeleteChkBox->Checked;
@@ -627,7 +618,7 @@ else if ( optGoToTrash->Checked == true ) {     //ごみ箱へ移動
 	pOpt->fCompleteDelete = 2;
 }
 else{
-	pOpt->fCompleteDelete = 3;           //通常削除
+	pOpt->fCompleteDelete = 0;           //通常削除
 }
 
 //削除回数
@@ -635,25 +626,27 @@ pOpt->DelRandNum = UpDownDelRand->Position;
 pOpt->DelZeroNum = UpDownDelZero->Position;
 
 
-//-----------------------------------
+//----------------------------------------------------------------------
 //【動作設定】タブ
-//-----------------------------------
+//----------------------------------------------------------------------
 //圧縮率設定
 pOpt->CompressRate = TrackBar1->Position;
 //コンペア
 pOpt->fCompareFile = chkCompareFile->Checked;
 
-//-----------------------------------
+
+//----------------------------------------------------------------------
 //【システム設定】タブ
-//-----------------------------------
+//----------------------------------------------------------------------
 //関連づけファイルアイコン番号
 pOpt->AtcsFileIconIndex = comboDataIcon->ItemIndex + 1;
 //ユーザー登録アイコンファイルのパス
 pOpt->UserRegIconFilePath = TempUserRegIconFilePath;
 
-//-----------------------------------
+
+//----------------------------------------------------------------------
 //【高度設定】タブ
-//-----------------------------------
+//----------------------------------------------------------------------
 //パスワードファイル
 pOpt->fAllowPassFile = chkAllowPassFile->Checked;
 
@@ -676,9 +669,10 @@ pOpt->CamoExt = txtCamoExt->Text;
 pOpt->MissTypeLimitsNum = cmbMissTypeLimitsNum->ItemIndex + 1;
 pOpt->fBroken = chkBroken->Checked;
 
-//-----------------------------------
+
+//----------------------------------------------------------------------
 // 設定値をレジストリへ保存
-//-----------------------------------
+//----------------------------------------------------------------------
 pOpt->SaveOptionData();
 
 
@@ -1254,53 +1248,43 @@ else{
 void __fastcall TForm3::chkDelOrgFileClick(TObject *Sender)
 {
 
-//'暗号化した後、元ファイル/フォルダーを削除する(&D)';
-DeleteGroupEnabled();
-
-}
-//---------------------------------------------------------------------------
-void __fastcall TForm3::chkDelEncFileClick(TObject *Sender)
-{
-
-//'復号した後、暗号化ファイルを削除する(&E)';
-DeleteGroupEnabled();
-
-}
-//---------------------------------------------------------------------------
-void __fastcall TForm3::chkShowDeleteChkBoxClick(TObject *Sender)
-{
-
-//'メインフォームにチェックボックスを表示する(&I)';
-DeleteGroupEnabled();
-
-}
-//---------------------------------------------------------------------------
-//「'削除の詳細設定：'」グループボックス内の有効・無効を制御する
-bool __fastcall TForm3::DeleteGroupEnabled(void)
-{
-
-if ( chkDelOrgFile->Checked == true || chkDelEncFile->Checked == true || chkDelEncFile->Checked == true ) {
-
+//「削除の詳細設定」のグループボックスの有効無効
+if ( chkDelOrgFile->Checked == true || chkDelEncFile->Checked == true ) {
+	chkShowDeleteChkBox->Enabled = true;
 	gbDeleteOption->Enabled = true;
 	optNormalDelete->Enabled = true;
 	optGoToTrash->Enabled = true;
 	optCompleteDelete->Enabled = true;
-	txtDelRandNum->Color = clWindow;
-	txtDelZeroNum->Color = clWindow;
-	imgArrowEnabled->Visible = true;
-	imgArrowDiabled->Visible = false;
-	return(true);
 }
 else{
+	chkShowDeleteChkBox->Enabled = false;
 	gbDeleteOption->Enabled = false;
 	optNormalDelete->Enabled = false;
 	optGoToTrash->Enabled = false;
 	optCompleteDelete->Enabled = false;
-	txtDelRandNum->Color = clBtnFace;
-	txtDelZeroNum->Color = clBtnFace;
-	imgArrowEnabled->Visible = false;
-	imgArrowDiabled->Visible = true;
-	return(false);
+}
+
+//グループボックス内の有効無効状態を変更
+if (gbDeleteOption->Enabled == true) {
+
+	if ( optCompleteDelete->Checked == true ){
+		txtDelRandNum->Color = clWindow;
+		txtDelZeroNum->Color = clWindow;
+		imgArrowEnabled->Visible = true;
+		imgArrowDiabled->Visible = false;
+	}
+	else{
+		txtDelRandNum->Color = clBtnFace;
+		txtDelZeroNum->Color = clBtnFace;
+		imgArrowEnabled->Visible = false;
+		imgArrowDiabled->Visible = true;
+	}
+}
+else{
+		txtDelRandNum->Color = clBtnFace;
+		txtDelZeroNum->Color = clBtnFace;
+		imgArrowEnabled->Visible = false;
+		imgArrowDiabled->Visible = true;
 }
 
 }
@@ -2041,6 +2025,86 @@ __finally{
 
 }
 //---------------------------------------------------------------------------
+void __fastcall TForm3::txtDelRandNumKeyPress(TObject *Sender, wchar_t &Key)
 
+{
 
+//数値のみの入力に抑制
+if ( Key != '0' &&
+		 Key != '1' &&
+		 Key != '2' &&
+		 Key != '3' &&
+		 Key != '4' &&
+		 Key != '5' &&
+		 Key != '6' &&
+		 Key != '7' &&
+		 Key != '8' &&
+		 Key != '9' &&
+		 Key != '\b' &&
+		 Key != VK_DELETE ){
+			Key = 0;
+}
+
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm3::txtDelRandNumChange(TObject *Sender)
+{
+
+if ((txtDelRandNum->Text == "" || txtDelRandNum->Text == "0" ) &&
+		(txtDelZeroNum->Text == "" || txtDelZeroNum->Text == "0")) {
+	optNormalDelete->Checked = true;
+}
+
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm3::txtDelRandNumExit(TObject *Sender)
+{
+
+if (txtDelRandNum->Text == "" ){
+	txtDelRandNum->Text == "0";
+}
+
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm3::txtDelZeroNumKeyPress(TObject *Sender, wchar_t &Key)
+
+{
+
+//数値のみの入力に抑制
+if ( Key != '0' &&
+		 Key != '1' &&
+		 Key != '2' &&
+		 Key != '3' &&
+		 Key != '4' &&
+		 Key != '5' &&
+		 Key != '6' &&
+		 Key != '7' &&
+		 Key != '8' &&
+		 Key != '9' &&
+		 Key != '\b' &&
+		 Key != VK_DELETE ){
+			Key = 0;
+}
+
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm3::txtDelZeroNumChange(TObject *Sender)
+{
+
+if ((txtDelRandNum->Text == "" || txtDelRandNum->Text == "0" ) &&
+		(txtDelZeroNum->Text == "" || txtDelZeroNum->Text == "0")) {
+	optNormalDelete->Checked = true;
+}
+
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm3::txtDelZeroNumExit(TObject *Sender)
+{
+
+if (txtDelRandNum->Text == "" ){
+	txtDelRandNum->Text == "0";
+}
+
+}
+//---------------------------------------------------------------------------
 

@@ -137,7 +137,6 @@ __published:	// IDE 管理のコンポーネント
 	void __fastcall cmdCancelClick(TObject *Sender);
 	void __fastcall TimerDeleteTimer(TObject *Sender);
 	void __fastcall cmdDecryptPasswordOKClick(TObject *Sender);
-	void __fastcall chkExeFileOutClick(TObject *Sender);
 	void __fastcall mnuFileClick(TObject *Sender);
 	void __fastcall imgBackMouseEnter(TObject *Sender);
 	void __fastcall imgBackMouseLeave(TObject *Sender);
@@ -152,9 +151,6 @@ __published:	// IDE 管理のコンポーネント
 					int Y);
 	void __fastcall PaintBoxMenuMouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
 					int X, int Y);
-	void __fastcall chkExeFileOutConfClick(TObject *Sender);
-	void __fastcall chkDeleteSourceDataClick(TObject *Sender);
-	void __fastcall chkDeleteSourceDataConfClick(TObject *Sender);
 	void __fastcall FormGesture(TObject *Sender, const TGestureEventInfo &EventInfo,
 					bool &Handled);
 	void __fastcall PaintBoxMainMouseDown(TObject *Sender, TMouseButton Button,
@@ -222,21 +218,21 @@ private:	// ユーザー宣言
 	// ファイルをコンペアする処理（とは言っても実際は復号処理）
 	void __fastcall FileCompare(void);
 
-  // サイドメニューを描画する
+	// サイドメニューを描画する
 	void __fastcall PaintSideMenu(void);
 	//タブシートの選択
 	void __fastcall PageControlActiveSheet(TTabSheet *tb);
 
 
 	//ファイルの判別を行い処理を分けて実行
-	void __fastcall DoExecute(TStringList *FileList);
+	void __fastcall DoExecute(TStringList *ExeFileList);
 	//完全削除処理実行（デバッグ用）
-	void __fastcall DoDeleteFile(TStringList *FileList);
+	void __fastcall DoDeleteFile(TStringList *DelFileList);
 	//フォーム内コンポーネントを配置する
 	void __fastcall SetFormComponent(TObject *Sender);
 
 	// 暗号化ファイルのヘッダ判定（すべてATCファイルなら真を返す）
-	bool __fastcall CheckAtcFileHeader(TStringList *FileList);
+	bool __fastcall CheckAtcFileHeader(TStringList *AtcFileList);
 
 	//暗号化ファイルを破壊する
 	bool __fastcall DestroyAtcFile(String AtcFilePath);
@@ -253,14 +249,14 @@ public:		// ユーザー宣言
 	//動作設定のインスタンス
 	TAttacheCaseOptionHandle *opthdl;
 
-
 	//OLEドラッグ＆ドロップのコールバック関数
 	void __fastcall FilesDragOver(POINTL ptl);
 	void __fastcall FilesDragLeave(void);
 	void __fastcall FilesDragEnd(POINTL ptl, String FileListText);
 
 	//メッセージダイアログの表示（スレッドオブジェクトから呼ばれる）
-	int __fastcall ShowConfirmMassageForm(String MsgText, TMsgDlgType MsgType, TMsgDlgButtons MsgButtons, TMsgDlgBtn MsgDefaultButton);
+	int __fastcall ShowConfirmMassageForm
+		(String MsgText, TMsgDlgType MsgType, TMsgDlgButtons MsgButtons, TMsgDlgBtn MsgDefaultButton);
 	//上書き確認メッセージダイアログの表示（復号スレッドオブジェクトから呼ばれる）
 	int __fastcall ShowConfirmOverwriteMassageForm(String MsgText, String &Path);
 

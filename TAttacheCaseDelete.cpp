@@ -50,16 +50,19 @@ __fastcall TAttacheCaseDelete::TAttacheCaseDelete
 (bool CreateSuspended) : TThread(CreateSuspended)
 {
 
-Opt = 0;	                //通常削除
-RandClearNum = 0;         //乱数書き込み回数
-ZeroClearNum = 0;         //ゼロ書き込み回数
+DeleteList = new TStringList;
 
-ProgressPercentNum = -1;  //進捗パーセント
-ProgressStatusText = "";  //進捗ステータス
-ProgressMsgText = "";     //進捗メッセージ
 
-StatusNum = 0;            //ステータス表示内容番号
-MsgErrorString = "";      //エラーメッセージ
+Opt = 0;	                     //通常削除
+RandClearNum = 0;              //乱数書き込み回数
+ZeroClearNum = 0;              //ゼロ書き込み回数
+
+ProgressPercentNum = -1;       //進捗パーセント
+ProgressStatusText = "";       //進捗ステータス
+ProgressMsgText = "";          //進捗メッセージ
+
+StatusNum = 0;                 //ステータス表示内容番号
+MsgErrorString = "";           //エラーメッセージ
 
 }
 //===========================================================================
@@ -67,7 +70,9 @@ MsgErrorString = "";      //エラーメッセージ
 //===========================================================================
 __fastcall TAttacheCaseDelete::~TAttacheCaseDelete(void)
 {
-//
+
+delete DeleteList;
+
 }
 //===========================================================================
 //スレッド実行
@@ -89,17 +94,16 @@ int Attrs;
 String FilePath;
 
 //-----------------------------------
-// ゴミ箱の場合はファイル/フォルダを
+// ゴミ箱の場合はファイル/フォルダ毎
 // そのまま移動
 //-----------------------------------
 if (Opt == 2) {
-	for (i = 0; i < FileList->Count; i++) {
-
+	for (i = 0; i < DeleteFileList->Count; i++) {
 		if (Terminated == true) {
 			goto LabelStop;
 		}
 
-		if ( GoToTrash(FileList->Strings[i]) == false ){
+		if ( GoToTrash(DeleteFileList->Strings[i]) == false ){
 			//エラー
 			goto LabelStop;
 		}
@@ -114,47 +118,51 @@ if (Opt == 2) {
 
 }
 
-//-----------------------------------
-// 削除するファイルリスト情報を取得
-//-----------------------------------
+//----------------------------------------------------
+// 削除ファイルリスト情報（ファイル数、サイズ）を取得
+//----------------------------------------------------
 ProgressPercentNum = -1;
 //'ファイルリストの生成'
 ProgressStatusText = LoadResourceString(&Msgdelete::_LABEL_STATUS_TITLE_LISTING);
 //'削除するための準備をしています...'
 ProgressMsgText = LoadResourceString(&Msgdelete::_LABEL_STATUS_DETAIL_PREPARING);
 
-for (i = 0; i < FileList->Count; i++) {
-	ret  = FindFirst(FileList->Strings[i], faAnyFile, sr);
-	while (ret == 0) {
-		if (sr.Name != "." && sr.Name != "..") {
-			if (sr.Attr & faDirectory) {
-				//ディレクトリ
-				if ( (ErrorNum = GetDeleteFileListInfo(FileList->Strings[i], TotalFileCount, TotalFileSize)) < 0 ){
-					FindClose(sr);
-					if (ErrorNum == -1) {
-						goto LabelStop;
+for (i = 0; i < DeleteFileList->Count; i++) {
+
+	if ( FindFirst(DeleteFileList->Strings[i], faAnyFile, sr) == 0 ){
+		do {
+			if (sr.Name != "." && sr.Name != "..") {
+				if (sr.Attr & faDirectory) {
+					//ディレクトリ
+					if ( (ErrorNum = GetDeleteFileListInfo(DeleteFileList->Strings[i], DeleteList, TotalFileCount, TotalFileSize)) < 0 ){
+						FindClose(sr);
+						if (ErrorNum == -1) {
+							goto LabelStop;
+						}
+						else{
+							goto LabelError;
+						}
 					}
-					else{
-						goto LabelError;
-					}
+					TotalFileCount++;
 				}
-				TotalFileCount++;
+				else{
+					//ファイル
+					DeleteList->Add(DeleteFileList->Strings[i]);
+					TotalFileSize += sr.Size;
+					TotalFileCount++;
+				}
 			}
-			else{
-				//ファイル
-				TotalFileSize += sr.Size;
-				TotalFileCount++;
-			}
-		}
-		ret = FindNext(sr);
+
+		}while(FindNext(sr) == 0 && Terminated == true);
+
+		FindClose(sr);
+
 		if (Terminated == true) {
-			FindClose(sr);
 			goto LabelStop;
 		}
+
 	}
 }
-
-FindClose(sr);
 
 //-----------------------------------
 // 削除、または完全削除
@@ -170,84 +178,71 @@ else if ( Opt == 1 ) {
 	TotalFileSize = TotalFileSize * (RandClearNum + ZeroClearNum > 0 ? RandClearNum + ZeroClearNum : 1 );
 }
 
-for (i = 0; i < FileList->Count; i++) {
 
-	FilePath = FileList->Strings[i];
+//-----------------------------------
+// つくったリストから削除実行
+//-----------------------------------
+for (i = DeleteList->Count-1; i > -1; i--) {
 
-	ret  = FindFirst(FilePath, faAnyFile, sr);
+	FilePath = DeleteList->Strings[i];
 
-	while (ret == 0) {
+	//-----------------------------------
+	// ファイル
+	//-----------------------------------
+	if (FileExists(FilePath) == true) {
 
-		if (sr.Name != "." && sr.Name != "..") {
-
-			//-----------------------------------
-			// ディレクトリ
-			//-----------------------------------
-			if (sr.Attr & faDirectory) {
-
-				//再帰呼び出し
-				if ( DeleteDirAndFiles(FilePath, FileCount, TotalFileCount, CountFileSize, TotalFileSize) == false ){
-					FindClose(sr);
-					goto LabelError;
-				}
-
-				//空になったディレクトリの削除
-				if ( !RemoveDir(FilePath) ){
-					//削除に失敗したときは属性を変更
-					Attrs = FileGetAttr(FilePath);
-					if (Attrs & faHidden){   //隠しファイル属性のときは外す
-						FileSetAttr( FilePath, Attrs & !faHidden);
-					}
-					if (Attrs & faReadOnly){ //読み取り専用属性のときも外す
-						FileSetAttr( FilePath, Attrs & !faReadOnly	);
-					}
-					RemoveDir(FilePath);      //再チャレンジ
-				}
-
-				FileCount++;
-			}
-			//-----------------------------------
-			// ファイル
-			//-----------------------------------
-			else{
-				//読み取り専用なら外してから
-				if ( FileIsReadOnly(FilePath) == true ){
-					FileSetReadOnly(FilePath, false);
-				}
-
-				//-----------------------------------
-				// 通常削除
-				//-----------------------------------
-				if ( Opt == 0){
-					DeleteFile(FilePath);
-					FileCount++;
-					//ファイル数でプログレス表示
-					ProgressPercentNum = ((float)FileCount/TotalFileCount)*100;
-				}
-				//-----------------------------------
-				// 完全削除
-				//-----------------------------------
-				else if ( Opt == 1 ) {
-					//処理サイズでプログレス表示（「完全削除」関数内で処理）
-					if ( CompleteDeleteFile(FilePath, CountFileSize, TotalFileSize) == false ){
-						FindClose(sr);
-						goto LabelError;
-					}
-				}
-			}
+		//読み取り専用なら外してから
+		if ( FileIsReadOnly(FilePath) == true ){
+			FileSetReadOnly(FilePath, false);
 		}
 
-		ret = FindNext(sr);
-
-		if (Terminated == true) {
-			FindClose(sr);
-			goto LabelStop;
+		//-----------------------------------
+		// 通常削除
+		//-----------------------------------
+		if ( Opt == 0){
+			DeleteFile(FilePath);
+			FileCount++;
+			//ファイル数でプログレス表示
+			ProgressPercentNum = ((float)FileCount/TotalFileCount)*100;
+		}
+		//-----------------------------------
+		// 完全削除
+		//-----------------------------------
+		else if ( Opt == 1 ) {
+			//処理サイズでプログレス表示（「完全削除」関数内で処理）
+			if ( CompleteDeleteFile(FilePath, CountFileSize, TotalFileSize) == false ){
+				FindClose(sr);
+				goto LabelError;
+			}
 		}
 
 	}
-}
+	//-----------------------------------
+	// ディレクトリ
+	//-----------------------------------
+	else{
+		//空になったディレクトリの削除
+		if ( !RemoveDir(FilePath) ){
+			//削除に失敗したときは属性を変更
+			Attrs = FileGetAttr(FilePath);
+			if (Attrs & faHidden){   //隠しファイル属性のときは外す
+				FileSetAttr( FilePath, Attrs & !faHidden);
+			}
+			if (Attrs & faReadOnly){ //読み取り専用属性のときも外す
+				FileSetAttr( FilePath, Attrs & !faReadOnly	);
+			}
+			RemoveDir(FilePath);     //再チャレンジ
+		}
 
-FindClose(sr);
+	}
+
+	if (Terminated == true) {
+		goto LabelStop;
+	}
+
+
+}//end for (i = DeleteList->Count-1; i > -1; i--);
+
 
 ProgressPercentNum = 100;
 //'完了'
@@ -255,6 +250,7 @@ ProgressStatusText = LoadResourceString(&Msgdelete::_LABEL_STATUS_TITLE_COMPLETE
 //'削除が正常に完了しました。'
 ProgressMsgText = LoadResourceString(&Msgdelete::_LABEL_STATUS_DETAIL_COMPLETE);
 
+StatusNum = 1;
 return;
 
 //-----------------------------------
@@ -294,42 +290,42 @@ LabelStop:
 // 削除するファイルリスト情報（ファイル数、合計サイズ）を収集する
 //===========================================================================
 int __fastcall TAttacheCaseDelete::
-	GetDeleteFileListInfo(String DirPath, int &TotalFileCount, __int64 &TotalFileSize)
+	GetDeleteFileListInfo(String DirPath, TStringList *DelList, int &TotalFileCount, __int64 &TotalFileSize)
 {
 
 TSearchRec sr;
 String FilePath;
 
-int ret  = FindFirst(DirPath + "\\*.*", faAnyFile, sr);
+if ( FindFirst(DirPath + "\\*.*", faAnyFile, sr) == 0 ){
 
-while (ret == 0) {
+	do {
 
-	if (sr.Name != "." && sr.Name != "..") {
+		if (sr.Name != "." && sr.Name != "..") {
 
-		FilePath = IncludeTrailingPathDelimiter(DirPath)+sr.Name;
+			FilePath = IncludeTrailingPathDelimiter(DirPath)+sr.Name;
 
-		if (sr.Attr & faDirectory) {
-			// 再帰呼び出し
-			GetDeleteFileListInfo(FilePath, TotalFileCount, TotalFileSize);
-			TotalFileCount++;	//ディレクトリ分
+			if (sr.Attr & faDirectory) {
+				// 再帰呼び出し
+				GetDeleteFileListInfo(FilePath, DelList, TotalFileCount, TotalFileSize);
+				TotalFileCount++;	//ディレクトリ分
+			}
+			else{
+				DelList->Add(FilePath);
+				TotalFileSize += sr.Size;
+				TotalFileCount++;
+			}
+
 		}
-		else{
-			TotalFileSize += sr.Size;
-			TotalFileCount++;
-		}
 
-	}
+	}while(FindNext(sr) == 0 && Terminated == true);
 
-	ret = FindNext(sr);
+	FindClose(sr);
 
 	if (Terminated == true) {
-		FindClose(sr);
 		return(-2);
 	}
 
 }
-
-FindClose(sr);
 
 return(1);
 

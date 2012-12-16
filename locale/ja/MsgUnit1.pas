@@ -53,8 +53,8 @@ resourcestring
   MSG_BROKEN_ATC_FILE                       = 'この暗号化ファイルはパスワード入力に失敗して破壊されているようです。復号できません。';
   MSG_FILE_OPEN_ERROR                       = 'ファイルを開けません。他のアプリケーションで使用中の可能性があります。';
 	MSG_CONFIRM_ENCRYPT_OR_DECRYPT            = 'ドラッグ＆ドロップされたファイルまたはフォルダーをどのように処理しますか？';
-  MSG_CONFIRM_COMPLETE_DELETE_STOP         = '中止すると完全に削除されない可能性があります。'+#13+
-                                             'それでも中止しますか？';
+  MSG_CONFIRM_COMPLETE_DELETE_STOP          = '中止すると完全に削除されない可能性があります。'+#13+
+                                              'それでも中止しますか？';
 
 	MSG_ERROR_SAVE_ENC_TO_FOLDER_NOT_EXISTS   = '保存する先のフォルダーが見つかりません。保存設定を再確認してください。'+#13+
 	                                            '暗号化を中止します。';
@@ -69,6 +69,8 @@ resourcestring
 	                                            '暗号化することができません。';
 	MSG_ERROR_NOT_EXISTS_COMPAER_FIlE         = 'コンペアする暗号化ファイルまたはフォルダーが見つかりません。'+#13+
 	                                            'コンペアに失敗しました。';
+	MSG_ERROR_DELETE_FIlES_FAILED             = 'ファイル/フォルダー削除処理に失敗しました。'+#13+
+                                              '一部のファイル/フォルダーが削除できずに残ってしまった可能性があります。';
 
   //ラベル
   LABEL_STATUS_TITLE_ENCRYPTING             = '暗号化しています...';

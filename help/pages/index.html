@@ -19,7 +19,7 @@
 
 $(function() {
 
-	$('#contents').load('pages/overview.html');
+	$('#contents').load('overview.html');
 	$(".selected").removeClass("selected");
 	$("span#overview").addClass("selected");
 
@@ -94,7 +94,7 @@ $(function() {
 
 	$("#browser span.file").live('click', function (){
 		//alert($(this).attr("id"));
-		var filename = "pages/" + $(this).attr("id")+ ".html";
+		var filename = $(this).attr("id")+ ".html";
 		//var filename = $(this).attr("id");
 		$('#contents').load(filename);
 		$(".selected").removeClass("selected");

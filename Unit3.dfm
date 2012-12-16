@@ -172,8 +172,8 @@ object Form3: TForm3
     ExplicitLeft = 92
   end
   object imgMenuBackground: TImage
-    Left = 8
-    Top = 29
+    Left = 20
+    Top = 272
     Width = 128
     Height = 128
     AutoSize = True
@@ -1793,7 +1793,7 @@ object Form3: TForm3
     Margins.Top = 4
     Margins.Right = 4
     Margins.Bottom = 4
-    ActivePage = TabAdvanced
+    ActivePage = TabDelete
     MultiLine = True
     TabOrder = 2
     object TabBasic: TTabSheet
@@ -1803,10 +1803,6 @@ object Form3: TForm3
       Margins.Right = 2
       Margins.Bottom = 2
       Caption = 'Basic'
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object PanelBasicCaption: TPanel
         Left = 0
         Top = 0
@@ -1959,10 +1955,6 @@ object Form3: TForm3
       Margins.Bottom = 2
       Caption = 'Save'
       ImageIndex = 1
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object lblAutoFormatExample: TLabel
         Left = 0
         Top = 384
@@ -2119,10 +2111,6 @@ object Form3: TForm3
       Margins.Bottom = 2
       Caption = 'delete'
       ImageIndex = 2
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object PanelDeleteCaption: TPanel
         Left = 0
         Top = 0
@@ -2156,7 +2144,7 @@ object Form3: TForm3
         Height = 17
         Caption = 'chkDelEncFile'
         TabOrder = 2
-        OnClick = chkDelEncFileClick
+        OnClick = chkDelOrgFileClick
       end
       object chkShowDeleteChkBox: TCheckBox
         Left = 10
@@ -2165,7 +2153,6 @@ object Form3: TForm3
         Height = 17
         Caption = 'chkShowDeleteChkBox'
         TabOrder = 3
-        OnClick = chkShowDeleteChkBoxClick
       end
       object gbDeleteOption: TGroupBox
         Left = 0
@@ -2388,6 +2375,9 @@ object Form3: TForm3
           NumbersOnly = True
           TabOrder = 3
           Text = '1'
+          OnChange = txtDelRandNumChange
+          OnExit = txtDelRandNumExit
+          OnKeyPress = txtDelRandNumKeyPress
         end
         object UpDownDelRand: TUpDown
           Left = 147
@@ -2411,6 +2401,9 @@ object Form3: TForm3
           NumbersOnly = True
           TabOrder = 5
           Text = '1'
+          OnChange = txtDelZeroNumChange
+          OnExit = txtDelZeroNumExit
+          OnKeyPress = txtDelZeroNumKeyPress
         end
         object UpDownDelZero: TUpDown
           Left = 320
@@ -2431,10 +2424,6 @@ object Form3: TForm3
       Margins.Bottom = 2
       Caption = 'movement'
       ImageIndex = 3
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object PanelMovementCaption: TPanel
         Left = 0
         Top = 0
@@ -3042,10 +3031,10 @@ object Form3: TForm3
   end
   object ImageList1: TImageList
     ColorDepth = cd32Bit
-    Left = 32
-    Top = 360
+    Left = 28
+    Top = 132
     Bitmap = {
-      494C01010400DC00480110001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C01010400DC00500110001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -3317,13 +3306,13 @@ object Form3: TForm3
       000000000000}
   end
   object OpenDialog1: TOpenDialog
-    Left = 356
-    Top = 460
+    Left = 176
+    Top = 452
   end
   object PopupMenu1: TPopupMenu
     Images = ImageList3
-    Left = 120
-    Top = 476
+    Left = 108
+    Top = 452
     object pmnuInsertFileName: TMenuItem
       Caption = 'pmnuInsertFileName'
       OnClick = pmnuInsertFileNameClick
@@ -3365,10 +3354,10 @@ object Form3: TForm3
     ColorDepth = cd24Bit
     Height = 28
     Width = 28
-    Left = 280
-    Top = 460
+    Left = 28
+    Top = 252
     Bitmap = {
-      494C010105000800D4001C001C00FFFFFFFF1910FFFFFFFFFFFFFFFF424D3600
+      494C010105000800DC001C001C00FFFFFFFF1910FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000700000003800000001001800000000008049
       000000000000000000000000000000000000000000000000000000FFFFFFFFFF
       FFFFFFFFFEFEFEFEFEFEFEFEFEFEFEFEFFFFFFFFFFFFFFFFFF00000000000000
@@ -3992,20 +3981,20 @@ object Form3: TForm3
       000000000000}
   end
   object BalloonHint1: TBalloonHint
-    Left = 496
-    Top = 460
+    Left = 308
+    Top = 452
   end
   object SaveDialog1: TSaveDialog
-    Left = 428
-    Top = 460
+    Left = 240
+    Top = 452
   end
   object imlSideMenuIconOff: TImageList
     Height = 48
     Width = 48
-    Left = 36
-    Top = 288
+    Left = 28
+    Top = 76
     Bitmap = {
-      494C010107002800540030003000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C0101070028005C0030003000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000C00000006000000001002000000000000020
       0100000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -6391,10 +6380,10 @@ object Form3: TForm3
   object imlSideMenuIconOn: TImageList
     Height = 48
     Width = 48
-    Left = 36
-    Top = 208
+    Left = 28
+    Top = 24
     Bitmap = {
-      494C010107002C006C0030003000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010107002C00740030003000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000C00000006000000001002000000000000020
       0100000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -8780,7 +8769,7 @@ object Form3: TForm3
   object imlAssociateFilesIcon: TImageList
     Height = 32
     Width = 32
-    Left = 200
-    Top = 460
+    Left = 28
+    Top = 192
   end
 end

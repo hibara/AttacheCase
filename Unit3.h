@@ -190,8 +190,6 @@ __published:	// IDE 管理のコンポーネント
 	void __fastcall cmdShortCutToSendToFileDirClick(TObject *Sender);
 	void __fastcall chkAutoNameClick(TObject *Sender);
 	void __fastcall chkDelOrgFileClick(TObject *Sender);
-	void __fastcall chkDelEncFileClick(TObject *Sender);
-	void __fastcall chkShowDeleteChkBoxClick(TObject *Sender);
 	void __fastcall cmdHelpClick(TObject *Sender);
 	void __fastcall btneditAutoNameFormatTextChange(TObject *Sender);
 	void __fastcall cmdOutputOptionDataClick(TObject *Sender);
@@ -202,6 +200,12 @@ __published:	// IDE 管理のコンポーネント
 	void __fastcall PaintBoxMenuPaint(TObject *Sender);
 	void __fastcall PaintBoxMenuMouseMove(TObject *Sender, TShiftState Shift, int X,
           int Y);
+	void __fastcall txtDelRandNumKeyPress(TObject *Sender, wchar_t &Key);
+	void __fastcall txtDelZeroNumKeyPress(TObject *Sender, wchar_t &Key);
+	void __fastcall txtDelRandNumChange(TObject *Sender);
+	void __fastcall txtDelZeroNumChange(TObject *Sender);
+	void __fastcall txtDelRandNumExit(TObject *Sender);
+	void __fastcall txtDelZeroNumExit(TObject *Sender);
 
 private:	// ユーザー宣言
 
@@ -226,9 +230,6 @@ private:	// ユーザー宣言
 
 	//UACエレベーションを要求して関連付けプログラムを実行
 	bool __fastcall RunAsAdmin(int Option);
-
-	//「'削除の詳細設定：'」グループボックス内の有効・無効を制御する
-	bool __fastcall DeleteGroupEnabled(void);
 
 	// サイドメニューを描画する
 	void __fastcall PaintSideMenu(void);

@@ -1142,6 +1142,10 @@ while (buff_size > 0 && !Terminated) {
 			}
 			else {
 
+				//クローズするファイルパス（書き込んでいたファイルパス）
+				FileName = FileList->Strings[FileIndex];
+				FilePath = OutDirPath + FileName;
+
 				rest = FileSizeList[FileIndex] - fsOut->Size;
 
 				if (fsOut->Write(output_buffer, rest) != rest) {
@@ -1337,6 +1341,10 @@ void __fastcall TAttacheCaseFileDecrypt2::FileSetTimeStamp(String FilePath, // �
 	bool fDir            // ディレクトリ
 		)
 {
+
+	if (FilePath == "") {
+    return;
+	}
 
 	HANDLE hFile;
 

@@ -206,9 +206,9 @@ try{
 	FormLeft = pOpt->ReadInteger( "WindowPos", "WindowLeft", Screen->Width/2-FormWidth/2);
 	WinStyle = pOpt->ReadInteger( "WindowPos", "FormStyle", 0);
 
-	//-----------------------------------
+	//----------------------------------------------------------------------
 	// 基本設定
-	//-----------------------------------
+	//----------------------------------------------------------------------
 	//記憶復号化パスワード
 	fMyEncodePasswordKeep = pOpt->ReadBool( "MyKey", "fKeep", false);
 	fMyDecodePasswordKeep = pOpt->ReadBool( "MyKey", "fKeep01", false);
@@ -241,9 +241,9 @@ try{
 
 	ProcTypeWithoutAsk = -1;     //明示的な暗号/復号処理か（コマンドラインからのみ）
 
-	//-----------------------------------
+	//----------------------------------------------------------------------
 	// 保存設定
-	//-----------------------------------
+	//----------------------------------------------------------------------
 	fSaveToSameFldr = pOpt->ReadBool( "Option", "fSaveToSameFldr", false);          //常に同じ場所に保存するか
 	SaveToSameFldrPath = pOpt->ReadString( "Option", "SaveToSameFldrPath", "");
 	fDecodeToSameFldr = pOpt->ReadInteger( "Option", "fDecodeToSameFldr", false);   //常に同じ場所へファイルを復号化するか
@@ -258,9 +258,9 @@ try{
 	fAutoName = pOpt->ReadBool( "Option", "fAutoName", false);                      //自動で暗号化ファイル名を付加する
 	AutoNameFormatText = pOpt->ReadString("Option", "AutoNameFormatText", "<filename>_<date:yyyy_mm_dd><ext>");//自動で付加するファイル名書式
 
-	//-----------------------------------
+	//----------------------------------------------------------------------
 	// 削除設定
-	//-----------------------------------
+	//----------------------------------------------------------------------
 	fDelOrgFile = pOpt->ReadBool( "Option", "fDelOrgFile", false);        //元ファイルを削除する
 	fDelEncFile = pOpt->ReadBool( "Option", "fDelEncFile", false);        //暗号化ファイルを削除する
 	fShowDeleteChkBox = pOpt->ReadBool( "Option", "fShowDeleteChkBox", false); //メインフォームにチェックボックスを表示する
@@ -268,22 +268,22 @@ try{
 	DelRandNum = pOpt->ReadInteger( "Option", "DelRandNum", 0);           //乱数の書き込み回数
 	DelZeroNum = pOpt->ReadInteger( "Option", "DelZeroNum", 1);           //ゼロ書き込み回数
 
-	//-----------------------------------
+	//----------------------------------------------------------------------
 	// 動作設定
-	//-----------------------------------
+	//----------------------------------------------------------------------
 	CompressRate = pOpt->ReadInteger( "Option", "CompressRate", 6); //圧縮率
 	fCompareFile = pOpt->ReadInteger( "Option", "fCompareFile", 0); //暗号処理後にファイルコンペアを行うか
 
-	//-----------------------------------
+	//----------------------------------------------------------------------
 	// システム
-	//-----------------------------------
+	//----------------------------------------------------------------------
 	fAssociationFile = pOpt->ReadInteger( "Option", "fAssociationFile", 1);      //関連付け設定
 	AtcsFileIconIndex = pOpt->ReadInteger( "Option", "AtcsFileIconIndex", 1);    //ファイルアイコン番号
 	UserRegIconFilePath = pOpt->ReadString( "Option", "UserRegIconFilePath", "");//ユーザー指定のファイルアイコンパス
 
-	//-----------------------------------
+	//----------------------------------------------------------------------
 	// 高度設定
-	//-----------------------------------
+	//----------------------------------------------------------------------
 	fAllowPassFile = pOpt->ReadBool( "Option", "fAllowPassFile", false);               //パスワードファイルを許可する
 	fCheckPassFile = pOpt->ReadBool( "Option", "fCheckPassFile", false);               //暗号時にパスワードファイルを自動チェックする
 	PassFilePath = pOpt->ReadString( "Option", "PassFilePath", "");                    //暗号時のパスワードファイルパス
@@ -295,9 +295,9 @@ try{
 	MissTypeLimitsNum = pOpt->ReadInteger( "Option", "MissTypeLimitsNum", 3);          //パスワードのタイプミス制限回数（ver.2.70～）
 	fBroken = pOpt->ReadBool( "Option", "fBroken", false);                             //タイプミス回数を超えたときにファイルを破壊するか否か（ver.2.70～）
 
-	//-----------------------------------
+	//----------------------------------------------------------------------
 	// その他（コマンドラインからのみ）
-	//-----------------------------------
+	//----------------------------------------------------------------------
 	fOver4GBok = false;     //4GB超えを容認
 
 

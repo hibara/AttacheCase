@@ -8,6 +8,9 @@ _histroy/
 _*/
 _*
 
+# Mac OS X
+.DS_Store
+
 # C++Builder temporary file
 *.cbproj.local
 *.tds

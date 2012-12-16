@@ -1,6 +1,6 @@
 object Form1: TForm1
-  Left = 359
-  Top = 124
+  Left = 458
+  Top = 130
   Caption = 'AttacheCase'
   ClientHeight = 489
   ClientWidth = 562
@@ -3892,7 +3892,7 @@ object Form1: TForm1
     Margins.Top = 4
     Margins.Right = 4
     Margins.Bottom = 4
-    ActivePage = TabSheetInputEncPassConfirm
+    ActivePage = TabSheetInputEncPass
     DoubleBuffered = False
     ParentDoubleBuffered = False
     TabOrder = 1
@@ -4839,7 +4839,6 @@ object Form1: TForm1
         Height = 17
         Caption = 'chkExeFileOut'
         TabOrder = 3
-        OnClick = chkExeFileOutClick
       end
       object chkDeleteSourceData: TCheckBox
         Left = 29
@@ -4848,7 +4847,6 @@ object Form1: TForm1
         Height = 17
         Caption = 'chkDeleteSourceData'
         TabOrder = 4
-        OnClick = chkDeleteSourceDataClick
       end
     end
     object TabSheetInputEncPassConfirm: TTabSheet
@@ -4919,7 +4917,6 @@ object Form1: TForm1
         Height = 17
         Caption = 'chkExeFileOutConf'
         TabOrder = 3
-        OnClick = chkExeFileOutConfClick
       end
       object chkDeleteSourceDataConf: TCheckBox
         Left = 32
@@ -4928,7 +4925,6 @@ object Form1: TForm1
         Height = 17
         Caption = 'chkDeleteSourceDataConf'
         TabOrder = 4
-        OnClick = chkDeleteSourceDataConfClick
       end
     end
     object TabSheetInputDecPass: TTabSheet

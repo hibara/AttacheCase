@@ -8,9 +8,9 @@
 #include "MsgWinMain.hpp"
 
 //---------------------------------------------------------------------------
-USEFORM("Unit3.cpp", Form3);
-USEFORM("Unit2.cpp", Form2);
 USEFORM("Unit1.cpp", Form1);
+USEFORM("Unit2.cpp", Form2);
+USEFORM("Unit3.cpp", Form3);
 USEFORM("Unit4.cpp", Form4);
 //---------------------------------------------------------------------------
 HANDLE mx;

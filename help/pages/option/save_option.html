@@ -8,7 +8,12 @@
 
 <h1>保存設定</h1>
 
-<p>アタッシェケースで作成する、暗号化ファイルや復号したファイルなどの保存・上書きに関する設定を行えます。</p>
+<div class="paragraph">
+
+<p>アタッシェケースで作成する、暗号化ファイルや復号したファイルなどの保存・上書きに関する設定を行えます。<br />
+<img src="../img/save_option.png" alt="基本設定" />
+</p>
+
 
 <h3>常に同じ場所へ暗号化ファイルを保存する</h3>
 <div class="opt">
@@ -19,7 +24,8 @@ USBフラッシュメモリーなどのメディアに必ずコピーして持�
 元ファイルのある同じフォルダに生成されます。
 </p>
 
-<p class="info">Tips<br />
+<p>
+<div class="info">Tips<br />
 指定のパスに以下の省略書式を挿入すると、暗号化ファイルを保存する際に、
 自動で特定のパスへ差し替えることができます。<br />
 <br />
@@ -33,6 +39,7 @@ USBフラッシュメモリーなどのメディアに必ずコピーして持�
 &nbsp;&nbsp;&nbsp;&nbsp;アタッシェケースの実行ファイル（AtchCase.exe）があるフォルダ<br />
 <strong>&lt;volume:*****&gt;</strong><br />
 &nbsp;&nbsp;&nbsp;&nbsp;指定のボリュームラベル名（*****）を持つドライブ<br />
+</div>
 </p>
 
 <p>
@@ -52,7 +59,7 @@ USBフラッシュメモリーなどのメディアに必ずコピーして持�
 「&lt;volume:MOBILE&gt;\temp」とだけ指定しておけば、作成される暗号化ファイルは、
 </p>
 
-<p><strong>H:\temp\暗号化ファイル.atc</strong></p>
+<p class="code">H:\temp\暗号化ファイル.atc</p>
 
 <p>
 として保存されることになります。フラッシュメモリーを差したタイミングによって、
@@ -63,6 +70,7 @@ USBフラッシュメモリーなどのメディアに必ずコピーして持�
 </div>
 
 <h3>常に同じ場所へファイルを復号化する</h3>
+
 <div class="opt">
 <p>
 前項のオプションと同様に、復号化したファイルを常に同じ場所へ保存したいという場合にチェックします。
@@ -78,15 +86,16 @@ USBフラッシュメモリーなどのメディアに必ずコピーして持�
 
 
 <h3>同名ファイルがある場合は上書きの確認をする</h3>
+
 <div class="opt">
 <p>
-    暗号/復号化の際、すでに同じ名前のファイル（またはフォルダ）が作成先にある場合、
-    確認のメッセージを表示します。 チェックを外すと、そのまま確認無しで上書きが行われます。
+暗号/復号化の際、すでに同じ名前のファイル（またはフォルダ）が作成先にある場合、
+確認のメッセージを表示します。 チェックを外すと、そのまま確認無しで上書きが行われます。
 </p>
 
 <p>
-    複数ファイルの処理 複数のファイルをアタッシェケースで処理するときのオプションを指定します。
-    通常通りの動きを期待する場合は、「何もしない」を選択します。
+複数ファイルの処理 複数のファイルをアタッシェケースで処理するときのオプションを指定します。
+通常通りの動きを期待する場合は、「何もしない」を選択します。
 </p>
 
 <ul>
@@ -104,10 +113,13 @@ USBフラッシュメモリーなどのメディアに必ずコピーして持�
 サブフォルダ以下にあるファイルすべてを個別に暗号化します。
 また、このオプション選択中に限って、暗号化ファイルを含むフォルダをアタッシェケースへドラッグ＆ドロップなどした場合に、
 サブフォルダ以下にある暗号化ファイルすべてを復号しようと試みます。
-<p class="notice">ただし、該当のフォルダ内に通常ファイルなどが混じっている場合は、
-    暗号/復号処理が入り乱れますので注意が必要です。
-    暗号/復号後に元ファイル削除するなどのオプション指定をしておくと良いでしょう。）
-</p>
+
+<div class="notice">
+ただし、該当のフォルダ内に通常ファイルなどが混じっている場合は、
+暗号/復号処理が入り乱れますので注意が必要です。
+暗号/復号後に元ファイル削除するなどのオプション指定をしておくと良いでしょう。）
+</div>
+
 </li>
 </ul>
 
@@ -123,7 +135,6 @@ USBフラッシュメモリーなどのメディアに必ずコピーして持�
 </p>
 </div>
 
-
 <h3>暗号化ファイルのタイムスタンプを元ファイルに合わせる</h3>
 <div class="opt">
 <p>
@@ -137,7 +148,6 @@ USBフラッシュメモリーなどのメディアに必ずコピーして持�
 
 </div>
 
-
 <h3>タイムスタンプを復号化した日時に合わせる</h3>
 <div class="opt">
 <p>
@@ -148,7 +158,6 @@ USBフラッシュメモリーなどのメディアに必ずコピーして持�
 
 </div>
 
-
 <h3>暗号化ファイル名に拡張子を含める</h3>
 <div class="opt">
 
@@ -156,7 +165,7 @@ USBフラッシュメモリーなどのメディアに必ずコピーして持�
 
 <p>たとえば、</p>
 
-<p><strong>新しい企画案.doc　,　新しい企画案.xls</strong></p>
+<p class="code">新しい企画案.doc　,　新しい企画案.xls</p>
 
 <p>
 というファイルが２つあって、同時に暗号化しようとすると、
@@ -164,7 +173,7 @@ USBフラッシュメモリーなどのメディアに必ずコピーして持�
 このオプションをチェックすることで、
 </p>
 
-<p><strong>新しい企画案.doc.atc　　新しい企画案.xls.atc</strong></p>
+<p class="code">新しい企画案.doc.atc　　新しい企画案.xls.atc</p>
 
 <p>
 といったように、元のファイル拡張子をそのまま残して暗号化ファイルを作ります。
@@ -181,55 +190,53 @@ USBフラッシュメモリーなどのメディアに必ずコピーして持�
 
 <p>指定できる項目は、以下の通りです。</p>
 
-<p>作成する暗号化ファイル名が「EncodeFile.atc」だとして...</p>
+<p>なお、挿入する書式は、それぞれ &lt; &gt; かっこで指定します。</p>
 
-<p>
-<strong>ファイル名</strong><br />
-&nbsp;&nbsp;&nbsp;&nbsp;例）&nbsp;EncodeFile<br />
-<strong>拡張子</strong><br />
-&nbsp;&nbsp;&nbsp;&nbsp;例）&nbsp;.atc<br />
-<strong>日付</strong><br />
-&nbsp;&nbsp;&nbsp;&nbsp;例）&nbsp;EncodeFile[2004年2月1日].atc<br />
-<strong>連番</strong><br />
-&nbsp;&nbsp;&nbsp;&nbsp;例）&nbsp;EncodeFile[000].atc〜EncodeFile[999].atc<br />
-<strong>ランダムな文字列</strong><br />
-&nbsp;&nbsp;&nbsp;&nbsp;例）&nbsp;fKUSup'}.atc<br />
-<strong>先頭からのファイル名</strong><br />
-&nbsp;&nbsp;&nbsp;&nbsp;例）&nbsp;Enco<br />
-<strong>末尾からのファイル名</strong><br />
-&nbsp;&nbsp;&nbsp;&nbsp;例）&nbsp;File<br />
-</p>
+<dl>
+<dt>ファイル名</dt>
+<dd>&lt;filename&gt;</dd>
+<dt>拡張子</dt>
+<dd>&lt;ext&gt;</dd>
+<dt>日付</dt>
+<dd>&lt;date:[指定書式]&gt;</dd>
+<dt>連番</dt>
+<dd>&lt;number:[桁数]&gt;</dd>
+<dt>ランダムな文字列</dt>
+<dd>&lt;random:[文字数]&gt;</dd>
+<dt>ファイル名先頭文字列</dt>
+<dd>&lt;fhead:[文字数]&gt;</dd>
+<dt>ファイル名末尾文字列</dt>
+<dd>&lt;fend:[文字数]&gt;</dd>
+</dl>
 
-<p>挿入する書式は、それぞれ &lt; &gt; かっこで指定します。</p>
+<p>作成する暗号化ファイル名が「<strong>EncodeFile.atc</strong>」だとして...</p>
 
-<p>
-<strong>ファイル名</strong><br />
-&lt;filename&gt;<br />
-<strong>拡張子</strong><br />
-&lt;ext&gt;<br />
-<strong>日付</strong><br />
-&lt;date:[指定書式]&gt;<br />
-<strong>連番</strong><br />
-&lt;number:[桁数]&gt;<br />
-<strong>ランダムな文字列</strong><br />
-&lt;random:[文字数]&gt;<br />
-<strong>ファイル名先頭文字列</strong><br />
-&lt;fhead:[文字数]&gt;<br />
-<strong>ファイル名末尾文字列</strong><br />
-&lt;fend:[文字数]&gt;<br />
-</p>
+<dl>
+<dt>&lt;filename&gt;</dt>
+<dd>&nbsp;&nbsp;&nbsp;&nbsp;例）&nbsp;EncodeFile</dd>
+<dt>&lt;ext&gt;</dt>
+<dd>&nbsp;&nbsp;&nbsp;&nbsp;例）&nbsp;.atc</dd>
+<dt>&lt;date:date:yyyy年m月d日&gt;</dt>
+<dd>&nbsp;&nbsp;&nbsp;&nbsp;例）&nbsp;EncodeFile[2004年2月1日].atc</dd>
+<dt>&lt;number:3&gt;</dt>
+<dd>&nbsp;&nbsp;&nbsp;&nbsp;例）&nbsp;EncodeFile[000].atc〜EncodeFile[999].atc</dd>
+<dt>&lt;random:8&gt;</dt>
+<dd>&nbsp;&nbsp;&nbsp;&nbsp;例）&nbsp;fKUSup'}.atc</dd>
+<dt>&lt;fhead:4&gt;</dt>
+<dd>&nbsp;&nbsp;&nbsp;&nbsp;例）&nbsp;Enco</dd>
+<dt>&lt;fend:4&gt;</dt>
+<dd>&nbsp;&nbsp;&nbsp;&nbsp;例）&nbsp;File</dd>
+</dl>
 
 <p>これらを組み合わせて指定することで、常に自動で付けるファイル名規則を指定します。   </p>
 
 <p>なかなか難しいかとは思いますが、フォーム上にサンプル表示されますので、入力しながらいろいろ試してみてください。</p>
 
-</div>
 
-<blockquote>
-<h4>日時</h4>
+<h3>日時</h3>
 
 <p>
-たとえば、<strong>&lt;date:yyyy_mm_dd&gt;</strong>と、
+たとえば、<p class="code">&lt;date:yyyy_mm_dd&gt;</p>と、
 date: の後に書式を指定することで、現在の日時を挿入することができます。
 </p>
 
@@ -238,11 +245,11 @@ date: の後に書式を指定することで、現在の日時を挿入する�
 <p>現在日時が <strong>2004/2/1 15:03:42</strong> だとして、以下の指定を行うと、</p>
 
 <blockquote>
-<strong>&lt;date:yyyy_mm_dd&gt;</strong><br />
+<p class="code">&lt;date:yyyy_mm_dd&gt;</p><br />
 &nbsp;&nbsp;↓<br />
 2004_02_01<br />
 <br />
-<strong>&lt;date:yymmdd-hhnnss&gt;</strong><br />
+<p class="code">&lt;date:yymmdd-hhnnss&gt;</p><br />
 &nbsp;&nbsp;↓<br />
 040201-150342<br />
 </blockquote>
@@ -250,19 +257,18 @@ date: の後に書式を指定することで、現在の日時を挿入する�
 <p>などと置き換えられます。</p>
 
 
-
-<h4>連番</h4>
+<h3>連番</h3>
 
 <p>
-たとえば、<strong>&lt;number:3&gt;</strong>と
+たとえば、<p class="code">&lt;number:3&gt;</p>と
 number: の後に数字を指定することで、挿入する通し番号の桁数を指定できます。
 </p>
 
 <p>作成されるファイル名が「<strong>sample.atc</strong>」だとすると、</p>
 
-<blockquote>
+<p class="code">
 &lt;filename&gt;&lt;number:3&gt;&lt;ext&gt;
-</blockquote>
+</p>
 
 <p>と指定することで、「sample001.atc」から順にナンバリング、sample002.atc，sample003.atc…と連続して作成されます。</p>
 
@@ -274,24 +280,20 @@ number: の後に数字を指定することで、挿入する通し番号の桁
 </p>
 
 
-
-
-<h4>ランダムな文字列</h4>
+<h3>ランダムな文字列</h3>
 
 <p>
-たとえば、<strong>&lt;random:8&gt;</strong>と、
+たとえば、<p class="code">&lt;random:8&gt;</p>と、
 random: の後に数字を指定することで、その文字数分ランダムな文字列を挿入することができます。
 </p>
 
-<blockquote>
+<p class="code">
 &lt;random:8&gt;&lt;ext&gt;
-</blockquote>
+</p>
 
 <p>として作成すると、</p>
 
-<blockquote>
-MA[vV}e7.atc
-</blockquote>
+<p><strong>MA[vV}e7.atc</strong></p>
 
 
 <p>といった、その都度ランダムな文字列（英数字、記号から）を生成、組み合わせてファイル名を作ります。</p>
@@ -303,45 +305,36 @@ MA[vV}e7.atc
 </p>
 
 
-
-
-<h4>ファイル名先頭/末尾文字列</h4>
+<h3>ファイル名先頭/末尾文字列</h3>
 
 <p>
 たとえば、生成されるファイル名が<strong>EncodeFile.atc</strong>とします。
-<strong>&lt;fhead:4&gt;</strong>と、fhead: の後に数字を指定することで、
+<p class="code">&lt;fhead:4&gt;</p>と、fhead: の後に数字を指定することで、
 ファイル名を先頭からその文字数分だけ抜いた名前を付けることができます。
 </p>
 
-<blockquote>
+<p class="code">
 &lt;fhead:3&gt;&lt;ext&gt;
-</blockquote>
-
+</p>
 
 <p>として作成すると、</p>
 
-<blockquote>
-Enc.atc
-</blockquote>
-
+<p><strong>Enc.atc</strong></p>
 
 <p>同様に、</p>
 
-<blockquote>
+<p class="code">
 &lt;fend:4&gt;&lt;ext&gt;
-</blockquote>
+</p>
 
 <p>と指定すると、</p>
 
-<blockquote>
-File.atc
-</blockquote>
+<p><strong>File.atc</strong></p>
 
 <p>となります。 </p>
 
-</blockquote>
+</div>
 
-<br />
 <hr />
 <p>Copyright&copy; 2012 M.Hibara, All rights Reserved. </p>
 

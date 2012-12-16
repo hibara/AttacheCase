@@ -23,12 +23,13 @@
 「リンク先」に書き込むことでパスワードを使い分けて暗号/復号するなんて使い方も便利かもしれません。
 </p>
 
-<p class="notice">
+<div class="notice">
 ただ、この使い方は、パスワード文字列は隠されることなくそのまま記録、
 表示されることになるので、設定は十分注意して行ってください。 あくまでこれも自己責任でお願いします。
-</p>
+</div>
 
-<div class="info">注意点
+<div class="info">
+注意点
 <ul>
 <li>
 特に引数を指定しない場合は、すでに設定されている内容でアタッシェケースは起動します。<br />
@@ -57,12 +58,16 @@
 （一部設定できないものもあります）。
 </li>
 </ul>
+</div><br />
 
-</div>
+<br />
 
 <p>設定できる項目は以下の通りです。</p>
 
+
 <h2>基本設定</h2>
+
+<div class="paragraph">
 
 <p>
 <strong>/p=[PASSWORD]</strong><br />
@@ -146,9 +151,11 @@ ex). /askende=1 ※問い合わせをしたくないときは、ex). /askende=0<
 ex). /nomulti=1 ※複数起動するときは、ex). /nomulti=0<br />
 </p>
 
-<br />
+</div>
 
 <h2>保存設定</h2>
+
+<div class="paragraph">
 
 <p>
 <strong>/saveto=[PATH]</strong><br />
@@ -221,10 +228,11 @@ ex). "/autoname=&lt;filename&gt;_&lt;date:yymmdd&gt;&lt;ext&gt;"<br />
 </blockquote>
 </p>
 
-<br />
-
+</div>
 
 <h2>削除設定</h2>
+
+<div class="paragraph">
 
 <p>
 <strong>/del=[0,1,2,3]</strong><br />
@@ -266,9 +274,11 @@ NULLを何回書き込み消去するか<br />
 ex). /delnull=3 ※乱数書き込みしない場合は、ex). /delnull=0<br />
 </p>
 
-<br />
+</div>
 
 <h2>動作設定</h2>
+
+<div class="paragraph">
 
 <p>
 <strong>/comprate=[0-9]</strong><br />
@@ -283,9 +293,11 @@ ex). /comprate=6 ※圧縮しない場合は、ex). /comprate=0<br />
 ex). /cmp=1 ※コンペアしない場合は、ex). /cmp=0<br />
 </p>
 
-<br />
+</div>
 
 <h2>高度設定</h2>
+
+<div class="paragraph">
 
 <p>
 <strong>/pf=[0,1]</strong><br />
@@ -321,9 +333,11 @@ ex). /nomsgp=1 ※エラーを出す場合は、ex). /nomsgp=0<br />
 ex). /camoext=.jpg ※偽装しない場合は、ex). /camoext=null<br />
 </p>
 
-<br />
+</div>
 
 <h2>その他（コマンドラインからのみ）</h2>
+
+<div class="paragraph">
 
 <p>
 <strong>/4gbok=[0,1]</strong><br />
@@ -364,7 +378,11 @@ C:\Documents and Settings\User1\My Documents\test.doc<br />
 <li>当然ですが、存在しないパスがあると処理中にエラーが発生します。</li>
 </ul>
 
+</div>
+
 <hr />
+
+<div class="paragraph">
 
 <p>
 こうして見ると、引数指定はけっこう煩雑ですが、既存の設定をそのままに、
@@ -373,7 +391,7 @@ C:\Documents and Settings\User1\My Documents\test.doc<br />
 
 <p>たとえば、</p>
 
-<p>
+<p class="code">
 "C:\Program Files\アタッシェケース\AtchCase.exe" 企画文書１.doc /p=hirakegoma /ow=1 /exit=1 /saveto=encrypt
 </p>
 
@@ -385,6 +403,8 @@ C:\Documents and Settings\User1\My Documents\test.doc<br />
 上書きの確認無し、処理後終了、保存先は、「<strong>encrypt</strong>」フォルダとなります。
 それ以外の未指定の動作設定については、既存の設定が適用されます。
 </p>
+
+</div>
 
 <hr />
 <p>Copyright&copy; 2012 M.Hibara, All rights Reserved. </p>
