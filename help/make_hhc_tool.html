@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<title>Make Table of Contents from json file</title>
+<script type="text/javascript" src="pages/js/jquery-1.7.2.min.js"></script> 
+<script type="text/javascript" src="pages/js/jquery-ui-1.8.22.custom.min.js"></script> 
+</head>
+<body>
+<!--
+
+このHTMLファイルは、同ディレクトリに置かれた「help_contents.json」ファイルをパースして
+ヘルプファイル（.CHM）生成に必要な、Table of Contents（Table of Contents.hhc）を
+生成するためのツールです。
+
+jsonファイルは、作者サイト（http://hibara.org)でも併用しているため、
+こうしたツールを用意しました。
+
+-->
+
+<h2>Table of Contents.hhc</h2>
+<textarea id="hhc" rows="50" cols="100"></textarea>
+
+<script type="text/javascript">
+<!--
+$(function() {
+
+	//-----------------------------------
+	// json形式データからヘルプ目次項目をパースして出力
+	function parse_json(data_array, result_html, tabs){
+
+		for ( var i = 0; i < data_array.length; i++ ){
+			var data = data_array[i];
+			result_html = result_html + tabs + "<LI> <OBJECT type=\"text/sitemap\">\n";
+			result_html = result_html + tabs + "\t<param name=\"Name\" value=\""+data['name']+"\">\n";
+			if ( data['path'] != "" ){
+				result_html = result_html + tabs + "\t<param name=\"Local\" value=\"pages\\"+data['path'].replace(/\//g,"\\")+"\">\n";
+			}
+			result_html = result_html + tabs + "\t</OBJECT>\n";
+
+			if (typeof data['children'] === "undefined") {
+			}
+			else{
+				//子ノードがある
+				result_html = result_html + tabs + "<UL>\n";
+				result_html = parse_json(data['children'], result_html, tabs+"\t");  //再帰呼び出し
+				result_html = result_html + tabs + "</UL>\n";
+			}
+		}
+		return(result_html);
+	}
+
+	//-----------------------------------
+	var help_contents_list = "";
+	$.getJSON("pages/json/help_contents.json", function(data){
+
+		help_contents_list = parse_json(data, help_contents_list, "\t");
+
+		var header_string = "<!DOCTYPE HTML PUBLIC \"-//IETF//DTD HTML//EN\">\n"+
+                        "<HTML>\n"+
+                        "<HEAD>\n"+
+                        "<meta name=\"GENERATOR\" content=\"Microsoft&reg; HTML Help Workshop 4.1\">\n"+
+                        "<!-- Sitemap 1.0 -->\n"+
+                        "</HEAD><BODY>\n"+
+                        "<UL>\n";
+		var footer_string = "</UL>\n"+
+                        "</BODY></HTML>\n";
+
+		//テキストエリアに挿入
+		$('#hhc').val(header_string + help_contents_list + footer_string);
+
+
+	});
+	//-----------------------------------
+
+
+
+
+});
+// -->
+</script>
+
+</body>
+</html>

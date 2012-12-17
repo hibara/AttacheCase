@@ -52,7 +52,6 @@ __fastcall TAttacheCaseDelete::TAttacheCaseDelete
 
 DeleteList = new TStringList;
 
-
 Opt = 0;	                     //通常削除
 RandClearNum = 0;              //乱数書き込み回数
 ZeroClearNum = 0;              //ゼロ書き込み回数
@@ -134,6 +133,7 @@ for (i = 0; i < DeleteFileList->Count; i++) {
 			if (sr.Name != "." && sr.Name != "..") {
 				if (sr.Attr & faDirectory) {
 					//ディレクトリ
+					DeleteList->Add(DeleteFileList->Strings[i]);
 					if ( (ErrorNum = GetDeleteFileListInfo(DeleteFileList->Strings[i], DeleteList, TotalFileCount, TotalFileSize)) < 0 ){
 						FindClose(sr);
 						if (ErrorNum == -1) {
@@ -211,7 +211,6 @@ for (i = DeleteList->Count-1; i > -1; i--) {
 		else if ( Opt == 1 ) {
 			//処理サイズでプログレス表示（「完全削除」関数内で処理）
 			if ( CompleteDeleteFile(FilePath, CountFileSize, TotalFileSize) == false ){
-				FindClose(sr);
 				goto LabelError;
 			}
 		}
@@ -221,8 +220,9 @@ for (i = DeleteList->Count-1; i > -1; i--) {
 	// ディレクトリ
 	//-----------------------------------
 	else{
+
 		//空になったディレクトリの削除
-		if ( !RemoveDir(FilePath) ){
+		if ( RemoveDir(FilePath) == false ){
 			//削除に失敗したときは属性を変更
 			Attrs = FileGetAttr(FilePath);
 			if (Attrs & faHidden){   //隠しファイル属性のときは外す
@@ -294,9 +294,10 @@ int __fastcall TAttacheCaseDelete::
 {
 
 TSearchRec sr;
+
 String FilePath;
 
-if ( FindFirst(DirPath + "\\*.*", faAnyFile, sr) == 0 ){
+if ( FindFirst(IncludeTrailingPathDelimiter(DirPath) + "*", faAnyFile, sr) == 0 ){
 
 	do {
 
@@ -305,6 +306,7 @@ if ( FindFirst(DirPath + "\\*.*", faAnyFile, sr) == 0 ){
 			FilePath = IncludeTrailingPathDelimiter(DirPath)+sr.Name;
 
 			if (sr.Attr & faDirectory) {
+				DelList->Add(FilePath);
 				// 再帰呼び出し
 				GetDeleteFileListInfo(FilePath, DelList, TotalFileCount, TotalFileSize);
 				TotalFileCount++;	//ディレクトリ分
@@ -317,7 +319,7 @@ if ( FindFirst(DirPath + "\\*.*", faAnyFile, sr) == 0 ){
 
 		}
 
-	}while(FindNext(sr) == 0 && Terminated == true);
+	}while(FindNext(sr) == 0 && Terminated == false);
 
 	FindClose(sr);
 
@@ -328,99 +330,6 @@ if ( FindFirst(DirPath + "\\*.*", faAnyFile, sr) == 0 ){
 }
 
 return(1);
-
-}
-//===========================================================================
-// ディレクトリ/ファイルを再帰的に削除する
-//===========================================================================
-int __fastcall TAttacheCaseDelete::DeleteDirAndFiles
-	(String DirPath, int &FileCount, int TotalFileCount, __int64 &CountFileSize, __int64 TotalFileSize)
-{
-
-int Attrs;
-int ErrorNum;
-
-TSearchRec sr;
-String FilePath;
-
-int ret  = FindFirst(DirPath + "\\*.*", faAnyFile, sr);
-
-while (ret == 0 && !Terminated) {
-
-	if (sr.Name != "." && sr.Name != "..") {
-
-		FilePath = IncludeTrailingPathDelimiter(DirPath)+sr.Name;
-
-		//-----------------------------------
-		// ディレクトリ
-		//-----------------------------------
-		if (sr.Attr & faDirectory) {
-
-			// 再帰呼び出し
-			if ( (ErrorNum = DeleteDirAndFiles(FilePath, FileCount, TotalFileCount, CountFileSize, TotalFileSize)) < 0 ){
-				FindClose(sr);
-				return(ErrorNum);
-			}
-
-			//空になったディレクトリの削除
-			if ( RemoveDir(FilePath) == false){
-				//削除に失敗したときは属性を変更
-				Attrs = FileGetAttr(FilePath);
-				if (Attrs & faHidden){   //隠しファイル属性のときは外す
-					FileSetAttr( FilePath, Attrs & !faHidden);
-				}
-				if (Attrs & faReadOnly){ //読み取り専用属性のときも外す
-					FileSetAttr( FilePath, Attrs & !faReadOnly	);
-				}
-				if ( RemoveDir(FilePath)== false ){      //再チャレンジ
-					FindClose(sr);
-					return(-1);
-				}
-			}
-			FileCount++;
-
-		}
-		//-----------------------------------
-		// ファイル
-		//-----------------------------------
-		else{
-
-			//読み取り専用なら外してから
-			if ( FileIsReadOnly(FilePath) == true ){
-				FileSetReadOnly(FilePath, false);
-			}
-
-			if ( Opt == 0){                                  //通常削除
-				DeleteFile(FilePath);
-				FileCount++;
-				//ファイル数でプログレス表示
-				ProgressPercentNum = ((float)FileCount/TotalFileCount)*100;
-			}
-			else if ( Opt == 1 ) {                           //完全削除
-				//処理サイズでプログレス表示（関数内で処理）
-				if ( (ErrorNum = CompleteDeleteFile(FilePath, CountFileSize, TotalFileSize)) < 0 ){
-					FindClose(sr);
-					return(ErrorNum);
-				}
-			}
-
-		}
-
-	}
-	ret = FindNext(sr);
-
-}
-
-FindClose(sr);
-
-if (Terminated == true) {
-	return(-2);
-}
-else{
-	//正常終了
-	return(1);
-}
-
 
 }
 //===========================================================================

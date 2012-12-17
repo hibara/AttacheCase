@@ -21,9 +21,8 @@ class TAttacheCaseDelete : public TThread
 
 private:
 
-
+	//内部的に削除するファイルをまとめたリスト
 	TStringList *DeleteList;
-
 
 	//メッセージダイアログ
 	String MsgText;
@@ -38,22 +37,15 @@ private:
 	TMsgDlgBtn MsgDefaultButton;
 	int MsgReturnVal;
 
-	// ディレクトリ/ファイルを再帰的に削除する
-	int __fastcall DeleteDirAndFiles
-		(String DirPath, int &FileCount, int TotalFileCount, __int64 &CountFileSize, __int64 TotalFileSize);
 	//ファイルの完全削除
 	int __fastcall CompleteDeleteFile(String FilePath, __int64 &CountFileSize, __int64 TotalFileSize);
-
 	//ごみ箱への移動
 	bool __fastcall GoToTrash(String Path);
-
 	// 削除するファイルリスト情報（ファイル数、合計サイズ）を収集する
 	int __fastcall GetDeleteFileListInfo
 		(String DirPath, TStringList *DelList, int &TotalFileCount, __int64 &TotalFileSize);
-
 	//ランダム値の生成（CRNG）
 	void fillrand(char *buf, const int len);
-
 	//メインフォームに確認メッセージを投げて処理を中断する
 	void __fastcall PostConfirmMessageForm();
 

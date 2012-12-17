@@ -36,27 +36,27 @@
 		"group": true,
 		"children": [
 			{
-				"id": "howto/file_encrypt",
+				"id": "howto_file_encrypt",
 				"name": "ファイルを暗号化する",
-				"path": "howto/file_encrypt.html",
+				"path": "howto_file_encrypt.html",
 				"group": false
 			},
 			{
-				"id": "howto/file_decrypt",
+				"id": "howto_file_decrypt",
 				"name": "ファイルを復号する（元に戻す）",
-				"path": "howto/file_decrypt.html",
+				"path": "howto_file_decrypt.html",
 				"group": false
 			},
 			{
-				"id": "howto/exeout",
+				"id": "howto_exeout",
 				"name": "自己実行形式での出力",
-				"path": "howto/exeout.html",
+				"path": "howto_exeout.html",
 				"group": false
 			},
 			{
-				"id": "howto/command_option",
+				"id": "howto_command_option",
 				"name": "起動時のコマンドオプション",
-				"path": "howto/command_option.html",
+				"path": "howto_command_option.html",
 				"group": false
 			}
 		]
@@ -68,61 +68,61 @@
 		"group": true,
 		"children": [
 			{
-				"id": "option/basic_option",
+				"id": "option_basic",
 				"name": "基本設定",
-				"path": "option/basic_option.html",
+				"path": "option_basic.html",
 				"group": false
 			},
 			{
-				"id": "option/save_option",
+				"id": "option_save",
 				"name": "保存設定",
-				"path": "option/save_option.html",
+				"path": "option_save.html",
 				"group": false,
 				"children": [
 					{
-						"id": "option/date_format",
+						"id": "option_date_format",
 						"name": "自動で暗号化ファイル名を付加する（日付書式）",
-						"path": "option/date_format.html",
+						"path": "option_date_format.html",
 						"group": false
 					}
 				]
 			},
 			{
-				"id": "option/delete_option",
+				"id": "option_delete",
 				"name": "削除設定",
-				"path": "option/delete_option.html",
+				"path": "option_delete.html",
 				"group": false
 			},
 			{
-				"id": "option/action_option",
+				"id": "option_movement",
 				"name": "動作設定",
-				"path": "option/action_option.html",
+				"path": "option_movement.html",
 				"group": false
 			},
 			{
-				"id": "option/system_option",
+				"id": "option_system",
 				"name": "システム設定",
-				"path": "option/system_option.html",
+				"path": "option_system.html",
 				"group": false,
 				"children": [
 					{
-						"id": "option/howto_ini",
+						"id": "option_howto_ini",
 						"name": "INIファイルの活用方法",
-						"path": "option/howto_ini.html",
+						"path": "option_howto_ini.html",
 						"group": false
 					}
 				]
 			},
 			{
-				"id": "option/advanced_option",
+				"id": "option_advanced",
 				"name": "高度な設定",
-				"path": "option/advanced_option.html",
+				"path": "option_advanced.html",
 				"group": false,
 				"children": [
 					{
-						"id": "option/ini_file",
+						"id": "option_ini_file",
 						"name": "INIファイルの活用方法",
-						"path": "option/howto_ini.html",
+						"path": "option_howto_ini.html",
 						"group": false
 					}
 				]
@@ -136,45 +136,45 @@
 		"group": true,
 		"children": [
 			{
-				"id": "techinfo/safety_oss",
+				"id": "techinfo_safety_oss",
 				"name": "オープンソース化による安全性について",
-				"path": "techinfo/safety_oss.html",
+				"path": "techinfo_safety_oss.html",
 				"group": false
 			},
 			{
-				"id": "techinfo/delete_algorithm",
+				"id": "techinfo_delete_algorithm",
 				"name": "元ファイルの削除方法について",
-				"path": "techinfo/delete_algorithm.html",
+				"path": "techinfo_delete_algorithm.html",
 				"group": false
 			},
 			{
-				"id": "techinfo/aes_algorithm",
+				"id": "techinfo_aes_algorithm",
 				"name": "暗号化アルゴリズムについて",
-				"path": "techinfo/aes_algorithm.html",
+				"path": "techinfo_aes_algorithm.html",
 				"group": false
 			},
 			{
-				"id": "techinfo/encryption_mode",
+				"id": "techinfo_encryption_mode",
 				"name": "暗号化モードについて",
-				"path": "techinfo/encryption_mode.html",
+				"path": "techinfo_encryption_mode.html",
 				"group": false
 			},
 			{
-				"id": "techinfo/sha1",
+				"id": "techinfo_sha1",
 				"name": "SHA-1とその後継策定について",
-				"path": "techinfo/sha1.html",
+				"path": "techinfo_sha1.html",
 				"group": false
 			},
 			{
-				"id": "techinfo/zlib",
+				"id": "techinfo_zlib",
 				"name": "圧縮アルゴリズムについて",
-				"path": "techinfo/zlib.html",
+				"path": "techinfo_zlib.html",
 				"group": false
 			},
 			{
-				"id": "techinfo/blowfish",
+				"id": "techinfo_blowfish",
 				"name": "旧バージョンの暗号化アルゴリズムについて",
-				"path": "techinfo/blowfish.html",
+				"path": "techinfo_blowfish.html",
 				"group": false
 			}
 		]
@@ -186,33 +186,33 @@
 		"group": true,
 		"children": [
 			{
-				"id": "support_license/copyrights",
+				"id": "support_copyrights",
 				"name": "著作権表示",
-				"path": "support_license/copyrights.html",
+				"path": "support_copyrights.html",
 				"group": false
 			},
 			{
-				"id": "support_license/license",
+				"id": "support_license",
 				"name": "ライセンス",
-				"path": "support_license/license.html",
+				"path": "support_license.html",
 				"group": false
 			},
 			{
-				"id": "support_license/about_me",
+				"id": "support_about_me",
 				"name": "作者について",
-				"path": "support_license/about_me.html",
+				"path": "support_about_me.html",
 				"group": false
 			},
 			{
-				"id": "support_license/faq",
+				"id": "support_faq",
 				"name": "ＦＡＱ（よくある質問）",
-				"path": "support_license/faq.html",
+				"path": "support_faq.html",
 				"group": false
 			},
 			{
-				"id": "support_license/support",
+				"id": "support_address",
 				"name": "連絡先（サポート）",
-				"path": "support_license/support.html",
+				"path": "support_address.html",
 				"group": false
 			}
 		]
@@ -224,27 +224,27 @@
 		"group": true,
 		"children": [
 			{
-				"id": "other/not_attashecase",
+				"id": "other_not_attashecase",
 				"name": "アタッシュケースではない",
-				"path": "other/not_attashecase.html",
+				"path": "other_not_attashecase.html",
 				"group": false
 			},
 			{
-				"id": "other/started_and_oss",
+				"id": "other_started_and_oss",
 				"name": "開発のキッカケとオープンソース化",
-				"path": "other/started_and_oss.html",
+				"path": "other_started_and_oss.html",
 				"group": false
 			},
 			{
-				"id": "other/future_plans",
+				"id": "other_future_plans",
 				"name": "今後の予定",
-				"path": "other/future_plans.html",
+				"path": "other_future_plans.html",
 				"group": false
 			},
 			{
-				"id": "other/fork_version",
+				"id": "other_fork_version",
 				"name": "アタッシェケース派生版のご紹介",
-				"path": "other/fork_version.html",
+				"path": "other_fork_version.html",
 				"group": false
 			}
 		]

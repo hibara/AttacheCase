@@ -31,19 +31,19 @@
 	<UL>
 		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="ファイルを暗号化する">
-			<param name="Local" value="pages\howto\file_encrypt.html">
+			<param name="Local" value="pages\howto_file_encrypt.html">
 			</OBJECT>
 		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="ファイルを復号する（元に戻す）">
-			<param name="Local" value="pages\howto\file_decrypt.html">
+			<param name="Local" value="pages\howto_file_decrypt.html">
 			</OBJECT>
 		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="自己実行形式での出力">
-			<param name="Local" value="pages\howto\exeout.html">
+			<param name="Local" value="pages\howto_exeout.html">
 			</OBJECT>
 		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="起動時のコマンドオプション">
-			<param name="Local" value="pages\howto\command_option.html">
+			<param name="Local" value="pages\howto_command_option.html">
 			</OBJECT>
 	</UL>
 	<LI> <OBJECT type="text/sitemap">
@@ -52,44 +52,44 @@
 	<UL>
 		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="基本設定">
-			<param name="Local" value="pages\option\basic_option.html">
+			<param name="Local" value="pages\option_basic.html">
 			</OBJECT>
 		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="保存設定">
-			<param name="Local" value="pages\option\save_option.html">
+			<param name="Local" value="pages\option_save.html">
 			</OBJECT>
 		<UL>
 			<LI> <OBJECT type="text/sitemap">
 				<param name="Name" value="自動で暗号化ファイル名を付加する（日付書式）">
-				<param name="Local" value="pages\option\date_format.html">
+				<param name="Local" value="pages\option_date_format.html">
 				</OBJECT>
 		</UL>
 		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="削除設定">
-			<param name="Local" value="pages\option\delete_option.html">
+			<param name="Local" value="pages\option_delete.html">
 			</OBJECT>
 		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="動作設定">
-			<param name="Local" value="pages\option\action_option.html">
+			<param name="Local" value="pages\option_movement.html">
 			</OBJECT>
 		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="システム設定">
-			<param name="Local" value="pages\option\system_option.html">
+			<param name="Local" value="pages\option_system.html">
 			</OBJECT>
 		<UL>
 			<LI> <OBJECT type="text/sitemap">
 				<param name="Name" value="INIファイルの活用方法">
-				<param name="Local" value="pages\option\howto_ini.html">
+				<param name="Local" value="pages\option_howto_ini.html">
 				</OBJECT>
 		</UL>
 		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="高度な設定">
-			<param name="Local" value="pages\option\advanced_option.html">
+			<param name="Local" value="pages\option_advanced.html">
 			</OBJECT>
 		<UL>
 			<LI> <OBJECT type="text/sitemap">
 				<param name="Name" value="INIファイルの活用方法">
-				<param name="Local" value="pages\option\howto_ini.html">
+				<param name="Local" value="pages\option_howto_ini.html">
 				</OBJECT>
 		</UL>
 	</UL>
@@ -99,31 +99,31 @@
 	<UL>
 		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="オープンソース化による安全性について">
-			<param name="Local" value="pages\techinfo\safety_oss.html">
+			<param name="Local" value="pages\techinfo_safety_oss.html">
 			</OBJECT>
 		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="元ファイルの削除方法について">
-			<param name="Local" value="pages\techinfo\delete_algorithm.html">
+			<param name="Local" value="pages\techinfo_delete_algorithm.html">
 			</OBJECT>
 		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="暗号化アルゴリズムについて">
-			<param name="Local" value="pages\techinfo\aes_algorithm.html">
+			<param name="Local" value="pages\techinfo_aes_algorithm.html">
 			</OBJECT>
 		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="暗号化モードについて">
-			<param name="Local" value="pages\techinfo\encryption_mode.html">
+			<param name="Local" value="pages\techinfo_encryption_mode.html">
 			</OBJECT>
 		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="SHA-1とその後継策定について">
-			<param name="Local" value="pages\techinfo\sha1.html">
+			<param name="Local" value="pages\techinfo_sha1.html">
 			</OBJECT>
 		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="圧縮アルゴリズムについて">
-			<param name="Local" value="pages\techinfo\zlib.html">
+			<param name="Local" value="pages\techinfo_zlib.html">
 			</OBJECT>
 		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="旧バージョンの暗号化アルゴリズムについて">
-			<param name="Local" value="pages\techinfo\blowfish.html">
+			<param name="Local" value="pages\techinfo_blowfish.html">
 			</OBJECT>
 	</UL>
 	<LI> <OBJECT type="text/sitemap">
@@ -132,23 +132,23 @@
 	<UL>
 		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="著作権表示">
-			<param name="Local" value="pages\support_license\copyrights.html">
+			<param name="Local" value="pages\support_copyrights.html">
 			</OBJECT>
 		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="ライセンス">
-			<param name="Local" value="pages\support_license\license.html">
+			<param name="Local" value="pages\support_license.html">
 			</OBJECT>
 		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="作者について">
-			<param name="Local" value="pages\support_license\about_me.html">
+			<param name="Local" value="pages\support_about_me.html">
 			</OBJECT>
 		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="ＦＡＱ（よくある質問）">
-			<param name="Local" value="pages\support_license\faq.html">
+			<param name="Local" value="pages\support_faq.html">
 			</OBJECT>
 		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="連絡先（サポート）">
-			<param name="Local" value="pages\support_license\support.html">
+			<param name="Local" value="pages\support_address.html">
 			</OBJECT>
 	</UL>
 	<LI> <OBJECT type="text/sitemap">
@@ -157,19 +157,19 @@
 	<UL>
 		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="アタッシュケースではない">
-			<param name="Local" value="pages\other\not_attashecase.html">
+			<param name="Local" value="pages\other_not_attashecase.html">
 			</OBJECT>
 		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="開発のキッカケとオープンソース化">
-			<param name="Local" value="pages\other\started_and_oss.html">
+			<param name="Local" value="pages\other_started_and_oss.html">
 			</OBJECT>
 		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="今後の予定">
-			<param name="Local" value="pages\other\future_plans.html">
+			<param name="Local" value="pages\other_future_plans.html">
 			</OBJECT>
 		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="アタッシェケース派生版のご紹介">
-			<param name="Local" value="pages\other\fork_version.html">
+			<param name="Local" value="pages\other_fork_version.html">
 			</OBJECT>
 	</UL>
 	<LI> <OBJECT type="text/sitemap">

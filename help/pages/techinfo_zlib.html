@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<head xmlns="http://www.w3.org/1999/html">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link rel="stylesheet" type="text/css" href="../css/help.css" />
+    <title>圧縮アルゴリズムについて</title>
+</head>
+<body>
+
+<h1>圧縮アルゴリズムについて</h1>
+
+<div class="paragraph">
+
+<p>
+圧縮処理については、zlib ライブラリ（ver.1.2.7）を組み込んで使っています。
+基本的にソースの中身は改変せず、そのままの形で使用しています。
+</p>
+
+<p>
+zlib とは、 zip や gzip に使われている圧縮アルゴリズムをライブラリ化したもので、
+フリーソフトウェアとして公開されているものです。
+圧縮率が高く（lzhよりも高いと言われていますがデータの中身に依存します）、処理も高速です。
+何よりもアーカイバDLLを必要とせずに、圧縮機能を独自に用意できるメリットが大きいです。
+</p>
+
+<p>作者は、Jean-loup Gailly氏と、Mark Adler氏です。</p>
+
+<p>
+使い勝手のいいフリーライブラリを用意していただいたことに感謝いたします
+（といってもこれを本人が見てくれるとは思えませんが（^^;））。
+</p>
+
+<p>
+なお、zlibについての情報は、本家本元である以下のサイトを参照ください。
+最新のソースはもちろんのこと、サンプルなどがアップされています。
+</p>
+
+<blockquote>
+zlib Home Site（英文）<br>
+<a href="http://www.zlib.net/" target="_blank" class="external">http://www.zlib.net/</a><br>
+</blockquote>
+
+<p> </p>
+
+<p>
+ちなみに、最近広く使われているグラフィックデータフォーマット「PNG」でも zlib 圧縮が使われているようです。
+そうした情報も上記のサイトで、あわせて参照することができます。
+</p>
+
+</div>
+<hr />
+<p>Copyright&copy; 2012 M.Hibara, All rights Reserved. </p>
+
+</body>
+</html>

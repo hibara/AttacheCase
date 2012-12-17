@@ -1219,13 +1219,13 @@ PageControlActiveSheet(TabSheetExecute);
 
 //完全削除インスタンスの作成
 cmpdel = new TAttacheCaseDelete(true);
+cmpdel->OnTerminate = DeleteThreadTerminated;
+cmpdel->FreeOnTerminate = true;
+
 cmpdel->DeleteFileList = DelFileList;
 cmpdel->Opt = opthdl->fCompleteDelete;     // 0:通常削除, 1:完全削除, 2:ゴミ箱
 cmpdel->RandClearNum = opthdl->DelRandNum; //完全削除（乱数書き込み回数）
 cmpdel->ZeroClearNum = opthdl->DelZeroNum; //完全削除（NULL書き込み回数）
-
-cmpdel->OnTerminate = DeleteThreadTerminated;
-cmpdel->FreeOnTerminate = true;
 
 //削除の実行
 cmpdel->Start();
