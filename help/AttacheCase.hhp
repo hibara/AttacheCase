@@ -6,12 +6,12 @@ Default Window=アタッシェケース
 Default topic=pages\overview.html
 Display compile progress=Yes
 Full-text search=Yes
-Index file=Index.hhk
+Index file="Index.hhk"
 Language=0x411 日本語 (日本)
 Title=アタッシェケース
 
 [WINDOWS]
-アタッシェケース="アタッシェケース　-　ヘルプ","Table of Contents.hhc","Index.hhk","pages\overview.html","pages\overview.html",,,,,0x22520,240,0x304e,[0,0,920,640],0x30000,,,,,,0
+アタッシェケース="アタッシェケース　-　ヘルプ","Table of Contents.hhc","Index.hhk",".\pages\overview.html",".\pages\overview.html",,,,,0x22520,240,0x304e,[0,0,920,640],0x30000,,,,,,0
 
 [FILES]
 pages\overview.html
@@ -20,12 +20,10 @@ pages\password_forgotten.html
 pages\require.html
 pages\setup.html
 pages\version.html
-
 pages\howto_command_option.html
 pages\howto_exeout.html
 pages\howto_file_decrypt.html
 pages\howto_file_encrypt.html
-
 pages\option_movement.html
 pages\option_advanced.html
 pages\option_basic.html
@@ -34,18 +32,15 @@ pages\option_delete.html
 pages\option_howto_ini.html
 pages\option_save.html
 pages\option_system.html
-
 pages\other_fork_version.html
 pages\other_future_plans.html
 pages\other_not_attashecase.html
 pages\other_started_and_oss.html
-
 pages\support_about_me.html
 pages\support_copyrights.html
 pages\support_faq.html
 pages\support_license.html
 pages\support_address.html
-
 pages\techinfo_aes_algorithm.html
 pages\techinfo_blowfish.html
 pages\techinfo_delete_algorithm.html
@@ -53,7 +48,6 @@ pages\techinfo_encryption_mode.html
 pages\techinfo_safety_oss.html
 pages\techinfo_sha1.html
 pages\techinfo_zlib.html
-
 pages\img\advanced_option.png
 pages\img\atc_data_folder.png
 pages\img\attachecase_folder.png
@@ -86,6 +80,8 @@ pages\img\replace_temp_option.png
 pages\img\save_option.png
 pages\img\start_window.png
 pages\img\system_option.png
+
+pages\css\help.css
 
 [ALIAS]
 IDH_ACTION_OPTION=pages\option_movement.html

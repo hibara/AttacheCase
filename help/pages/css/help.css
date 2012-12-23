@@ -67,21 +67,25 @@ h3 {
 }
 
 /* 定義リスト */
-dl {
-	margin: 0 0 1em 0;
-	padding: 0;
-	border: 4px #eeeeee solid;
+dl{
+	clear: both;
+	margin: 0;
+	padding: 0.5em 0 4.5em 1em;
 }
-dl dt {
+dt {
+	clear: both;
 	float: left;
-	width: 24em;
-	padding: 10px 0;
-	font-weight: bold;
-	text-indent: 3em;
+	padding: 0 1em;
+	font-size: 0.9em;
+	width: 8em;
+	border-right: dotted 1px #cccccc;
+	color: #666666;
 }
-dl dd {
-	padding: 10px 0 10px 0;
-	border-bottom: 1px #cccccc solid;
+dd {
+	float: left;
+	font-size: 0.9em;
+	margin-left: 1em;
+	color: #666666;
 }
 
 /* イメージと説明のセット */

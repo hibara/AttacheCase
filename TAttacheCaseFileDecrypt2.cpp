@@ -345,13 +345,7 @@ while (len < EncryptHeaderSize) {
 
 pms->Seek((__int64)0, TSeekOrigin::soBeginning);  //ポインタを先頭へ戻す
 DataList = new TStringList;
-
-DataList->LoadFromStream(pms);                                 // default encoding
-//DataList->LoadFromStream(pms, TEncoding::UTF8);              // TEncoding::UTF8
-//DataList->LoadFromStream(pms, TEncoding::GetEncoding(932));  // shift-jis
-
-delete pms;
-
+DataList->LoadFromStream(pms, TEncoding::GetEncoding(932));  // shift-jis
 
 //-----------------------------------
 // 復号正否（復号できたか）
@@ -364,20 +358,42 @@ else{
 }
 
 if ( fPasswordOk == false ) {
-		//'パスワードがちがいます。復号できません。'+#13+
-		//'場合によってはファイルが壊れている可能性もあります。';
-		MsgText = LoadResourceString(&Msgdecrypt::_MSG_ERROR_PASSWORD_WRONG);
-		if ( fCompare == true ) {
-			//メッセージに'コンペアに失敗しました。'を追加
-			MsgText += "\n" + LoadResourceString(&Msgdecrypt::_MSG_ERROR_COMPARE_FILE);
-		}
-		MsgType = mtError;
-		MsgButtons = TMsgDlgButtons() << mbOK;
-		MsgDefaultButton = mbOK;
-		Synchronize(&PostConfirmMessageForm);
-		delete DataList;
-		goto LabelTypeMiss;
+	//'パスワードがちがいます。復号できません。'+#13+
+	//'場合によってはファイルが壊れている可能性もあります。';
+	MsgText = LoadResourceString(&Msgdecrypt::_MSG_ERROR_PASSWORD_WRONG);
+	if ( fCompare == true ) {
+		//メッセージに'コンペアに失敗しました。'を追加
+		MsgText += "\n" + LoadResourceString(&Msgdecrypt::_MSG_ERROR_COMPARE_FILE);
+	}
+	MsgType = mtError;
+	MsgButtons = TMsgDlgButtons() << mbOK;
+	MsgDefaultButton = mbOK;
+	Synchronize(&PostConfirmMessageForm);
+	delete DataList;
+	goto LabelTypeMiss;
 }
+
+//-----------------------------------
+// TODO: 復号時のエンコーディング判定
+//-----------------------------------
+pms->Position = 0;
+DataList->LoadFromStream(pms, TEncoding::UTF8);
+PrefixString = "Fn_";
+for (i = 0; i < DataList->Count; i++) {
+	if ( DataList->Strings[i].Pos("U_0") == 0){
+		PrefixString = "U_";	//新バージョン（ver.2.8.0～）で暗号化されているようだ
+		break;
+	}
+}
+
+// Unicodeではないので従来のShift-JISで再度読み直し
+if (PrefixString == "Fn_") {
+	pms->Position = 0;
+	DataList->LoadFromStream(pms, TEncoding::GetEncoding(932));
+}
+
+delete pms;
+
 
 //-----------------------------------
 // 暗号化ファイルの生成日時
@@ -401,14 +417,6 @@ FileDtCreateList = new int[DataList->Count];  // 5: 作成日
 FileTmCreateList = new int[DataList->Count];  // 6: 作成時
 
 DataList->NameValueSeparator = ':';
-
-PrefixString = "Fn_";
-for (i = 0; i < DataList->Count; i++) {
-	if ( DataList->IndexOfName("U_"+IntToStr(i)) > -1){
-		PrefixString = "U_";	//新バージョン（ver.2.8.0～）で暗号化されているようだ
-		break;
-	}
-}
 
 tsv = new TStringList;
 tsv->Delimiter = '\t';

@@ -742,6 +742,11 @@ const AnsiString Passcode_AttacheCase = "Passcode:AttacheCase\n";
 //暗号化ファイルの作成日
 AnsiString LastDateTimeString = "LastDateTime:" + DateTimeToStr(Now()) + "\n";
 
+//旧ヘッダーテキストすべて
+AnsiString Fn_HeaderText;
+//Unicode用ヘッダーテキストすべて
+String U_HeaderText;
+
 int EncryptHeaderSize = 0;  //暗号部ヘッダサイズ
 
 char buffer[BUF_SIZE];
@@ -828,28 +833,20 @@ for ( i = 0; i < FileList->Count; i++ ){
 //メモリストリームへ書き込み
 tpms = new TMemoryStream;
 
-/* ------------------------------------------------
- 旧バージョンで暗号化されたファイルの下位互換性と、
- 新バージョンによるUnicodeファイル名に対応するため、
- 以下のようにファイルリスト情報を二重持ちしています。
- 他に良い方法があれば作者までご提案いただけると
- うれしいです。
---------------------------------------------------- */
-
-//旧バージョン用に保存
-HeaderDataList->SaveToStream(tpms, TEncoding::GetEncoding(932)); //shift-jis
-
-//新バージョン（ver.2.8.0～）用に保存
+//------------------------------------------------
+// TODO: 暗号化時にヘッダデータの互換性維持
+// 旧バージョンで暗号化されたファイルの下位互換性と、
+// 新バージョンによるUnicodeファイル名に対応するため、
+// 以下のようにファイルリスト情報を二重持ちしています。
+// 他に良い方法があれば作者までご提案いただけると
+// うれしいです。
+//---------------------------------------------------
+HeaderDataList->SaveToStream(tpms, TEncoding::GetEncoding(932));
+//新バージョン（ver.2.8.0～）用（UTF-8）に保存
 for (i = 0; i < HeaderDataList->Count; i++) {
-	HeaderDataList->Strings[i] =
-		StringReplace(HeaderDataList->Strings[i], "Fn_", "U_", TReplaceFlags() << rfIgnoreCase );
+	HeaderDataList->Strings[i] = StringReplace(HeaderDataList->Strings[i],"Fn_","U_",TReplaceFlags()<<rfIgnoreCase );
 }
-
-//HeaderDataList->SaveToStream(tpms, TEncoding::UTF8); //UTF-8
-
-//UTF-8として書き込むよりもTBytesで書き込んだ方が正しく復号されるようだ。
-TBytes ByteArray = HeaderDataList->Text.BytesOf();
-tpms->Write(&ByteArray[0], ByteArray.Length);
+HeaderDataList->SaveToStream(tpms, TEncoding::UTF8);
 
 delete HeaderDataList;
 
