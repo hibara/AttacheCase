@@ -28,22 +28,16 @@ __published:	// IDE 管理のコンポーネント
 	TLabel *lblZlibVersion;
 	TBalloonHint *BalloonHint1;
 	TLabel *lblLisence;
-	TLabel *lblLisenceJ;
-	TLabel *lblSlash;
 	TLabel *lblCopyright;
 	TLabel *lblHomePage;
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall cmdOKClick(TObject *Sender);
 	void __fastcall lblLisenceClick(TObject *Sender);
-	void __fastcall lblLisenceJClick(TObject *Sender);
 	void __fastcall lblLisenceMouseMove(TObject *Sender, TShiftState Shift, int X, int Y);
-	void __fastcall lblLisenceJMouseMove(TObject *Sender, TShiftState Shift, int X,
-          int Y);
 	void __fastcall lblHomePageMouseMove(TObject *Sender, TShiftState Shift, int X,
           int Y);
 	void __fastcall lblHomePageClick(TObject *Sender);
 	void __fastcall lblLisenceMouseEnter(TObject *Sender);
-	void __fastcall lblLisenceJMouseEnter(TObject *Sender);
 	void __fastcall lblHomePageMouseEnter(TObject *Sender);
 
 
@@ -61,7 +55,7 @@ private:	// ユーザー宣言
 		MESSAGE_HANDLER( CM_MOUSELEAVE, TMessage, CMMouseLeave )
 	END_MESSAGE_MAP( TForm )
 
-
+  String VersionString;
 
 public:		// ユーザー宣言
 	__fastcall TForm2(TComponent* Owner);

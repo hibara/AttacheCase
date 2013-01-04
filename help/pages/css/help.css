@@ -146,6 +146,7 @@ p.code {
 div.code {
 	margin: 0 0 1em 0;
 	padding: 1em;
+	width: 90%;
 	font: 0.8em Monaco,"Courier New","DejaVu Sans Mono","Bitstream Vera Sans Mono",monospace;
 	color: #52595d;
 	-webkit-border-radius: 3px;

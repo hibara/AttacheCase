@@ -91,6 +91,7 @@ tools\gethash\gethash.exe installer\*.exe
 
 rd /s /q "installer\bin"
 
+
 :END
 
 @echo 

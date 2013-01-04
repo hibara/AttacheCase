@@ -181,6 +181,10 @@ if ( fConfirmOverwirte == true && fOverwirteYesToAll == false ) {
 //---------------------------------------
 // ヘッダ情報の生成＆ファイル総サイズ取得
 //---------------------------------------
+
+//'暗号化するファイルリストの生成中...'
+ProgressStatusText = LoadResourceString(&Msgencrypt::_LABEL_STATUS_TITLE_LISTING);
+
 if ( CreateHeaderData( pms, InputFileList, FilePathList, AllTotalSize) == false ){
 	if (Terminated == true) {
 		//ユーザーキャンセルで抜けてきた
@@ -249,9 +253,11 @@ if ( fExeOutputOption == true && fOver4gbOk == false && AllTotalSize > SIZE_4GB 
 //-----------------------------------
 // 暗号化ファイルの生成開始
 //-----------------------------------
-
 //'暗号化しています...'
 ProgressStatusText = LoadResourceString(&Msgencrypt::_LABEL_STATUS_TITLE_ENCRYPTING);
+ProgressMsgText = ExtractFileName(OutFilePath);
+
+TotalSize = 0;
 
 try{
 	fsOut = new TFileStream(OutFilePath, fmCreate);
@@ -296,6 +302,9 @@ if ( fExeOutputOption == true ){
 	fsExe->Seek(-(__int64)sizeof(__int64), TSeekOrigin::soEnd);
 	fsExe->Read(&ExeAllSize, sizeof(__int64));
 
+	//処理する合計サイズに実行形式分を加える
+	AllTotalSize += ExeAllSize;
+
 	//自己実行可能形式データの境界へ
 	fsExe->Seek(-(__int64)ExeAllSize-sizeof(__int64), TSeekOrigin::soEnd);
 
@@ -304,14 +313,24 @@ if ( fExeOutputOption == true ){
 		//書き込む
 		if ( ExeSize < ExeAllSize ){
 			fsOut->Write(read_buffer, BUF_SIZE);
+			TotalSize += BUF_SIZE;
 		}
 		else{
 			fsOut->Write(read_buffer, ExeSize-ExeAllSize);
+			TotalSize += (ExeSize-ExeAllSize);
+		}
+		//進捗表示
+		ProgressPercentNumF = (float)TotalSize/AllTotalSize;
+		ProgressPercentNum = (int)(ProgressPercentNumF*100);
+		if (AllTotalSize < 104857600) {	// 100MB未満
+			ProgressPercentNumText = IntToStr(ProgressPercentNum)+"%";
+		}
+		else{
+			ProgressPercentNumText = FloatToStrF(ProgressPercentNumF*100, ffNumber, 4, 1)+"%";
 		}
 	}
 	//自分自身を閉じる
 	delete fsExe;
-
 }
 
 //-----------------------------------
@@ -371,7 +390,6 @@ z.avail_out = BUF_SIZE;             // 出力ポインタ
 // 通常は deflate() の第2引数は Z_NO_FLUSH にして呼び出す
 flush = Z_NO_FLUSH;
 
-TotalSize = 0;
 FileIndex = 0;
 
 while(!Terminated) {
@@ -737,6 +755,8 @@ TSearchRec sr;
 String OneLine;
 String DirPath, FileName;
 
+String MsgText;
+
 //暗号部トークン
 const AnsiString Passcode_AttacheCase = "Passcode:AttacheCase\n";
 //暗号化ファイルの作成日
@@ -791,10 +811,8 @@ pms->Write(&EncryptHeaderSize, sizeof(int));
 
 //進捗状況表示
 ProgressPercentNum = -1;
-//'ファイルリストの生成'
+//'暗号化するファイルリストの生成中...'
 ProgressStatusText = LoadResourceString(&Msgencrypt::_LABEL_STATUS_TITLE_LISTING);
-//'暗号化するための準備をしています...'
-ProgressStatusText = LoadResourceString(&Msgencrypt::_LABEL_STATUS_DETAIL_PREPARING);
 
 //ヘッダデータリスト（文字列）
 HeaderDataList = new TStringList;
@@ -808,6 +826,7 @@ for ( i = 0; i < FileList->Count; i++ ){
 	if (FileExists(FileList->Strings[i]) == true) {
 		DirPath = ExtractFileDir(FileList->Strings[i]);
 		FileName = ExtractFileName(FileList->Strings[i]);
+		ProgressMsgText = FileName;      //処理中のファイル名
 		AllTotalFileSize =
 			GetFileInfoList(Index, DirPath, FileName, FileList->Strings[i], FilePathList, HeaderDataList);
 	}
@@ -815,6 +834,7 @@ for ( i = 0; i < FileList->Count; i++ ){
 	else{
 		DirPath = ExtractFileDir(FileList->Strings[i]);
 		FileName = ExtractFileName(FileList->Strings[i]);
+		ProgressMsgText = FileName;      //処理中のファイル名
 		//トップディレクトリ
 		GetFileInfoList(Index, DirPath, FileName, FileList->Strings[i], FilePathList, HeaderDataList);
 		//その配下
@@ -829,6 +849,12 @@ for ( i = 0; i < FileList->Count; i++ ){
 	}
 
 }// end for;
+
+//進捗状況表示
+ProgressPercentNum = -1;
+//'ヘッダデータを書き込んでいます...'
+ProgressStatusText = LoadResourceString(&Msgencrypt::_LABEL_STATUS_TITLE_ENCRYPTING_LIST);
+ProgressMsgText = "";
 
 //メモリストリームへ書き込み
 tpms = new TMemoryStream;

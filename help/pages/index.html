@@ -137,6 +137,13 @@ $(function() {
 		});
 	});
 
+	$("#keyword li").live('click', function (){
+		var filename = $(this).attr("id");
+		//alert(filename);
+		$('#contents').load(filename);
+		return false;
+	});
+
 });
 </script>
 

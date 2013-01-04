@@ -72,8 +72,8 @@ txtInputPassword->Top = this->ClientHeight/2 - txtInputPassword->Height;
 
 ProgressBar1->Top = txtInputPassword->Top;
 lblProgressPercentNum->Top = ProgressBar1->BoundsRect.Bottom + 1;
-lblStatus->Top = ProgressBar1->Top - lblStatus->Height - 1;
-lblMsg->Top = lblStatus->Top - lblMsg->Height - 1;
+lblStatus->Top = ProgressBar1->Top - lblStatus->Height - 3;
+lblMsg->Top = lblStatus->Top - lblMsg->Height - 3;
 
 imgKeyIcon->Top = txtInputPassword->Top + txtInputPassword->Height/2 - imgKeyIcon->Height/2;
 chkSaveToOtherDirectory->Top = ProgressBar1->BoundsRect.Bottom + 4;

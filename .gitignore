@@ -11,6 +11,9 @@ _*
 # Mac OS X
 .DS_Store
 
+# Windows Thumbnails DB
+Thumbs.db
+
 # C++Builder temporary file
 *.cbproj.local
 *.tds

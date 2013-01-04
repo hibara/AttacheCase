@@ -2059,9 +2059,6 @@ else{
 	encrypt->SetPasswordBinary(password);
 }
 
-//暗号化の実行
-encrypt->Start();
-
 //タスクバー進捗表示（Win7）失敗した場合は無視
 if(CoCreateInstance(CLSID_TaskbarList, NULL, CLSCTX_ALL, IID_ITaskbarList3, (void**)&tskpbr) == S_OK) {
 	tskpbr->SetProgressState(this->Handle, TBPF_NORMAL);
@@ -2069,6 +2066,10 @@ if(CoCreateInstance(CLSID_TaskbarList, NULL, CLSCTX_ALL, IID_ITaskbarList3, (voi
 
 //進捗をTimerで監視
 TimerEncrypt->Enabled = true;
+
+//暗号化の実行
+encrypt->Start();
+
 
 }
 //---------------------------------------------------------------------------

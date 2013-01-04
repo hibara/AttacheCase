@@ -1,6 +1,6 @@
 object Form1: TForm1
-  Left = 458
-  Top = 130
+  Left = 460
+  Top = 132
   Caption = 'AttacheCase'
   ClientHeight = 489
   ClientWidth = 562
@@ -3892,7 +3892,7 @@ object Form1: TForm1
     Margins.Top = 4
     Margins.Right = 4
     Margins.Bottom = 4
-    ActivePage = TabSheetInputEncPass
+    ActivePage = TabSheetExecute
     DoubleBuffered = False
     ParentDoubleBuffered = False
     TabOrder = 1
@@ -5315,7 +5315,7 @@ object Form1: TForm1
     Enabled = False
     Interval = 100
     OnTimer = TimerDeleteTimer
-    Left = 28
+    Left = 32
     Top = 231
   end
   object SaveDialog1: TSaveDialog

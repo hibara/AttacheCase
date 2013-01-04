@@ -1,7 +1,7 @@
 #define MyAppVer GetFileVersion("..\AttacheCase.exe")
 #define MyAppVerNum StringChange(MyAppVer, ".", "")
-#define BetaVerString "β"
-#define BetaVerNum "b"
+#define BetaVerString ""
+#define BetaVerNum ""
 
 [Setup]
 AppName=アタッシェケース

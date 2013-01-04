@@ -1,26 +1,17 @@
 ======================================================================
-アタッシェケース    ver.2.8.1.0β     2012/12/23
-Copyright(C)2002-2012 ひばら みつひろ http://hibara.org/
+アタッシェケース    ver.2.8.2.0               2013/01/04
+Copyright(C) 2002-2013 ひばら みつひろ http://hibara.org/
 ======================================================================
-
-**********************************************************************
-【ご注意！】
-このソフトウェアはベータテスト中です。
-**********************************************************************
-
-現在、開発中のβバージョンです。テストしていただける方のみ、ご使用でき
-ます。大切なデータや失われると困るファイルなどを暗号化する際には、最悪、
-データが破壊されるという前提のもとで注意してお使いください。
 
 .■ソフト説明
 -------------------
-「アタッシェケース」は日常的に使うことを想定し、見た目のシンプルさと簡
-便な操作性に注力しながらも、世界標準の暗号アルゴリズムを採用した強力な
-ファイル/フォルダ暗号化ソフトです。
+「アタッシェケース」は日常的に使うことを想定し、見た目のシンプルさと
+簡便な操作性に注力しながらも、世界標準の暗号アルゴリズムを採用した強力
+なファイル/フォルダ暗号化ソフトです。
 
 ファイルをドラッグ＆ドロップするだけで、簡単に暗号化することができ、
-フォルダごとドラッグ＆ドロップした場合には、１つにまとめて暗号化ファイ
-ルを作ります（フォルダごとパックします）。
+フォルダごとドラッグ＆ドロップした場合には、１つにまとめて暗号化
+ファイルを作ります（フォルダごとパックします）。
 
 なお、暗号化の際にはデータに圧縮がかかりますので、サイズがコンパクトに
 なります。
@@ -29,53 +20,99 @@ Copyright(C)2002-2012 ひばら みつひろ http://hibara.org/
 てパスワードを入力するだけで、簡単に元のファイルやフォルダに戻すことが
 できます。
 
-また、実行形式（*.exe）ファイルとして出力できますので、アタッシェケー
-スを持たない人へ暗号化ファイルを渡すことができ、復号することができます。
+また、実行形式（*.exe）ファイルとして出力できますので、アタッシェケース
+を持たない人へ暗号化ファイルを渡すことができ、復号することができます。
 
-暗号化アルゴリズムには、2000年10月にアメリカ政府標準技術局（NIST）によっ
-て、次世代暗号化標準 AES（Advanced Encryption Standard）として選定され
-た“Rijndael（ラインダール）”を採用し組み込んでいます。AESではブロッ
-ク長が128ビット固定となっていますが、アタッシェケースではRijndaelの仕
-様を採用し、鍵、ブロック長ともに256ビットになっています。
+暗号化アルゴリズムには、2000年10月にアメリカ政府標準技術局（NIST）に
+よって、次世代暗号化標準 AES（Advanced Encryption Standard）として選定
+された“Rijndael（ラインダール）”を採用し組み込んでいます。AESではブ
+ロック長が128ビット固定となっていますが、アタッシェケースではRijndael
+の仕様を採用し、鍵、ブロック長ともに256ビットになっています。
 
 なお、乱数による初期化ベクトル（IV）を生成してからCBCモードで暗号化し、
 第三者による解析も防ぐよう工夫されています。
 
-
      ※『アタッシェケース』は、2012年7月 ver.2.8.0.0 よりオープン
-        ソースとして公開することになりました。詳しくは、次の「オープン
-        ソース」「ライセンス」の項目をご覧ください。
+        ソースとして公開することになりました。詳しくは、次の
+       「オープンソース」「ライセンス」の項目をご覧ください。
 
 
 .■オープンソース
 -------------------
-GitHubを使って随時アップデートしていきます。
+開発当初から「アタッシェケース」はフリーソフトではありましたが、
+2012年7月からオープンソースとして公開することにしました。
+
+今後は、GitHubを使って随時アップデートしていきます。
 
 https://github.com/hibara/AttacheCase
 
-興味がある方は、ぜひフォークするなり、他のプラットフォームへインプリメ
-ントするなり、ご自由にどうぞ。プルリクエスト大歓迎。
+興味がある方は、ぜひフォークするなり、他のプラットフォームへ
+インプリメントするなり、ご自由にどうぞ。プルリクエスト大歓迎。
 
 今後は、こうしてフィードバックを受けて改良しつつ、「大丈夫かな」という
-頃合いを見計らってビルドし、公開していこうかなあと思っています。
+頃合いを見計らってビルドし、公開していこうと思っています。
 
 
 .■ライセンス
 -------------------
-GPLv3を適用します。基本的には無償でお使いいただけます。
-詳細は以下から。
 
-https://www.gnu.org/licenses/gpl-3.0.html
+BSDライセンス
+The BSD 3-Clause License
 
-※参考（上記の和訳）
-http://ossipedia.ipa.go.jp/legalinfo/gpl-3.0J.html
+を適用します。
+
+当初、GPLv3ライセンス（https://www.gnu.org/licenses/gpl-3.0.html）を適
+用しておりましたが、他のプロプライエタリなソフトウェアのライブラリなど
+にリンクする際（iOSやMacOSなど）、GPLのソース公開規定に引っかかり、
+やや使いにくいライセンス形態だ、というご意見をいただきました。
+
+作者としては、より自由に、広く頒布していただきたい、という想いがありま
+したので、より運用しやすい、このライセンスへの変更を決めました。
+
+以下の著作権およびライセンス条文自身を、派生物のどこかに表示を行ってい
+ただければ、実行ファイルを含む、すべてのソースを商用・私用にかかわらず、
+複製、改変、および再頒布することができます。
+
+======================================================================
+アタッシェケース（AttachéCase）
+Copyright (c) 2002-2013, Mitsuhiro Hibara ( http://hibara.org )
+All rights reserved.
+
+Redistribution and use in source and binary forms, 
+with or without modification, are permitted provided that the following 
+conditions are met:
+
+・Redistributions of source code must retain the above copyright 
+  notice, this list of conditions and the following disclaimer.
+・Redistributions in binary form must reproduce the above copyright 
+  notice, this list of conditions and the following disclaimer 
+  in the documentation and/or other materials provided with the 
+  distribution.
+・Neither the name of the "HIBARA.ORG" nor the names of its 
+  contributors  may be used to endorse or promote products derived 
+  from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS 
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT 
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR 
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT 
+HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, 
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT 
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY 
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT 
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE 
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+======================================================================
+　※ただし、アタッシェケース内で使っている別作者によるライブラリは、
+　　それぞれのライセンスに従ってください。
 
 本ソフトウェアの使用、改変、再頒布、販売などは、上記のライセンスに
 従ってください。この件に関して作者への問い合わせはなるべくお控えくださ
 い（忙しいもので）。
 
-ただ、「使っているよ！」「ちょっとソースコードを改良してみたよ！」といっ
-た応援は大歓迎です。以下のサイトからご連絡いただけると助かります。
+ただ、「使っているよ！」「ちょっとソースコードを改良してみたよ！」と
+いった応援は大歓迎です。以下のサイトからご連絡いただけると助かります。
 
 ひばら　みつひろ
 http://hibara.org/
@@ -89,7 +126,7 @@ http://hibara.org/
 基本的に、Windows98/NT/2000/XP/Vista/7/8 でご使用いただけます。
 
 現状はβテスト中のため、英語版などの他言語はありませんが、将来的に翻訳
-していただける方がいらっしゃれば順次対応していきます。
+していただける方がいらっしゃれば、順次対応していきます。
 
 なお、Windowsにある一部のDLLファイルが古いと、まれに動作しないことがあ
 ります。詳しくは、ヘルプファイルの「動作環境」の欄を参照ください。
@@ -130,6 +167,16 @@ http://hibara.org/
 .■改版履歴
 -------------------
 『アタッシェケース』の改版履歴は以下の通りです。
+
+ver.2.8.2.0　  2013/01/04
+              ・長らくβテスト中だった新バージョンを正式版として昇格。
+              ・ライセンスをGPLv3から、BSDライセンスへ変更。
+              ・書き込み速度の遅いリムーバブルディスクなどで暗号化する際、
+                実行形式出力を書き込む部分で処理が停まっているように見
+                えたので、そのサイズも全体の処理サイズとして進捗状況を
+                表示するように改良。
+
+----------------------------------------------------------------------
 
 ver.2.8.1.0β  2012/12/23
               ・暗号化時にUnicode文字列を含むファイルを含めると、復号
