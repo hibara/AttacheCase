@@ -10,6 +10,8 @@
 @echo. 
 @echo. ■Inno Setup（インストーラー作成ソフト）
 @echo. 　http://www.jrsoftware.org/isinfo.php
+@echo. ■7-Zip（ファイルアーカイバ(圧縮・展開/圧縮・解凍ソフト）
+@echo. 　http://sevenzip.sourceforge.jp/
 @echo. ■UPX（実行ファイル圧縮ソフト）
 @echo. 　http://upx.sourceforge.net/
 @echo. ■HTML Help Workshop
@@ -76,12 +78,28 @@ if "%PROCESSOR_ARCHITECTURE%" == "AMD64" (
 "%ProgramFiles%\Inno Setup 5\ISCC.exe" installer\AttacheCase.iss
 )
 
+
+@echo. 
+@echo. -----------------------------------
+@echo. ZIPアーカイブの生成
+@echo. -----------------------------------
+
+@rem バージョン番号を取得する
+for /F "delims=" %%s in ('tools\getver\getver\bin\Release\getver.exe installer\bin\AttacheCase.exe') do @set NUM=%%s
+
+@rem ZIP
+cd installer\bin
+7z a -tzip ..\atcs%NUM%.zip AttacheCase.exe AtcSetup.exe readme.txt AttacheCase.chm
+cd ..\..
+
+
 @echo. 
 @echo. -----------------------------------
 @echo. ハッシュ値をテキストファイル保存
 @echo. -----------------------------------
 
 tools\gethash\gethash.exe installer\*.exe
+tools\gethash\gethash.exe installer\*.zip
 
 
 @echo. 

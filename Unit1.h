@@ -1,4 +1,38 @@
-﻿//---------------------------------------------------------------------------
+﻿//===========================================================================
+/*
+
+アタッシェケース（AttachéCase）
+Copyright (c) 2002-2013, Mitsuhiro Hibara ( http://hibara.org )
+All rights reserved.
+
+Redistribution and use in source and binary forms,
+with or without modification, are permitted provided that the following
+conditions are met:
+
+・Redistributions of source code must retain the above copyright
+	notice, this list of conditions and the following disclaimer.
+・Redistributions in binary form must reproduce the above copyright
+	notice, this list of conditions and the following disclaimer
+	in the documentation and/or other materials provided with the
+	distribution.
+・Neither the name of the "HIBARA.ORG" nor the names of its
+	contributors  may be used to endorse or promote products derived
+	from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+*/
+//===========================================================================
 #ifndef Unit1H
 #define Unit1H
 //---------------------------------------------------------------------------
@@ -154,11 +188,14 @@ __published:	// IDE 管理のコンポーネント
 	void __fastcall FormGesture(TObject *Sender, const TGestureEventInfo &EventInfo,
 					bool &Handled);
 	void __fastcall PaintBoxMainMouseDown(TObject *Sender, TMouseButton Button,
-          TShiftState Shift, int X, int Y);
+					TShiftState Shift, int X, int Y);
 
 
 private:	// ユーザー宣言
 
+	//-----------------------------------
+	// 変数
+	//-----------------------------------
 	TAttacheCaseFileEncrypt *encrypt;
 	TAttacheCaseFileDecrypt2 *decrypt;
 	TAttacheCaseDelete *cmpdel;
@@ -187,29 +224,28 @@ private:	// ユーザー宣言
 	// -1:エラー（TYPE_CRYPT_ERROR）
 	int CryptTypeNum;
 
-
 	//先に起動しているアタッシェケースからのメッセージ受け取り
 	void __fastcall EvWmCOPYDATA(TMessage message);
-
 	BEGIN_MESSAGE_MAP
 		MESSAGE_HANDLER(WM_COPYDATA, TMessage, EvWmCOPYDATA);
 	END_MESSAGE_MAP(TForm);
 
-	//タスクバーにプログレスバー表示 （Win7）
-	ITaskbarList3 *tskpbr;
+	ITaskbarList3 *tskpbr;           //タスクバーにプログレスバー表示 （Win7）
 
-	//投げ込まれたファイルリスト
-	TStringList *FileList;
-	//ファイルがどこまで処理されたか
-	int FileListPosition;
+	TStringList *FileList;           //投げ込まれたファイルリスト
+	int FileListPosition;            //ファイルがどこまで処理されたか
 
-	//パスワードの再入力
-	String RetryAtcFilePath;
+  __int64 DecryptAllTotalSize;     //復号されたファイルの合計サイズ
+
+	String RetryAtcFilePath;         //パスワードの再入力
 	int RetryNum;
 
-	//パスワードファイルパス
-	String PasswordFilePath;
+	String PasswordFilePath;         //パスワードファイルパス
 	String ConfirmPasswordFilePath;
+
+	//-----------------------------------
+	// 関数
+	//-----------------------------------
 
 	// ファイル/フォルダの暗号化処理
 	void __fastcall FileEncrypt(void);
@@ -220,25 +256,26 @@ private:	// ユーザー宣言
 
 	// サイドメニューを描画する
 	void __fastcall PaintSideMenu(void);
-	//タブシートの選択
+	// タブシートの選択
 	void __fastcall PageControlActiveSheet(TTabSheet *tb);
 
-
-	//ファイルの判別を行い処理を分けて実行
+	// ファイルの判別を行い処理を分けて実行
 	void __fastcall DoExecute(TStringList *ExeFileList);
-	//完全削除処理実行（デバッグ用）
-	void __fastcall DoDeleteFile(TStringList *DelFileList);
-	//フォーム内コンポーネントを配置する
-	void __fastcall SetFormComponent(TObject *Sender);
+	// 完全削除処理実行
+	void __fastcall DoDeleteFile(String DelFileListString, __int64 DelTotalSize);
 
 	// 暗号化ファイルのヘッダ判定（すべてATCファイルなら真を返す）
 	bool __fastcall CheckAtcFileHeader(TStringList *AtcFileList);
-
-	//暗号化ファイルを破壊する
+	// 暗号化ファイルを破壊する
 	bool __fastcall DestroyAtcFile(String AtcFilePath);
 
+	// ファイルリストにあるフォルダからすべてをファイルパスに展開する
+	void __fastcall ExpandFileList(TStringList *ExpandFileList);
+	// ディレクトリ内にあるファイルリストを取得する
+	void __fastcall GetFileListInDirectroy(String DirPath, TStringList *ResultList);
 
-
+	// フォーム内コンポーネントを配置する
+	void __fastcall SetFormComponent(TObject *Sender);
 
 
 

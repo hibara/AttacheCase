@@ -1,29 +1,38 @@
-﻿/*
+﻿//===========================================================================
+/*
 
-'AttacheCase' - file encryption software for Windows.
+アタッシェケース（AttachéCase）
+Copyright (c) 2002-2013, Mitsuhiro Hibara ( http://hibara.org )
+All rights reserved.
 
-TAttacheCaseFileEncrypt Class file.
+Redistribution and use in source and binary forms,
+with or without modification, are permitted provided that the following
+conditions are met:
 
-Copyright (C) 2012 M.Hibara, All rights reserved.
-http://hibara.org/
+・Redistributions of source code must retain the above copyright
+	notice, this list of conditions and the following disclaimer.
+・Redistributions in binary form must reproduce the above copyright
+	notice, this list of conditions and the following disclaimer
+	in the documentation and/or other materials provided with the
+	distribution.
+・Neither the name of the "HIBARA.ORG" nor the names of its
+	contributors  may be used to endorse or promote products derived
+	from this software without specific prior written permission.
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 3 of the License, or (at
-your option) any later version.
-
-This program is distributed in the hope that it will be useful, but
-WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program. If not, see
-
-http://www.gnu.org/licenses/
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
-//---------------------------------------------------------------------------
+//===========================================================================
 
 #include <vcl.h>
 
@@ -56,7 +65,6 @@ __fastcall TAttacheCaseFileEncrypt::TAttacheCaseFileEncrypt
 	//オプション（デフォルト値）
 	CompressRateNum = Z_DEFAULT_COMPRESSION; //圧縮率
 	fOver4gbOk = true;                       //4GB超を許可
-	fAllFilesPackOption = false;             //すべてのファイルを１つにまとめる
 	fExeOutputOption = false;                //実行形式出力
 	fOptBrokenFileOption = false;            //ミスタイプでファイルを破壊するか否か
 	intOptMissTypeLimitsNumOption = 3;       //タイプミスできる回数
@@ -71,6 +79,7 @@ __fastcall TAttacheCaseFileEncrypt::TAttacheCaseFileEncrypt
 
 	OutFilePath = "";                        //出力する暗号化ファイル
 	InputFileList = new TStringList;         //暗号化する元ファイルリスト
+	FilePathList = new TStringList;          //ヘッダ生成時に展開されるファイルリスト
 
 	for (i = 0; i < 32; i++) {
 		key[i] = 0;
@@ -88,6 +97,7 @@ __fastcall TAttacheCaseFileEncrypt::~TAttacheCaseFileEncrypt(void)
 {
 
 delete InputFileList;
+delete FilePathList;
 
 }
 //===========================================================================
@@ -121,8 +131,8 @@ __int64 ExeAllSize = 0;
 __int64 ExeSize    = 0;
 
 //全体のファイルサイズ
-__int64 AllTotalSize = 0;
-__int64 TotalSize    = 0;
+AllTotalSize = 0;
+__int64 TotalSize = 0;
 
 //バッファ
 char source_buffer[BUF_SIZE];
@@ -141,7 +151,6 @@ bool fOpenIn;
 bool fOpenOut;
 //メモリストリーム
 TMemoryStream *pms = new TMemoryStream;
-TStringList *FilePathList = new TStringList;
 
 // マージンバッファサイズ
 int MarginBufSize = MARGIN_BUF_SIZE;
@@ -646,8 +655,6 @@ if ( fKeepTimeStamp == true && first_fd.cFileName[0] != NULL ) {
 	}
 }
 
-delete FilePathList;
-
 StatusNum = 1;
 return;
 
@@ -680,7 +687,6 @@ LabelError:
 		delete fsOut;
 	}
 
-	delete FilePathList;
 	StatusNum = -1;
 
 	return;
@@ -704,7 +710,6 @@ LabelStop:
 		delete fsOut;
 	}
 
-	delete FilePathList;
 	StatusNum = -2;
 
 	return;
@@ -827,7 +832,7 @@ for ( i = 0; i < FileList->Count; i++ ){
 		DirPath = ExtractFileDir(FileList->Strings[i]);
 		FileName = ExtractFileName(FileList->Strings[i]);
 		ProgressMsgText = FileName;      //処理中のファイル名
-		AllTotalFileSize =
+		AllTotalFileSize +=
 			GetFileInfoList(Index, DirPath, FileName, FileList->Strings[i], FilePathList, HeaderDataList);
 	}
 	//ディレクトリ
@@ -838,7 +843,7 @@ for ( i = 0; i < FileList->Count; i++ ){
 		//トップディレクトリ
 		GetFileInfoList(Index, DirPath, FileName, FileList->Strings[i], FilePathList, HeaderDataList);
 		//その配下
-		AllTotalFileSize =
+		AllTotalFileSize +=
 			GetFileInfoList(Index, FileList->Strings[i], "", FileList->Strings[i], FilePathList, HeaderDataList);
 	}
 

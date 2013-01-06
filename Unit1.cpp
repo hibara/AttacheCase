@@ -1,5 +1,38 @@
-﻿//---------------------------------------------------------------------------
+﻿//===========================================================================
+/*
 
+アタッシェケース（AttachéCase）
+Copyright (c) 2002-2013, Mitsuhiro Hibara ( http://hibara.org )
+All rights reserved.
+
+Redistribution and use in source and binary forms,
+with or without modification, are permitted provided that the following
+conditions are met:
+
+・Redistributions of source code must retain the above copyright
+	notice, this list of conditions and the following disclaimer.
+・Redistributions in binary form must reproduce the above copyright
+	notice, this list of conditions and the following disclaimer
+	in the documentation and/or other materials provided with the
+	distribution.
+・Neither the name of the "HIBARA.ORG" nor the names of its
+	contributors  may be used to endorse or promote products derived
+	from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+*/
+//===========================================================================
 #include <vcl.h>
 #pragma hdrstop
 
@@ -184,7 +217,9 @@ PaintSideMenu();
 //---------------------------------------------------------------------------
 void __fastcall TForm1::FormCreate(TObject *Sender)
 {
+
 //
+
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::FormDestroy(TObject *Sender)
@@ -209,10 +244,9 @@ else{
 
 //全設定を保存する
 opthdl->SaveOptionData();
-
 delete opthdl;
 
-delete FileList;  //処理するファイルリスト
+delete FileList;    //処理するファイルリスト
 
 
 //-----------------------------------
@@ -243,8 +277,15 @@ RegisterDragDrop(Form1->Handle, (IDropTarget*)DragAndDropTarget);
 
 //コマンドライン引数にファイルが投げ込まれてきている
 if ( FileList->Count > 0 ) {
+
+	//フォルダ内のファイルは個別に暗号化/復号する
+	if (opthdl->fFilesOneByOne == true ) {
+		ExpandFileList(FileList);
+	}
+
 	//暗号化/復号処理を自動判定し実行する
 	DoExecute(FileList);
+
 }
 else{
 	//メインパネルを通常表示
@@ -515,8 +556,6 @@ PaintBoxMain->Canvas->Draw(
 	imgDropFileIn->Picture->Icon);
 
 
-
-
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::PaintBoxMainMouseLeave(TObject *Sender)
@@ -748,6 +787,10 @@ if ( PageControl1->ActivePage == TabSheetMain ) {
 	//-----------------------------------
 	if (FileList->Count > 0) {
 		Form1->Caption = ExtractFileName(FileList->Strings[0]) + " - " + Application->Title;
+		//フォルダ内のファイルは個別に暗号化/復号する
+		if (opthdl->fFilesOneByOne == true ) {
+			ExpandFileList(FileList);
+		}
 		DoExecute(FileList);
 	}
 
@@ -929,6 +972,74 @@ for (i = 0; i < AtcFileList->Count; i++) {
 }//end for (i = 0; i < AtcFileList->Count; i++);
 
 return(fDecrypt);
+
+}
+//---------------------------------------------------------------------------
+// ファイルリストにあるフォルダからすべてをファイルパスに展開する
+//---------------------------------------------------------------------------
+void __fastcall TForm1::ExpandFileList(TStringList *ExpandFileList)
+{
+
+String FilePath;
+TStringList *ResultList = new TStringList;
+
+for (int i = 0; i < ExpandFileList->Count; i++) {
+
+	FilePath = ExpandFileList->Strings[i];
+
+	if (FileExists(FilePath) == true ) {
+		ResultList->Add(FilePath);
+	}
+	else if (DirectoryExists(FilePath) == true ){
+		//ディレクトリパスをファイルパスリストに置き換える
+		GetFileListInDirectroy(FilePath, ResultList);
+	}
+}
+
+ExpandFileList->Text = ResultList->Text;
+
+delete ResultList;
+
+}
+//---------------------------------------------------------------------------
+// ディレクトリ内にあるファイルリストを取得する
+//---------------------------------------------------------------------------
+void __fastcall TForm1::GetFileListInDirectroy(String DirPath, TStringList *ResultList)
+{
+
+int ret;
+TSearchRec sr;
+String FilePath;
+
+ret = FindFirst(IncludeTrailingPathDelimiter(DirPath)+"*", faAnyFile, sr);
+
+while (ret == 0) {
+
+	if (sr.Name != "." && sr.Name != "..") {
+
+		FilePath = IncludeTrailingPathDelimiter(DirPath) + sr.Name;
+
+		//-----------------------------------
+		//ディレクトリ
+		if (sr.Attr & faDirectory) {
+			//再帰呼び出し
+			GetFileListInDirectroy(FilePath, ResultList);
+		}
+		//-----------------------------------
+		//ファイル
+		else{
+			ResultList->Add(FilePath);
+		}
+		//-----------------------------------
+
+	}//end if;
+
+	ret = FindNext(sr);
+
+}//while;
+
+FindClose(sr);
+
 
 }
 //---------------------------------------------------------------------------
@@ -1141,6 +1252,9 @@ if ( CryptTypeNum == TYPE_CRYPT_ENCRYPT ) {
 //-----------------------------------
 else if ( CryptTypeNum == TYPE_CRYPT_DECRYPT) {
 
+	//復号されるファイルの合計サイズ
+	DecryptAllTotalSize = 0;
+
 	//記憶パスワードで即座に実行する
 	if ( opthdl->fMemPasswordExe == true && opthdl->fMyDecodePasswordKeep == true) {
 		//実行パネル表示
@@ -1211,7 +1325,7 @@ else {
 //---------------------------------------------------------------------------
 //完全削除処理実行
 //---------------------------------------------------------------------------
-void __fastcall TForm1::DoDeleteFile(TStringList *DelFileList)
+void __fastcall TForm1::DoDeleteFile(String DelFileListString, __int64 DelTotalSize)
 {
 
 //実行パネル表示
@@ -1222,7 +1336,8 @@ cmpdel = new TAttacheCaseDelete(true);
 cmpdel->OnTerminate = DeleteThreadTerminated;
 cmpdel->FreeOnTerminate = true;
 
-cmpdel->DeleteFileList = DelFileList;
+cmpdel->DeleteFileList->Text = DelFileListString;
+cmpdel->TotalFileSize = DelTotalSize;
 cmpdel->Opt = opthdl->fCompleteDelete;     // 0:通常削除, 1:完全削除, 2:ゴミ箱
 cmpdel->RandClearNum = opthdl->DelRandNum; //完全削除（乱数書き込み回数）
 cmpdel->ZeroClearNum = opthdl->DelZeroNum; //完全削除（NULL書き込み回数）
@@ -1241,10 +1356,418 @@ TimerDelete->Enabled = true;
 
 }
 //---------------------------------------------------------------------------
+// ファイル/フォルダの暗号化処理
+//---------------------------------------------------------------------------
+void __fastcall TForm1::FileEncrypt(void)
+{
+
+int i;
+
+AnsiString Password;
+char password[32];
+
+for (i = 0; i < 32; i++) {
+	password[i] = NULL;
+}
+
+AnsiString PasswordFileHash, PasswordFileHeader;
+
+String MsgText;
+String DirPath, FilePath, FileName, Extension;
+TStringList *InputFileList = new TStringList;
+
+//-----------------------------------
+// ディレクトリ
+//-----------------------------------
+if ( opthdl->fSaveToSameFldr == true ) {
+	//暗号化ファイルを常に同じ場所に保存するか
+	DirPath = opthdl->SaveToSameFldrPath;
+}
+else{
+	DirPath = ExtractFileDir(FileList->Strings[FileListPosition]);
+}
+
+if ( DirectoryExists(DirPath) == false ) {
+	//'保存する先のフォルダーが見つかりません。保存設定を再確認してください。'+#13+
+	//'暗号化を中止します。';
+	MsgText = LoadResourceString(&Msgunit1::_MSG_ERROR_SAVE_ENC_TO_FOLDER_NOT_EXISTS)+"\n"+
+						DirPath;
+	MessageDlg(MsgText, mtError, TMsgDlgButtons() << mbOK, 0);
+	//エラー終了表示
+	ProgressBar1->Position = 0;
+	lblProgressPercentNum->Caption = " - %";
+	//'キャンセル'
+	lblStatus->Caption = LoadResourceString(&Msgunit1::_LABEL_STATUS_TITLE_USER_CANCEL);
+	//'暗号化が中止されました。'
+	lblMsg->Caption = LoadResourceString(&Msgunit1::_LABEL_STATUS_DETAIL_STOPPED_ENCRYPT);
+	delete InputFileList;
+	return;
+}
+
+//-----------------------------------
+// ファイル名
+//-----------------------------------
+
+FileName = ExtractFileName(FileList->Strings[FileListPosition]);
+
+//複数のファイルを暗号化する際は一つにまとめる
+if ( opthdl->fAllFilePack == true && FileList->Count > 1){
+
+	if ( opthdl->fAutoName == false) {
+
+		SaveDialog1->InitialDir = DirPath;
+		SaveDialog1->FileName = ChangeFileExt(FileName, "");
+		Extension = ExtractFileExt(FileList->Strings[FileListPosition]);
+		// FilterIndex
+		if ( chkExeFileOutConf->Checked == true ){
+			SaveDialog1->FilterIndex = 2;  //".EXE"
+		}
+		else{
+			SaveDialog1->FilterIndex = 1;	 //".ATC"
+		}
+
+		//保存ダイアログ表示
+		if ( SaveDialog1->Execute() == true ){
+			FilePath = SaveDialog1->FileName;
+			DirPath = ExtractFileDir(FilePath);
+			FileName = ExtractFileName(FilePath);
+		}
+		else{
+			//キャンセル終了表示
+			ProgressBar1->Position = 0;
+			lblProgressPercentNum->Caption = " - %";
+			//'キャンセル'
+			lblStatus->Caption = LoadResourceString(&Msgunit1::_LABEL_STATUS_TITLE_USER_CANCEL);
+			//'暗号化が中止されました。'
+			lblMsg->Caption = LoadResourceString(&Msgunit1::_LABEL_STATUS_DETAIL_STOPPED_ENCRYPT);
+			delete InputFileList;
+			return;
+		}
+
+	}
+
+	//まとめるのでそのままファイルリストを暗号化処理につっこむ
+	FileListPosition = FileList->Count-1;
+	InputFileList = FileList;
+
+}
+//-----------------------------------
+//個別にファイルを暗号化する
+//-----------------------------------
+else{
+
+	InputFileList->Add(FileList->Strings[FileListPosition]);
+
+}
+
+//-----------------------------------
+//出力ファイル（暗号化ファイル）パスをつくる
+//-----------------------------------
+
+//暗号化ファイルの拡張子を偽装する
+if ( opthdl->fAddCamoExt == true ){
+	Extension = opthdl->CamoExt;
+}
+//実行可能形式
+else if ( chkExeFileOutConf->Checked == true ){
+	Extension = ".exe";
+}
+//通常の暗号化ファイル
+else{
+	Extension = ".atc";
+}
+
+//-----------------------------------
+//暗号化ファイル名に拡張子を含める
+//-----------------------------------
+if ( opthdl->fExtInAtcFileName == true ) {
+	FilePath = IncludeTrailingPathDelimiter(DirPath) + FileName + Extension;
+}
+else{
+	FilePath = IncludeTrailingPathDelimiter(DirPath) + ChangeFileExt(FileName, Extension);
+}
+
+//-----------------------------------
+//自動で暗号化ファイル名を付加する
+//-----------------------------------
+if ( opthdl->fAutoName == true ) {
+	FilePath = opthdl->InterpretFormatTextToFilePath(FilePath, opthdl->AutoNameFormatText);
+}
+
+//-----------------------------------
+//暗号化インスタンスの作成
+//-----------------------------------
+encrypt = new TAttacheCaseFileEncrypt(true);
+
+encrypt->OnTerminate = EncryptThreadTerminated;
+encrypt->FreeOnTerminate = true;
+//暗号化オプションをそれぞれセットする
+encrypt->OutFilePath = FilePath;                                   //出力する暗号化ファイル
+encrypt->InputFileList->Text = InputFileList->Text;                //暗号化する元ファイルリスト
+encrypt->CompressRateNum = opthdl->CompressRate;                   //圧縮率
+encrypt->fOver4gbOk = opthdl->fOver4GBok;                          //4GB超を許可
+encrypt->fExeOutputOption = chkExeFileOutConf->Checked;            //実行形式出力
+encrypt->fOptBrokenFileOption = opthdl->fBroken;                   //ミスタイプでファイルを破壊するか否か
+encrypt->fConfirmOverwirte = opthdl->fConfirmOverwirte;            //同名ファイルがあるときは上書きの確認をする
+encrypt->intOptMissTypeLimitsNumOption = opthdl->MissTypeLimitsNum;//タイプミスできる回数
+encrypt->AppExeFilePath = Application->ExeName;	                   //アタッシェケース本体の場所（実行形式出力のときに参照する）
+
+Form1->Caption = ExtractFileName(FilePath) + " - " + Application->Title;
+
+//パスワードファイルを使用するか
+if ( PasswordFilePath != "") {
+
+	//SHA-1ハッシュを求める
+	if ( opthdl->GetSHA1HashFromFile(PasswordFilePath, PasswordFileHash, PasswordFileHeader ) == true ){
+		StrLCopy(password, PasswordFileHash.c_str(), 32);
+		encrypt->SetPasswordBinary(password);
+	}
+	else{
+		//オプションでパスワードファイルがない場合エラーを出すように設定している
+		if ( opthdl->fNoErrMsgOnPassFile == false ) {
+			//'パスワードファイルを開けません。他のアプリケーションで使用中の可能性があります。';
+			MsgText = LoadResourceString(&Msgunit1::_MSG_ERROR_OPEN_PASSWORD_FILE)+"\n"+
+								opthdl->PassFilePathDecrypt;
+			MessageDlg(MsgText, mtError, TMsgDlgButtons() << mbOK, 0);
+		}
+		return;
+	}
+
+}
+else{
+	//テキストボックスの内容をパスワードにする
+	Password = (AnsiString)txtPasswordConfirm->Text;
+	StrLCopy(password, Password.c_str(), 32);
+	encrypt->SetPasswordBinary(password);
+}
+
+//タスクバー進捗表示（Win7）失敗した場合は無視
+if(CoCreateInstance(CLSID_TaskbarList, NULL, CLSCTX_ALL, IID_ITaskbarList3, (void**)&tskpbr) == S_OK) {
+	tskpbr->SetProgressState(this->Handle, TBPF_NORMAL);
+}
+
+//進捗をTimerで監視
+TimerEncrypt->Enabled = true;
+
+//暗号化の実行
+encrypt->Start();
+
+
+}
+//---------------------------------------------------------------------------
+// ファイルを復号する処理
+//---------------------------------------------------------------------------
+void __fastcall TForm1::FileDecrypt(void)
+{
+
+int i;
+
+String MsgText;
+
+AnsiString Password;
+char password[32];
+
+for (i = 0; i < 32; i++) {
+	password[i] = NULL;
+}
+
+AnsiString PasswordFileHash, PasswordFileHeader;
+
+String AtcFilePath;
+String OutDirPath;
+
+//親フォルダを生成しない
+//if ( fNoParentFldr == true  )
+
+//-----------------------------------
+//保存先のディレクトリ
+//-----------------------------------
+if ( opthdl->fDecodeToSameFldr == true ) {
+	//常に同じ場所に復号するか
+	OutDirPath = opthdl->DecodeToSameFldrPath;
+}
+else{
+	OutDirPath = ExtractFileDir(FileList->Strings[0]);
+}
+
+if ( DirectoryExists(OutDirPath) == false ) {
+	//'保存する先のフォルダーが見つかりません。保存設定を再確認してください。'+#13+
+	//'復号処理化を中止します。';
+	MsgText = LoadResourceString(&Msgunit1::_MSG_ERROR_SAVE_DEC_TO_FOLDER_NOT_EXISTS)+"\n"+
+						OutDirPath;
+	MessageDlg(MsgText, mtError, TMsgDlgButtons() << mbOK, 0);
+	//エラー終了表示
+	ProgressBar1->Position = 0;
+	lblProgressPercentNum->Caption = " - %";
+	//'キャンセル'
+	lblStatus->Caption = LoadResourceString(&Msgunit1::_LABEL_STATUS_TITLE_USER_CANCEL);
+	//'復号が中止されました。'
+	lblMsg->Caption = LoadResourceString(&Msgunit1::_LABEL_STATUS_DETAIL_STOPPED_DECRYPT);
+	return;
+
+}
+
+//-----------------------------------
+// 復号処理の開始
+//-----------------------------------
+
+if ( FileList->Count > 0) {
+
+	//-----------------------------------
+	//復号処理インスタンスの作成
+	//-----------------------------------
+
+	AtcFilePath = FileList->Strings[FileListPosition];
+
+	decrypt = new TAttacheCaseFileDecrypt2(true);
+	decrypt->OnTerminate = DecryptThreadTerminated;
+	decrypt->FreeOnTerminate = false;
+	decrypt->AppExeFilePath = Application->ExeName;  //アタッシェケース本体の場所（実行形式出力のときに参照する）
+	decrypt->AtcFilePath = AtcFilePath;              //入力する暗号化ファイルパス
+	decrypt->OutDirPath = OutDirPath;                //出力するディレクトリ
+
+	decrypt->fOpenFolder = opthdl->fOpenFolder;             //フォルダの場合に復号後に開くか
+	decrypt->fOpenFile = opthdl->fOpenFile;                 //復号したファイルを関連付けされたソフトで開く
+	decrypt->fConfirmOverwirte = opthdl->fConfirmOverwirte; //同名ファイルの上書きを確認するか
+
+	if (AtcFilePath == RetryAtcFilePath) {
+		decrypt->NumOfTrials = RetryNum;
+	}
+
+	Form1->Caption = ExtractFileName(AtcFilePath) + " - " + Application->Title;
+
+	//-----------------------------------
+	//パスワードのセット
+	//-----------------------------------
+
+	//パスワードファイルを使用するか
+	if ( PasswordFilePath != "") {
+
+		//SHA-1ハッシュを求める
+		if ( opthdl->GetSHA1HashFromFile(PasswordFilePath, PasswordFileHash, PasswordFileHeader ) == true ){
+			StrLCopy(password, PasswordFileHash.c_str(), 32);
+			decrypt->SetPasswordBinary(password);
+		}
+		else{
+			//オプションでパスワードファイルがない場合エラーを出すように設定している
+			if ( opthdl->fNoErrMsgOnPassFile == false ) {
+				//'パスワードファイルを開けません。他のアプリケーションで使用中の可能性があります。';
+				MsgText = LoadResourceString(&Msgunit1::_MSG_ERROR_OPEN_PASSWORD_FILE)+"\n"+
+									opthdl->PassFilePathDecrypt;
+				MessageDlg(MsgText, mtError, TMsgDlgButtons() << mbOK, 0);
+			}
+		}
+
+	}
+	else{
+		//テキストボックスの内容をパスワードにする
+		Password = (AnsiString)txtDecryptPassword->Text;
+		StrLCopy(password, Password.c_str(), 32);
+		decrypt->SetPasswordBinary(password);
+	}
+
+	//復号の実行
+	decrypt->Start();
+
+	//タスクバー進捗表示（Win7）
+	if(CoCreateInstance(CLSID_TaskbarList, NULL, CLSCTX_ALL, IID_ITaskbarList3, (void**)&tskpbr) != S_OK) {
+		//失敗
+	}
+	if (tskpbr){
+		tskpbr->SetProgressState(this->Handle, TBPF_NORMAL);
+	}
+
+	//進捗をTimerで監視
+	TimerDecrypt->Enabled = true;
+
+}
+
+
+}
+//---------------------------------------------------------------------------
+// ファイルをコンペアする処理（とは言っても実際は復号処理）
+//---------------------------------------------------------------------------
+void __fastcall TForm1::FileCompare(void)
+{
+
+int i;
+char password[32];
+
+for (i = 0; i < 32; i++) {
+	password[i] = NULL;
+}
+
+String MsgText;
+
+String AtcFilePath;
+String OutDirPath;
+
+//-----------------------------------
+// コンペア処理の開始
+//-----------------------------------
+if (FileListPosition > FileList->Count - 1) {
+	return;
+}
+
+//-----------------------------------
+// コンペア処理の開始
+//-----------------------------------
+
+// この処理の前に暗号化処理を行っているか
+//（暗号化インスタンスがあるか）
+if ( encrypt == NULL) {
+	//'コンペアする暗号化ファイルまたはフォルダーが見つかりません。'+#13+
+	//'コンペアに失敗しました。';
+	MsgText = LoadResourceString(&Msgunit1::_MSG_ERROR_NOT_EXISTS_COMPAER_FIlE);
+	MessageDlg(MsgText, mtError, TMsgDlgButtons() << mbOK, 0);
+	return;
+}
+
+AtcFilePath = FileList->Strings[FileListPosition];
+
+//復号処理インスタンスの作成
+decrypt = new TAttacheCaseFileDecrypt2(true);
+
+decrypt->fCompare = true;	//コンペア
+decrypt->CompareFileList->Text = encrypt->InputFileList->Text;
+
+decrypt->OnTerminate = DecryptThreadTerminated;
+decrypt->FreeOnTerminate = true;
+decrypt->AppExeFilePath = Application->ExeName;  //アタッシェケース本体の場所（実行形式出力のときに参照する）
+decrypt->AtcFilePath = AtcFilePath;              //入力する暗号化ファイルパス
+decrypt->OutDirPath = "";                        //出力するディレクトリ
+
+//-----------------------------------
+//パスワードのセット
+//-----------------------------------
+encrypt->GetPasswordBinary(password);
+decrypt->SetPasswordBinary(password);
+
+//コンペア（復号）の実行
+decrypt->Start();
+
+//タスクバー進捗表示（Win7）
+if(CoCreateInstance(CLSID_TaskbarList, NULL, CLSCTX_ALL, IID_ITaskbarList3, (void**)&tskpbr) != S_OK) {
+	//失敗
+}
+if (tskpbr){
+	tskpbr->SetProgressState(this->Handle, TBPF_NORMAL);
+}
+
+//進捗をTimerで監視
+TimerDecrypt->Enabled = true;
+
+
+}
+//---------------------------------------------------------------------------
 //暗号化処理スレッドの終了
 //---------------------------------------------------------------------------
 void __fastcall TForm1::EncryptThreadTerminated(TObject *Sender)
 {
+
+//削除機能
+String DelFileListString;
+__int64 DelFileTotalSize;
 
 ProgressBar1->Style = pbstNormal;
 
@@ -1269,13 +1792,21 @@ if(tskpbr){
 //暗号化成功
 if ( encrypt->StatusNum > 0 ) {
 
+	//暗号化処理終了
+	TimerEncrypt->Enabled = false;
+	if ( chkDeleteSourceDataConf->Checked == true ) {
+		DelFileTotalSize = encrypt->AllTotalSize;
+		DelFileListString = encrypt->FilePathList->Text;	//処理したファイルリストを削除リストに
+	}
+	encrypt = NULL;
+
+	FileListPosition++;
+
 	//コンペア
 	if ( opthdl->fCompareFile == true && FileListPosition < FileList->Count ){
 		FileCompare();
 		return;
 	}
-
-	FileListPosition++;
 
 	//個別に暗号化するオプションでまだ処理するファイルが残っている
 	if (FileListPosition < FileList->Count) {
@@ -1283,13 +1814,9 @@ if ( encrypt->StatusNum > 0 ) {
 		return;
 	}
 
-	//暗号化処理終了
-	TimerEncrypt->Enabled = false;
-	encrypt = NULL;
-
 	//元ファイルの削除処理
 	if ( chkDeleteSourceDataConf->Checked == true ) {
-		DoDeleteFile(FileList);
+		DoDeleteFile(DelFileListString, DelFileTotalSize);
 		return;
 	}
 
@@ -1304,6 +1831,7 @@ if ( encrypt->StatusNum > 0 ) {
 }
 else{
 	//エラーで終了してきた
+	TimerEncrypt->Enabled = false;
 	encrypt = NULL;
 }
 
@@ -1333,6 +1861,9 @@ TimerDecrypt->Enabled = false;
 //復号に成功
 if ( decrypt->StatusNum > 0 ) {
 
+	//復号処理終了
+	TimerDecrypt->Enabled = false;
+	DecryptAllTotalSize += decrypt->AllTotalSize;
 	FileListPosition++;
 
 	//コンペアしてきた
@@ -1342,19 +1873,17 @@ if ( decrypt->StatusNum > 0 ) {
 		return;
 	}
 
+	decrypt = NULL;
+
 	//個別に暗号化するオプションでまだ処理するファイルが残っている
 	if (FileListPosition < FileList->Count) {
 		FileDecrypt();
 		return;
 	}
 
-	//復号処理終了
-	TimerDecrypt->Enabled = false;
-	decrypt = NULL;
-
 	//暗号化ファイルの削除処理
 	if ( chkDeleteAtcData->Checked == true ) {
-		DoDeleteFile(FileList);
+		DoDeleteFile(FileList->Text, DecryptAllTotalSize);
 		return;
 	}
 
@@ -1362,10 +1891,10 @@ if ( decrypt->StatusNum > 0 ) {
 	if ( opthdl->fEndToExit == true ) {
 		Application->Terminate();
 	}
-
-	// "Cancel" → "OK"
-	cmdCancel->Caption = "&OK";
-
+	else{
+		// "Cancel" → "OK"
+		cmdCancel->Caption = "&OK";
+	}
 
 }
 //-----------------------------------
@@ -1439,6 +1968,8 @@ if(tskpbr){
 	tskpbr = NULL;
 }
 
+TimerDelete->Enabled = false;
+
 //-----------------------------------
 //削除処理に失敗
 if ( cmpdel->StatusNum < 0 ) {
@@ -1448,18 +1979,17 @@ if ( cmpdel->StatusNum < 0 ) {
 	MessageDlg(MsgText, mtError, TMsgDlgButtons() << mbOK, 0);
 }
 
-//削除処理の終了
-cmpdel = NULL;
-TimerDelete->Enabled = false;
-
 //処理後に終了する
 if ( opthdl->fEndToExit == true && cmpdel->StatusNum > -1) {
+	//削除処理の終了
+	cmpdel = NULL;
 	Application->Terminate();
 }
-
-// "Cancel" → "OK"
-cmdCancel->Caption = "&OK";
-
+else{
+	// "Cancel" → "OK"
+	cmdCancel->Caption = "&OK";
+	cmpdel = NULL;
+}
 
 }
 //---------------------------------------------------------------------------
@@ -1872,413 +2402,6 @@ FileEncrypt();
 
 }
 //---------------------------------------------------------------------------
-// ファイル/フォルダの暗号化処理
-//---------------------------------------------------------------------------
-void __fastcall TForm1::FileEncrypt(void)
-{
-
-int i;
-
-AnsiString Password;
-char password[32];
-
-for (i = 0; i < 32; i++) {
-	password[i] = NULL;
-}
-
-AnsiString PasswordFileHash, PasswordFileHeader;
-
-String MsgText;
-String DirPath, FilePath, FileName, Extension;
-TStringList *InputFileList = new TStringList;
-
-//-----------------------------------
-// ディレクトリ
-//-----------------------------------
-if ( opthdl->fSaveToSameFldr == true ) {
-	//暗号化ファイルを常に同じ場所に保存するか
-	DirPath = opthdl->SaveToSameFldrPath;
-}
-else{
-	DirPath = ExtractFileDir(FileList->Strings[0]);
-}
-
-if ( DirectoryExists(DirPath) == false ) {
-	//'保存する先のフォルダーが見つかりません。保存設定を再確認してください。'+#13+
-	//'暗号化を中止します。';
-	MsgText = LoadResourceString(&Msgunit1::_MSG_ERROR_SAVE_ENC_TO_FOLDER_NOT_EXISTS)+"\n"+
-						DirPath;
-	MessageDlg(MsgText, mtError, TMsgDlgButtons() << mbOK, 0);
-	//エラー終了表示
-	ProgressBar1->Position = 0;
-	lblProgressPercentNum->Caption = " - %";
-	//'キャンセル'
-	lblStatus->Caption = LoadResourceString(&Msgunit1::_LABEL_STATUS_TITLE_USER_CANCEL);
-	//'暗号化が中止されました。'
-	lblMsg->Caption = LoadResourceString(&Msgunit1::_LABEL_STATUS_DETAIL_STOPPED_ENCRYPT);
-	delete InputFileList;
-	return;
-}
-
-//-----------------------------------
-// ファイル名
-//-----------------------------------
-
-FileName = ExtractFileName(FileList->Strings[0]);
-
-//複数のファイルを暗号化する際は一つにまとめる
-if ( opthdl->fAllFilePack == true && FileList->Count > 1){
-
-	if ( opthdl->fAutoName == false) {
-
-		SaveDialog1->InitialDir = DirPath;
-		SaveDialog1->FileName = ChangeFileExt(FileName, "");
-		Extension = ExtractFileExt(FileList->Strings[0]);
-		// FilterIndex
-		if ( chkExeFileOutConf->Checked == true ){
-			SaveDialog1->FilterIndex = 2;  //".EXE"
-		}
-		else{
-			SaveDialog1->FilterIndex = 1;	 //".ATC"
-		}
-
-		//保存ダイアログ表示
-		if ( SaveDialog1->Execute() == true ){
-			FilePath = SaveDialog1->FileName;
-			DirPath = ExtractFileDir(FilePath);
-			FileName = ExtractFileName(FilePath);
-		}
-		else{
-			//キャンセル終了表示
-			ProgressBar1->Position = 0;
-			lblProgressPercentNum->Caption = " - %";
-			//'キャンセル'
-			lblStatus->Caption = LoadResourceString(&Msgunit1::_LABEL_STATUS_TITLE_USER_CANCEL);
-			//'暗号化が中止されました。'
-			lblMsg->Caption = LoadResourceString(&Msgunit1::_LABEL_STATUS_DETAIL_STOPPED_ENCRYPT);
-			delete InputFileList;
-			return;
-		}
-
-	}
-
-	//まとめるのでそのままファイルリストを暗号化処理につっこむ
-	FileListPosition = FileList->Count;
-	InputFileList = FileList;
-
-}
-//-----------------------------------
-//個別にファイルを暗号化する
-//-----------------------------------
-else{
-
-	InputFileList->Add(FileList->Strings[FileListPosition]);
-	FileListPosition++;
-
-}
-
-//-----------------------------------
-//出力ファイル（暗号化ファイル）パスをつくる
-//-----------------------------------
-
-//暗号化ファイルの拡張子を偽装する
-if ( opthdl->fAddCamoExt == true ){
-	Extension = opthdl->CamoExt;
-}
-//実行可能形式
-else if ( chkExeFileOutConf->Checked == true ){
-	Extension = ".exe";
-}
-//通常の暗号化ファイル
-else{
-	Extension = ".atc";
-}
-
-//-----------------------------------
-//暗号化ファイル名に拡張子を含める
-//-----------------------------------
-if ( opthdl->fExtInAtcFileName == true ) {
-	FilePath = IncludeTrailingPathDelimiter(DirPath) + FileName + Extension;
-}
-else{
-	FilePath = IncludeTrailingPathDelimiter(DirPath) + ChangeFileExt(FileName, Extension);
-}
-
-//-----------------------------------
-//自動で暗号化ファイル名を付加する
-//-----------------------------------
-if ( opthdl->fAutoName == true ) {
-	FilePath = opthdl->InterpretFormatTextToFilePath(FilePath, opthdl->AutoNameFormatText);
-}
-
-//-----------------------------------
-//暗号化インスタンスの作成
-//-----------------------------------
-encrypt = new TAttacheCaseFileEncrypt(true);
-
-encrypt->OnTerminate = EncryptThreadTerminated;
-encrypt->FreeOnTerminate = true;
-//暗号化オプションをそれぞれセットする
-encrypt->OutFilePath = FilePath;                                   //出力する暗号化ファイル
-encrypt->InputFileList = InputFileList;                            //暗号化する元ファイルリスト
-encrypt->CompressRateNum = opthdl->CompressRate;                   //圧縮率
-encrypt->fOver4gbOk = opthdl->fOver4GBok;                          //4GB超を許可
-encrypt->fAllFilesPackOption = opthdl->fAllFilePack;               //すべてのファイルを１つにまとめる
-encrypt->fExeOutputOption = chkExeFileOutConf->Checked;            //実行形式出力
-encrypt->fOptBrokenFileOption = opthdl->fBroken;                   //ミスタイプでファイルを破壊するか否か
-encrypt->fConfirmOverwirte = opthdl->fConfirmOverwirte;            //同名ファイルがあるときは上書きの確認をする
-encrypt->intOptMissTypeLimitsNumOption = opthdl->MissTypeLimitsNum;//タイプミスできる回数
-encrypt->AppExeFilePath = Application->ExeName;	                   //アタッシェケース本体の場所（実行形式出力のときに参照する）
-
-Form1->Caption = ExtractFileName(FilePath) + " - " + Application->Title;
-
-//パスワードファイルを使用するか
-if ( PasswordFilePath != "") {
-
-	//SHA-1ハッシュを求める
-	if ( opthdl->GetSHA1HashFromFile(PasswordFilePath, PasswordFileHash, PasswordFileHeader ) == true ){
-		StrLCopy(password, PasswordFileHash.c_str(), 32);
-		encrypt->SetPasswordBinary(password);
-	}
-	else{
-		//オプションでパスワードファイルがない場合エラーを出すように設定している
-		if ( opthdl->fNoErrMsgOnPassFile == false ) {
-			//'パスワードファイルを開けません。他のアプリケーションで使用中の可能性があります。';
-			MsgText = LoadResourceString(&Msgunit1::_MSG_ERROR_OPEN_PASSWORD_FILE)+"\n"+
-								opthdl->PassFilePathDecrypt;
-			MessageDlg(MsgText, mtError, TMsgDlgButtons() << mbOK, 0);
-		}
-		return;
-	}
-
-}
-else{
-	//テキストボックスの内容をパスワードにする
-	Password = (AnsiString)txtPasswordConfirm->Text;
-	StrLCopy(password, Password.c_str(), 32);
-	encrypt->SetPasswordBinary(password);
-}
-
-//タスクバー進捗表示（Win7）失敗した場合は無視
-if(CoCreateInstance(CLSID_TaskbarList, NULL, CLSCTX_ALL, IID_ITaskbarList3, (void**)&tskpbr) == S_OK) {
-	tskpbr->SetProgressState(this->Handle, TBPF_NORMAL);
-}
-
-//進捗をTimerで監視
-TimerEncrypt->Enabled = true;
-
-//暗号化の実行
-encrypt->Start();
-
-
-}
-//---------------------------------------------------------------------------
-// ファイルを復号する処理
-//---------------------------------------------------------------------------
-void __fastcall TForm1::FileDecrypt(void)
-{
-
-int i;
-
-String MsgText;
-
-AnsiString Password;
-char password[32];
-
-for (i = 0; i < 32; i++) {
-	password[i] = NULL;
-}
-
-AnsiString PasswordFileHash, PasswordFileHeader;
-
-String AtcFilePath;
-String OutDirPath;
-
-//親フォルダを生成しない
-//if ( fNoParentFldr == true  )
-
-//-----------------------------------
-//保存先のディレクトリ
-//-----------------------------------
-if ( opthdl->fDecodeToSameFldr == true ) {
-	//常に同じ場所に復号するか
-	OutDirPath = opthdl->DecodeToSameFldrPath;
-}
-else{
-	OutDirPath = ExtractFileDir(FileList->Strings[0]);
-}
-
-if ( DirectoryExists(OutDirPath) == false ) {
-	//'保存する先のフォルダーが見つかりません。保存設定を再確認してください。'+#13+
-	//'復号処理化を中止します。';
-	MsgText = LoadResourceString(&Msgunit1::_MSG_ERROR_SAVE_DEC_TO_FOLDER_NOT_EXISTS)+"\n"+
-						OutDirPath;
-	MessageDlg(MsgText, mtError, TMsgDlgButtons() << mbOK, 0);
-	//エラー終了表示
-	ProgressBar1->Position = 0;
-	lblProgressPercentNum->Caption = " - %";
-	//'キャンセル'
-	lblStatus->Caption = LoadResourceString(&Msgunit1::_LABEL_STATUS_TITLE_USER_CANCEL);
-	//'復号が中止されました。'
-	lblMsg->Caption = LoadResourceString(&Msgunit1::_LABEL_STATUS_DETAIL_STOPPED_DECRYPT);
-	return;
-
-}
-
-//-----------------------------------
-// 復号処理の開始
-//-----------------------------------
-
-if ( FileList->Count > 0) {
-
-	//-----------------------------------
-	//復号処理インスタンスの作成
-	//-----------------------------------
-
-	AtcFilePath = FileList->Strings[FileListPosition];
-
-	decrypt = new TAttacheCaseFileDecrypt2(true);
-	decrypt->OnTerminate = DecryptThreadTerminated;
-	decrypt->FreeOnTerminate = false;
-	decrypt->AppExeFilePath = Application->ExeName;  //アタッシェケース本体の場所（実行形式出力のときに参照する）
-	decrypt->AtcFilePath = AtcFilePath;              //入力する暗号化ファイルパス
-	decrypt->OutDirPath = OutDirPath;                //出力するディレクトリ
-
-	decrypt->fOpenFolder = opthdl->fOpenFolder;             //フォルダの場合に復号後に開くか
-	decrypt->fOpenFile = opthdl->fOpenFile;                 //復号したファイルを関連付けされたソフトで開く
-	decrypt->fConfirmOverwirte = opthdl->fConfirmOverwirte; //同名ファイルの上書きを確認するか
-
-	if (AtcFilePath == RetryAtcFilePath) {
-		decrypt->NumOfTrials = RetryNum;
-	}
-
-	Form1->Caption = ExtractFileName(AtcFilePath) + " - " + Application->Title;
-
-	//-----------------------------------
-	//パスワードのセット
-	//-----------------------------------
-
-	//パスワードファイルを使用するか
-	if ( PasswordFilePath != "") {
-
-		//SHA-1ハッシュを求める
-		if ( opthdl->GetSHA1HashFromFile(PasswordFilePath, PasswordFileHash, PasswordFileHeader ) == true ){
-			StrLCopy(password, PasswordFileHash.c_str(), 32);
-			decrypt->SetPasswordBinary(password);
-		}
-		else{
-			//オプションでパスワードファイルがない場合エラーを出すように設定している
-			if ( opthdl->fNoErrMsgOnPassFile == false ) {
-				//'パスワードファイルを開けません。他のアプリケーションで使用中の可能性があります。';
-				MsgText = LoadResourceString(&Msgunit1::_MSG_ERROR_OPEN_PASSWORD_FILE)+"\n"+
-									opthdl->PassFilePathDecrypt;
-				MessageDlg(MsgText, mtError, TMsgDlgButtons() << mbOK, 0);
-			}
-		}
-
-	}
-	else{
-		//テキストボックスの内容をパスワードにする
-		Password = (AnsiString)txtDecryptPassword->Text;
-		StrLCopy(password, Password.c_str(), 32);
-		decrypt->SetPasswordBinary(password);
-	}
-
-	//復号の実行
-	decrypt->Start();
-
-	//タスクバー進捗表示（Win7）
-	if(CoCreateInstance(CLSID_TaskbarList, NULL, CLSCTX_ALL, IID_ITaskbarList3, (void**)&tskpbr) != S_OK) {
-		//失敗
-	}
-	if (tskpbr){
-		tskpbr->SetProgressState(this->Handle, TBPF_NORMAL);
-	}
-
-	//進捗をTimerで監視
-	TimerDecrypt->Enabled = true;
-
-}
-
-
-}
-//---------------------------------------------------------------------------
-// ファイルをコンペアする処理（とは言っても実際は復号処理）
-//---------------------------------------------------------------------------
-void __fastcall TForm1::FileCompare(void)
-{
-
-int i;
-char password[32];
-
-for (i = 0; i < 32; i++) {
-	password[i] = NULL;
-}
-
-String MsgText;
-
-String AtcFilePath;
-String OutDirPath;
-
-//-----------------------------------
-// コンペア処理の開始
-//-----------------------------------
-if (FileListPosition > FileList->Count - 1) {
-	return;
-}
-
-//-----------------------------------
-// コンペア処理の開始
-//-----------------------------------
-
-// この処理の前に暗号化処理を行っているか
-//（暗号化インスタンスがあるか）
-if ( encrypt == NULL) {
-	//'コンペアする暗号化ファイルまたはフォルダーが見つかりません。'+#13+
-	//'コンペアに失敗しました。';
-	MsgText = LoadResourceString(&Msgunit1::_MSG_ERROR_NOT_EXISTS_COMPAER_FIlE);
-	MessageDlg(MsgText, mtError, TMsgDlgButtons() << mbOK, 0);
-	return;
-}
-
-AtcFilePath = FileList->Strings[FileListPosition];
-
-//復号処理インスタンスの作成
-decrypt = new TAttacheCaseFileDecrypt2(true);
-
-decrypt->fCompare = true;	//コンペア
-decrypt->CompareFileList = encrypt->InputFileList;
-
-decrypt->OnTerminate = DecryptThreadTerminated;
-decrypt->FreeOnTerminate = true;
-decrypt->AppExeFilePath = Application->ExeName;  //アタッシェケース本体の場所（実行形式出力のときに参照する）
-decrypt->AtcFilePath = AtcFilePath;              //入力する暗号化ファイルパス
-decrypt->OutDirPath = "";                        //出力するディレクトリ
-
-//-----------------------------------
-//パスワードのセット
-//-----------------------------------
-encrypt->GetPasswordBinary(password);
-decrypt->SetPasswordBinary(password);
-
-//コンペア（復号）の実行
-decrypt->Start();
-
-//タスクバー進捗表示（Win7）
-if(CoCreateInstance(CLSID_TaskbarList, NULL, CLSCTX_ALL, IID_ITaskbarList3, (void**)&tskpbr) != S_OK) {
-	//失敗
-}
-if (tskpbr){
-	tskpbr->SetProgressState(this->Handle, TBPF_NORMAL);
-}
-
-//進捗をTimerで監視
-TimerDecrypt->Enabled = true;
-
-
-
-}
-//---------------------------------------------------------------------------
 void __fastcall TForm1::cmdConfirmCancelClick(TObject *Sender)
 {
 
@@ -2435,6 +2558,12 @@ delete TempList;
 //-----------------------------------
 //処理開始
 //-----------------------------------
+
+//フォルダ内のファイルは個別に暗号化/復号する
+if (opthdl->fFilesOneByOne == true ) {
+	ExpandFileList(FileList);
+}
+
 DoExecute(FileList);
 
 

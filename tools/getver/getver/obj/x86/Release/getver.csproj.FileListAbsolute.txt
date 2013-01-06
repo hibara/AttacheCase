@@ -1,0 +1,4 @@
+X:\GitHub\AttacheCase\tools\getver\getver\bin\Release\getver.exe
+X:\GitHub\AttacheCase\tools\getver\getver\bin\Release\getver.pdb
+X:\GitHub\AttacheCase\tools\getver\getver\obj\x86\Release\getver.exe
+X:\GitHub\AttacheCase\tools\getver\getver\obj\x86\Release\getver.pdb

@@ -1,4 +1,4 @@
-﻿object Form2: TForm2
+object Form2: TForm2
   Left = 396
   Top = 257
   BorderIcons = [biSystemMenu]

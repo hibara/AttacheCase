@@ -1,29 +1,38 @@
-﻿/*
+﻿//===========================================================================
+/*
 
-'AttacheCase' - file encryption software for Windows.
+アタッシェケース（AttachéCase）
+Copyright (c) 2002-2013, Mitsuhiro Hibara ( http://hibara.org )
+All rights reserved.
 
-TAttacheCaseDelete Class file.
+Redistribution and use in source and binary forms,
+with or without modification, are permitted provided that the following
+conditions are met:
 
-Copyright (C) 2012 M.Hibara, All rights reserved.
-http://hibara.org/
+・Redistributions of source code must retain the above copyright
+	notice, this list of conditions and the following disclaimer.
+・Redistributions in binary form must reproduce the above copyright
+	notice, this list of conditions and the following disclaimer
+	in the documentation and/or other materials provided with the
+	distribution.
+・Neither the name of the "HIBARA.ORG" nor the names of its
+	contributors  may be used to endorse or promote products derived
+	from this software without specific prior written permission.
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 3 of the License, or (at
-your option) any later version.
-
-This program is distributed in the hope that it will be useful, but
-WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program. If not, see
-
-http://www.gnu.org/licenses/
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+"AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
-//---------------------------------------------------------------------------
+//===========================================================================
 
 #include <vcl.h>
 
@@ -50,8 +59,6 @@ __fastcall TAttacheCaseDelete::TAttacheCaseDelete
 (bool CreateSuspended) : TThread(CreateSuspended)
 {
 
-DeleteList = new TStringList;
-
 Opt = 0;	                     //通常削除
 RandClearNum = 0;              //乱数書き込み回数
 ZeroClearNum = 0;              //ゼロ書き込み回数
@@ -63,6 +70,8 @@ ProgressMsgText = "";          //進捗メッセージ
 StatusNum = 0;                 //ステータス表示内容番号
 MsgErrorString = "";           //エラーメッセージ
 
+DeleteFileList = new TStringList; //削除ファイルリスト
+
 }
 //===========================================================================
 //デストラクタ
@@ -70,7 +79,7 @@ MsgErrorString = "";           //エラーメッセージ
 __fastcall TAttacheCaseDelete::~TAttacheCaseDelete(void)
 {
 
-delete DeleteList;
+delete DeleteFileList;
 
 }
 //===========================================================================
@@ -81,9 +90,7 @@ void __fastcall TAttacheCaseDelete::Execute()
 
 int i;
 int FileCount = 0;
-int TotalFileCount = 0;
 __int64 CountFileSize = 0;
-__int64 TotalFileSize = 0;
 
 int ret;
 int ErrorNum;
@@ -126,44 +133,6 @@ ProgressStatusText = LoadResourceString(&Msgdelete::_LABEL_STATUS_TITLE_LISTING)
 //'削除するための準備をしています...'
 ProgressMsgText = LoadResourceString(&Msgdelete::_LABEL_STATUS_DETAIL_PREPARING);
 
-for (i = 0; i < DeleteFileList->Count; i++) {
-
-	if ( FindFirst(DeleteFileList->Strings[i], faAnyFile, sr) == 0 ){
-		do {
-			if (sr.Name != "." && sr.Name != "..") {
-				if (sr.Attr & faDirectory) {
-					//ディレクトリ
-					DeleteList->Add(DeleteFileList->Strings[i]);
-					if ( (ErrorNum = GetDeleteFileListInfo(DeleteFileList->Strings[i], DeleteList, TotalFileCount, TotalFileSize)) < 0 ){
-						FindClose(sr);
-						if (ErrorNum == -1) {
-							goto LabelStop;
-						}
-						else{
-							goto LabelError;
-						}
-					}
-					TotalFileCount++;
-				}
-				else{
-					//ファイル
-					DeleteList->Add(DeleteFileList->Strings[i]);
-					TotalFileSize += sr.Size;
-					TotalFileCount++;
-				}
-			}
-
-		}while(FindNext(sr) == 0 && Terminated == true);
-
-		FindClose(sr);
-
-		if (Terminated == true) {
-			goto LabelStop;
-		}
-
-	}
-}
-
 //-----------------------------------
 // 削除、または完全削除
 //-----------------------------------
@@ -180,11 +149,11 @@ else if ( Opt == 1 ) {
 
 
 //-----------------------------------
-// つくったリストから削除実行
+// 削除実行
 //-----------------------------------
-for (i = DeleteList->Count-1; i > -1; i--) {
+for (i = DeleteFileList->Count-1; i > -1; i--) {
 
-	FilePath = DeleteList->Strings[i];
+	FilePath = DeleteFileList->Strings[i];
 
 	//-----------------------------------
 	// ファイル
@@ -195,7 +164,6 @@ for (i = DeleteList->Count-1; i > -1; i--) {
 		if ( FileIsReadOnly(FilePath) == true ){
 			FileSetReadOnly(FilePath, false);
 		}
-
 		//-----------------------------------
 		// 通常削除
 		//-----------------------------------
@@ -203,7 +171,7 @@ for (i = DeleteList->Count-1; i > -1; i--) {
 			DeleteFile(FilePath);
 			FileCount++;
 			//ファイル数でプログレス表示
-			ProgressPercentNum = ((float)FileCount/TotalFileCount)*100;
+			ProgressPercentNum = ((float)FileCount/DeleteFileList->Count)*100;
 		}
 		//-----------------------------------
 		// 完全削除
@@ -214,14 +182,14 @@ for (i = DeleteList->Count-1; i > -1; i--) {
 				goto LabelError;
 			}
 		}
-
 	}
 	//-----------------------------------
 	// ディレクトリ
 	//-----------------------------------
 	else{
-
-		//空になったディレクトリの削除
+		//ディレクトリは空行が入っているので
+		//前に削除したファイルの親ディレクトリを取得
+		FilePath = ExtractFileDir(DeleteFileList->Strings[i+1]);
 		if ( RemoveDir(FilePath) == false ){
 			//削除に失敗したときは属性を変更
 			Attrs = FileGetAttr(FilePath);
@@ -233,16 +201,13 @@ for (i = DeleteList->Count-1; i > -1; i--) {
 			}
 			RemoveDir(FilePath);     //再チャレンジ
 		}
-
 	}
 
 	if (Terminated == true) {
 		goto LabelStop;
 	}
 
-
 }//end for (i = DeleteList->Count-1; i > -1; i--);
-
 
 ProgressPercentNum = 100;
 //'完了'
@@ -251,6 +216,7 @@ ProgressStatusText = LoadResourceString(&Msgdelete::_LABEL_STATUS_TITLE_COMPLETE
 ProgressMsgText = LoadResourceString(&Msgdelete::_LABEL_STATUS_DETAIL_COMPLETE);
 
 StatusNum = 1;
+
 return;
 
 //-----------------------------------
@@ -284,52 +250,6 @@ LabelStop:
 
 	return;
 
-
-}
-//===========================================================================
-// 削除するファイルリスト情報（ファイル数、合計サイズ）を収集する
-//===========================================================================
-int __fastcall TAttacheCaseDelete::
-	GetDeleteFileListInfo(String DirPath, TStringList *DelList, int &TotalFileCount, __int64 &TotalFileSize)
-{
-
-TSearchRec sr;
-
-String FilePath;
-
-if ( FindFirst(IncludeTrailingPathDelimiter(DirPath) + "*", faAnyFile, sr) == 0 ){
-
-	do {
-
-		if (sr.Name != "." && sr.Name != "..") {
-
-			FilePath = IncludeTrailingPathDelimiter(DirPath)+sr.Name;
-
-			if (sr.Attr & faDirectory) {
-				DelList->Add(FilePath);
-				// 再帰呼び出し
-				GetDeleteFileListInfo(FilePath, DelList, TotalFileCount, TotalFileSize);
-				TotalFileCount++;	//ディレクトリ分
-			}
-			else{
-				DelList->Add(FilePath);
-				TotalFileSize += sr.Size;
-				TotalFileCount++;
-			}
-
-		}
-
-	}while(FindNext(sr) == 0 && Terminated == false);
-
-	FindClose(sr);
-
-	if (Terminated == true) {
-		return(-2);
-	}
-
-}
-
-return(1);
 
 }
 //===========================================================================
