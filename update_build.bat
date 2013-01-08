@@ -56,7 +56,8 @@ copy AttacheCase.exe installer\bin\AttacheCase.exe
 @echo. -----------------------------------
 
 upx308w\upx --compress-icons=0 -6 installer\bin\AttacheCase.exe
-upx308w\upx --compress-resources=0 --best installer\bin\exeout.exe
+@rem upx308w\upx --compress-resources=0 --best installer\bin\exeout.exe
+upx308w\upx --best installer\bin\exeout.exe
 
 
 @echo. 
@@ -107,7 +108,7 @@ tools\gethash\gethash.exe installer\*.zip
 @echo. binディレクトリの削除
 @echo. -----------------------------------
 
-rd /s /q "installer\bin"
+@rem rd /s /q "installer\bin"
 
 
 :END

@@ -404,6 +404,11 @@ if (PrefixString == "Fn_") {
 	DataList->LoadFromStream(pms, TEncoding::GetEncoding(932));
 }
 
+//===================================
+//デバッグ
+//ShowMessage(DataList->Text);
+//===================================
+
 delete pms;
 
 
@@ -671,11 +676,11 @@ if (Terminated == true) {
 
 len = LARGE_BUF_SIZE - z.avail_out;
 ret = OutputBuffer(output_buffer, len,
-								 fsOut, fOutputFileOpen,
-								 FileList, FileIndex,
-								 FileSizeList, FileAttrList,
-								 FileDtChangeList, FileTmChangeList,
-								 FileDtCreateList, FileTmCreateList);
+									 fsOut, fOutputFileOpen,
+									 FileList, FileIndex,
+									 FileSizeList, FileAttrList,
+									 FileDtChangeList, FileTmChangeList,
+									 FileDtCreateList, FileTmCreateList);
 if ( ret == 0 ) {
 }
 else if ( ret == -1 ){
@@ -923,7 +928,7 @@ int __fastcall TAttacheCaseFileDecrypt2::OutputBuffer
 int res;
 
 int rest;
-String FileName, FilePath;
+String FileName, FilePath, DirPath;
 char read_buffer[LARGE_BUF_SIZE];      //コンペア用
 char temp_buffer[LARGE_BUF_SIZE];      //データ詰める用
 
@@ -1038,6 +1043,11 @@ while (buff_size > 0 && !Terminated) {
 
 				if ( fCompare == false && fConfirmOverwirte == true && fOverwirteYesToAll == false ) {
 
+					DirPath = ExtractFileDir(FilePath);
+					if (DirectoryExists(DirPath) == false) {
+						ForceDirectories(DirPath);
+					}
+
 					if (FileExists(FilePath) == true) {
 						//同名ファイルの上書き確認メッセージダイアログ
 						MsgText = LoadResourceString(&Msgdecrypt::_MSG_CONFIRM_OVER_WRITE_SAME_FILE)+"\n"+FilePath;
@@ -1081,6 +1091,12 @@ while (buff_size > 0 && !Terminated) {
 				try {
 
 					if (fCompare == false) {
+						// ver.2.75以前で「複数ファイルは一つの暗号化ファイルにまとめる」に
+						// チェックして暗号化されていた場合の対処
+						DirPath = ExtractFileDir(FilePath);
+						if (DirectoryExists(DirPath) == false) {
+							ForceDirectories(DirPath);	//親フォルダーがなければ強制的に生成する
+						}
 						//出力するファイルを開く
 						fsOut = new TFileStream(FilePath, fmCreate);
 					}
@@ -1546,7 +1562,6 @@ for ( int i = 0; i < 32; i++){
 memcpy(key, password, 32);
 
 }
-//===========================================================================
 //===========================================================================
 //メインフォームに確認メッセージを投げて処理を中断する
 //===========================================================================
