@@ -1793,7 +1793,7 @@ object Form3: TForm3
     Margins.Top = 4
     Margins.Right = 4
     Margins.Bottom = 4
-    ActivePage = TabDelete
+    ActivePage = TabSave
     MultiLine = True
     TabOrder = 2
     object TabBasic: TTabSheet
@@ -1803,10 +1803,6 @@ object Form3: TForm3
       Margins.Right = 2
       Margins.Bottom = 2
       Caption = 'Basic'
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object PanelBasicCaption: TPanel
         Left = 0
         Top = 0
@@ -1959,10 +1955,6 @@ object Form3: TForm3
       Margins.Bottom = 2
       Caption = 'Save'
       ImageIndex = 1
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object lblAutoFormatExample: TLabel
         Left = 0
         Top = 384
@@ -2432,10 +2424,6 @@ object Form3: TForm3
       Margins.Bottom = 2
       Caption = 'movement'
       ImageIndex = 3
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object PanelMovementCaption: TPanel
         Left = 0
         Top = 0
@@ -2527,10 +2515,6 @@ object Form3: TForm3
       Margins.Bottom = 2
       Caption = 'system'
       ImageIndex = 4
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object PanelSystemCaption: TPanel
         Left = 0
         Top = 0
@@ -3050,7 +3034,7 @@ object Form3: TForm3
     Left = 28
     Top = 132
     Bitmap = {
-      494C01010400DC00540110001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C01010400DC005C0110001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -3373,7 +3357,7 @@ object Form3: TForm3
     Left = 28
     Top = 252
     Bitmap = {
-      494C010105000800E0001C001C00FFFFFFFF1910FFFFFFFFFFFFFFFF424D3600
+      494C010105000800E8001C001C00FFFFFFFF1910FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000700000003800000001001800000000008049
       000000000000000000000000000000000000000000000000000000FFFFFFFFFF
       FFFFFFFFFEFEFEFEFEFEFEFEFEFEFEFEFFFFFFFFFFFFFFFFFF00000000000000
@@ -4010,7 +3994,7 @@ object Form3: TForm3
     Left = 28
     Top = 76
     Bitmap = {
-      494C010107002800600030003000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010107002800680030003000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000C00000006000000001002000000000000020
       0100000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -6399,7 +6383,7 @@ object Form3: TForm3
     Left = 28
     Top = 24
     Bitmap = {
-      494C010107002C00780030003000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010107002C00800030003000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000C00000006000000001002000000000000020
       0100000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000

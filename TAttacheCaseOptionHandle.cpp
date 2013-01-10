@@ -471,7 +471,12 @@ try{
 		pOpt = new TRegistryIniFile("Software\\Hibara\\AttacheCase");
 	}
 	else{
-		pOpt = new TIniFile(OptionPath);
+		if (FileExists(OptionPath) == true) {
+			pOpt = new TIniFile(OptionPath);
+		}
+		else{
+			return(true);	//保存しない
+		}
 	}
 
 	//-----------------------------------
@@ -1669,12 +1674,10 @@ bool __fastcall TAttacheCaseOptionHandle::CreateShortCutFile
 
 IShellLinkW *psl;
 
-//IShellLinkW *psl;	// これだとうまくショートカットファイルが生成できない？
-
 CoInitialize( NULL );
 
 if ( CoCreateInstance
-		( CLSID_ShellLink, NULL, CLSCTX_INPROC_SERVER, IID_IShellLink, (void **)&psl ) == S_OK){
+		( CLSID_ShellLink, NULL, CLSCTX_INPROC_SERVER, IID_IShellLinkW, (void **)&psl ) == S_OK){
 
 	psl->SetPath(TargetFilePath.c_str());          // リンク先を設定
 

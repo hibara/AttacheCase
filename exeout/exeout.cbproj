@@ -60,52 +60,52 @@
 			<TASM_Debugging>None</TASM_Debugging>
 		</PropertyGroup>
 		<ItemGroup>
-			<CppCompile Include="..\TDragAndDrop.cpp">
-				<DependentOn>..\TDragAndDrop.h</DependentOn>
-				<BuildOrder>8</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="..\TGetAppInfoString.cpp">
-				<DependentOn>..\TGetAppInfoString.h</DependentOn>
-				<BuildOrder>7</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="Unit1.cpp">
-				<Form>Form1</Form>
-				<DependentOn>Unit1.h</DependentOn>
-				<BuildOrder>2</BuildOrder>
-			</CppCompile>
-			<LibFiles Include="..\zlib127.lib">
-				<IgnorePath>true</IgnorePath>
-				<BuildOrder>11</BuildOrder>
-			</LibFiles>
-			<CppCompile Include="..\sha1.c">
-				<BuildOrder>10</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="..\rijndael.c">
-				<BuildOrder>9</BuildOrder>
-			</CppCompile>
+			<DelphiCompile Include="locale\ja\MsgExeOut.pas">
+				<BuildOrder>4</BuildOrder>
+			</DelphiCompile>
+			<DelphiCompile Include="..\locale\ja\MsgDecrypt.pas">
+				<BuildOrder>5</BuildOrder>
+			</DelphiCompile>
 			<CppCompile Include="Unit2.cpp">
 				<Form>Form2</Form>
 				<DependentOn>Unit2.h</DependentOn>
 				<BuildOrder>6</BuildOrder>
 			</CppCompile>
-			<DelphiCompile Include="..\locale\ja\MsgDecrypt.pas">
-				<BuildOrder>5</BuildOrder>
-			</DelphiCompile>
-			<DelphiCompile Include="locale\ja\MsgExeOut.pas">
-				<BuildOrder>4</BuildOrder>
-			</DelphiCompile>
-			<ResFiles Include="exeout.res">
-				<BuildOrder>1</BuildOrder>
-			</ResFiles>
-			<CppCompile Include="exeout.cpp">
-				<BuildOrder>0</BuildOrder>
-			</CppCompile>
 			<CppCompile Include="..\TAttacheCaseFileDecrypt2.cpp">
 				<DependentOn>..\TAttacheCaseFileDecrypt2.h</DependentOn>
 				<BuildOrder>3</BuildOrder>
 			</CppCompile>
-			<FormResources Include="Unit1.dfm"/>
+			<CppCompile Include="exeout.cpp">
+				<BuildOrder>0</BuildOrder>
+			</CppCompile>
+			<ResFiles Include="exeout.res">
+				<BuildOrder>1</BuildOrder>
+			</ResFiles>
+			<CppCompile Include="Unit1.cpp">
+				<Form>Form1</Form>
+				<DependentOn>Unit1.h</DependentOn>
+				<BuildOrder>2</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="..\TGetAppInfoString.cpp">
+				<DependentOn>..\TGetAppInfoString.h</DependentOn>
+				<BuildOrder>7</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="..\TDragAndDrop.cpp">
+				<DependentOn>..\TDragAndDrop.h</DependentOn>
+				<BuildOrder>8</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="..\rijndael.c">
+				<BuildOrder>9</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="..\sha1.c">
+				<BuildOrder>10</BuildOrder>
+			</CppCompile>
+			<LibFiles Include="..\zlib127.lib">
+				<IgnorePath>true</IgnorePath>
+				<BuildOrder>11</BuildOrder>
+			</LibFiles>
 			<FormResources Include="Unit2.dfm"/>
+			<FormResources Include="Unit1.dfm"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>
@@ -133,7 +133,7 @@
 						<VersionInfo Name="MajorVer">2</VersionInfo>
 						<VersionInfo Name="MinorVer">8</VersionInfo>
 						<VersionInfo Name="Release">2</VersionInfo>
-						<VersionInfo Name="Build">2</VersionInfo>
+						<VersionInfo Name="Build">3</VersionInfo>
 						<VersionInfo Name="Debug">False</VersionInfo>
 						<VersionInfo Name="PreRelease">True</VersionInfo>
 						<VersionInfo Name="Special">False</VersionInfo>
@@ -145,13 +145,13 @@
 					<VersionInfoKeys>
 						<VersionInfoKeys Name="CompanyName">http://hibara.org/</VersionInfoKeys>
 						<VersionInfoKeys Name="FileDescription">ファイル/フォルダー暗号化ソフトウェア</VersionInfoKeys>
-						<VersionInfoKeys Name="FileVersion">2.8.2.2</VersionInfoKeys>
+						<VersionInfoKeys Name="FileVersion">2.8.2.3</VersionInfoKeys>
 						<VersionInfoKeys Name="InternalName"/>
 						<VersionInfoKeys Name="LegalCopyright">Copyright(C) 2013 M.Hibara, All rights reserved.</VersionInfoKeys>
 						<VersionInfoKeys Name="LegalTrademarks"/>
 						<VersionInfoKeys Name="OriginalFilename"/>
 						<VersionInfoKeys Name="ProductName">アタッシェケース（ファイル暗号化ソフトウェア）</VersionInfoKeys>
-						<VersionInfoKeys Name="ProductVersion">2.8.2.2</VersionInfoKeys>
+						<VersionInfoKeys Name="ProductVersion">2.8.2.3</VersionInfoKeys>
 						<VersionInfoKeys Name="Comments"/>
 					</VersionInfoKeys>
 					<Debugging>

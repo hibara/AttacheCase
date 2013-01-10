@@ -56,8 +56,7 @@ copy AttacheCase.exe installer\bin\AttacheCase.exe
 @echo. -----------------------------------
 
 upx308w\upx --compress-icons=0 -6 installer\bin\AttacheCase.exe
-@rem upx308w\upx --compress-resources=0 --best installer\bin\exeout.exe
-upx308w\upx --best installer\bin\exeout.exe
+upx308w\upx --compress-resources=0 --best installer\bin\exeout.exe
 
 
 @echo. 

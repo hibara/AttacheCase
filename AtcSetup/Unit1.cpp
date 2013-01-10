@@ -72,7 +72,7 @@ try{
 	AtcExeFilePath = pReg->ReadString( "AttacheCase\\AppInfo", "AppPath", "");
 
 	if ( AtcExeFilePath == "" ){
-		AtcExeFilePath = ExtractFileDir(ExpandUNCFileName(Application->ExeName))+"\\AtchCase.exe";
+		AtcExeFilePath = ExtractFileDir(ExpandUNCFileName(Application->ExeName))+"\\AttacheCase.exe";
 	}
 
 	if ( FileExists(AtcExeFilePath) == true ){

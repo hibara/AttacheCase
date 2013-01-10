@@ -155,11 +155,17 @@ if ( ParamCount() > 0){
 		if ( FileExists(IniFilePath) == false ){
 			//なければ本体ディレクトリから
 			IniFilePath = IncludeTrailingPathDelimiter(ExtractFileDir(Application->ExeName))+INI_FILE_NAME;
+
+			if (FileExists(IniFilePath) == true ) {
+				// INIファイルがあればそこから、なければレジストリから読み込む
+				opthdl->LoadOptionData(IniFilePath);
+			}
+			else{
+				IniFilePath = "";
+			}
+
 		}
 	}
-
-	// INIファイルがあればそこから、なければレジストリから読み込む
-	opthdl->LoadOptionData(IniFilePath);
 	//もう一度、その上からコマンドライン引数を上書きする
 	opthdl->LoadOptionDataFromParamString(FileList);
 
@@ -177,9 +183,16 @@ else{
 	if ( FileExists(IniFilePath) == false ){
 		//なければ本体ディレクトリから
 		IniFilePath = IncludeTrailingPathDelimiter(ExtractFileDir(Application->ExeName))+INI_FILE_NAME;
-	}
 
-	opthdl->LoadOptionData(IniFilePath);
+		if (FileExists(IniFilePath) == true ) {
+			// INIファイルがあればそこから、なければレジストリから読み込む
+			opthdl->LoadOptionData(IniFilePath);
+		}
+		else{
+			IniFilePath = "";
+		}
+
+	}
 
 }
 
@@ -244,6 +257,7 @@ else{
 
 //全設定を保存する
 opthdl->SaveOptionData();
+
 delete opthdl;
 
 delete FileList;    //処理するファイルリスト
@@ -1187,13 +1201,20 @@ else{
 //-----------------------------------
 if ( CryptTypeNum == TYPE_CRYPT_ENCRYPT ) {
 
-	//記憶パスワードで即座に実行する
-	if ( opthdl->fMemPasswordExe == true && opthdl->fMyEncodePasswordKeep == true) {
+	//コマンドラインにパスワードが設定されているようだ
+	if (opthdl->fArgPassword == true) {
 		//実行パネル表示
 		PageControlActiveSheet(TabSheetExecute);
 		//再確認テキストボックスに入れてしまう
-		txtPasswordConfirm->Text = opthdl->MyEncodePassword;
+		txtPasswordConfirm->Text = opthdl->MyPassword;
 		//暗号化開始
+		FileEncrypt();
+		return;
+	}
+	//記憶パスワードで即座に実行する
+	else if ( opthdl->fMemPasswordExe == true && opthdl->fMyEncodePasswordKeep == true) {
+		PageControlActiveSheet(TabSheetExecute);
+		txtPasswordConfirm->Text = opthdl->MyEncodePassword;
 		FileEncrypt();
 		return;
 	}
@@ -1201,7 +1222,6 @@ if ( CryptTypeNum == TYPE_CRYPT_ENCRYPT ) {
 	else if ( opthdl->fAllowPassFile == true && opthdl->fCheckPassFile == true ) {
 
 		if ( FileExists(opthdl->PassFilePath) == false ) {
-
 			//パスワードファイルがない場合エラーを出さない？（オプション）
 			if ( opthdl->fNoErrMsgOnPassFile == true ) {
 				//メッセージを出さずにパスワード入力パネルへ
@@ -1255,8 +1275,15 @@ else if ( CryptTypeNum == TYPE_CRYPT_DECRYPT) {
 	//復号されるファイルの合計サイズ
 	DecryptAllTotalSize = 0;
 
+	//コマンドラインにパスワードが設定されているようだ
+	if (opthdl->fArgPassword == true) {
+		PageControlActiveSheet(TabSheetExecute);
+		txtDecryptPassword->Text = opthdl->MyPassword;
+		FileDecrypt();
+		return;
+	}
 	//記憶パスワードで即座に実行する
-	if ( opthdl->fMemPasswordExe == true && opthdl->fMyDecodePasswordKeep == true) {
+	else if ( opthdl->fMemPasswordExe == true && opthdl->fMyDecodePasswordKeep == true) {
 		//実行パネル表示
 		PageControlActiveSheet(TabSheetExecute);
 		txtDecryptPassword->Text = opthdl->MyDecodePassword;

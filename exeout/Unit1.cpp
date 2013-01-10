@@ -127,9 +127,12 @@ void __fastcall TForm1::cmdExitClick(TObject *Sender)
 {
 
 if (ProgressBar1->Visible == true) {
-	if (ProgressBar1->Position == 100 || ProgressBar1->Position == 0) {
+	if (ProgressBar1->Position == 0) {
 		ChangeFormStatus(0);  //メインフォームへ戻る
 		return;
+	}
+	else if (ProgressBar1->Position == 100) {
+		Close();
 	}
 	else{
 		if (decrypt != NULL) {
@@ -510,6 +513,8 @@ TimerDecrypt->Enabled = false;
 if ( decrypt->StatusNum > 0 ) {
 
 	decrypt = NULL;
+	//「キャンセル(C)」ラベルを「終了(X)」に変更
+	cmdExit->Caption = LoadResourceString(&Msgexeout::_BUTTON_CAPTION_EXIT);
 
 }
 //復号エラー
@@ -542,6 +547,9 @@ else{
 
 	//エラーで終了してきた
 	decrypt = NULL;
+
+	//「キャンセル(C)」ラベルを「終了(X)」に変更
+	cmdExit->Caption = LoadResourceString(&Msgexeout::_BUTTON_CAPTION_EXIT);
 
 }
 

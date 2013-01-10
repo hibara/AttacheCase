@@ -891,11 +891,13 @@ TSelectDirExtOpts opt =
 if (SelectDirectory(
 	LoadResourceString(
 		&Msgunit3::_DIALOG_MSG_SELECT_SAVE_ATC_FILE_TO_DIR_PATH),
-		L"",
-		DirPath, opt) == true){
+		L"", DirPath, opt, this) == true){
 
 	btneditSaveToSameFldrPath->Text = DirPath;
-	chkSaveToSameFldr->Checked = true;
+
+}
+else{
+	chkSaveToSameFldr->Checked = false;
 
 }
 
@@ -910,14 +912,12 @@ TSelectDirExtOpts opt =
 
 // '復号したファイルを常に保存したいフォルダーを選択してください。'
 if (SelectDirectory(
-	LoadResourceString(
-		&Msgunit3::_DIALOG_MSG_SELECT_DECODE_TO_SAME_DIR_PATH),
-		L"",
-		DirPath, opt) == true){
-
+	LoadResourceString(&Msgunit3::_DIALOG_MSG_SELECT_DECODE_TO_SAME_DIR_PATH),
+		L"", DirPath, opt, this) == true){
 	btneditSaveToSameFldrPath->Text = DirPath;
-	chkDecodeToSameFldr->Checked = true;
-
+}
+else{
+	chkDecodeToSameFldr->Checked = false;
 }
 
 }
