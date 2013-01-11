@@ -20,7 +20,7 @@ TouchTime=00:00
 ;-----------------------------------
 VersionInfoVersion={#MyAppVer}
 VersionInfoDescription=暗号化ソフトウェア「アタッシェケース」をセットアップするプログラム
-AppCopyright=Copyright(C) 2012 M.Hibara, All rights reserved.
+AppCopyright=Copyright(C) 2013 M.Hibara, All rights reserved.
 ;SetupIconFile=icon\main_icon.ico
 ;ウィザードページに表示されるグラフィック（*.bmp: 164 x 314）
 WizardImageFile=bmp\installer_pic_01.bmp

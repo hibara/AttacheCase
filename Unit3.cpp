@@ -250,6 +250,7 @@ else{
 // サイドメニューを描画する
 PaintSideMenu();
 
+fChangeRegData = false;
 
 }
 //---------------------------------------------------------------------------
@@ -325,6 +326,11 @@ Close();
 //---------------------------------------------------------------------------
 void __fastcall TForm3::cmdOKClick(TObject *Sender)
 {
+
+if (fChangeRegData == true) {
+	//関連付け設定を更新
+	RunAsAdmin(0);
+}
 
 //設定値を動作設定フォームに反映表示する
 FormSaveOptionData();
@@ -2137,6 +2143,14 @@ void __fastcall TForm3::txtDelZeroNumExit(TObject *Sender)
 if (txtDelRandNum->Text == "" ){
 	txtDelRandNum->Text == "0";
 }
+
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm3::comboDataIconChange(TObject *Sender)
+{
+
+//関連付けアイコンの変更を行った
+fChangeRegData = true;
 
 }
 //---------------------------------------------------------------------------

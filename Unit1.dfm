@@ -3892,7 +3892,7 @@ object Form1: TForm1
     Margins.Top = 4
     Margins.Right = 4
     Margins.Bottom = 4
-    ActivePage = TabSheetInputDecPass
+    ActivePage = TabSheetInputEncPass
     DoubleBuffered = False
     ParentDoubleBuffered = False
     TabOrder = 1

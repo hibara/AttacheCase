@@ -189,7 +189,7 @@ else{
 			opthdl->LoadOptionData(IniFilePath);
 		}
 		else{
-			IniFilePath = "";
+			opthdl->LoadOptionData("");
 		}
 
 	}
@@ -1201,6 +1201,14 @@ else{
 //-----------------------------------
 if ( CryptTypeNum == TYPE_CRYPT_ENCRYPT ) {
 
+	//実行形式で出力するか
+	chkExeFileOut->Checked = opthdl->fSaveToExeout;
+	chkExeFileOutConf->Checked = chkExeFileOut->Checked;
+
+	//元ファイルを削除するか
+	chkDeleteSourceData->Checked = opthdl->fDelOrgFile;
+	chkDeleteSourceDataConf->Checked = chkDeleteSourceData->Checked;
+
 	//コマンドラインにパスワードが設定されているようだ
 	if (opthdl->fArgPassword == true) {
 		//実行パネル表示
@@ -1274,6 +1282,9 @@ else if ( CryptTypeNum == TYPE_CRYPT_DECRYPT) {
 
 	//復号されるファイルの合計サイズ
 	DecryptAllTotalSize = 0;
+
+	//暗号化ファイルを削除するか
+	chkDeleteAtcData->Checked = opthdl->fDelEncFile;
 
 	//コマンドラインにパスワードが設定されているようだ
 	if (opthdl->fArgPassword == true) {

@@ -239,6 +239,7 @@ __published:	// IDE 管理のコンポーネント
 	void __fastcall txtDelZeroNumChange(TObject *Sender);
 	void __fastcall txtDelRandNumExit(TObject *Sender);
 	void __fastcall txtDelZeroNumExit(TObject *Sender);
+	void __fastcall comboDataIconChange(TObject *Sender);
 
 private:	// ユーザー宣言
 
@@ -248,6 +249,9 @@ private:	// ユーザー宣言
 	String SideMenuLabelCaption[7];
 	int SideMenuLabelCaptionPosX[7];
 	int optSelectedMenu;
+
+	//関連付けアイコンなどレジストリに絡む変更を行ったか
+	bool fChangeRegData;
 
 
 	//ユーザー指定のアイコンファイルパス（OKボタンが押されるまでのテンポラリ）

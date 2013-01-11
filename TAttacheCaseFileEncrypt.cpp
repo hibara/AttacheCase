@@ -556,15 +556,27 @@ while(!Terminated) {
 
 	//-----------------------------------
 	//進捗状況表示
-	ProgressPercentNumF = (float)TotalSize/AllTotalSize;
-	ProgressPercentNum = (int)(ProgressPercentNumF*100);
 
-	if (AllTotalSize < 104857600) {	// 100MB未満
-		ProgressPercentNumText = IntToStr(ProgressPercentNum)+"%";
+	if (AllTotalSize == 0) {
+		ProgressPercentNum = 100;
+		ProgressPercentNumText = "100%";
+	}
+	else if (TotalSize == 0) {
+		ProgressPercentNum = 0;
+		ProgressPercentNumText = "0%";
 	}
 	else{
-		ProgressPercentNumText = FloatToStrF(ProgressPercentNumF*100, ffNumber, 4, 1)+"%";
+		ProgressPercentNumF = (float)TotalSize/AllTotalSize;
+		ProgressPercentNum = (int)(ProgressPercentNumF*100);
+
+		if (AllTotalSize < 104857600) {	// 100MB未満
+			ProgressPercentNumText = IntToStr(ProgressPercentNum)+"%";
+		}
+		else{
+			ProgressPercentNumText = FloatToStrF(ProgressPercentNumF*100, ffNumber, 4, 1)+"%";
+		}
 	}
+	//-----------------------------------
 
 	if ( fOpenIn == true ){
 		ProgressMsgText = ExtractFileName(fsIn->FileName);

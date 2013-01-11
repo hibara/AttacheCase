@@ -1793,7 +1793,7 @@ object Form3: TForm3
     Margins.Top = 4
     Margins.Right = 4
     Margins.Bottom = 4
-    ActivePage = TabSave
+    ActivePage = TabBasic
     MultiLine = True
     TabOrder = 2
     object TabBasic: TTabSheet
@@ -1846,6 +1846,7 @@ object Form3: TForm3
         Images = ImageList1
         LeftButton.ImageIndex = 0
         LeftButton.Visible = True
+        MaxLength = 32
         ReadOnly = True
         TabOrder = 3
         Text = 'btneditMyEncPassword'
@@ -1869,6 +1870,7 @@ object Form3: TForm3
         Images = ImageList1
         LeftButton.ImageIndex = 0
         LeftButton.Visible = True
+        MaxLength = 32
         ReadOnly = True
         TabOrder = 5
         Text = 'btneditMyDecPassword'
@@ -1997,6 +1999,7 @@ object Form3: TForm3
         Images = ImageList1
         LeftButton.ImageIndex = 1
         LeftButton.Visible = True
+        MaxLength = 32767
         TabOrder = 2
         Text = 'btneditSaveToSameFldrPath'
         OnLeftButtonClick = btneditSaveToSameFldrPathLeftButtonClick
@@ -2024,6 +2027,7 @@ object Form3: TForm3
         Images = ImageList1
         LeftButton.ImageIndex = 1
         LeftButton.Visible = True
+        MaxLength = 32767
         ParentFont = False
         TabOrder = 4
         Text = 'btneditDecodeToSameFldrPath'
@@ -2094,6 +2098,7 @@ object Form3: TForm3
         Color = clBtnFace
         Images = ImageList1
         LeftButton.Enabled = False
+        MaxLength = 32767
         ReadOnly = True
         RightButton.DropDownMenu = PopupMenu1
         RightButton.ImageIndex = 2
@@ -2595,6 +2600,7 @@ object Form3: TForm3
           Style = csExDropDownList
           StyleEx = [csExNoSizeLimit]
           TabOrder = 1
+          OnChange = comboDataIconChange
           Images = imlAssociateFilesIcon
         end
       end
@@ -2746,6 +2752,7 @@ object Form3: TForm3
           Images = ImageList1
           LeftButton.ImageIndex = 3
           LeftButton.Visible = True
+          MaxLength = 32767
           ReadOnly = True
           TabOrder = 2
           Text = 'btneditPassFilePath'
@@ -2778,6 +2785,7 @@ object Form3: TForm3
           Images = ImageList1
           LeftButton.ImageIndex = 3
           LeftButton.Visible = True
+          MaxLength = 32767
           ReadOnly = True
           TabOrder = 4
           Text = 'btneditPassFilePathDecrypt'
@@ -2819,6 +2827,7 @@ object Form3: TForm3
           Width = 121
           Height = 21
           Color = clBtnFace
+          MaxLength = 256
           TabOrder = 1
           Text = 'txtCamoExt'
         end
@@ -3034,7 +3043,7 @@ object Form3: TForm3
     Left = 28
     Top = 132
     Bitmap = {
-      494C01010400DC005C0110001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C01010400DC00640110001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -3357,7 +3366,7 @@ object Form3: TForm3
     Left = 28
     Top = 252
     Bitmap = {
-      494C010105000800E8001C001C00FFFFFFFF1910FFFFFFFFFFFFFFFF424D3600
+      494C010105000800F0001C001C00FFFFFFFF1910FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000700000003800000001001800000000008049
       000000000000000000000000000000000000000000000000000000FFFFFFFFFF
       FFFFFFFFFEFEFEFEFEFEFEFEFEFEFEFEFFFFFFFFFFFFFFFFFF00000000000000
@@ -3994,7 +4003,7 @@ object Form3: TForm3
     Left = 28
     Top = 76
     Bitmap = {
-      494C010107002800680030003000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010107002800700030003000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000C00000006000000001002000000000000020
       0100000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -6383,7 +6392,7 @@ object Form3: TForm3
     Left = 28
     Top = 24
     Bitmap = {
-      494C010107002C00800030003000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010107002C00880030003000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000C00000006000000001002000000000000020
       0100000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
