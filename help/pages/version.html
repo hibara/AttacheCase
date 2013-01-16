@@ -8,6 +8,19 @@
 
 <h1>バージョン履歴</h1>
 <p>『アタッシェケース』の改版履歴は以下の通りです。</p>
+<h2>ver.2.8.2.5&nbsp;&nbsp;-&nbsp;&nbsp;2013/01/16</h2>
+<blockquote>
+<ul>
+<li>ファイルをアタッシェケースアイコンへドラッグ＆ドロップした際に、動作設定が保存されていなかった不具合に対処（コマンドラインオプションからの動作と認識してしまっていたようです）。</li>
+<li>カレントディレクトリ、またはアタッシェケース本体のあるディレクトリに置かれた「_AtcCase.ini」を正常に読み書きできていなかった不具合に対処。</li>
+</ul>
+</blockquote>
+【ソースレベルの変更点】
+<blockquote>
+<ul>
+<li>ファイルを「fmOpenRead」オプションで読み込んでいたところにご指摘があり、「fmShareDenyRead」を加えてみた。※これにより他のアプリケーションが使用中のファイルでも暗号化できる場合があります（すべてではありません）。</li>
+</ul>
+</blockquote>
 <h2>ver.2.8.2.4&nbsp;&nbsp;-&nbsp;&nbsp;2013/01/11</h2>
 <blockquote>
 <ul>
@@ -1178,6 +1191,6 @@
 
 <br />
 <hr />
-<p>Copyright&copy; 2012 M.Hibara, All rights Reserved. </p>
+<p>Copyright&copy; 2013 M.Hibara, All rights Reserved. </p>
 </body>
 </html>

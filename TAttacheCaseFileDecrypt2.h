@@ -38,6 +38,8 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //---------------------------------------------------------------------------
 #include <Classes.hpp>
 
+#include "TMemoryStoredFiles.h"
+
 #include "MsgDecrypt.hpp"
 
 #include "rijndael.h"
@@ -91,6 +93,7 @@ private:
 	int MsgReturnVal;
 	String MsgReturnPath;
 
+
 	//「復号したファイルを関連付けされたソフトで開く」一時的な設定
 	bool fTempOpenFile;
 	//最上位のフォルダーを開いたか
@@ -104,14 +107,13 @@ private:
 		int &buff_size, char *source_buffer, char *chain_buffer,
 		TFileStream *fsIn, bool &fOpen, __int64 TotalSize );
 	//バッファの出力
-	int __fastcall OutputBuffer(
-		char *output_buffer, int buff_size,
+	int __fastcall OutputBuffer
+		(char *output_buffer, int buff_size,
 		TFileStream *&fsOut, bool &fOpen,
 		TStringList *FileList, int &FileIndex,
 		__int64 *FileSizeList, int *FileAttrList,
 		int *FileDtChangeList, int *FileTmChangeList,
-		int *FileDtCreateList, int *FileTmCreateList
-	);
+		int *FileDtCreateList, int *FileTmCreateList);
 
 	//ファイル/ディレクトリのタイムスタンプを設定する
 	void __fastcall FileSetTimeStamp
@@ -151,6 +153,8 @@ public:
 	String ProgressPercentNumText;     //進捗パーセント（小数点第一位までの文字列）
 	String ProgressStatusText;         //進捗ステータス
 	String ProgressMsgText;            //進捗メッセージ
+
+	bool fMemoryStoredFile;            // データをメモリ上に展開するか
 
 	bool fCompare;                     //コンペア
 	TStringList *CompareFileList;      //コンペアする元ファイルリスト

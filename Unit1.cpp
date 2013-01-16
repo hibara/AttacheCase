@@ -153,17 +153,9 @@ if ( ParamCount() > 0){
 		//カレントディレクトリに設定INIファイルがあるか？
 		IniFilePath = IncludeTrailingPathDelimiter(GetCurrentDir())+INI_FILE_NAME;
 		if ( FileExists(IniFilePath) == false ){
-			//なければ本体ディレクトリから
+			//なければ本体ディレクトリから、なければレジストリから読み込む
 			IniFilePath = IncludeTrailingPathDelimiter(ExtractFileDir(Application->ExeName))+INI_FILE_NAME;
-
-			if (FileExists(IniFilePath) == true ) {
-				// INIファイルがあればそこから、なければレジストリから読み込む
-				opthdl->LoadOptionData(IniFilePath);
-			}
-			else{
-				IniFilePath = "";
-			}
-
+			opthdl->LoadOptionData(IniFilePath);
 		}
 	}
 	//もう一度、その上からコマンドライン引数を上書きする
@@ -180,18 +172,13 @@ else{
 	//カレントディレクトリに設定INIファイルがあるか？
 	IniFilePath = IncludeTrailingPathDelimiter(GetCurrentDir())+INI_FILE_NAME;
 
-	if ( FileExists(IniFilePath) == false ){
-		//なければ本体ディレクトリから
+	if ( FileExists(IniFilePath) == true ){
+		opthdl->LoadOptionData(IniFilePath);
+	}
+	else{
+		//なければ本体ディレクトリから、なければレジストリから読み込む
 		IniFilePath = IncludeTrailingPathDelimiter(ExtractFileDir(Application->ExeName))+INI_FILE_NAME;
-
-		if (FileExists(IniFilePath) == true ) {
-			// INIファイルがあればそこから、なければレジストリから読み込む
-			opthdl->LoadOptionData(IniFilePath);
-		}
-		else{
-			opthdl->LoadOptionData("");
-		}
-
+		opthdl->LoadOptionData(IniFilePath);
 	}
 
 }
@@ -222,8 +209,6 @@ else{
 //サイドメニューを描画する
 //-----------------------------------
 PaintSideMenu();
-
-
 
 
 }
@@ -953,7 +938,7 @@ for (i = 0; i < AtcFileList->Count; i++) {
 	if ( FileExists(FilePath) == true ) {
 
 		try{
-			fs = new TFileStream(FilePath, fmOpenRead);
+			fs = new TFileStream(FilePath, fmOpenRead | fmShareDenyRead);
 		}
 		catch(...){
 			//ファイルが開けない場合は無視
@@ -1148,7 +1133,7 @@ else{
 		if ( FileExists(FilePath) == true ) {
 
 			try{
-				fs = new TFileStream(FilePath, fmOpenRead);
+				fs = new TFileStream(FilePath, fmOpenRead | fmShareDenyRead);
 			}
 			catch(...){
 				//'ファイルを開けません。他のアプリケーションで使用中の可能性があります。';
@@ -2728,9 +2713,9 @@ int HeaderBufSize;
 
 try {
 #ifdef EXE_OUT //自己実行形式（自身を開く）
-	fsIn = new TFileStream(AtcFilePath, fmShareDenyNone);
+	fsIn = new TFileStream(AtcFilePath, fmOpenReadWrite | fmShareDenyRead | fmShareDenyWrite);
 #else
-	fsIn = new TFileStream(AtcFilePath, fmOpenReadWrite);
+	fsIn = new TFileStream(AtcFilePath, fmOpenReadWrite | fmShareDenyRead | fmShareDenyWrite );
 #endif
 }
 catch(...) {

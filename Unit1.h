@@ -48,6 +48,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <Graphics.hpp>
 #include <GIFImg.hpp>
 #include <Buttons.hpp>
+#include "shlobj.h"
 
 #include "TAttacheCaseFileEncrypt.h"
 #include "TAttacheCaseFileDecrypt2.h"
@@ -56,12 +57,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "MsgUnit1.hpp"
 #include "TDragAndDrop.h"
-#include "shlobj.h"
-
+#include "TMemoryStoredFiles.h"
 
 #include "Unit2.h"
 #include "Unit3.h"
-
 
 #define INI_FILE_NAME "_AtcCase.ini"
 

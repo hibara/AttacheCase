@@ -64,7 +64,7 @@ for (int i = 0; i < 32; i++) {
 }
 
 fCompare = false;                  // コンペア
-CompareFileList = new TStringList; //コンペアファイルリスト
+CompareFileList = new TStringList; // コンペアファイルリスト
 
 ProgressPercentNum = -1;           // 進捗パーセント
 ProgressStatusText = "";           // 進捗ステータス
@@ -426,35 +426,36 @@ AtcFileCreateDateString = DataList->Strings[1];
 // ファイル情報などを各変数を動的確保
 //-----------------------------------
 
-FileSizeList = new __int64[DataList->Count];  // 1: ファイルサイズ（フォルダは-1）
-FileAttrList = new int[DataList->Count];      // 2: 属性
-FileDtChangeList = new int[DataList->Count];  // 3: 更新日
-FileTmChangeList = new int[DataList->Count];  // 4: 更新時
-FileDtCreateList = new int[DataList->Count];  // 5: 作成日
-FileTmCreateList = new int[DataList->Count];  // 6: 作成時
+	FileSizeList = new __int64[DataList->Count];  // 1: ファイルサイズ（フォルダは-1）
+	FileAttrList = new int[DataList->Count];      // 2: 属性
+	FileDtChangeList = new int[DataList->Count];  // 3: 更新日
+	FileTmChangeList = new int[DataList->Count];  // 4: 更新時
+	FileDtCreateList = new int[DataList->Count];  // 5: 作成日
+	FileTmCreateList = new int[DataList->Count];  // 6: 作成時
 
-DataList->NameValueSeparator = ':';
+	DataList->NameValueSeparator = ':';
 
-tsv = new TStringList;
-tsv->Delimiter = '\t';
-tsv->StrictDelimiter = true;
+	tsv = new TStringList;
+	tsv->Delimiter = '\t';
+	tsv->StrictDelimiter = true;
 
-for (i = 0; i < DataList->Count; i++) {
+	for (i = 0; i < DataList->Count; i++) {
 
-	idx = DataList->IndexOfName(PrefixString+IntToStr(i));
+		idx = DataList->IndexOfName(PrefixString+IntToStr(i));
 
-	if (idx > 0) {
-		tsv->DelimitedText = DataList->ValueFromIndex[idx];
-		FileList->Add(tsv->Strings[0]);
-		FileSizeList[i] = StrToIntDef(tsv->Strings[1], -1);    // 1: ファイルサイズ（フォルダは-1）
-		FileAttrList[i] = StrToIntDef(tsv->Strings[2], -1);    // 2: 属性
-		FileDtChangeList[i] = StrToIntDef(tsv->Strings[3], -1);// 3: 更新日
-		FileTmChangeList[i] = StrToIntDef(tsv->Strings[4], -1);// 4: 更新時
-		FileDtCreateList[i] = StrToIntDef(tsv->Strings[5], -1);// 5: 作成日
-		FileTmCreateList[i] = StrToIntDef(tsv->Strings[6], -1);// 6: 作成時
+		if (idx > 0) {
+			tsv->DelimitedText = DataList->ValueFromIndex[idx];
+			FileList->Add(tsv->Strings[0]);
+			FileSizeList[i] = StrToIntDef(tsv->Strings[1], -1);    // 1: ファイルサイズ（フォルダは-1）
+			FileAttrList[i] = StrToIntDef(tsv->Strings[2], -1);    // 2: 属性
+			FileDtChangeList[i] = StrToIntDef(tsv->Strings[3], -1);// 3: 更新日
+			FileTmChangeList[i] = StrToIntDef(tsv->Strings[4], -1);// 4: 更新時
+			FileDtCreateList[i] = StrToIntDef(tsv->Strings[5], -1);// 5: 作成日
+			FileTmCreateList[i] = StrToIntDef(tsv->Strings[6], -1);// 6: 作成時
+		}
+
 	}
 
-}
 
 delete tsv;
 delete DataList;
@@ -1096,14 +1097,18 @@ do{
 				try {
 
 					if (fCompare == false) {
+
 						// ver.2.75以前で「複数ファイルは一つの暗号化ファイルにまとめる」に
 						// チェックして暗号化されていた場合の対処
 						DirPath = ExtractFileDir(FilePath);
 						if (DirectoryExists(DirPath) == false) {
 							ForceDirectories(DirPath);	//親フォルダーがなければ強制的に生成する
 						}
+
 						//出力するファイルを開く
 						fsOut = new TFileStream(FilePath, fmCreate);
+
+
 					}
 					else{
 						//コンペアは元ファイルを開く

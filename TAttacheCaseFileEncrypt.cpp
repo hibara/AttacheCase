@@ -756,11 +756,7 @@ for(i = 0; i < len; ++i){
 // ヘッダ情報を生成する
 //===========================================================================
 bool __fastcall TAttacheCaseFileEncrypt::CreateHeaderData
-		 ( TMemoryStream *pms,
-			 TStringList   *FileList,
-			 TStringList   *FilePathList,
-			 __int64       &AllTotalFileSize
-		 )
+	(TMemoryStream *pms, TStringList *FileList, TStringList *FilePathList, __int64 &AllTotalFileSize)
 {
 
 int i, c;
