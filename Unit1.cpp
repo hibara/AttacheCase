@@ -915,62 +915,113 @@ delete DropFileList;
 //---------------------------------------------------------------------------
 // 暗号化ファイルのヘッダ判定
 //---------------------------------------------------------------------------
-bool __fastcall TForm1::CheckAtcFileHeader(TStringList *AtcFileList)
+int __fastcall TForm1::CheckAtcFileHeader(TStringList *AtcFileList)
 {
 
+//返値：
+//#define TYPE_CRYPT_ENCRYPT 1	//暗号化
+//#define TYPE_CRYPT_DECRYPT 2  //復号
+//#define TYPE_CRYPT_ERROR -1   //エラー
+
 int i;
+String MsgText;
 String FilePath;
+
+int PlainHeaderSize;                                  //平文のヘッダサイズ
+__int64 AllTotalSize;                                 //復号処理する合計サイズ
+
+const char charTokenString[17] = "_AttacheCaseData";  //暗号化ファイルを示すトークン
+const char charBrokenToken[17] = "_Atc_Broken_Data";  //ファイルが破壊されていることを示すトークン
 
 TFileStream *fs;
 char token[17];
 ZeroMemory(token, 17);
 
-//判定するファイルリストがすべてATCファイル形式であれば「復号＝true」を返す
-bool fDecrypt = true;
-
 //-----------------------------------
 // ファイルヘッダを判定
 //-----------------------------------
+
+//判定するファイルリストがすべてATCファイル形式であれば「復号処理」にする
+//（※一つでも通常のファイルがあれば「暗号化処理」へ）
+
 for (i = 0; i < AtcFileList->Count; i++) {
 
 	FilePath = AtcFileList->Strings[i];
 
+	//-----------------------------------
+	//ファイル
+	//-----------------------------------
 	if ( FileExists(FilePath) == true ) {
 
 		try{
-			fs = new TFileStream(FilePath, fmOpenRead | fmShareDenyRead);
+			fs = new TFileStream(FilePath, fmOpenRead | fmShareDenyNone);
 		}
 		catch(...){
-			//ファイルが開けない場合は無視
-			return(false);
+			//ファイルを開けない（エラー）
+			//'ファイルを開けません。他のアプリケーションで使用中の可能性があります。';
+			MsgText = LoadResourceString(&Msgunit1::_MSG_FILE_OPEN_ERROR) + "\n" + FilePath;
+			MessageDlg(MsgText, mtError, TMsgDlgButtons() << mbOK, 0);
+			return(TYPE_CRYPT_ERROR);
 		}
 
 		fs->Seek((__int64)4, TSeekOrigin::soBeginning);
 		fs->Read(token, 16);
-		delete fs;
 
-		//暗号化ファイル
-		if ( StrComp(token, "_AttacheCaseData") == 0 ) {
-
+		//破壊されたファイル（エラー）
+		if ( StrComp(token, charBrokenToken) == 0 ) {
+			// 'この暗号化ファイルはパスワード入力に失敗して破壊されているようです。復号できません。'
+			MsgText = LoadResourceString(&Msgunit1::_MSG_BROKEN_ATC_FILE) + "\n" + FilePath;
+			MessageDlg(MsgText, mtInformation, TMsgDlgButtons() << mbOK, 0);
+			delete fs;
+			return(TYPE_CRYPT_ERROR);
 		}
-		//破壊されたファイル
-		else if ( StrComp(token, "_Atc_Broken_Data") == 0 ) {
-			return(true);	//復号にして実行処理させてエラーをはかせるため
+		//暗号化ファイルか
+		else if ( StrComp(token, charTokenString) == 0 ) {
 		}
-		//通常のファイル
 		else{
-			fDecrypt = false;	//1つでもatcファイル以外があれば「暗号化」処理
-		}
+			//実は自己実行形式ファイル？（拡張子偽装されている場合もある）
 
+			// サイズを再取得
+			fs->Seek(-(__int64)sizeof(__int64), TSeekOrigin::soEnd);
+			fs->Read(&AllTotalSize, sizeof(__int64));
+			// 位置を戻す
+			fs->Seek(-(AllTotalSize + sizeof(__int64)), TSeekOrigin::soEnd);
+			// もう一度、平文ヘッダサイズを読み込む
+			fs->Read(&PlainHeaderSize, sizeof(int));
+			// もう一度、トークンを取得
+			fs->Read(token, 16);
+
+			// トークンを再チェック
+			if (StrComp(token, charTokenString) == 0 ) {
+			}
+			else{
+				//破壊されたファイル
+				if ( StrComp(token, charBrokenToken) == 0 ) {
+					// 'この暗号化ファイルはパスワード入力に失敗して破壊されているようです。復号できません。'
+					MsgText = LoadResourceString(&Msgunit1::_MSG_BROKEN_ATC_FILE) + "\n" + FilePath;
+					MessageDlg(MsgText, mtInformation, TMsgDlgButtons() << mbOK, 0);
+					delete fs;
+					return(TYPE_CRYPT_ERROR);
+				}
+				else{
+					//暗号化処理へ
+					return(TYPE_CRYPT_ENCRYPT);
+				}
+			}
+		}
+		delete fs;
 	}
+	//-----------------------------------
+	//ディレクトリ
+	//-----------------------------------
 	else{
-		//ディレクトリ
-		fDecrypt = false;
+		//暗号化処理へ
+		return(TYPE_CRYPT_ENCRYPT);
 	}
 
 }//end for (i = 0; i < AtcFileList->Count; i++);
 
-return(fDecrypt);
+return(TYPE_CRYPT_DECRYPT);
 
 }
 //---------------------------------------------------------------------------
@@ -1117,66 +1168,13 @@ if ( opthdl->fAskEncDecode == true ) {
 
 }
 //-------------------------------------
-//暗号/復号処理かを問い合わせず判定する
+//ファイルヘッダを自動判定する
 //-------------------------------------
 else{
 
-	CryptTypeNum = TYPE_CRYPT_DECRYPT;
+	CryptTypeNum = CheckAtcFileHeader(ExeFileList);
 
-	//-----------------------------------
-	// ファイルヘッダを判定
-	//-----------------------------------
-	for (i = 0; i < ExeFileList->Count; i++) {
-
-		FilePath = ExeFileList->Strings[i];
-
-		if ( FileExists(FilePath) == true ) {
-
-			try{
-				fs = new TFileStream(FilePath, fmOpenRead | fmShareDenyRead);
-			}
-			catch(...){
-				//'ファイルを開けません。他のアプリケーションで使用中の可能性があります。';
-				MsgText = LoadResourceString(&Msgunit1::_MSG_FILE_OPEN_ERROR) + "\n" + FilePath;
-				MessageDlg(MsgText, mtError, TMsgDlgButtons() << mbOK, 0);
-
-				CryptTypeNum = TYPE_CRYPT_ERROR;
-				break;
-			}
-
-			fs->Seek((__int64)4, TSeekOrigin::soBeginning);
-			fs->Read(token, 16);
-			delete fs;
-
-			//暗号化ファイル
-			if ( StrComp(token, "_AttacheCaseData") == 0 ) {
-
-			}
-			//破壊されたファイル
-			else if ( StrComp(token, "_Atc_Broken_Data") == 0 ) {
-				// 'この暗号化ファイルはパスワード入力に失敗して破壊されているようです。復号できません。'
-				MsgText = LoadResourceString(&Msgunit1::_MSG_BROKEN_ATC_FILE) + "\n" + FilePath;
-				MessageDlg(MsgText, mtInformation, TMsgDlgButtons() << mbOK, 0);
-				CryptTypeNum = TYPE_CRYPT_ERROR;
-				break;
-			}
-			//通常のファイル
-			else{
-				//1つでもatcファイル以外があれば「暗号化」処理
-				CryptTypeNum = TYPE_CRYPT_ENCRYPT;
-			}
-
-		}
-		else{
-			//ディレクトリ（暗号処理）
-			CryptTypeNum = TYPE_CRYPT_ENCRYPT;
-		}
-
-	}//end for (i = 0; i < ExeFileList->Count; i++);
-
-}//end if ( opthdl->fAskEncDecode == true );
-
-
+}
 //-----------------------------------
 // 暗号化/復号それぞれの処理実行
 //-----------------------------------
@@ -1708,7 +1706,7 @@ if ( FileList->Count > 0) {
 
 }
 //---------------------------------------------------------------------------
-// ファイルをコンペアする処理（とは言っても実際は復号処理）
+// TODO: ファイルをコンペアする処理（とは言っても実際は復号処理）
 //---------------------------------------------------------------------------
 void __fastcall TForm1::FileCompare(void)
 {
@@ -1728,13 +1726,6 @@ String OutDirPath;
 //-----------------------------------
 // コンペア処理の開始
 //-----------------------------------
-if (FileListPosition > FileList->Count - 1) {
-	return;
-}
-
-//-----------------------------------
-// コンペア処理の開始
-//-----------------------------------
 
 // この処理の前に暗号化処理を行っているか
 //（暗号化インスタンスがあるか）
@@ -1745,26 +1736,27 @@ if ( encrypt == NULL) {
 	MessageDlg(MsgText, mtError, TMsgDlgButtons() << mbOK, 0);
 	return;
 }
-
-AtcFilePath = FileList->Strings[FileListPosition];
+else{
+	AtcFilePath = encrypt->OutFilePath;
+}
 
 //復号処理インスタンスの作成
 decrypt = new TAttacheCaseFileDecrypt2(true);
-
-decrypt->fCompare = true;	//コンペア
-decrypt->CompareFileList->Text = encrypt->InputFileList->Text;
-
+decrypt->fCompare = true;	//コンペアON
+decrypt->CompareFileList->Text = encrypt->FilePathList->Text;
 decrypt->OnTerminate = DecryptThreadTerminated;
 decrypt->FreeOnTerminate = true;
-decrypt->AppExeFilePath = Application->ExeName;  //アタッシェケース本体の場所（実行形式出力のときに参照する）
-decrypt->AtcFilePath = AtcFilePath;              //入力する暗号化ファイルパス
-decrypt->OutDirPath = "";                        //出力するディレクトリ
+decrypt->AppExeFilePath = Application->ExeName;    //アタッシェケース本体の場所（実行形式出力のときに参照する）
+decrypt->AtcFilePath = AtcFilePath;                //入力する暗号化ファイルパス
+decrypt->OutDirPath = ExtractFileDir(AtcFilePath); //出力するディレクトリ
 
 //-----------------------------------
 //パスワードのセット
 //-----------------------------------
 encrypt->GetPasswordBinary(password);
 decrypt->SetPasswordBinary(password);
+
+encrypt = NULL;
 
 //コンペア（復号）の実行
 decrypt->Start();
@@ -1821,15 +1813,16 @@ if ( encrypt->StatusNum > 0 ) {
 		DelFileTotalSize = encrypt->AllTotalSize;
 		DelFileListString = encrypt->FilePathList->Text;	//処理したファイルリストを削除リストに
 	}
-	encrypt = NULL;
 
 	FileListPosition++;
 
 	//コンペア
-	if ( opthdl->fCompareFile == true && FileListPosition < FileList->Count ){
+	if ( opthdl->fCompareFile == true ){
 		FileCompare();
 		return;
 	}
+
+	encrypt = NULL;
 
 	//個別に暗号化するオプションでまだ処理するファイルが残っている
 	if (FileListPosition < FileList->Count) {
@@ -1887,15 +1880,17 @@ if ( decrypt->StatusNum > 0 ) {
 	//復号処理終了
 	TimerDecrypt->Enabled = false;
 	DecryptAllTotalSize += decrypt->AllTotalSize;
-	FileListPosition++;
 
 	//コンペアしてきた
 	if (decrypt->fCompare == true) {
-		//元の暗号化処理スレッドへ戻る
-		EncryptThreadTerminated(Sender);
-		return;
+		//個別に暗号化するオプションでまだ処理するファイルが残っている
+		if (FileListPosition < FileList->Count) {
+			FileEncrypt();
+			return;
+		}
 	}
 
+	FileListPosition++;
 	decrypt = NULL;
 
 	//個別に暗号化するオプションでまだ処理するファイルが残っている
@@ -1952,7 +1947,6 @@ else{
 			RetryAtcFilePath = decrypt->AtcFilePath;
 		}
 
-
 	}
 	//エラー
 	else if ( decrypt->StatusNum == -2 ) {
@@ -1962,6 +1956,9 @@ else{
 	else{
 
 	}
+
+	// "Cancel" → "OK"
+	cmdCancel->Caption = "&OK";
 
 	//エラーで終了してきた
 	TimerDecrypt->Enabled = false;
@@ -2713,9 +2710,9 @@ int HeaderBufSize;
 
 try {
 #ifdef EXE_OUT //自己実行形式（自身を開く）
-	fsIn = new TFileStream(AtcFilePath, fmOpenReadWrite | fmShareDenyRead | fmShareDenyWrite);
+	fsIn = new TFileStream(AtcFilePath, fmOpenReadWrite | fmShareDenyNone);
 #else
-	fsIn = new TFileStream(AtcFilePath, fmOpenReadWrite | fmShareDenyRead | fmShareDenyWrite );
+	fsIn = new TFileStream(AtcFilePath, fmOpenReadWrite | fmShareDenyNone);
 #endif
 }
 catch(...) {

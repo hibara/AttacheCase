@@ -264,7 +264,7 @@ private:	// ユーザー宣言
 	void __fastcall DoDeleteFile(String DelFileListString, __int64 DelTotalSize);
 
 	// 暗号化ファイルのヘッダ判定（すべてATCファイルなら真を返す）
-	bool __fastcall CheckAtcFileHeader(TStringList *AtcFileList);
+	int __fastcall CheckAtcFileHeader(TStringList *AtcFileList);
 	// 暗号化ファイルを破壊する
 	bool __fastcall DestroyAtcFile(String AtcFilePath);
 

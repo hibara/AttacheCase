@@ -445,7 +445,7 @@ while(!Terminated) {
 					while(FileIndex < FilePathList->Count){
 						if (FilePathList->Strings[FileIndex] != "") {
 							try{
-								fsIn = new TFileStream(FilePathList->Strings[FileIndex], fmOpenRead);
+								fsIn = new TFileStream(FilePathList->Strings[FileIndex], fmOpenRead | fmShareDenyNone);
 								fOpenIn = true;
 								FileIndex++;
 								break;
@@ -796,7 +796,7 @@ const char charReservedValue[4] = { 0, 0, 0, 0 };
 const char charDataSubVersion = ATC_DATA_SUB_VERSION;
 const char charOptMissTypeLimitsNumOption = intOptMissTypeLimitsNumOption;
 const char charOptBrokenFileOption = (fOptBrokenFileOption > 0 ? 1 : 0);
-const char charTokenString[16] = "_AttacheCaseData";
+const char charTokenString[17] = "_AttacheCaseData";
 const int DataFileVersion = ATC_DATA_FILE_VERSION;
 const int AlgorismType = TYPE_ALGORISM_RIJNDAEL;
 
@@ -873,12 +873,7 @@ ProgressMsgText = "";
 tpms = new TMemoryStream;
 
 //------------------------------------------------
-// TODO: 暗号化時にヘッダデータの互換性維持
-// 旧バージョンで暗号化されたファイルの下位互換性と、
-// 新バージョンによるUnicodeファイル名に対応するため、
-// 以下のようにファイルリスト情報を二重持ちしています。
-// 他に良い方法があれば作者までご提案いただけると
-// うれしいです。
+// 暗号化時にヘッダデータの互換性維持
 //---------------------------------------------------
 HeaderDataList->SaveToStream(tpms, TEncoding::GetEncoding(932));
 //新バージョン（ver.2.8.0～）用（UTF-8）に保存

@@ -42,13 +42,11 @@ class TMemoryStoredFiles : public TObject
 
 private:
 
-	int FileCount;
-
 protected:
 
 public:
 
-	__fastcall TMemoryStoredFiles(int DataCount);
+	__fastcall TMemoryStoredFiles(int FileCount);
 	__fastcall ~TMemoryStoredFiles();
 
 
@@ -60,7 +58,10 @@ public:
 	int *FileDtCreateList;     // 5: 作成日
 	int *FileTmCreateList;     // 6: 作成時
 
-	TList *FileDataList;       // TMemoryStreamオブジェクトを格納する
+	TMemoryStream *ms;         // ファイルデータをメモリ上に格納する
+
+
+
 
 
 

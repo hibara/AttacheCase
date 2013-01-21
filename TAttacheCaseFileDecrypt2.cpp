@@ -129,8 +129,9 @@ AllTotalSize = 0;
 int ret;	//バッファ出力の返値
 int FileIndex = 0;
 
-char token[16];
-const char charTokenString[16] = "_AttacheCaseData";         //復号の正否に使う
+char token[17] = {0, };
+const char charTokenString[17] = "_AttacheCaseData";         //復号の正否に使う
+const char charBrokenToken[17] = "_Atc_Broken_Data";         //ファイルが破壊されていることを示すトークン
 String AtcFileTokenString;                                   //暗号化ファイルのトークン（文字列）
 String AtcFileCreateDateString;                              //暗号化ファイルの生成日時（文字列）
 
@@ -144,6 +145,9 @@ fOpenFolderOnce = false;
 
 // 出力するディレクトリ
 OutDirPath = IncludeTrailingPathDelimiter(OutDirPath);
+
+String TempRelativePath;
+
 
 // 平文ヘッダサイズ（データサブバージョン、破壊設定など）
 int PlainHeaderSize = 0;
@@ -185,11 +189,7 @@ int buf_size;
 // 平文のヘッダ内容チェック
 
 try {
-#ifdef EXE_OUT //自己実行形式（自身を開く）
-	fsIn = new TFileStream(AtcFilePath, fmShareDenyNone);
-#else
-	fsIn = new TFileStream(AtcFilePath, fmOpenRead);
-#endif
+	fsIn = new TFileStream(AtcFilePath, fmOpenRead | fmShareDenyNone);
 }
 catch(...) {
 	//'復号するファイルを開けません。他のアプリケーションが使用中の可能性があります。'
@@ -208,8 +208,7 @@ fsIn->Read(&PlainHeaderSize, sizeof(int));
 // トークンを取得
 fsIn->Read(token, 16);
 
-if (memcmp(token, charTokenString, 16) != 0 ) {
-
+if (StrComp(token, charTokenString) != 0 ) {
 	//--------------------------------------------------------
 	//実は自己実行形式ファイル？（拡張子偽装されている場合も）
 	//--------------------------------------------------------
@@ -224,8 +223,9 @@ if (memcmp(token, charTokenString, 16) != 0 ) {
 	fsIn->Read(token, 16);
 
 	// トークンを再チェック
-	if (memcmp(token, charTokenString, 16) != 0 ) {
-		if (token == "_Atc_Broken_Data") {
+	if (StrComp(token, charTokenString) != 0 ) {
+
+		if ( StrComp(token, charBrokenToken) == 0 ) {
 			//'復号するファイルを開けません。この暗号化ファイルは破壊されています。'
 			MsgText = LoadResourceString(&Msgdecrypt::_MSG_ERROR_FILE_BROKEN);
 			MsgType = mtError;
@@ -386,13 +386,13 @@ if ( fPasswordOk == false ) {
 }
 
 //-----------------------------------
-// TODO: 復号時のエンコーディング判定
+// 復号時のエンコーディング判定
 //-----------------------------------
 pms->Position = 0;
 DataList->LoadFromStream(pms, TEncoding::UTF8);
 PrefixString = "Fn_";
 for (i = 0; i < DataList->Count; i++) {
-	if ( DataList->Strings[i].Pos("U_0") == 0){
+	if ( DataList->Strings[i].Pos("U_0") == 1){
 		PrefixString = "U_";	//新バージョン（ver.2.8.0～）で暗号化されているようだ
 		break;
 	}
@@ -405,7 +405,7 @@ if (PrefixString == "Fn_") {
 }
 
 //===================================
-//デバッグ
+// デバッグ
 //ShowMessage(DataList->Text);
 //===================================
 
@@ -426,36 +426,33 @@ AtcFileCreateDateString = DataList->Strings[1];
 // ファイル情報などを各変数を動的確保
 //-----------------------------------
 
-	FileSizeList = new __int64[DataList->Count];  // 1: ファイルサイズ（フォルダは-1）
-	FileAttrList = new int[DataList->Count];      // 2: 属性
-	FileDtChangeList = new int[DataList->Count];  // 3: 更新日
-	FileTmChangeList = new int[DataList->Count];  // 4: 更新時
-	FileDtCreateList = new int[DataList->Count];  // 5: 作成日
-	FileTmCreateList = new int[DataList->Count];  // 6: 作成時
+FileSizeList = new __int64[DataList->Count];  // 1: ファイルサイズ（フォルダは-1）
+FileAttrList = new int[DataList->Count];      // 2: 属性
+FileDtChangeList = new int[DataList->Count];  // 3: 更新日
+FileTmChangeList = new int[DataList->Count];  // 4: 更新時
+FileDtCreateList = new int[DataList->Count];  // 5: 作成日
+FileTmCreateList = new int[DataList->Count];  // 6: 作成時
 
-	DataList->NameValueSeparator = ':';
+DataList->NameValueSeparator = ':';
 
-	tsv = new TStringList;
-	tsv->Delimiter = '\t';
-	tsv->StrictDelimiter = true;
+tsv = new TStringList;
+tsv->Delimiter = '\t';
+tsv->StrictDelimiter = true;
 
-	for (i = 0; i < DataList->Count; i++) {
-
-		idx = DataList->IndexOfName(PrefixString+IntToStr(i));
-
-		if (idx > 0) {
-			tsv->DelimitedText = DataList->ValueFromIndex[idx];
-			FileList->Add(tsv->Strings[0]);
-			FileSizeList[i] = StrToIntDef(tsv->Strings[1], -1);    // 1: ファイルサイズ（フォルダは-1）
-			FileAttrList[i] = StrToIntDef(tsv->Strings[2], -1);    // 2: 属性
-			FileDtChangeList[i] = StrToIntDef(tsv->Strings[3], -1);// 3: 更新日
-			FileTmChangeList[i] = StrToIntDef(tsv->Strings[4], -1);// 4: 更新時
-			FileDtCreateList[i] = StrToIntDef(tsv->Strings[5], -1);// 5: 作成日
-			FileTmCreateList[i] = StrToIntDef(tsv->Strings[6], -1);// 6: 作成時
-		}
-
+for (i = 0; i < DataList->Count; i++) {
+	idx = DataList->IndexOfName(PrefixString+IntToStr(i));
+	if (idx > 0) {
+		tsv->DelimitedText = DataList->ValueFromIndex[idx];
+		FileList->Add(tsv->Strings[0]);
+		FileSizeList[i] = StrToIntDef(tsv->Strings[1], -1);    // 1: ファイルサイズ（フォルダは-1）
+		FileAttrList[i] = StrToIntDef(tsv->Strings[2], -1);    // 2: 属性
+		FileDtChangeList[i] = StrToIntDef(tsv->Strings[3], -1);// 3: 更新日
+		FileTmChangeList[i] = StrToIntDef(tsv->Strings[4], -1);// 4: 更新時
+		FileDtCreateList[i] = StrToIntDef(tsv->Strings[5], -1);// 5: 作成日
+		FileTmCreateList[i] = StrToIntDef(tsv->Strings[6], -1);// 6: 作成時
 	}
 
+}
 
 delete tsv;
 delete DataList;
@@ -514,9 +511,16 @@ if ( fTempOpenFile == true && FileList->Count > 4 && fCompare == false) {
 // 復号開始
 //-----------------------------------
 
-//'復号しています...'
-ProgressStatusText = LoadResourceString(&Msgdecrypt::_LABEL_STATUS_TITLE_DECRYPTING);
-ProgressMsgText = ExtractFileName(AtcFilePath);
+if (fCompare == false) {
+	//'復号しています...'
+	ProgressStatusText = LoadResourceString(&Msgdecrypt::_LABEL_STATUS_TITLE_DECRYPTING);
+	ProgressMsgText = ExtractFileName(AtcFilePath);
+}
+else{
+	//'コンペアしています...'
+	ProgressStatusText = LoadResourceString(&Msgdecrypt::_LABEL_STATUS_TITLE_COMPARING);
+	ProgressMsgText = ExtractFileName(AtcFilePath);
+}
 
 // ファイル（データ本体）サイズを取得する
 AllTotalSize = fsIn->Size - fsIn->Position + 1;
@@ -779,8 +783,15 @@ LabelError:
 
 	//'エラー'
 	ProgressStatusText = LoadResourceString(&Msgdecrypt::_LABEL_STATUS_TITLE_ERROR);
-	//'復号に失敗しました。'
-	ProgressMsgText = LoadResourceString(&Msgdecrypt::_LABEL_STATUS_DETAIL_FAILED);
+
+	if (fCompare == true) {
+		//'コンペアで問題を見つけたようです。';
+		ProgressMsgText = LoadResourceString(&Msgdecrypt::_LABEL_STATUS_DETAIL_COMPARE_FAILED);
+	}
+	else{
+		//'復号に失敗しました。'
+		ProgressMsgText = LoadResourceString(&Msgdecrypt::_LABEL_STATUS_DETAIL_FAILED);
+	}
 
 	if ( fInputFileOpen == true ) {
 		delete fsIn;
@@ -928,6 +939,8 @@ int __fastcall TAttacheCaseFileDecrypt2::OutputBuffer
 
 int res;
 
+bool fCompareError = false;
+
 int rest;
 String FileName, FilePath, DirPath;
 char read_buffer[LARGE_BUF_SIZE];      //コンペア用
@@ -951,25 +964,25 @@ do{
 			FileName = FileList->Strings[FileIndex];
 			FilePath = OutDirPath + FileName;
 
-			//-----------------------------------
+			//----------------------------------------------------------------------
 			// ディレクトリ
-			//-----------------------------------
+			//----------------------------------------------------------------------
 			if (FileName.IsPathDelimiter(FileList->Strings[FileIndex].Length()) == true) {
 
 				//コンペア
 				if (fCompare == true) {
-					if (FileName == ExtractRelativePath(OutDirPath, CompareFileList->Strings[FileIndex])) {
+					if (CompareFileList->Strings[FileIndex] == "") {
 						continue;
 					}
 					else{
 						//'コンペアに失敗しました。'
-						MsgText = LoadResourceString(&Msgdecrypt::_MSG_ERROR_COMPARE_FILE_MISMATCH)+"\n";
+						MsgText = LoadResourceString(&Msgdecrypt::_MSG_ERROR_COMPARE_FILE) + "\n" +
 						//'次のファイルまたはフォルダの内容が異なるようです。'
-						MsgText += LoadResourceString(&Msgdecrypt::_MSG_ERROR_COMPARE_FILE_MISMATCH)+"\n";
+						LoadResourceString(&Msgdecrypt::_MSG_ERROR_COMPARE_FILE_MISMATCH) + "\n" +
 						// '暗号化:'+CompareFileList->Strings[i];
-						MsgText += LoadResourceString(&Msgdecrypt::_MSG_ERROR_COMPARE_ENCRYPT_FILE)+"\n"+CompareFileList->Strings[FileIndex];
+						LoadResourceString(&Msgdecrypt::_MSG_ERROR_COMPARE_ENCRYPT_FILE) + "\n" + CompareFileList->Strings[FileIndex] + "\n" +
 						// '復号  :'+FilePath;
-						MsgText += LoadResourceString(&Msgdecrypt::_MSG_ERROR_COMPARE_DECRYPT_FILE)+"\n"+FilePath;
+						LoadResourceString(&Msgdecrypt::_MSG_ERROR_COMPARE_DECRYPT_FILE) + "\n" + FilePath;
 						MsgType = mtError;
 						MsgButtons = TMsgDlgButtons() << mbOK;
 						MsgDefaultButton = mbOK;
@@ -1042,12 +1055,12 @@ do{
 				continue;
 
 			}
-			//-----------------------------------
+			//----------------------------------------------------------------------
 			// ファイル
-			//-----------------------------------
+			//----------------------------------------------------------------------
 			else {
 
-				if ( fCompare == false && fConfirmOverwirte == true && fOverwirteYesToAll == false ) {
+				if (fConfirmOverwirte == true && fOverwirteYesToAll == false && fCompare == false) {
 
 					DirPath = ExtractFileDir(FilePath);
 					if (DirectoryExists(DirPath) == false) {
@@ -1082,7 +1095,7 @@ do{
 				//暗号化ファイル自身への復号はNG
 				//（ex: ..\hoge -> ..\hoge）
 				//-----------------------------------
-				if ( fCompare == false && FilePath == AtcFilePath ) {
+				if ( FilePath == AtcFilePath && fCompare == false) {
 					//'暗号化ファイル自身にファイルまたはフォルダーを復号することはできません。'+#13+
 					//'復号処理を中止します。';
 					MsgText = LoadResourceString(&Msgdecrypt::_MSG_ERROR_NOT_OVERWRITE_MYSELF)+"\n"+FilePath;
@@ -1097,8 +1110,7 @@ do{
 				try {
 
 					if (fCompare == false) {
-
-						// ver.2.75以前で「複数ファイルは一つの暗号化ファイルにまとめる」に
+						// TODO: ver.2.75以前で「複数ファイルは一つの暗号化ファイルにまとめる」に
 						// チェックして暗号化されていた場合の対処
 						DirPath = ExtractFileDir(FilePath);
 						if (DirectoryExists(DirPath) == false) {
@@ -1108,11 +1120,10 @@ do{
 						//出力するファイルを開く
 						fsOut = new TFileStream(FilePath, fmCreate);
 
-
 					}
 					else{
 						//コンペアは元ファイルを開く
-						fsOut = new TFileStream(CompareFileList->Strings[FileIndex], fmOpenRead);
+						fsOut = new TFileStream(CompareFileList->Strings[FileIndex], fmOpenRead | fmShareDenyNone);
 					}
 
 				}
@@ -1234,59 +1245,64 @@ do{
 
 		}
 		//-----------------------------------
-		// コンペア
+		// TODO: コンペア
 		//-----------------------------------
 		else {
 
-			if (fsOut->Position + LARGE_BUF_SIZE < FileSizeList[FileIndex]) {
+			fCompareError = false;
 
-				if (fsOut->Read(read_buffer, LARGE_BUF_SIZE) != LARGE_BUF_SIZE) {
-					//読み込みエラー
+			if (fsOut->Size + buff_size < FileSizeList[FileIndex]) {
+				if (fsOut->Read(read_buffer, buff_size) != buff_size) {
 					goto LabelReadWriteError;
 				}
-				else{
-					//データのコンペア
-					if ( CompareMem(read_buffer, output_buffer, LARGE_BUF_SIZE) == false ){
-						//'データの一致しないファイルが見つかりました。'
-						MsgText = LoadResourceString(&Msgdecrypt::_MSG_ERROR_COMPARE_DATA_NOT_MATCH)+"\n"+fsOut->FileName;
-						//'コンペアに失敗しました。';
-						MsgText += LoadResourceString(&Msgdecrypt::_MSG_ERROR_COMPARE_FILE);
-						MsgType = mtError;
-						MsgButtons = TMsgDlgButtons() << mbOK;
-						MsgDefaultButton = mbOK;
-						Synchronize(&PostConfirmMessageForm);
-						goto LabelError;
-					}
+				else {
+					buff_size = 0;
 				}
-
+				//バイナリデータをコンペアする
+				if ( CompareMem(read_buffer, output_buffer, buff_size) == false ){
+					fCompareError = true;
+				}
 			}
 			else{
-				rest = FileSizeList[FileIndex] - fsOut->Position;
+				rest = FileSizeList[FileIndex] - fsOut->Size;
 				if (fsOut->Read(read_buffer, rest) != rest) {
 					//読み込みエラー
 					goto LabelReadWriteError;
 				}
 				else {
-					buff_size -= rest;
-					delete fsOut;
-					fOpen = false;
-
-					FileSetTimeStamp(
-						FilePath,
-						FileDtChangeList[FileIndex], FileTmChangeList[FileIndex],
-						FileDtCreateList[FileIndex], FileTmCreateList[FileIndex],
-						false, true);
-					FileSetAttr(FilePath, FileAttrList[FileIndex]);
-
-					//関連付けられたアプリケーションでファイルを開く
-					if ( fTempOpenFile == true ) {
-						ShellExecuteW(NULL, L"open", FilePath.c_str(), NULL, NULL, SW_NORMAL);
+					//バイナリデータをコンペアする
+					if ( CompareMem(read_buffer, output_buffer, rest) == false ){
+						fCompareError = true;
 					}
 
+					buff_size -= rest;
+					//残ったバッファを前に詰める
+					for (int i = 0; i < LARGE_BUF_SIZE; i++) {
+						if (i < buff_size) {
+							temp_buffer[i] = output_buffer[rest+i];
+						}
+						else{
+							temp_buffer[i] = 0;
+						}
+					}
+					memcpy(output_buffer, temp_buffer, LARGE_BUF_SIZE);
+					delete fsOut;
+					fOpen = false;
 					FileIndex++;
+				}
 
-				}//end if (fsOut->Write(output_buffer, rest) != rest);
-
+			}
+			if (fCompareError == true) {
+				//'データの一致しないファイルが見つかりました。'
+				MsgText = LoadResourceString(&Msgdecrypt::_MSG_ERROR_COMPARE_DATA_NOT_MATCH)+"\n"+
+									CompareFileList->Strings[FileIndex] + "\n";
+				//'コンペアに失敗しました。';
+				MsgText += LoadResourceString(&Msgdecrypt::_MSG_ERROR_COMPARE_FILE);
+				MsgType = mtError;
+				MsgButtons = TMsgDlgButtons() << mbOK;
+				MsgDefaultButton = mbOK;
+				Synchronize(&PostConfirmMessageForm);
+				goto LabelError;
 			}
 
 		//-----------------------------------
@@ -1378,7 +1394,8 @@ LabelStop:
 //===========================================================================
 // ファイル/ディレクトリのタイムスタンプを設定する
 //===========================================================================
-void __fastcall TAttacheCaseFileDecrypt2::FileSetTimeStamp(String FilePath, // パス
+void __fastcall TAttacheCaseFileDecrypt2::FileSetTimeStamp(
+	String FilePath,     // パス
 	int tsChangeDateNum, // 更新日 （※Win98の場合はここにFileAgeが入る）
 	int tsChangeTimeNum, // 更新時
 	int tsCreateDateNum, // 作成日
@@ -1389,7 +1406,7 @@ void __fastcall TAttacheCaseFileDecrypt2::FileSetTimeStamp(String FilePath, // �
 {
 
 	if (FilePath == "") {
-    return;
+		return;
 	}
 
 	HANDLE hFile;
@@ -1419,9 +1436,16 @@ void __fastcall TAttacheCaseFileDecrypt2::FileSetTimeStamp(String FilePath, // �
 			dtCreateDate = Now();
 		}
 		else {
-			// TimeStampからTDateTimeへ
-			dtChangeDate = TimeStampToDateTime(tsChangeDate);
-			dtCreateDate = TimeStampToDateTime(tsCreateDate);
+			// ver.2.75以前で"0"の値が入っている可能性がある
+			if (tsChangeDateNum == 0 || tsCreateDateNum == 0 ) {
+				dtChangeDate = Now(); //現在日時
+				dtCreateDate = Now();
+			}
+			else{
+				// TimeStampからTDateTimeへ
+				dtChangeDate = TimeStampToDateTime(tsChangeDate);
+				dtCreateDate = TimeStampToDateTime(tsCreateDate);
+			}
 		}
 
 	}

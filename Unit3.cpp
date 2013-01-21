@@ -920,7 +920,7 @@ TSelectDirExtOpts opt =
 if (SelectDirectory(
 	LoadResourceString(&Msgunit3::_DIALOG_MSG_SELECT_DECODE_TO_SAME_DIR_PATH),
 		L"", DirPath, opt, this) == true){
-	btneditSaveToSameFldrPath->Text = DirPath;
+	btneditDecodeToSameFldrPath->Text = DirPath;
 }
 else{
 	chkDecodeToSameFldr->Checked = false;
@@ -1896,6 +1896,7 @@ lblAutoFormatExample->Caption = "ex)." + ExtractFileName(FilePath);
 void __fastcall TForm3::cmdOutputOptionDataClick(TObject *Sender)
 {
 
+int OptType = pOpt->OptType; //現在の保存形式
 // 'INIファイル(*.ini)|*.ini|すべてのファイル(*.*)|*.*';
 SaveDialog1->Filter = LoadResourceString(&Msgunit3::_DIALOG_SAVE_TO_INIFILE_FILTER_TEXT);
 SaveDialog1->FilterIndex = 0;
@@ -1906,7 +1907,11 @@ SaveDialog1->Title = LoadResourceString(&Msgunit3::_DIALOG_SAVE_TO_INIFILE_TITLE
 if ( SaveDialog1->Execute() == true ) {
 	pOpt->OptType = 1;
 	pOpt->OptionPath = SaveDialog1->FileName;
+	//ファイルを新規に作成してから
+	TFileStream *fsIni = new TFileStream(SaveDialog1->FileName, fmCreate);
+	delete fsIni;
 	pOpt->SaveOptionData();
+	pOpt->OptType = OptType;	//保存形式を戻す
 }
 
 }
