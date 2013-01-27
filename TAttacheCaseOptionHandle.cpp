@@ -493,89 +493,91 @@ try{
 	//-----------------------------------
 	// フォームポジションなど
 	//-----------------------------------
-	pOpt->WriteInteger( "WindowPos", "WindowWidth", FormWidth);
-	pOpt->WriteInteger( "WindowPos", "WindowHeight", FormHeight);
-	pOpt->WriteInteger( "WindowPos", "WindowTop", FormTop);
-	pOpt->WriteInteger( "WindowPos", "WindowLeft", FormLeft);
-	pOpt->WriteInteger( "WindowPos", "FormStyle", WinStyle);
+	pOpt->WriteString( "WindowPos", "WindowWidth", IntToStr(FormWidth));
+	pOpt->WriteString( "WindowPos", "WindowHeight", IntToStr(FormHeight));
+	pOpt->WriteString( "WindowPos", "WindowTop", IntToStr(FormTop));
+	pOpt->WriteString( "WindowPos", "WindowLeft", IntToStr(FormLeft));
+	pOpt->WriteString( "WindowPos", "FormStyle", IntToStr(WinStyle));
 
 	//-----------------------------------
 	// 基本設定
 	//-----------------------------------
-	pOpt->WriteBool( "MyKey", "fKeep", fMyEncodePasswordKeep);   //パスワードを記録するか
-	pOpt->WriteBool( "MyKey", "fKeep01", fMyDecodePasswordKeep);
+	pOpt->WriteString( "MyKey", "fKeep", fMyEncodePasswordKeep==true ? "1" : "0");   //パスワードを記録するか
+	pOpt->WriteString( "MyKey", "fKeep01", fMyDecodePasswordKeep==true ? "1" : "0");
 	//記憶するパスワードを記録する
 	SaveMyPasswordToRegistry(MyEncodePassword, 0);	//暗号化
 	SaveMyPasswordToRegistry(MyDecodePassword, 1);	//復号
 
-	pOpt->WriteInteger( "Option", "fMemPasswordExe", fMemPasswordExe);     //記憶パスワードで確認なく実行する
-	pOpt->WriteInteger( "Option", "fOpenFolder", fOpenFolder);             //フォルダを開く
-	pOpt->WriteInteger( "Option", "fOpenFile", fOpenFile);                 //復号したファイルを関連付けされたソフトで開く
-	pOpt->WriteInteger( "Option", "fEndToExit", fEndToExit);               //処理後、アタッシェケースを終了する
-	pOpt->WriteBool( "Option", "fWindowForeground", fWindowForeground);    //デスクトップで最前面にウィンドウを表示する
-	pOpt->WriteBool( "Option", "fNoHidePassword", fNoHidePassword);        //「*」で隠さずパスワードを確認しながら入力する
-	pOpt->WriteBool( "Option", "fSaveToExeout", fSaveToExeout);            //常に自己実行形式で出力する
-	pOpt->WriteBool( "Option", "fShowExeoutChkBox", fShowExeoutChkBox);    //メインフォームにチェックボックスを表示する
-	pOpt->WriteBool( "Option", "fAskEncDecode", fAskEncDecode);            //暗号/復号処理かを問い合わせる
-	pOpt->WriteBool( "Option", "fNoMultipleInstance", fNoMultipleInstance);//複数起動しない
+	pOpt->WriteString( "Option", "fMemPasswordExe", fMemPasswordExe==true ? "1" : "0");        //記憶パスワードで確認なく実行する
+	pOpt->WriteString( "Option", "fOpenFolder", fOpenFolder==true ? "1" : "0");                //フォルダを開く
+	pOpt->WriteString( "Option", "fOpenFile", fOpenFile==true ? "1" : "0");                    //復号したファイルを関連付けされたソフトで開く
+	pOpt->WriteString( "Option", "fEndToExit", fEndToExit==true ? "1" : "0");                  //処理後、アタッシェケースを終了する
+	pOpt->WriteString( "Option", "fWindowForeground", fWindowForeground==true ? "1" : "0");    //デスクトップで最前面にウィンドウを表示する
+	pOpt->WriteString( "Option", "fNoHidePassword", fNoHidePassword==true ? "1" : "0");        //「*」で隠さずパスワードを確認しながら入力する
+	pOpt->WriteString( "Option", "fSaveToExeout", fSaveToExeout==true ? "1" : "0");            //常に自己実行形式で出力する
+	pOpt->WriteString( "Option", "fShowExeoutChkBox", fShowExeoutChkBox==true ? "1" : "0");    //メインフォームにチェックボックスを表示する
+	pOpt->WriteString( "Option", "fAskEncDecode", fAskEncDecode==true ? "1" : "0");            //暗号/復号処理かを問い合わせる
+	pOpt->WriteString( "Option", "fNoMultipleInstance", fNoMultipleInstance==true ? "1" : "0");//複数起動しない
 
 	//-----------------------------------
 	// 保存設定
 	//-----------------------------------
-	pOpt->WriteInteger( "Option", "fSaveToSameFldr", fSaveToSameFldr);          //常に同じ場所に保存するか
-	pOpt->WriteString( "Option", "SaveToSameFldrPath", SaveToSameFldrPath);     //その保存場所
-	pOpt->WriteInteger( "Option", "fDecodeToSameFldr", fDecodeToSameFldr);      //常に同じ場所へファイルを復号化するか
-	pOpt->WriteString( "Option", "DecodeToSameFldrPath", DecodeToSameFldrPath); //その保存場所
-	pOpt->WriteInteger( "Option", "ConfirmOverwite", fConfirmOverwirte);        //同名ファイルの上書きを確認するか
-	pOpt->WriteInteger( "Option", "fKeepTimeStamp", fKeepTimeStamp);            //暗号化ファイルのタイムスタンプを元ファイルに合わせる
-	pOpt->WriteInteger( "Option", "fSameTimeStamp", fSameTimeStamp);            //復号したファイルのタイムスタンプを生成日時にする
-	pOpt->WriteInteger( "Option", "fAllFilePack", fAllFilePack);                //複数のファイルを暗号化する際は一つにまとめる
-	pOpt->WriteInteger( "Option", "fFilesOneByOne", fFilesOneByOne);            //フォルダ内のファイルは個別に暗号化/復号する
-	pOpt->WriteInteger( "Option", "fNoParentFldr", fNoParentFldr);              //復号するときに親フォルダを生成しない
-	pOpt->WriteInteger( "Option", "fExtInAtcFileName", fExtInAtcFileName);      //暗号化ファイル名に拡張子を含める
-	pOpt->WriteInteger( "Option", "fAutoName", fAutoName);                      //自動で暗号化ファイル名を付加する
-	pOpt->WriteString( "Option", "AutoNameFormatText", AutoNameFormatText);     //自動で付加するファイル名書式
+	pOpt->WriteString( "Option", "fSaveToSameFldr", fSaveToSameFldr==true ? "1" : "0");     //常に同じ場所に保存するか
+	pOpt->WriteString( "Option", "SaveToSameFldrPath", SaveToSameFldrPath);                 //その保存場所
+	pOpt->WriteString( "Option", "fDecodeToSameFldr", fDecodeToSameFldr==true ? "1" : "0"); //常に同じ場所へファイルを復号化するか
+	pOpt->WriteString( "Option", "DecodeToSameFldrPath", DecodeToSameFldrPath);             //その保存場所
+	pOpt->WriteString( "Option", "ConfirmOverwite", fConfirmOverwirte==true ? "1" : "0");   //同名ファイルの上書きを確認するか
+	pOpt->WriteString( "Option", "fKeepTimeStamp", fKeepTimeStamp==true ? "1" : "0");       //暗号化ファイルのタイムスタンプを元ファイルに合わせる
+	pOpt->WriteString( "Option", "fSameTimeStamp", fSameTimeStamp==true ? "1" : "0");       //復号したファイルのタイムスタンプを生成日時にする
+	pOpt->WriteString( "Option", "fAllFilePack", fAllFilePack==true ? "1" : "0");           //複数のファイルを暗号化する際は一つにまとめる
+	pOpt->WriteString( "Option", "fFilesOneByOne", fFilesOneByOne==true ? "1" : "0");       //フォルダ内のファイルは個別に暗号化/復号する
+	pOpt->WriteString( "Option", "fNoParentFldr", fNoParentFldr==true ? "1" : "0");         //復号するときに親フォルダを生成しない
+	pOpt->WriteString( "Option", "fExtInAtcFileName", fExtInAtcFileName==true ? "1" : "0"); //暗号化ファイル名に拡張子を含める
+	pOpt->WriteString( "Option", "fAutoName", fAutoName==true ? "1" : "0");                 //自動で暗号化ファイル名を付加する
+	pOpt->WriteString( "Option", "AutoNameFormatText", AutoNameFormatText);                 //自動で付加するファイル名書式
 
 	//-----------------------------------
 	// 削除設定
 	//-----------------------------------
-	pOpt->WriteInteger( "Option", "fDelOrgFile", fDelOrgFile); //元ファイルを削除する
-	pOpt->WriteInteger( "Option", "fDelEncFile", fDelEncFile); //暗号化ファイルを削除する
-	pOpt->WriteInteger( "Option", "fShowDeleteChkBox", fShowDeleteChkBox); //メインフォームにチェックボックスを表示する
-	pOpt->WriteInteger( "Option", "fCompleteDelFile", fCompleteDelete);//削除の方法（ 0: 通常削除、1: 完全削除、2: ごみ箱へ）
-	pOpt->WriteInteger( "Option", "DelRandNum", DelRandNum);   //乱数の書き込み回数
-	pOpt->WriteInteger( "Option", "DelZeroNum", DelZeroNum);   //ゼロ書き込み回数
+	pOpt->WriteString( "Option", "fDelOrgFile", fDelOrgFile==true ? "1" : "0");             //元ファイルを削除する
+	pOpt->WriteString( "Option", "fDelEncFile", fDelEncFile==true ? "1" : "0");             //暗号化ファイルを削除する
+	pOpt->WriteString( "Option", "fShowDeleteChkBox", fShowDeleteChkBox==true ? "1" : "0"); //メインフォームにチェックボックスを表示する
+	pOpt->WriteString( "Option", "fCompleteDelFile", fCompleteDelete==true ? "1" : "0");    //削除の方法（ 0: 通常削除、1: 完全削除、2: ごみ箱へ）
+	pOpt->WriteString( "Option", "DelRandNum", IntToStr(DelRandNum));                       //乱数の書き込み回数
+	pOpt->WriteString( "Option", "DelZeroNum", IntToStr(DelZeroNum));                       //ゼロ書き込み回数
 
 	//-----------------------------------
 	// 動作設定
 	//-----------------------------------
-	pOpt->WriteInteger( "Option", "CompressRate", CompressRate); //圧縮率
-	pOpt->WriteInteger( "Option", "fCompareFile", fCompareFile); //暗号処理後にファイルコンペアを行うか
+	pOpt->WriteString( "Option", "CompressRate", IntToStr(CompressRate));         //圧縮率
+	pOpt->WriteString( "Option", "fCompareFile", fCompareFile==true ? "1" : "0"); //暗号処理後にファイルコンペアを行うか
 
 	//-----------------------------------
 	// システム
 	//-----------------------------------
-	pOpt->WriteInteger( "Option", "fAssociationFile", fAssociationFile);      //関連付け設定
-	pOpt->WriteInteger( "Option", "AtcsFileIconIndex", AtcsFileIconIndex);    //ファイルアイコン番号
-	pOpt->WriteString( "Option", "UserRegIconFilePath", UserRegIconFilePath); //ユーザー指定のファイルアイコンパス
+	pOpt->WriteString( "Option", "fAssociationFile", fAssociationFile==true ? "1" : "0");  //関連付け設定
+	pOpt->WriteString( "Option", "AtcsFileIconIndex", IntToStr(AtcsFileIconIndex));        //ファイルアイコン番号
+	pOpt->WriteString( "Option", "UserRegIconFilePath", UserRegIconFilePath);              //ユーザー指定のファイルアイコンパス
 
 	//-----------------------------------
 	// 高度設定
 	//-----------------------------------
-	pOpt->WriteBool( "Option", "fAllowPassFile", fAllowPassFile);               //パスワードファイルを許可する
-	pOpt->WriteBool( "Option", "fCheckPassFile", fCheckPassFile);               //暗号時にパスワードファイルを自動チェックする
-	pOpt->WriteString( "Option", "PassFilePath", PassFilePath);                 //暗号時のパスワードファイルパス
-	pOpt->WriteBool( "Option", "fCheckPassFileDecrypt", fCheckPassFileDecrypt); //復号時にパスワードファイルを自動チェックする
-	pOpt->WriteString( "Option", "PassFilePathDecrypt", PassFilePathDecrypt);   //復号時のパスワードファイルパス
-	pOpt->WriteBool( "Option", "fNoErrMsgOnPassFile", fNoErrMsgOnPassFile);     //パスワードファイルがない場合エラーを出さない
-	pOpt->WriteBool( "Option", "fAddCamoExt", fAddCamoExt);                     //暗号化ファイルの拡張子を偽装する
-	pOpt->WriteString( "Option", "CamoExt", CamoExt);                           //その拡張子
-	pOpt->WriteInteger( "Option", "MissTypeLimitsNum", MissTypeLimitsNum);      //パスワードのタイプミス制限回数（ver.2.70～）
-	pOpt->WriteBool( "Option", "fBroken", fBroken);                             //タイプミス回数を超えたときにファイルを破壊するか否か（ver.2.70～）
+	pOpt->WriteString( "Option", "fAllowPassFile", fAllowPassFile==true ? "1" : "0");               //パスワードファイルを許可する
+	pOpt->WriteString( "Option", "fCheckPassFile", fCheckPassFile==true ? "1" : "0");               //暗号時にパスワードファイルを自動チェックする
+	pOpt->WriteString( "Option", "PassFilePath", PassFilePath);                                     //暗号時のパスワードファイルパス
+	pOpt->WriteString( "Option", "fCheckPassFileDecrypt", fCheckPassFileDecrypt==true ? "1" : "0"); //復号時にパスワードファイルを自動チェックする
+	pOpt->WriteString( "Option", "PassFilePathDecrypt", PassFilePathDecrypt);                       //復号時のパスワードファイルパス
+	pOpt->WriteString( "Option", "fNoErrMsgOnPassFile", fNoErrMsgOnPassFile==true ? "1" : "0");     //パスワードファイルがない場合エラーを出さない
+	pOpt->WriteString( "Option", "fAddCamoExt", fAddCamoExt==true ? "1" : "0");                     //暗号化ファイルの拡張子を偽装する
+	pOpt->WriteString( "Option", "CamoExt", CamoExt);                                               //その拡張子
+	pOpt->WriteString( "Option", "MissTypeLimitsNum", IntToStr(MissTypeLimitsNum));                 //パスワードのタイプミス制限回数（ver.2.70～）
+	pOpt->WriteString( "Option", "fBroken", fBroken==true ? "1" : "0");                             //タイプミス回数を超えたときにファイルを破壊するか否か（ver.2.70～）
+
+	delete pAppInfoString;
+	delete pOpt;
 
 }
-__finally{
-
+catch(...){
 	delete pAppInfoString;
 	delete pOpt;
 
@@ -592,14 +594,14 @@ bool __fastcall TAttacheCaseOptionHandle::
 {
 
 int i, c, L;
-String strvalue = "";
 int intvalue = 0;
-String FilePath, FileName;
-fArg = false; //引数はない
-
-FileList->Clear();  //ファイルリストクリア
+String strvalue = "";
 
 String CmdStr;
+String FilePath, FileName;
+fArg = false;       //引数はない
+OptType = 0;        //ファイル以外のパラメータがあった場合は "OptType=2"とする
+FileList->Clear();  //ファイルリストクリア
 
 //-----------------------------------
 
@@ -997,6 +999,9 @@ for ( i = 1; i < ParamCount()+1 ; i++){
 				}
 			}
 		}
+
+		OptType = 2;	//コマンドライン引数
+
 	}
 	//ファイルパス
 	else{
@@ -1006,13 +1011,8 @@ for ( i = 1; i < ParamCount()+1 ; i++){
 
 }//loop;
 
-
 //w_char filepath[];
 //size = GetFileTitle("新しい~1.txt",NULL,0);
-
-if (ParamCount() > 0) {
-	OptType = 2;
-}
 
 return(true);
 

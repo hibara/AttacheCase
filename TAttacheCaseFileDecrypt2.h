@@ -38,8 +38,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //---------------------------------------------------------------------------
 #include <Classes.hpp>
 
-#include "TMemoryStoredFiles.h"
-
 #include "MsgDecrypt.hpp"
 
 #include "rijndael.h"

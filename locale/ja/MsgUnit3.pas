@@ -29,7 +29,7 @@ resourcestring
 	BASIC_PANEL_CHECKBOX_OPEN_FOLDER                = 'フォルダーの場合、復号後に開く(&O)';
 	BASIC_PANEL_CHECKBOX_OPEN_FILE                  = '復号したファイルを関連付けられたソフトで開く(&A)';
 	BASIC_PANEL_CHECKBOX_END_TO_EXIT                = '処理後にアタッシェケースを終了する(&X)';
-	BASIC_PANEL_CHECKBOX_WINDOW_FOREGROUND          = 'デスクトップで最前面にウィンドウを表示する(&F)';
+	BASIC_PANEL_CHECKBOX_WINDOW_FOREGROUND          = 'デスクトップで最前面にウィンドウを表示する(&F) ※アタッシェケースの再起動が必要です。';
 	BASIC_PANEL_CHECKBOX_NO_HIDE_PASSWORD           = 'パスワードを表示しながら入力する(&N)';
 	BASIC_PANEL_CHECKBOX_SAVE_TO_EXEOUT             = '常に自己実行形式で出力する(&T)';
 	BASIC_PANEL_CHECKBOX_SHOW_EXEOUT_CHKBOX         = 'メインフォームにチェックボックスを表示する(&I)';
@@ -122,8 +122,6 @@ resourcestring
 	DIALOG_SAVE_TO_INIFILE_TITLE_TEXT               = '現在の動作設定をINIファイルに保存';
 
   DIALOG_MSG_CONFIRM_OVERWRITE_SETTINGS           = '現在、読み込まれている以下のINIファイル設定をレジストリへ反映しますか？';
-
-
 
 
 	//高度設定タブ

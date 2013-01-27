@@ -294,7 +294,7 @@ if ( fExeOutputOption == true ){
 
 	//自分自身の実行ファイルを開く
 	try{
-		fsExe = new TFileStream(Application->ExeName, fmShareDenyNone);
+		fsExe = new TFileStream(Application->ExeName, fmOpenRead | fmShareDenyWrite);
 	}
 	catch(...){
 		//'実行可能形式出力に失敗しました。暗号化処理を中止します。'
@@ -445,7 +445,7 @@ while(!Terminated) {
 					while(FileIndex < FilePathList->Count){
 						if (FilePathList->Strings[FileIndex] != "") {
 							try{
-								fsIn = new TFileStream(FilePathList->Strings[FileIndex], fmOpenRead | fmShareDenyNone);
+								fsIn = new TFileStream(FilePathList->Strings[FileIndex], fmOpenRead | fmShareDenyWrite);
 								fOpenIn = true;
 								FileIndex++;
 								break;

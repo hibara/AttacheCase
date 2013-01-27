@@ -51,13 +51,13 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "shlobj.h"
 
 #include "TAttacheCaseFileEncrypt.h"
+#include "TAttacheCaseFileDecrypt1.h"
 #include "TAttacheCaseFileDecrypt2.h"
 #include "TAttacheCaseDelete.h"
 #include "TAttacheCaseOptionHandle.h"
 
 #include "MsgUnit1.hpp"
 #include "TDragAndDrop.h"
-#include "TMemoryStoredFiles.h"
 
 #include "Unit2.h"
 #include "Unit3.h"
@@ -196,7 +196,8 @@ private:	// ユーザー宣言
 	// 変数
 	//-----------------------------------
 	TAttacheCaseFileEncrypt *encrypt;
-	TAttacheCaseFileDecrypt2 *decrypt;
+	TAttacheCaseFileDecrypt2 *decrypt2;
+	TAttacheCaseFileDecrypt1 *decrypt1;
 	TAttacheCaseDelete *cmpdel;
 
 	//サイドメニューグラフィック
@@ -263,8 +264,8 @@ private:	// ユーザー宣言
 	// 完全削除処理実行
 	void __fastcall DoDeleteFile(String DelFileListString, __int64 DelTotalSize);
 
-	// 暗号化ファイルのヘッダ判定（すべてATCファイルなら真を返す）
-	int __fastcall CheckAtcFileHeader(TStringList *AtcFileList);
+	// 暗号化ファイルのヘッダ判定
+	int __fastcall CheckAtcFileHeader(String AtcFilePath, int &Version);
 	// 暗号化ファイルを破壊する
 	bool __fastcall DestroyAtcFile(String AtcFilePath);
 

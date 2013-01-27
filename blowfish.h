@@ -4,6 +4,9 @@
 // Revised code--3/20/94
 // Converted to C++ class 5/96, Jim Conger
 
+#ifndef CBlowfishH
+#define CBlowfishH
+
 #define MAXKEYBYTES 	56		// 448 bits max
 #define NPASS           16		// SBox passes
 
@@ -34,42 +37,43 @@ public:
 
 #ifdef ORDER_DCBA  	// DCBA - little endian - intel
 	union aword {
-	  DWORD dword;
-	  BYTE byte [4];
-	  struct {
-	    unsigned int byte3:8;
-	    unsigned int byte2:8;
-	    unsigned int byte1:8;
-	    unsigned int byte0:8;
-	  } w;
+		DWORD dword;
+		BYTE byte [4];
+		struct {
+			unsigned int byte3:8;
+			unsigned int byte2:8;
+			unsigned int byte1:8;
+			unsigned int byte0:8;
+		} w;
 	};
 #endif
 
 #ifdef ORDER_ABCD  	// ABCD - big endian - motorola
 	union aword {
-	  DWORD dword;
-	  BYTE byte [4];
-	  struct {
-	    unsigned int byte0:8;
-	    unsigned int byte1:8;
-	    unsigned int byte2:8;
-	    unsigned int byte3:8;
-	  } w;
+		DWORD dword;
+		BYTE byte [4];
+		struct {
+			unsigned int byte0:8;
+			unsigned int byte1:8;
+			unsigned int byte2:8;
+			unsigned int byte3:8;
+		} w;
 	};
 #endif
 
 #ifdef ORDER_BADC  	// BADC - vax
 	union aword {
-	  DWORD dword;
-	  BYTE byte [4];
-	  struct {
-	    unsigned int byte1:8;
-	    unsigned int byte0:8;
-	    unsigned int byte3:8;
-	    unsigned int byte2:8;
-	  } w;
+		DWORD dword;
+		BYTE byte [4];
+		struct {
+			unsigned int byte1:8;
+			unsigned int byte0:8;
+			unsigned int byte3:8;
+			unsigned int byte2:8;
+		} w;
 };
 #endif
 
+#endif	/* CBlowfishH */
 
 
