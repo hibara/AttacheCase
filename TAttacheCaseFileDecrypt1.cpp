@@ -817,7 +817,7 @@ do{
 				//暗号化ファイル自身への復号はNG
 				//（ex: ..\hoge -> ..\hoge）
 				//-----------------------------------
-				if ( FilePath == AtcFilePath ) {
+				if ( FilePath.Compare(AtcFilePath) == 0 ) {
 					//'暗号化ファイル自身にファイルまたはフォルダーを復号することはできません。'+#13+
 					//'復号処理を中止します。';
 					MsgText = LoadResourceString(&Msgdecrypt::_MSG_ERROR_NOT_OVERWRITE_MYSELF)+"\n"+FilePath;
@@ -885,7 +885,7 @@ do{
 				//暗号化ファイル自身への復号はNG
 				//（ex: ..\hoge -> ..\hoge）
 				//-----------------------------------
-				if ( FilePath == AtcFilePath) {
+				if ( FilePath.Compare(AtcFilePath) == 0) {
 					//'暗号化ファイル自身にファイルまたはフォルダーを復号することはできません。'+#13+
 					//'復号処理を中止します。';
 					MsgText = LoadResourceString(&Msgdecrypt::_MSG_ERROR_NOT_OVERWRITE_MYSELF)+"\n"+FilePath;

@@ -41,10 +41,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "MsgWinMain.hpp"
 
 //---------------------------------------------------------------------------
-USEFORM("Unit4.cpp", Form4);
-USEFORM("Unit3.cpp", Form3);
 USEFORM("Unit1.cpp", Form1);
 USEFORM("Unit2.cpp", Form2);
+USEFORM("Unit4.cpp", Form4);
+USEFORM("Unit3.cpp", Form3);
 //---------------------------------------------------------------------------
 HANDLE mx;
 void SendToMsgData(HWND handle);

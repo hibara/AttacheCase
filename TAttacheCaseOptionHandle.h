@@ -52,10 +52,12 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "MsgOption.hpp"
 
 #include "TGetAppInfoString.h"
-
+#include "EncodeDetect.hpp"
 
 //レジストリの場所
+#define HIBARA_REGISTRY_PATH "Software\\Hibara"
 #define ATTACHE_CASE_REGISTRY_PATH "Software\\Hibara\\AttacheCase"
+#define ATTACHE_CASE_BAK_REGISTRY_PATH "Software\\Hibara\\AttacheCase.BAK"
 
 #define TYPE_ENCODE_FILE 0 //暗号化
 #define TYPE_DECODE_FILE 1 //復号化
@@ -75,6 +77,11 @@ class TAttacheCaseOptionHandle : public TObject
 private:
 
 
+	//古いバージョンを併用しているか
+	bool fOldVersionExists;
+	//レジストリのリストア
+	bool fRestoreRegistory;
+
 	//記憶パスワードをレジストリまたはINIファイルから読み出す
 	AnsiString __fastcall ReadMyPasswordFromRegistry(int Type);
 	//記憶パスワードをレジストリまたはINIファイル保存する
@@ -89,6 +96,10 @@ private:
 
 	// SaveShellLink
 	bool __fastcall SaveShellLink(IShellLinkW *psl, String LinkName, BOOL bRemember);
+
+	// テキストファイルを読み込んで文字エンコーディングを判定して返す
+	TEncoding* __fastcall GetCharEncoding(String FilePath);
+
 
 
 protected:

@@ -1023,7 +1023,7 @@ do{
 				//暗号化ファイル自身への復号はNG
 				//（ex: ..\hoge -> ..\hoge）
 				//-----------------------------------
-				if ( FilePath == AtcFilePath ) {
+				if ( FilePath.Compare(AtcFilePath) == 0 ) {
 					//'暗号化ファイル自身にファイルまたはフォルダーを復号することはできません。'+#13+
 					//'復号処理を中止します。';
 					MsgText = LoadResourceString(&Msgdecrypt::_MSG_ERROR_NOT_OVERWRITE_MYSELF)+"\n"+FilePath;
@@ -1095,7 +1095,7 @@ do{
 				//暗号化ファイル自身への復号はNG
 				//（ex: ..\hoge -> ..\hoge）
 				//-----------------------------------
-				if ( FilePath == AtcFilePath && fCompare == false) {
+				if ( FilePath.Compare(AtcFilePath) == 0 && fCompare == false) {
 					//'暗号化ファイル自身にファイルまたはフォルダーを復号することはできません。'+#13+
 					//'復号処理を中止します。';
 					MsgText = LoadResourceString(&Msgdecrypt::_MSG_ERROR_NOT_OVERWRITE_MYSELF)+"\n"+FilePath;
@@ -1123,6 +1123,9 @@ do{
 					}
 					else{
 						//コンペアは元ファイルを開く
+						if (FileSizeList[FileIndex] == 0) { // 0バイトファイル？
+							continue;
+						}
 						fsOut = new TFileStream(CompareFileList->Strings[FileIndex], fmOpenRead | fmShareDenyNone);
 					}
 
@@ -1149,11 +1152,6 @@ do{
 
 					delete fsOut;
 					fOpen = false;
-
-					if (fCompare == true) {
-						//コンペアの場合は抜ける
-						continue;
-					}
 
 					FileSetTimeStamp(FilePath,
 						(int)FileDtChangeList[FileIndex], (int)FileTmChangeList[FileIndex],
@@ -1245,7 +1243,7 @@ do{
 
 		}
 		//-----------------------------------
-		// TODO: コンペア
+		// コンペア
 		//-----------------------------------
 		else {
 

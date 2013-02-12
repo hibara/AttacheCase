@@ -3905,6 +3905,10 @@ object Form1: TForm1
       Caption = 'Main'
       DoubleBuffered = False
       ParentDoubleBuffered = False
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       DesignSize = (
         437
         272)
@@ -4483,6 +4487,10 @@ object Form1: TForm1
       Margins.Bottom = 0
       Caption = 'InputEncPass'
       ImageIndex = 1
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       DesignSize = (
         437
         272)
@@ -4934,6 +4942,10 @@ object Form1: TForm1
       Margins.Bottom = 0
       Caption = 'InputDecPass'
       ImageIndex = 3
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       DesignSize = (
         437
         272)
@@ -5004,6 +5016,10 @@ object Form1: TForm1
       Margins.Bottom = 0
       Caption = 'Execute'
       ImageIndex = 4
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       DesignSize = (
         437
         272)

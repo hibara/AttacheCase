@@ -255,9 +255,6 @@ RevokeDragDrop(Form1->Handle);
 DragAndDropTarget->Release();
 OleUninitialize();
 
-
-
-
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::FormShow(TObject *Sender)
@@ -1490,7 +1487,7 @@ if ( FileList->Count > 0) {
 		decrypt1->fOpenFile = opthdl->fOpenFile;                 //復号したファイルを関連付けされたソフトで開く
 		decrypt1->fConfirmOverwirte = opthdl->fConfirmOverwirte; //同名ファイルの上書きを確認するか
 
-		if (AtcFilePath == RetryAtcFilePath) {
+		if (AtcFilePath.Compare(RetryAtcFilePath) == 0) {
 			decrypt1->NumOfTrials = RetryNum;
 		}
 	}
@@ -1506,7 +1503,7 @@ if ( FileList->Count > 0) {
 		decrypt2->fOpenFile = opthdl->fOpenFile;                 //復号したファイルを関連付けされたソフトで開く
 		decrypt2->fConfirmOverwirte = opthdl->fConfirmOverwirte; //同名ファイルの上書きを確認するか
 
-		if (AtcFilePath == RetryAtcFilePath) {
+		if (AtcFilePath.Compare(RetryAtcFilePath) == 0) {
 			decrypt2->NumOfTrials = RetryNum;
 		}
 	}
@@ -1590,7 +1587,7 @@ if ( FileList->Count > 0) {
 
 }
 //---------------------------------------------------------------------------
-// TODO: ファイルをコンペアする処理（とは言っても実際は復号処理）
+// ファイルをコンペアする処理（とは言っても実際は復号処理）
 //---------------------------------------------------------------------------
 void __fastcall TForm1::FileCompare(void)
 {
@@ -1841,7 +1838,7 @@ else{
 
 		RetryNum++;
 
-		if ( RetryAtcFilePath == AtcFilePath ) {
+		if ( RetryAtcFilePath.Compare(AtcFilePath) == 0 ) {
 			//パスワード入力回数制限を超えた
 			if ( RetryNum > TypeLimits ) {
 				//破壊するオプション
@@ -2476,7 +2473,7 @@ if ( PasswordFilePath != "" ){
 		//２番目のファイル
 		if ( opthdl->GetSHA1HashFromFile(ConfirmPasswordFilePath, PasswordFileHash[1], PasswordFileHeader[1] ) == true ){
 
-			if (PasswordFileHash[0] == PasswordFileHash[1]) {
+			if (PasswordFileHash[0].LowerCase() == PasswordFileHash[1].LowerCase()) {
 				//同一のハッシュ値のようだ
 				fCheckPasswordFile = true;
 			}
@@ -2654,7 +2651,7 @@ for ( i = 0; i < TempList->Count; i++){
 
 		for ( c = 0; c < FileList->Count; c++){
 
-			if ( OneLine == FileList->Strings[c] ){
+			if ( OneLine.Compare(FileList->Strings[c]) == 0 ){
 				//すでにファイルリストに存在するファイルは無視
 				fChk = true;
 				break;
