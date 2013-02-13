@@ -68,6 +68,8 @@ ProgressMsgText = "";              // 進捗メッセージ
 AtcFilePath = "";                  // 入力する暗号化ファイル
 OutDirPath = "";                   // 出力するディレクトリ
 
+fOverwirteYesToAll = false;        //同名ファイルはすべて上書きして暗号化する（ダイアログで「すべてはい」を選択 = true）
+
 NumOfTrials = 1;                   // パスワード入力試行回数
 
 StatusNum = -1;                    // 処理結果ステータス
@@ -817,7 +819,7 @@ do{
 				//暗号化ファイル自身への復号はNG
 				//（ex: ..\hoge -> ..\hoge）
 				//-----------------------------------
-				if ( FilePath.Compare(AtcFilePath) == 0 ) {
+				if ( FilePath.CompareIC(AtcFilePath) == 0 ) {
 					//'暗号化ファイル自身にファイルまたはフォルダーを復号することはできません。'+#13+
 					//'復号処理を中止します。';
 					MsgText = LoadResourceString(&Msgdecrypt::_MSG_ERROR_NOT_OVERWRITE_MYSELF)+"\n"+FilePath;
@@ -885,7 +887,7 @@ do{
 				//暗号化ファイル自身への復号はNG
 				//（ex: ..\hoge -> ..\hoge）
 				//-----------------------------------
-				if ( FilePath.Compare(AtcFilePath) == 0) {
+				if ( FilePath.CompareIC(AtcFilePath) == 0) {
 					//'暗号化ファイル自身にファイルまたはフォルダーを復号することはできません。'+#13+
 					//'復号処理を中止します。';
 					MsgText = LoadResourceString(&Msgdecrypt::_MSG_ERROR_NOT_OVERWRITE_MYSELF)+"\n"+FilePath;

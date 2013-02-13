@@ -1215,8 +1215,7 @@ void __fastcall TAttacheCaseFileEncrypt::PostConfirmMessageForm()
 //TMsgDlgButtons MsgButtons;
 //TMsgDlgBtn MsgDefaultButton;
 
-MsgReturnVal =
-	Form1->ShowConfirmMassageForm(MsgText, MsgType, MsgButtons, MsgDefaultButton);
+MsgReturnVal = Form1->ShowConfirmMassageForm(MsgText, MsgType, MsgButtons, MsgDefaultButton);
 
 
 }

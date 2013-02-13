@@ -183,9 +183,6 @@
 				<BuildOrder>34</BuildOrder>
 			</None>
 			<None Include="blowfish.h2"/>
-			<DelphiCompile Include="EncodeDetect.pas">
-				<BuildOrder>35</BuildOrder>
-			</DelphiCompile>
 			<FormResources Include="Unit1.dfm"/>
 			<FormResources Include="Unit2.dfm"/>
 			<FormResources Include="Unit4.dfm"/>
@@ -239,7 +236,7 @@
 						<Debugging Name="DebugSourceDirs"/>
 					</Debugging>
 					<Parameters>
-						<Parameters Name="RunParams">/del=1 /list=_list.txt</Parameters>
+						<Parameters Name="RunParams"/>
 						<Parameters Name="Launcher"/>
 						<Parameters Name="UseLauncher">False</Parameters>
 						<Parameters Name="DebugCWD"/>

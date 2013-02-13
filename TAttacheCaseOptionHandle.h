@@ -52,7 +52,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "MsgOption.hpp"
 
 #include "TGetAppInfoString.h"
-#include "EncodeDetect.hpp"
 
 //レジストリの場所
 #define HIBARA_REGISTRY_PATH "Software\\Hibara"
@@ -97,12 +96,9 @@ private:
 	// SaveShellLink
 	bool __fastcall SaveShellLink(IShellLinkW *psl, String LinkName, BOOL bRemember);
 
-	// テキストファイルを読み込んで文字エンコーディングを判定して返す
-	TEncoding* __fastcall GetCharEncoding(String FilePath);
-
-
 
 protected:
+
 
 public:
 

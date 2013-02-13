@@ -235,6 +235,9 @@ private:	// ユーザー宣言
 	TStringList *FileList;           //投げ込まれたファイルリスト
 	int FileListPosition;            //ファイルがどこまで処理されたか
 
+	__int64 DelFileTotalSize;        //削除する合計ファイルサイズ
+	TStringList *DeleteFileList;     //削除するファイルリスト
+
   __int64 DecryptAllTotalSize;     //復号されたファイルの合計サイズ
 
 	String RetryAtcFilePath;         //パスワードの再入力
@@ -242,6 +245,9 @@ private:	// ユーザー宣言
 
 	String PasswordFilePath;         //パスワードファイルパス
 	String ConfirmPasswordFilePath;
+
+	bool fOverwirteYesToAll;         //同名ファイルはすべて上書きして暗号化する（ダイアログで「すべてはい」を選択 = true）
+
 
 	//-----------------------------------
 	// 関数
@@ -262,7 +268,7 @@ private:	// ユーザー宣言
 	// ファイルの判別を行い処理を分けて実行
 	void __fastcall DoExecute(TStringList *ExeFileList);
 	// 完全削除処理実行
-	void __fastcall DoDeleteFile(String DelFileListString, __int64 DelTotalSize);
+	void __fastcall DoDeleteFile(TStringList *DelFileList, __int64 DelTotalSize);
 
 	// 暗号化ファイルのヘッダ判定
 	int __fastcall CheckAtcFileHeader(String AtcFilePath, int &Version);

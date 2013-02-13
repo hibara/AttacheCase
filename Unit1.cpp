@@ -83,6 +83,8 @@ opthdl = new TAttacheCaseOptionHandle();
 String IniFilePath = "";
 //処理するファイルリスト
 FileList = new TStringList;
+//削除するファイルリスト
+DeleteFileList = new TStringList;
 
 lblMain->Caption = LoadResourceString(&Msgunit1::_DRAG_AND_DROP_HERE);
 txtEncryptPassword->EditLabel->Caption = LoadResourceString(&Msgunit1::_INPUT_PASSWORD);
@@ -245,7 +247,8 @@ opthdl->SaveOptionData();
 
 delete opthdl;
 
-delete FileList;    //処理するファイルリスト
+delete DeleteFileList; //削除するファイルリスト
+delete FileList;       //処理するファイルリスト
 
 
 //-----------------------------------
@@ -941,6 +944,13 @@ FileListPosition = 0;
 RetryAtcFilePath = "";
 RetryNum = 0;
 
+//同名ファイルはすべて上書きして暗号化する（ダイアログで「すべてはい」を選択 = true）
+fOverwirteYesToAll = false;
+
+//削除するファイルリストのクリア
+DeleteFileList->Clear();
+DelFileTotalSize = 0;
+
 //-----------------------------------
 //暗号/復号処理かを問い合わせる
 //-----------------------------------
@@ -1178,7 +1188,7 @@ else {
 //---------------------------------------------------------------------------
 //完全削除処理実行
 //---------------------------------------------------------------------------
-void __fastcall TForm1::DoDeleteFile(String DelFileListString, __int64 DelTotalSize)
+void __fastcall TForm1::DoDeleteFile(TStringList *DelFileList, __int64 DelTotalSize)
 {
 
 //実行パネル表示
@@ -1189,7 +1199,7 @@ cmpdel = new TAttacheCaseDelete(true);
 cmpdel->OnTerminate = DeleteThreadTerminated;
 cmpdel->FreeOnTerminate = true;
 
-cmpdel->DeleteFileList->Text = DelFileListString;
+cmpdel->DeleteFileList->Text = DelFileList->Text;
 cmpdel->TotalFileSize = DelTotalSize;
 cmpdel->Opt = opthdl->fCompleteDelete;     // 0:通常削除, 1:完全削除, 2:ゴミ箱
 cmpdel->RandClearNum = opthdl->DelRandNum; //完全削除（乱数書き込み回数）
@@ -1364,6 +1374,7 @@ encrypt->fOptBrokenFileOption = opthdl->fBroken;                   //ミスタ�
 encrypt->fConfirmOverwirte = opthdl->fConfirmOverwirte;            //同名ファイルがあるときは上書きの確認をする
 encrypt->intOptMissTypeLimitsNumOption = opthdl->MissTypeLimitsNum;//タイプミスできる回数
 encrypt->AppExeFilePath = Application->ExeName;	                   //アタッシェケース本体の場所（実行形式出力のときに参照する）
+encrypt->fOverwirteYesToAll = fOverwirteYesToAll;                  //同名ファイルはすべて上書きして暗号化する（ダイアログで「すべてはい」を選択 = true）
 
 Form1->Caption = ExtractFileName(FilePath) + " - " + Application->Title;
 
@@ -1486,8 +1497,9 @@ if ( FileList->Count > 0) {
 		decrypt1->fOpenFolder = opthdl->fOpenFolder;             //フォルダの場合に復号後に開くか
 		decrypt1->fOpenFile = opthdl->fOpenFile;                 //復号したファイルを関連付けされたソフトで開く
 		decrypt1->fConfirmOverwirte = opthdl->fConfirmOverwirte; //同名ファイルの上書きを確認するか
+		decrypt1->fOverwirteYesToAll = fOverwirteYesToAll;       //同名ファイルはすべて上書きして暗号化する（ダイアログで「すべてはい」を選択 = true）
 
-		if (AtcFilePath.Compare(RetryAtcFilePath) == 0) {
+		if (AtcFilePath.CompareIC(RetryAtcFilePath) == 0) {
 			decrypt1->NumOfTrials = RetryNum;
 		}
 	}
@@ -1502,8 +1514,9 @@ if ( FileList->Count > 0) {
 		decrypt2->fOpenFolder = opthdl->fOpenFolder;             //フォルダの場合に復号後に開くか
 		decrypt2->fOpenFile = opthdl->fOpenFile;                 //復号したファイルを関連付けされたソフトで開く
 		decrypt2->fConfirmOverwirte = opthdl->fConfirmOverwirte; //同名ファイルの上書きを確認するか
+		decrypt2->fOverwirteYesToAll = fOverwirteYesToAll;       //同名ファイルはすべて上書きして暗号化する（ダイアログで「すべてはい」を選択 = true）
 
-		if (AtcFilePath.Compare(RetryAtcFilePath) == 0) {
+		if (AtcFilePath.CompareIC(RetryAtcFilePath) == 0) {
 			decrypt2->NumOfTrials = RetryNum;
 		}
 	}
@@ -1661,10 +1674,7 @@ TimerDecrypt->Enabled = true;
 void __fastcall TForm1::EncryptThreadTerminated(TObject *Sender)
 {
 
-//削除機能
-String DelFileListString;
-__int64 DelFileTotalSize;
-
+int i;
 ProgressBar1->Style = pbstNormal;
 
 if (encrypt->ProgressPercentNum < 0) {
@@ -1691,9 +1701,17 @@ if ( encrypt->StatusNum > 0 ) {
 	//暗号化処理終了
 	TimerEncrypt->Enabled = false;
 	if ( chkDeleteSourceDataConf->Checked == true ) {
-		DelFileTotalSize = encrypt->AllTotalSize;
-		DelFileListString = encrypt->FilePathList->Text;	//処理したファイルリストを削除リストに
+		DelFileTotalSize += encrypt->AllTotalSize;
+		//処理したファイルリストを削除リストに追加
+		for (i = 0; i < encrypt->FilePathList->Count; i++) {
+			if (encrypt->FilePathList->Strings[i] != "") {
+				DeleteFileList->Add(encrypt->FilePathList->Strings[i]);
+			}
+		}
 	}
+
+	//同名ファイルはすべて上書きして暗号化する（ダイアログで「すべてはい」を選択 = true）
+	fOverwirteYesToAll = encrypt->fOverwirteYesToAll;
 
 	FileListPosition++;
 
@@ -1713,8 +1731,7 @@ if ( encrypt->StatusNum > 0 ) {
 
 	//元ファイルの削除処理
 	if ( chkDeleteSourceDataConf->Checked == true ) {
-		DoDeleteFile(DelFileListString, DelFileTotalSize);
-		return;
+		DoDeleteFile(DeleteFileList, DelFileTotalSize);
 	}
 
 	//処理後に終了する
@@ -1800,6 +1817,14 @@ if ( ret > 0 ) {
 
 	FileListPosition++;
 
+	//同名ファイルはすべて上書きして暗号化する（ダイアログで「すべてはい」を選択 = true）
+	if (decrypt1 != NULL) {
+		fOverwirteYesToAll = decrypt1->fOverwirteYesToAll;
+	}
+	else if (decrypt2 != NULL) {
+		fOverwirteYesToAll = decrypt2->fOverwirteYesToAll;
+	}
+
 	decrypt1 = NULL;
 	decrypt2 = NULL;
 
@@ -1811,7 +1836,7 @@ if ( ret > 0 ) {
 
 	//暗号化ファイルの削除処理
 	if ( chkDeleteAtcData->Checked == true ) {
-		DoDeleteFile(FileList->Text, DecryptAllTotalSize);
+		DoDeleteFile(FileList, DecryptAllTotalSize);
 		return;
 	}
 
@@ -1838,7 +1863,7 @@ else{
 
 		RetryNum++;
 
-		if ( RetryAtcFilePath.Compare(AtcFilePath) == 0 ) {
+		if ( RetryAtcFilePath.CompareIC(AtcFilePath) == 0 ) {
 			//パスワード入力回数制限を超えた
 			if ( RetryNum > TypeLimits ) {
 				//破壊するオプション
@@ -2651,7 +2676,7 @@ for ( i = 0; i < TempList->Count; i++){
 
 		for ( c = 0; c < FileList->Count; c++){
 
-			if ( OneLine.Compare(FileList->Strings[c]) == 0 ){
+			if ( OneLine.CompareIC(FileList->Strings[c]) == 0 ){
 				//すでにファイルリストに存在するファイルは無視
 				fChk = true;
 				break;

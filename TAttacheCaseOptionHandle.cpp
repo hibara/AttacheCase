@@ -648,8 +648,6 @@ int i, c, L;
 int intvalue = 0;
 String strvalue = "";
 
-TEncoding *enc = NULL;
-
 String CmdStr;
 String FilePath, FileName;
 fArg = false;       //引数はない
@@ -1040,18 +1038,15 @@ for ( i = 1; i < ParamCount()+1 ; i++){
 			if ( strvalue != "" ){
 				String ListFilePath = GetLongFilePath(ExpandUNCFileName(strvalue)); //ロングパスに変換
 				if ( FileExists(ListFilePath) == true ){
-					//読み込むリスト（テキストファイル）のエンコーディングを判定する
-					if ((enc = GetCharEncoding(ListFilePath)) != NULL) {
-						TStringList *ListFileList = new TStringList;
-						ListFileList->LoadFromFile(ListFilePath, enc);
-						//１行１ファイルパスとして取り出してファイルリストへ格納
-						for ( c = 0; c < ListFileList->Count; c++ ){
-							if ( ListFileList->Strings[c] != "" ){
-								FileList->Add(GetLongFilePath(ExpandUNCFileName(ListFileList->Strings[c])));
-							}
+					TStringList *ListFileList = new TStringList;
+					ListFileList->LoadFromFile(ListFilePath);
+					//１行１ファイルパスとして取り出してファイルリストへ格納
+					for ( c = 0; c < ListFileList->Count; c++ ){
+						if ( ListFileList->Strings[c] != "" ){
+							FileList->Add(GetLongFilePath(ExpandUNCFileName(ListFileList->Strings[c])));
 						}
-						delete ListFileList;
 					}
+					delete ListFileList;
 				}
 			}
 		}
@@ -1069,6 +1064,11 @@ for ( i = 1; i < ParamCount()+1 ; i++){
 
 //w_char filepath[];
 //size = GetFileTitle("新しい~1.txt",NULL,0);
+
+//-----------------------------------
+//デバッグ
+//ShowMessage(FileList->Text);
+//-----------------------------------
 
 return(true);
 
@@ -1789,79 +1789,4 @@ return(fResult);
 
 }//SaveShellLink;
 //===========================================================================
-// テキストファイルを読み込んで文字エンコーディングを判定して返す
-//===========================================================================
-TEncoding* __fastcall TAttacheCaseOptionHandle::GetCharEncoding(String FilePath)
-{
-
-/*
- * EncodeDetect Copyright(C) 2008 - 2009 totonica All Rights Reserved.
- * http://www.watercolor-city.net/
-*/
-
-int encoding;
-TEncoding *RetEncoding = NULL;
-TFileStream *fs;
-try{
-	fs = new TFileStream(FilePath, fmOpenRead);
-}
-catch(...){
-	return(RetEncoding);
-}
-
-encoding = Encodedetect::CheckEncoding(fs);
-delete fs;
-
-switch(encoding){
-
-case ENC_SJIS: 	    //Shift_JIS
-	RetEncoding = TEncoding::GetEncoding(932);
-	break;
-
-case ENC_EUC:       //EUC-JP
-	RetEncoding = TEncoding::GetEncoding(20932);
-	break;
-
-case ENC_JIS:       //iso-2022-jp
-	RetEncoding = TEncoding::GetEncoding(50220);
-	break;
-
-case ENC_UTF16LE:   //UTF-16LE
-	RetEncoding = TEncoding::GetEncoding(1200);
-	break;
-
-case ENC_UTF16BE:   //UTF-16BE
-	RetEncoding = TEncoding::GetEncoding(1201);
-	break;
-
-case ENC_UTF8:      //UTF-8
-	RetEncoding = TEncoding::UTF8;
-	break;
-
-case ENC_UTF8BOM: 	//BOM付きUTF-8
-	RetEncoding = TEncoding::UTF8;
-	break;
-
-case ENC_UTF32LE: 	//UTF-32LE
-	RetEncoding = TEncoding::GetEncoding(12000);
-	break;
-
-case ENC_UTF32BE: 	//UTF-32BE
-	RetEncoding = TEncoding::GetEncoding(12001);
-	break;
-
-case ENC_UTF7: 	    //UTF-7
-	RetEncoding = TEncoding::UTF7;
-	break;
-
-case ENC_UNKNOWN:   //不明
-default:
-	break;
-}
-
-return(RetEncoding);
-
-}
-//===========================================================================
-
 

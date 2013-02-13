@@ -88,9 +88,6 @@ private:
 	bool fTempOpenFile;
 	//最上位のフォルダーを開いたか
 	bool fOpenFolderOnce;
-	//同名ファイル/フォルダーはすべて上書きして復号する
-	//（ユーザーがダイアログで「すべてはい」を選択したとき = true ）
-	bool fOverwirteYesToAll;
 
 	//バッファの入力
 	__int64 __fastcall InputBuffer
@@ -139,6 +136,7 @@ public:
 	bool fOpenFolder;                  //フォルダの場合に復号後に開くか
 	bool fOpenFile;                    //復号したファイルを関連付けされたソフトで開く
 	bool fConfirmOverwirte;            //同名ファイルの上書きを確認するか
+	bool fOverwirteYesToAll;           //同名ファイルはすべて上書きして暗号化する（ダイアログで「すべてはい」を選択 = true）
 
 	String AppExeFilePath;	           //アタッシェケース本体の場所
 	String AtcFilePath;                //入力する暗号化ファイルパス

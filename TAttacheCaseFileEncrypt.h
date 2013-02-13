@@ -99,11 +99,6 @@ private:
 	int MsgReturnVal;
 	String MsgReturnPath;
 
-	//同名ファイルはすべて上書きして暗号化する
-	//（ユーザーがダイアログで「すべてはい」を選択したとき = true ）
-	bool fOverwirteYesToAll;
-
-
 	//-----------------------------------
 	// 関数
 	//-----------------------------------
@@ -160,6 +155,7 @@ public:
 	bool fOptBrokenFileOption;         //ミスタイプでファイルを破壊するか否か
 	int intOptMissTypeLimitsNumOption; //タイプミスできる回数
 	bool fConfirmOverwirte;            //同名ファイルがあるときは上書きの確認をする
+	bool fOverwirteYesToAll;           //同名ファイルはすべて上書きして暗号化する（ダイアログで「すべてはい」を選択 = true）
 
 	String AppExeFilePath;	           //アタッシェケース本体の場所
 	String OutFilePath;                //出力する暗号化ファイル

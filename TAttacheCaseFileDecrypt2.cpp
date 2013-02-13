@@ -73,6 +73,8 @@ ProgressMsgText = "";              // 進捗メッセージ
 AtcFilePath = "";                  // 入力する暗号化ファイル
 OutDirPath = "";                   // 出力するディレクトリ
 
+fOverwirteYesToAll = false;        //同名ファイルはすべて上書きして暗号化する（ダイアログで「すべてはい」を選択 = true）
+
 NumOfTrials = 1;                   // パスワード入力試行回数
 
 StatusNum = -1;                    // 処理結果ステータス
@@ -135,9 +137,6 @@ const char charBrokenToken[17] = "_Atc_Broken_Data";         //ファイルが�
 String AtcFileTokenString;                                   //暗号化ファイルのトークン（文字列）
 String AtcFileCreateDateString;                              //暗号化ファイルの生成日時（文字列）
 
-//同名ファイル/フォルダーはすべて上書きして復号する
-//（ユーザーがダイアログで「すべてはい」を選択したとき = true ）
-fOverwirteYesToAll = false;
 //「復号したファイルを関連付けされたソフトで開く」一時的な設定
 fTempOpenFile = fOpenFile;
 //フォルダーを一度開いたか（深いフォルダーすべてを開かないように）
@@ -389,7 +388,9 @@ if ( fPasswordOk == false ) {
 // 復号時のエンコーディング判定
 //-----------------------------------
 pms->Position = 0;
-DataList->LoadFromStream(pms, TEncoding::UTF8);
+//DataList->LoadFromStream(pms, TEncoding::UTF8);
+DataList->LoadFromStream(pms, TEncoding::GetEncoding(65001));
+
 PrefixString = "Fn_";
 for (i = 0; i < DataList->Count; i++) {
 	if ( DataList->Strings[i].Pos("U_0") == 1){
@@ -1023,7 +1024,7 @@ do{
 				//暗号化ファイル自身への復号はNG
 				//（ex: ..\hoge -> ..\hoge）
 				//-----------------------------------
-				if ( FilePath.Compare(AtcFilePath) == 0 ) {
+				if ( FilePath.CompareIC(AtcFilePath) == 0 ) {
 					//'暗号化ファイル自身にファイルまたはフォルダーを復号することはできません。'+#13+
 					//'復号処理を中止します。';
 					MsgText = LoadResourceString(&Msgdecrypt::_MSG_ERROR_NOT_OVERWRITE_MYSELF)+"\n"+FilePath;
@@ -1095,7 +1096,7 @@ do{
 				//暗号化ファイル自身への復号はNG
 				//（ex: ..\hoge -> ..\hoge）
 				//-----------------------------------
-				if ( FilePath.Compare(AtcFilePath) == 0 && fCompare == false) {
+				if ( FilePath.CompareIC(AtcFilePath) == 0 && fCompare == false) {
 					//'暗号化ファイル自身にファイルまたはフォルダーを復号することはできません。'+#13+
 					//'復号処理を中止します。';
 					MsgText = LoadResourceString(&Msgdecrypt::_MSG_ERROR_NOT_OVERWRITE_MYSELF)+"\n"+FilePath;
