@@ -137,6 +137,9 @@ public:
 	AnsiString MyEncodePassword;    //記憶暗号化パスワード
 	AnsiString MyDecodePassword;    //記憶復号化パスワード
 
+	bool fMainWindowMinimize;       //常にウィンドウを最小化して処理する
+	bool fTaskBarHide;              //タスクバーに表示しない
+	bool fTaskTrayIcon;             //タスクトレイにアイコンを表示する
 	bool fMemPasswordExe;           //記憶パスワードで即座に実行する
 	bool fOpenFolder;               //フォルダの場合に復号後に開くか
 	bool fOpenFile;                 //復号したファイルを関連付けされたソフトで開く

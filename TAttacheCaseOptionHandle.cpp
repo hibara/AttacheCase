@@ -74,6 +74,9 @@ __fastcall TAttacheCaseOptionHandle::TAttacheCaseOptionHandle() : TObject()
 	MyEncodePassword = "";          // 記憶暗号化パスワード
 	MyDecodePassword = "";          // 記憶復号化パスワード
 
+	fMainWindowMinimize = false;    // 常にウィンドウを最小化して処理する
+	fTaskBarHide = false;           // タスクバーに表示しない
+	fTaskTrayIcon = false;          // タスクトレイにアイコンを表示する
 	fMemPasswordExe = false;        // 記憶パスワードで即座に実行する
 	fOpenFolder = false;            // フォルダの場合に復号後に開くか
 	fOpenFile = false;              // 復号したファイルを関連付けされたソフトで開く
@@ -285,16 +288,19 @@ try{
 		}
 	}
 
-	fMemPasswordExe = pOpt->ReadBool( "Option", "fMemPasswordExe", true);        //記憶パスワードで確認なく実行する
-	fOpenFolder = pOpt->ReadBool( "Option", "fOpenFolder", false);               //フォルダを開く
-	fOpenFile = pOpt->ReadBool( "Option", "fOpenFile", false);                   //復号したファイルを関連付けされたソフトで開く
-	fEndToExit = pOpt->ReadBool( "Option", "fEndToExit", false);                 //処理後、アプリを終了する
-	fWindowForeground = pOpt->ReadBool( "Option", "fWindowForeground", true);    //デスクトップで最前面にウィンドウを表示する
-	fNoHidePassword = pOpt->ReadBool( "Option", "fNoHidePassword", false);       //「*」で隠さずパスワードを確認しながら入力する
-	fSaveToExeout = pOpt->ReadBool( "Option", "fSaveToExeout", false);           //常に自己実行形式で出力する
-	fShowExeoutChkBox = pOpt->ReadBool( "Option", "fShowExeoutChkBox", true);    //メインフォームにチェックボックスを表示する
-	fAskEncDecode = pOpt->ReadBool( "Option", "fAskEncDecode", false);           //暗号/復号処理かを問い合わせる
-	fNoMultipleInstance = pOpt->ReadBool( "Option", "fNoMultipleInstance", true);//複数起動しない
+	fMainWindowMinimize = pOpt->ReadBool( "Option", "fMainWindowMinimize", false);//常にウィンドウを最小化して処理する
+	fTaskBarHide = pOpt->ReadBool( "Option", "fTaskBarHide", false);              //タスクバーに表示しない
+	fTaskTrayIcon = pOpt->ReadBool( "Option", "fTaskTrayIcon", false);            //タスクトレイにアイコンを表示する
+	fMemPasswordExe = pOpt->ReadBool( "Option", "fMemPasswordExe", true);         //記憶パスワードで確認なく実行する
+	fOpenFolder = pOpt->ReadBool( "Option", "fOpenFolder", false);                //フォルダを開く
+	fOpenFile = pOpt->ReadBool( "Option", "fOpenFile", false);                    //復号したファイルを関連付けされたソフトで開く
+	fEndToExit = pOpt->ReadBool( "Option", "fEndToExit", false);                  //処理後、アプリを終了する
+	fWindowForeground = pOpt->ReadBool( "Option", "fWindowForeground", true);     //デスクトップで最前面にウィンドウを表示する
+	fNoHidePassword = pOpt->ReadBool( "Option", "fNoHidePassword", false);        //「*」で隠さずパスワードを確認しながら入力する
+	fSaveToExeout = pOpt->ReadBool( "Option", "fSaveToExeout", false);            //常に自己実行形式で出力する
+	fShowExeoutChkBox = pOpt->ReadBool( "Option", "fShowExeoutChkBox", true);     //メインフォームにチェックボックスを表示する
+	fAskEncDecode = pOpt->ReadBool( "Option", "fAskEncDecode", false);            //暗号/復号処理かを問い合わせる
+	fNoMultipleInstance = pOpt->ReadBool( "Option", "fNoMultipleInstance", true); //複数起動しない
 
 	ProcTypeWithoutAsk = -1;     //明示的な暗号/復号処理か（コマンドラインからのみ）
 
@@ -423,6 +429,9 @@ try{
 	KeyValueList->Add(String().Format("%s=%s", ARRAYOFCONST(("MyEncodePassword", MyEncodePassword))));
 	KeyValueList->Add(String().Format("%s=%s", ARRAYOFCONST(("MyDecodePassword", MyDecodePassword))));
 
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fMainWindowMinimize", (int)fMainWindowMinimize))));
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fTaskBarHide", (int)fTaskBarHide))));
+	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fTaskTrayIcon", (int)fTaskTrayIcon))));
 	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fMemPasswordExe", (int)fMemPasswordExe))));
 	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fOpenFolder", (int)fOpenFolder))));
 	KeyValueList->Add(String().Format("%s=%d", ARRAYOFCONST(("fOpenFile", (int)fOpenFile))));
@@ -559,6 +568,9 @@ try{
 	SaveMyPasswordToRegistry(MyEncodePassword, 0);	//暗号化
 	SaveMyPasswordToRegistry(MyDecodePassword, 1);	//復号
 
+	pOpt->WriteString( "Option", "fMainWindowMinimize", fMainWindowMinimize==true ? "1" : "0");//常にウィンドウを最小化して処理する
+	pOpt->WriteString( "Option", "fTaskBarHide", fTaskBarHide==true ? "1" : "0");              //タスクバーに表示しない
+	pOpt->WriteString( "Option", "fTaskTrayIcon", fTaskTrayIcon==true ? "1" : "0");            //タスクトレイにアイコンを表示する
 	pOpt->WriteString( "Option", "fMemPasswordExe", fMemPasswordExe==true ? "1" : "0");        //記憶パスワードで確認なく実行する
 	pOpt->WriteString( "Option", "fOpenFolder", fOpenFolder==true ? "1" : "0");                //フォルダを開く
 	pOpt->WriteString( "Option", "fOpenFile", fOpenFile==true ? "1" : "0");                    //復号したファイルを関連付けされたソフトで開く
@@ -689,6 +701,33 @@ for ( i = 1; i < ParamCount()+1 ; i++){
 			}
 			else{
 				fMemPasswordExe = false;
+			}
+		}
+		else if (CmdStr == "wmin"){
+			//常にウィンドウを最小化して処理する
+			if ( StrToIntDef(strvalue.Trim(), -1) == 1 ){
+				fMainWindowMinimize = true;
+			}
+			else{
+				fMainWindowMinimize = false;
+			}
+		}
+		else if (CmdStr == "tskb"){
+			//タスクバーに表示しない
+			if ( StrToIntDef(strvalue.Trim(), -1) == 1 ){
+				fTaskBarHide = true;
+			}
+			else{
+				fTaskBarHide = false;
+			}
+		}
+		else if (CmdStr == "tsktr"){
+			//タスクトレイにアイコンを表示する
+			if ( StrToIntDef(strvalue.Trim(), -1) == 1 ){
+				fTaskTrayIcon = true;
+			}
+			else{
+				fTaskTrayIcon = false;
 			}
 		}
 		else if (CmdStr == "opd"){
@@ -1120,10 +1159,18 @@ try{
 	bf = new CBlowFish;
 
 	if ( OptType == 0 ) {
-		pOpt = new TRegistryIniFile("Software\\Hibara\\AttacheCase");
+		pOpt = new TRegistryIniFile(ATTACHE_CASE_REGISTRY_PATH);    //レジストリ
+	}
+	else if ( OptType == -1 ) {
+		pOpt = new TRegistryIniFile(ATTACHE_CASE_BAK_REGISTRY_PATH);//レジストリバックアップ
 	}
 	else{
-		pOpt = new TIniFile(OptionPath);
+		if (FileExists(OptionPath) == true) {
+			pOpt = new TIniFile(OptionPath);                          //INIファイル
+		}
+		else{
+			return("");	                                              //保存しない（コマンドラインオプションからなどは）
+		}
 	}
 
 	//-----------------------------------
@@ -1200,8 +1247,10 @@ __finally	 {
 
 }
 
+//===================================
 //デバッグ
 //ShowMessage(Password);
+//===================================
 
 //保存のパスワードを返す
 return(Password);
@@ -1238,10 +1287,18 @@ TMemoryStream *ms = new TMemoryStream();
 try{
 
 	if ( OptType == 0 ) {
-		pOpt = new TRegistryIniFile(ATTACHE_CASE_REGISTRY_PATH);
+		pOpt = new TRegistryIniFile(ATTACHE_CASE_REGISTRY_PATH);    //レジストリ
+	}
+	else if ( OptType == -1 ) {
+		pOpt = new TRegistryIniFile(ATTACHE_CASE_BAK_REGISTRY_PATH);//レジストリバックアップ
 	}
 	else{
-		pOpt = new TIniFile(OptionPath);
+		if (FileExists(OptionPath) == true) {
+			pOpt = new TIniFile(OptionPath);                          //INIファイル
+		}
+		else{
+			return(true);	                                            //保存しない（コマンドラインオプションからなどは）
+		}
 	}
 
 	//パスコードをクリアする

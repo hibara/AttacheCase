@@ -109,6 +109,10 @@ PanelBasicCaption->Caption = LoadResourceString(&Msgunit3::_PANEL_BASIC_CAPTION)
 chkMyEncPasswordKeep->Caption = LoadResourceString(&Msgunit3::_BASIC_PANEL_CHECKBOX_MY_ENC_PASSWORD_KEEP);
 chkMyDecPasswordKeep->Caption = LoadResourceString(&Msgunit3::_BASIC_PANEL_CHECKBOX_MY_DEC_PASSWORD_KEEP);
 chkMyPasswordExe->Caption = LoadResourceString(&Msgunit3::_BASIC_PANEL_CHECKBOX_MY_PASSWORD_EXE);
+
+chkWindowMinimize->Caption = LoadResourceString(&Msgunit3::_BASIC_PANEL_CHECKBOX_WINDOW_MINIMAIZE);
+chkTaskBarHide->Caption = LoadResourceString(&Msgunit3::_BASIC_PANEL_CHECKBOX_TASKBAR_HIDE);
+chkTaskTrayIcon->Caption = LoadResourceString(&Msgunit3::_BASIC_PANEL_CHECKBOX_TASKTRAY_ICON);
 chkOpenFolder->Caption = LoadResourceString(&Msgunit3::_BASIC_PANEL_CHECKBOX_OPEN_FOLDER);
 chkOpenFile->Caption = LoadResourceString(&Msgunit3::_BASIC_PANEL_CHECKBOX_OPEN_FILE);
 chkEndToExit->Caption = LoadResourceString(&Msgunit3::_BASIC_PANEL_CHECKBOX_END_TO_EXIT);
@@ -362,6 +366,9 @@ if ( (pNum = pOpt->MyDecodePassword.Length()) > 32 ){
 btneditMyDecPassword->Text = String::StringOfChar('*', pNum);
 
 chkMyPasswordExe->Checked = pOpt->fMemPasswordExe;
+chkWindowMinimize->Checked = pOpt->fMainWindowMinimize;
+chkTaskBarHide->Checked = pOpt->fTaskBarHide;
+chkTaskTrayIcon->Checked = pOpt->fTaskTrayIcon;
 chkOpenFolder->Checked = pOpt->fOpenFolder;
 chkOpenFile->Checked = pOpt->fOpenFile;
 chkEndToExit->Checked = pOpt->fEndToExit;
@@ -595,6 +602,9 @@ if ( chkMyDecPasswordKeep->Checked == false ){
 	pOpt->MyDecodePassword = "";	//記憶パスワードのクリア
 }
 
+pOpt->fMainWindowMinimize = chkWindowMinimize->Checked;
+pOpt->fTaskBarHide = chkTaskBarHide->Checked;
+pOpt->fTaskTrayIcon = chkTaskTrayIcon->Checked;
 pOpt->fMemPasswordExe = chkMyPasswordExe->Checked;
 pOpt->fOpenFolder = chkOpenFolder->Checked;
 pOpt->fOpenFile = chkOpenFile->Checked;
@@ -650,14 +660,14 @@ pOpt->fDelEncFile = chkDelEncFile->Checked;
 pOpt->fShowDeleteChkBox = chkShowDeleteChkBox->Checked;
 
 //削除の詳細設定
-if ( optCompleteDelete->Checked == true ) {     //完全削除
+if ( optCompleteDelete->Checked == true ) { //完全削除
 	pOpt->fCompleteDelete = 1;
 }
-else if ( optGoToTrash->Checked == true ) {     //ごみ箱へ移動
+else if ( optGoToTrash->Checked == true ) { //ごみ箱へ移動
 	pOpt->fCompleteDelete = 2;
 }
 else{
-	pOpt->fCompleteDelete = 0;           //通常削除
+	pOpt->fCompleteDelete = 0;                //通常削除
 }
 
 //削除回数
@@ -1957,7 +1967,6 @@ void __fastcall TForm3::PaintSideMenu(void)
 int i;
 Graphics::TIcon *icon;
 
-
 //背景を敷き詰める
 for (int PosY = 0; PosY < bmpSideMenu->Height; PosY+=imgMenuBackground->Height) {
 	bmpSideMenu->Canvas->Draw(0, PosY, imgMenuBackground->Picture->Icon);
@@ -2004,7 +2013,7 @@ void __fastcall TForm3::PaintBoxMenuMouseDown(TObject *Sender, TMouseButton Butt
 int i;
 
 //カーソルの位置にアイコンがあるか
-for ( i = 6; i > -1; i--) {
+for ( i = 6; i > 0; i--) {
 	if ( Y > ptSideMenu[i].y) {
 		if (Y < ptSideMenu[i].y+48) {
 			if (X > ptSideMenu[i].x && X < ptSideMenu[i].x+48) {
@@ -2025,9 +2034,11 @@ void __fastcall TForm3::PaintBoxMenuMouseMove(TObject *Sender, TShiftState Shift
 					int X, int Y)
 {
 
+int i;
+
 optSelectedMenu = 0;
 //カーソルの位置にアイコンがあるか
-for (int i = 6; i > 0; i--) {
+for ( i = 6; i > 0; i--) {
 	if ( Y > ptSideMenu[i].y) {
 		if (Y < ptSideMenu[i].y+48) {
 			if (X > ptSideMenu[i].x && X < ptSideMenu[i].x+48) {
@@ -2038,7 +2049,9 @@ for (int i = 6; i > 0; i--) {
 	}
 }
 
-PaintSideMenu();
+if ( i > 0) {
+	PaintSideMenu();
+}
 
 }
 //---------------------------------------------------------------------------
@@ -2156,6 +2169,26 @@ void __fastcall TForm3::comboDataIconChange(TObject *Sender)
 
 //関連付けアイコンの変更を行った
 fChangeRegData = true;
+
+}
+//---------------------------------------------------------------------------
+//「ウィンドウを最小化したときタスクバーに表示しない(&H)」
+void __fastcall TForm3::chkTaskBarHideClick(TObject *Sender)
+{
+
+if (chkTaskBarHide->Checked == true && chkTaskTrayIcon->Checked == false) {
+	chkTaskTrayIcon->Checked = true;
+}
+
+}
+//---------------------------------------------------------------------------
+//「タスクトレイにアイコンを表示する(&C)」
+void __fastcall TForm3::chkTaskTrayIconClick(TObject *Sender)
+{
+
+if (chkTaskTrayIcon->Checked == false && chkTaskBarHide->Checked == true) {
+	chkTaskBarHide->Checked = false;
+}
 
 }
 //---------------------------------------------------------------------------

@@ -1,11 +1,11 @@
-﻿unit MsgOption;
+unit MsgOption;
 
 interface
 
 resourcestring
 
 
-	APPLICATION_NAME	        = 'アタッシェケース';
+	APPLICATION_NAME	        = '�A�^�b�V�F�P�[�X';
 
 
 
@@ -13,7 +13,7 @@ implementation
 
 initialization
 
-	//Delphiコンパイラによる最適化を防ぐ
+	//Delphi�R���p�C���ɂ��œK����h��
 
 
 	APPLICATION_NAME;

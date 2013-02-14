@@ -61,6 +61,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "Unit2.h"
 #include "Unit3.h"
+#include <AppEvnts.hpp>
 
 #define INI_FILE_NAME "_AtcCase.ini"
 
@@ -138,10 +139,16 @@ __published:	// IDE 管理のコンポーネント
 	TImage *imgMenuOptionOff;
 	TImage *imgMenuOptionOn;
 	TImage *imgMenuHorizontalLine;
-	TImage *imgDropFileIn;
+	TImage *imgArrow;
 	TCheckBox *chkDeleteAtcData;
 	TCheckBox *chkDeleteSourceData;
 	TCheckBox *chkDeleteSourceDataConf;
+	TTrayIcon *TrayIcon1;
+	TApplicationEvents *ApplicationEvents1;
+	TPopupMenu *PopupMenu1;
+	TMenuItem *popExit;
+	TMenuItem *N2;
+	TMenuItem *popSetting;
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall FormDestroy(TObject *Sender);
 	void __fastcall FormShow(TObject *Sender);
@@ -188,6 +195,10 @@ __published:	// IDE 管理のコンポーネント
 					bool &Handled);
 	void __fastcall PaintBoxMainMouseDown(TObject *Sender, TMouseButton Button,
 					TShiftState Shift, int X, int Y);
+	void __fastcall ApplicationEvents1Minimize(TObject *Sender);
+	void __fastcall TrayIcon1Click(TObject *Sender);
+	void __fastcall TrayIcon1BalloonClick(TObject *Sender);
+
 
 
 private:	// ユーザー宣言

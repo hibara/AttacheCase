@@ -1,37 +1,37 @@
-ï»¿unit MsgUnit4;
+unit MsgUnit4;
 
 interface
 
 resourcestring
 
-	//ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚­ãƒ£ãƒ—ã‚·ãƒ§ãƒ³
-	MSG_CAPTION_ERROR                             = 'ã‚¨ãƒ©ãƒ¼';
-	MSG_CAPTION_CONFIRMATION                      = 'ç¢ºèª';
+	//ƒƒbƒZ[ƒWƒLƒƒƒvƒVƒ‡ƒ“
+	MSG_CAPTION_ERROR                             = 'ƒGƒ‰[';
+	MSG_CAPTION_CONFIRMATION                      = 'Šm”F';
 
-	FORM_CAPTION_INPUT_ENCRYPT_MEM_PASSWORD       = 'è¨˜æ†¶ã™ã‚‹æš—å·åŒ–ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã®å…¥åŠ›';
-	FORM_CAPTION_INSERT_DECRYPT_MEM_PASSWORD      = 'è¨˜æ†¶ã™ã‚‹å¾©å·ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã®å…¥åŠ›';
-	FORM_CAPTION_INSERT_DATETIME_FORMAT           = 'æ—¥æ™‚æ›¸å¼ã®æŒ¿å…¥';
-	FORM_CAPTION_INSERT_SERIAL_NUM_FORMAT         = 'é€£ç•ªæ›¸å¼ã®æŒ¿å…¥';
-	FORM_CAPTION_INSERT_RANDOM_TEXT_NUM_FORMAT    = 'ãƒ©ãƒ³ãƒ€ãƒ æ–‡å­—åˆ—æ•°ã®æŒ¿å…¥';
-	FORM_CAPTION_INSERT_FILE_NAME_HEAD_NUM_FORMAT = 'ãƒ•ã‚¡ã‚¤ãƒ«åã®å…ˆé ­æ–‡å­—æ•°ã®æŒ¿å…¥';
-	FORM_CAPTION_INSERT_FILE_NAME_END_NUM_FORMAT  = 'ãƒ•ã‚¡ã‚¤ãƒ«åã®æœ«å°¾æ–‡å­—æ•°ã®æŒ¿å…¥';
+	FORM_CAPTION_INPUT_ENCRYPT_MEM_PASSWORD       = '‹L‰¯‚·‚éˆÃ†‰»ƒpƒXƒ[ƒh‚Ì“ü—Í';
+	FORM_CAPTION_INSERT_DECRYPT_MEM_PASSWORD      = '‹L‰¯‚·‚é•œ†ƒpƒXƒ[ƒh‚Ì“ü—Í';
+	FORM_CAPTION_INSERT_DATETIME_FORMAT           = '“úŽž‘Ž®‚Ì‘}“ü';
+	FORM_CAPTION_INSERT_SERIAL_NUM_FORMAT         = '˜A”Ô‘Ž®‚Ì‘}“ü';
+	FORM_CAPTION_INSERT_RANDOM_TEXT_NUM_FORMAT    = 'ƒ‰ƒ“ƒ_ƒ€•¶Žš—ñ”‚Ì‘}“ü';
+	FORM_CAPTION_INSERT_FILE_NAME_HEAD_NUM_FORMAT = 'ƒtƒ@ƒCƒ‹–¼‚Ìæ“ª•¶Žš”‚Ì‘}“ü';
+	FORM_CAPTION_INSERT_FILE_NAME_END_NUM_FORMAT  = 'ƒtƒ@ƒCƒ‹–¼‚Ì––”ö•¶Žš”‚Ì‘}“ü';
 
 	BUTTON_CAPTION_OK                             = '&OK';
-	BUTTON_CAPTION_INSERT                         = 'æŒ¿å…¥(&I)';
-	BUTTON_CAPTION_CANCEL                         = 'ã‚­ãƒ£ãƒ³ã‚»ãƒ«(&C)';
+	BUTTON_CAPTION_INSERT                         = '‘}“ü(&I)';
+	BUTTON_CAPTION_CANCEL                         = 'ƒLƒƒƒ“ƒZƒ‹(&C)';
 
-	LABEL_INPUT_MEM_NEW_PASSWORD                  = 'è¨˜æ†¶ã™ã‚‹æ–°ã—ã„ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„...';
-	LABEL_INPUT_MEM_NEW_PASSWORD_CONFIRM          = 'ç¢ºèªã™ã‚‹ãŸã‚ã€ã‚‚ã†ä¸€åº¦åŒã˜ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰å…¥åŠ›ã—ã¦ãã ã•ã„...';
+	LABEL_INPUT_MEM_NEW_PASSWORD                  = '‹L‰¯‚·‚éV‚µ‚¢ƒpƒXƒ[ƒh‚ð“ü—Í‚µ‚Ä‚­‚¾‚³‚¢...';
+	LABEL_INPUT_MEM_NEW_PASSWORD_CONFIRM          = 'Šm”F‚·‚é‚½‚ßA‚à‚¤ˆê“x“¯‚¶ƒpƒXƒ[ƒh“ü—Í‚µ‚Ä‚­‚¾‚³‚¢...';
 
-	LABEL_INSERT_DATETIME                         = 'æŒ¿å…¥ã™ã‚‹æ—¥æ™‚ã®æ›¸å¼ï¼š';
-	LABEL_INSERT_SERIAL_NUM                       = 'é€£ç•ªã®æ¡æ•°ï¼š';
-	LABEL_INSERT_RANDOM_TEXT                      = 'ãƒ©ãƒ³ãƒ€ãƒ æ–‡å­—åˆ—ã®æ•°ï¼š';
-	LABEL_INSERT_FILE_NAME_HEAD                   = 'ãƒ•ã‚¡ã‚¤ãƒ«åã®å…ˆé ­æ–‡å­—æ•°ï¼š';
-	LABEL_INSERT_FILE_NAME_END                    = 'ãƒ•ã‚¡ã‚¤ãƒ«åã®æœ«å°¾æ–‡å­—æ•°ï¼š';
+	LABEL_INSERT_DATETIME                         = '‘}“ü‚·‚é“úŽž‚Ì‘Ž®F';
+	LABEL_INSERT_SERIAL_NUM                       = '˜A”Ô‚ÌŒ…”F';
+	LABEL_INSERT_RANDOM_TEXT                      = 'ƒ‰ƒ“ƒ_ƒ€•¶Žš—ñ‚Ì”F';
+	LABEL_INSERT_FILE_NAME_HEAD                   = 'ƒtƒ@ƒCƒ‹–¼‚Ìæ“ª•¶Žš”F';
+	LABEL_INSERT_FILE_NAME_END                    = 'ƒtƒ@ƒCƒ‹–¼‚Ì––”ö•¶Žš”F';
 
 
-	MSG_ERROR_PASSWORD_MAX_NUM                    = 'ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã«ä½¿ç”¨ã§ãã‚‹æ–‡å­—æ•°ã¯åŠè§’56æ–‡å­—ï¼ˆå…¨è§’28æ–‡å­—ï¼‰ä»¥å†…ã§ã™ã€‚';
-	MSG_ERROR_INPUT_PASSWORD_MISMATCH             = 'å…¥åŠ›ã•ã‚ŒãŸãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã¨ã¡ãŒã„ã¾ã™ã€‚'+#13+'å†åº¦ãƒ‘ã‚¹ãƒ¯ãƒ¼ãƒ‰ã‚’å…¥åŠ›ã—ã¦ãã ã•ã„ã€‚';
+	MSG_ERROR_PASSWORD_MAX_NUM                    = 'ƒpƒXƒ[ƒh‚ÉŽg—p‚Å‚«‚é•¶Žš”‚Í”¼Šp56•¶Žši‘SŠp28•¶ŽšjˆÈ“à‚Å‚·B';
+	MSG_ERROR_INPUT_PASSWORD_MISMATCH             = '“ü—Í‚³‚ê‚½ƒpƒXƒ[ƒh‚Æ‚¿‚ª‚¢‚Ü‚·B'+#13+'Ä“xƒpƒXƒ[ƒh‚ð“ü—Í‚µ‚Ä‚­‚¾‚³‚¢B';
 
 
 
@@ -39,7 +39,7 @@ implementation
 
 initialization
 
-	//Delphiã‚³ãƒ³ãƒ‘ã‚¤ãƒ©ã«ã‚ˆã‚‹æœ€é©åŒ–ã‚’é˜²ã
+	//DelphiƒRƒ“ƒpƒCƒ‰‚É‚æ‚éÅ“K‰»‚ð–h‚®
 
 	MSG_CAPTION_ERROR;
 	MSG_CAPTION_CONFIRMATION;

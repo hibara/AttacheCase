@@ -1,6 +1,6 @@
 object Form3: TForm3
-  Left = 279
-  Top = 116
+  Left = 535
+  Top = 252
   BorderIcons = [biSystemMenu, biMaximize]
   BorderStyle = bsSingle
   Caption = 'Options'
@@ -21,9 +21,22 @@ object Form3: TForm3
   OnShow = FormShow
   PixelsPerInch = 96
   TextHeight = 13
-  object imgBat: TImage
-    Left = 93
+  object PaintBoxMenu: TPaintBox
+    Left = 0
     Top = 0
+    Width = 92
+    Height = 494
+    Align = alLeft
+    OnDblClick = PaintBoxMenuDblClick
+    OnMouseDown = PaintBoxMenuMouseDown
+    OnMouseMove = PaintBoxMenuMouseMove
+    OnPaint = PaintBoxMenuPaint
+    ExplicitLeft = -5
+    ExplicitTop = -6
+  end
+  object imgBat: TImage
+    Left = 13
+    Top = 4
     Width = 16
     Height = 16
     AutoSize = True
@@ -68,8 +81,8 @@ object Form3: TForm3
     Visible = False
   end
   object imgReg: TImage
-    Left = 115
-    Top = 0
+    Left = 35
+    Top = 4
     Width = 16
     Height = 16
     AutoSize = True
@@ -114,8 +127,8 @@ object Form3: TForm3
     Visible = False
   end
   object imgIni: TImage
-    Left = 137
-    Top = 0
+    Left = 57
+    Top = 4
     Width = 16
     Height = 16
     AutoSize = True
@@ -159,21 +172,9 @@ object Form3: TForm3
       801F0000}
     Visible = False
   end
-  object PaintBoxMenu: TPaintBox
-    Left = 0
-    Top = 0
-    Width = 92
-    Height = 494
-    Align = alLeft
-    OnDblClick = PaintBoxMenuDblClick
-    OnMouseDown = PaintBoxMenuMouseDown
-    OnMouseMove = PaintBoxMenuMouseMove
-    OnPaint = PaintBoxMenuPaint
-    ExplicitLeft = 92
-  end
   object imgMenuBackground: TImage
-    Left = 20
-    Top = 272
+    Left = 8
+    Top = 338
     Width = 128
     Height = 128
     AutoSize = True
@@ -1785,10 +1786,10 @@ object Form3: TForm3
   end
   object PageControl1: TPageControl
     AlignWithMargins = True
-    Left = 99
-    Top = 16
+    Left = 94
+    Top = 1
     Width = 502
-    Height = 454
+    Height = 486
     Margins.Left = 4
     Margins.Top = 4
     Margins.Right = 4
@@ -1822,11 +1823,11 @@ object Form3: TForm3
       end
       object chkNoMultipleInstance: TCheckBox
         Left = 0
-        Top = 377
+        Top = 438
         Width = 477
         Height = 17
         Caption = 'chkNoMultipleInstance'
-        TabOrder = 1
+        TabOrder = 17
       end
       object chkMyEncPasswordKeep: TCheckBox
         Left = 0
@@ -1834,7 +1835,7 @@ object Form3: TForm3
         Width = 474
         Height = 17
         Caption = 'chkMyEncPasswordKeep'
-        TabOrder = 2
+        TabOrder = 1
         OnClick = chkMyEncPasswordKeepClick
       end
       object btneditMyEncPassword: TButtonedEdit
@@ -1848,7 +1849,7 @@ object Form3: TForm3
         LeftButton.Visible = True
         MaxLength = 32
         ReadOnly = True
-        TabOrder = 3
+        TabOrder = 2
         Text = 'btneditMyEncPassword'
         OnLeftButtonClick = btneditMyEncPasswordLeftButtonClick
       end
@@ -1858,7 +1859,7 @@ object Form3: TForm3
         Width = 474
         Height = 17
         Caption = 'chkMyDecPasswordKeep'
-        TabOrder = 4
+        TabOrder = 3
         OnClick = chkMyDecPasswordKeepClick
       end
       object btneditMyDecPassword: TButtonedEdit
@@ -1872,81 +1873,107 @@ object Form3: TForm3
         LeftButton.Visible = True
         MaxLength = 32
         ReadOnly = True
-        TabOrder = 5
+        TabOrder = 4
         Text = 'btneditMyDecPassword'
         OnLeftButtonClick = btneditMyDecPasswordLeftButtonClick
       end
       object chkMyPasswordExe: TCheckBox
         Left = 0
-        Top = 139
+        Top = 136
         Width = 474
         Height = 17
         Caption = 'chkMyPasswordExe'
-        TabOrder = 6
+        TabOrder = 5
       end
       object chkOpenFolder: TCheckBox
         Left = 0
-        Top = 165
+        Top = 234
         Width = 474
         Height = 17
         Caption = 'chkOpenFolder'
-        TabOrder = 7
+        TabOrder = 9
       end
       object chkOpenFile: TCheckBox
         Left = 0
-        Top = 192
+        Top = 260
         Width = 474
         Height = 17
         Caption = 'chkOpenFile'
-        TabOrder = 8
+        TabOrder = 10
       end
       object chkEndToExit: TCheckBox
         Left = 0
-        Top = 220
+        Top = 286
         Width = 474
         Height = 17
         Caption = 'chkEndToExit'
-        TabOrder = 9
+        TabOrder = 11
       end
       object chkWindowForeground: TCheckBox
         Left = 0
-        Top = 248
+        Top = 313
         Width = 474
         Height = 17
         Caption = 'chkWindowForeground'
-        TabOrder = 10
+        TabOrder = 12
       end
       object chkNoHidePassword: TCheckBox
         Left = 0
-        Top = 276
+        Top = 340
         Width = 474
         Height = 17
         Caption = 'chkNoHidePassword'
-        TabOrder = 11
+        TabOrder = 13
       end
       object chkSaveToExeout: TCheckBox
         Left = 0
-        Top = 303
+        Top = 366
         Width = 474
         Height = 17
         Caption = 'chkSaveToExeout'
-        TabOrder = 12
+        TabOrder = 14
       end
       object chkShowExeoutChkBox: TCheckBox
         Left = 13
-        Top = 325
+        Top = 387
         Width = 461
         Height = 17
         Caption = 'chkShowExeoutChkBox'
-        TabOrder = 13
+        TabOrder = 15
       end
       object chkAskEncDecode: TCheckBox
         Left = 0
-        Top = 350
+        Top = 411
         Width = 474
         Height = 17
         Caption = 'chkAskEncDecode'
-        TabOrder = 14
+        TabOrder = 16
+      end
+      object chkWindowMinimize: TCheckBox
+        Left = 0
+        Top = 161
+        Width = 474
+        Height = 17
+        Caption = 'chkWindowMinimize'
+        TabOrder = 6
+      end
+      object chkTaskBarHide: TCheckBox
+        Left = 0
+        Top = 187
+        Width = 474
+        Height = 17
+        Caption = 'chkTaskBarHide'
+        TabOrder = 7
+        OnClick = chkTaskBarHideClick
+      end
+      object chkTaskTrayIcon: TCheckBox
+        Left = 13
+        Top = 211
+        Width = 474
+        Height = 17
+        Caption = 'chkTaskTrayIcon'
+        TabOrder = 8
+        OnClick = chkTaskTrayIconClick
       end
     end
     object TabSave: TTabSheet
@@ -2587,7 +2614,7 @@ object Form3: TForm3
           Height = 41
           Caption = 'cmdAddFileIcon'
           ElevationRequired = True
-          TabOrder = 0
+          TabOrder = 1
         end
         object comboDataIcon: TComboBoxEx
           AlignWithMargins = True
@@ -2598,7 +2625,7 @@ object Form3: TForm3
           ItemsEx = <>
           Style = csExDropDownList
           StyleEx = [csExNoSizeLimit]
-          TabOrder = 1
+          TabOrder = 0
           OnChange = comboDataIconChange
           Images = imlAssociateFilesIcon
         end
@@ -2969,7 +2996,7 @@ object Form3: TForm3
       object Memo1: TMemo
         AlignWithMargins = True
         Left = 4
-        Top = 344
+        Top = 376
         Width = 486
         Height = 78
         Margins.Left = 4
@@ -3040,9 +3067,9 @@ object Form3: TForm3
   object ImageList1: TImageList
     ColorDepth = cd32Bit
     Left = 28
-    Top = 132
+    Top = 152
     Bitmap = {
-      494C01010400DC00740110001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
+      494C01010400DC00800110001000FFFFFFFF2110FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
       0000000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -3314,13 +3341,13 @@ object Form3: TForm3
       000000000000}
   end
   object OpenDialog1: TOpenDialog
-    Left = 176
-    Top = 452
+    Left = 200
+    Top = 488
   end
   object PopupMenu1: TPopupMenu
     Images = ImageList3
-    Left = 108
-    Top = 452
+    Left = 124
+    Top = 488
     object pmnuInsertFileName: TMenuItem
       Caption = 'pmnuInsertFileName'
       OnClick = pmnuInsertFileNameClick
@@ -3363,9 +3390,9 @@ object Form3: TForm3
     Height = 28
     Width = 28
     Left = 28
-    Top = 252
+    Top = 272
     Bitmap = {
-      494C01010500080000011C001C00FFFFFFFF1910FFFFFFFFFFFFFFFF424D3600
+      494C0101050008000C011C001C00FFFFFFFF1910FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000700000003800000001001800000000008049
       000000000000000000000000000000000000000000000000000000FFFFFFFFFF
       FFFFFFFFFEFEFEFEFEFEFEFEFEFEFEFEFFFFFFFFFFFFFFFFFF00000000000000
@@ -3989,20 +4016,20 @@ object Form3: TForm3
       000000000000}
   end
   object BalloonHint1: TBalloonHint
-    Left = 308
-    Top = 452
+    Left = 348
+    Top = 488
   end
   object SaveDialog1: TSaveDialog
-    Left = 240
-    Top = 452
+    Left = 272
+    Top = 488
   end
   object imlSideMenuIconOff: TImageList
     Height = 48
     Width = 48
     Left = 28
-    Top = 76
+    Top = 96
     Bitmap = {
-      494C010107002800800030003000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C0101070028008C0030003000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000C00000006000000001002000000000000020
       0100000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -6389,9 +6416,9 @@ object Form3: TForm3
     Height = 48
     Width = 48
     Left = 28
-    Top = 24
+    Top = 44
     Bitmap = {
-      494C010107002C00980030003000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      494C010107002C00A40030003000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000C00000006000000001002000000000000020
       0100000000000000000000000000000000000000000000000000000000000000
       0000000000000000000000000000000000000000000000000000000000000000
@@ -8778,6 +8805,6 @@ object Form3: TForm3
     Height = 32
     Width = 32
     Left = 28
-    Top = 192
+    Top = 212
   end
 end

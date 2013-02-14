@@ -187,6 +187,9 @@ __published:	// IDE 管理のコンポーネント
 	TImageList *imlSideMenuIconOn;
 	TImage *imgMenuBackground;
 	TImageList *imlAssociateFilesIcon;
+	TCheckBox *chkWindowMinimize;
+	TCheckBox *chkTaskBarHide;
+	TCheckBox *chkTaskTrayIcon;
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall FormDestroy(TObject *Sender);
 	void __fastcall FormShow(TObject *Sender);
@@ -240,6 +243,8 @@ __published:	// IDE 管理のコンポーネント
 	void __fastcall txtDelRandNumExit(TObject *Sender);
 	void __fastcall txtDelZeroNumExit(TObject *Sender);
 	void __fastcall comboDataIconChange(TObject *Sender);
+	void __fastcall chkTaskBarHideClick(TObject *Sender);
+	void __fastcall chkTaskTrayIconClick(TObject *Sender);
 
 private:	// ユーザー宣言
 

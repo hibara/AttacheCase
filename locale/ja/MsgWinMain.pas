@@ -1,18 +1,18 @@
-ï»¿unit MsgWinMain;
+unit MsgWinMain;
 
 interface
 
 resourcestring
 
-  //ã‚¢ãƒ—ãƒªã‚±ãƒ¼ã‚·ãƒ§ãƒ³ã‚¿ã‚¤ãƒˆãƒ«
-  TITLE_APP_NAME                = 'ã‚¢ã‚¿ãƒƒã‚·ã‚§ã‚±ãƒ¼ã‚¹';
+  //ƒAƒvƒŠƒP[ƒVƒ‡ƒ“ƒ^ƒCƒgƒ‹
+  TITLE_APP_NAME                = 'ƒAƒ^ƒbƒVƒFƒP[ƒX';
 
 
 implementation
 
 initialization
 
-	//Delphiã‚³ãƒ³ãƒ‘ã‚¤ãƒ©ã«ã‚ˆã‚‹æœ€é©åŒ–ã‚’é˜²ã
+	//DelphiƒRƒ“ƒpƒCƒ‰‚É‚æ‚éÅ“K‰»‚ğ–h‚®
 
 	TITLE_APP_NAME;
 

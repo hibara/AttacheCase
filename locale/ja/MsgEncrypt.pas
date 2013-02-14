@@ -1,44 +1,44 @@
-﻿unit MsgEncrypt;
+unit MsgEncrypt;
 
 interface
 
 resourcestring
 
-	//メッセージキャプション
-	MSG_CAPTION_ERROR                  = 'エラー';
-	MSG_CAPTION_CONFIRMATION           = '確認';
+	//���b�Z�[�W�L���v�V����
+	MSG_CAPTION_ERROR                  = '�G���[';
+	MSG_CAPTION_CONFIRMATION           = '�m�F';
 
-	//メッセージ
-	MSG_ERROR_FILE_OPEN                = '暗号化するファイルを開けません。他のアプリケーションが使用中の可能性があります。';
-	MSG_ERROR_OUT_FILE_OPEN            = '保存する先のファイルが開けません。他のアプリケーションが使用中の可能性があります。';
-	MSG_ERROR_OUT_FILE_WRITE           = '保存先に指定された暗号化ファイルに書き込めません。';
-	MSG_ERROR_EXEOUT_FAILED            = '実行可能形式出力に失敗しました。暗号化処理を中止します。';
+	//���b�Z�[�W
+	MSG_ERROR_FILE_OPEN                = '�Í�������t�@�C�����J���܂���B���̃A�v���P�[�V�������g�p���̉\��������܂��B';
+	MSG_ERROR_OUT_FILE_OPEN            = '�ۑ������̃t�@�C�����J���܂���B���̃A�v���P�[�V�������g�p���̉\��������܂��B';
+	MSG_ERROR_OUT_FILE_WRITE           = '�ۑ���Ɏw�肳�ꂽ�Í����t�@�C���ɏ������߂܂���B';
+	MSG_ERROR_EXEOUT_FAILED            = '���s�\�`���o�͂Ɏ��s���܂����B�Í��������𒆎~���܂��B';
 
-	MSG_ERROR_NO_DISK_FREE_SPACE       = 'ディスクの空き容量が足りません。暗号化ファイルを保存できません。'+#13+
-	                                     '暗号化を中止します。';
-	MSG_ERROR_OVER_4GB_EXE             = '実行形式ファイルのサイズが4GBを超えてしまう可能性があります！'+#13+
-	                                     'Win32アプリケーションとして実行できなくなるかもしれませんがよろしいですか？';
-	MSG_ERROR_ZLIB                     = 'zlibライブラリからエラーを返されました。'+#13+'エラー番号：';
+	MSG_ERROR_NO_DISK_FREE_SPACE       = '�f�B�X�N�̋󂫗e�ʂ�����܂���B�Í����t�@�C����ۑ��ł��܂���B'+#13+
+	                                     '�Í����𒆎~���܂��B';
+	MSG_ERROR_OVER_4GB_EXE             = '���s�`���t�@�C���̃T�C�Y��4GB�𒴂��Ă��܂��\��������܂��I'+#13+
+	                                     'Win32�A�v���P�[�V�����Ƃ��Ď��s�ł��Ȃ��Ȃ邩������܂��񂪂�낵���ł����H';
+	MSG_ERROR_ZLIB                     = 'zlib���C�u��������G���[��Ԃ���܂����B'+#13+'�G���[�ԍ��F';
 
-	MSG_CONFIRM_OVER_WRITE_SAME_FILE  = '同名のファイルが既に存在しています。上書きして暗号化しますか？';
+	MSG_CONFIRM_OVER_WRITE_SAME_FILE  = '�����̃t�@�C�������ɑ��݂��Ă��܂��B�㏑�����ĈÍ������܂����H';
 
-	//ラベル
-	LABEL_STATUS_TITLE_ENCRYPTING      = '暗号化しています...';
-	LABEL_STATUS_TITLE_LISTING         = '暗号化するファイルリストを生成中...';
-	LABEL_STATUS_TITLE_ENCRYPTING_LIST = 'ヘッダデータを書き込んでいます...';
-	LABEL_STATUS_TITLE_ERROR           = 'エラー';
-	LABEL_STATUS_TITLE_USER_CANCEL     = 'キャンセル';
-	LABEL_STATUS_TITLE_COMPLETE        = '完了';
+	//���x��
+	LABEL_STATUS_TITLE_ENCRYPTING      = '�Í������Ă��܂�...';
+	LABEL_STATUS_TITLE_LISTING         = '�Í�������t�@�C�����X�g�𐶐���...';
+	LABEL_STATUS_TITLE_ENCRYPTING_LIST = '�w�b�_�f�[�^����������ł��܂�...';
+	LABEL_STATUS_TITLE_ERROR           = '�G���[';
+	LABEL_STATUS_TITLE_USER_CANCEL     = '�L�����Z��';
+	LABEL_STATUS_TITLE_COMPLETE        = '����';
 
-	LABEL_STATUS_DETAIL_FAILED         = '暗号化に失敗しました。';
-	LABEL_STATUS_DETAIL_STOPPED        = '暗号化が中止されました。';
+	LABEL_STATUS_DETAIL_FAILED         = '�Í����Ɏ��s���܂����B';
+	LABEL_STATUS_DETAIL_STOPPED        = '�Í��������~����܂����B';
 
 
 implementation
 
 initialization
 
-	//Delphiコンパイラによる最適化を防ぐ
+	//Delphi�R���p�C���ɂ��œK����h��
 
 	MSG_CAPTION_ERROR;
 	MSG_CAPTION_CONFIRMATION;
@@ -63,6 +63,7 @@ initialization
 
 	LABEL_STATUS_DETAIL_FAILED;
 	LABEL_STATUS_DETAIL_STOPPED;
+
 
 
 end.

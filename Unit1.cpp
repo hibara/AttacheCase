@@ -197,14 +197,14 @@ this->Width = opthdl->FormWidth;
 this->Height = opthdl->FormHeight;
 this->Top = opthdl->FormTop;
 this->Left = opthdl->FormLeft;
-if ( opthdl->WinStyle == 1 ) {     	//最小化
-	Application->Minimize();
-}
-else if ( opthdl->WinStyle == 2 ) {	//最大化
-	this->WindowState = wsMaximized;
+
+//-----------------------------------
+//タスクトレイにアイコンを表示する
+if (opthdl->fTaskTrayIcon == true) {
+  TrayIcon1->Visible = true;
 }
 else{
-	this->WindowState = wsNormal;
+	TrayIcon1->Visible = false;
 }
 
 //-----------------------------------
@@ -213,13 +213,54 @@ else{
 PaintSideMenu();
 
 
+//-----------------------------------
+//ドラッグ＆ドロップクラス
+//-----------------------------------
+Form1->Show();
+//FormをShow()してからでないと呼び出せない
+OleInitialize(NULL);
+DragAndDropTarget = new TDragAndDrop(Form1);
+DragAndDropTarget->FilesDragOver = FilesDragOver;
+DragAndDropTarget->FilesDragLeave = FilesDragLeave;
+DragAndDropTarget->FilesDragEnd = FilesDragEnd;
+RegisterDragDrop(Form1->Handle, (IDropTarget*)DragAndDropTarget);
+
+//コマンドライン引数にファイルが投げ込まれてきている
+if ( FileList->Count > 0 ) {
+	//フォルダ内のファイルは個別に暗号化/復号する
+	if (opthdl->fFilesOneByOne == true ) {
+		ExpandFileList(FileList);
+	}
+	//暗号化/復号処理を自動判定し実行する
+	DoExecute(FileList);
+}
+else{
+	//メインパネルを通常表示
+	PageControlActiveSheet(TabSheetMain);
+}
+
+//-----------------------------------
+//フォームの状態
+//-----------------------------------
+
+//最小化
+if ( opthdl->WinStyle == 1 ) {
+	this->WindowState = wsMinimized;
+}
+//最大化
+else if ( opthdl->WinStyle == 2 ) {
+	this->WindowState = wsMaximized;
+}
+else{
+	this->WindowState = wsNormal;
+}
+
+
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::FormCreate(TObject *Sender)
 {
-
 //
-
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::FormDestroy(TObject *Sender)
@@ -263,34 +304,7 @@ OleUninitialize();
 void __fastcall TForm1::FormShow(TObject *Sender)
 {
 
-//-----------------------------------
-//ドラッグ＆ドロップクラス
-//-----------------------------------
-OleInitialize(NULL);
-//FormをCreateしてからでないと呼び出せない
-DragAndDropTarget = new TDragAndDrop(Form1);
-DragAndDropTarget->FilesDragOver = FilesDragOver;
-DragAndDropTarget->FilesDragLeave = FilesDragLeave;
-DragAndDropTarget->FilesDragEnd = FilesDragEnd;
-RegisterDragDrop(Form1->Handle, (IDropTarget*)DragAndDropTarget);
-
-//コマンドライン引数にファイルが投げ込まれてきている
-if ( FileList->Count > 0 ) {
-
-	//フォルダ内のファイルは個別に暗号化/復号する
-	if (opthdl->fFilesOneByOne == true ) {
-		ExpandFileList(FileList);
-	}
-
-	//暗号化/復号処理を自動判定し実行する
-	DoExecute(FileList);
-
-}
-else{
-	//メインパネルを通常表示
-	PageControlActiveSheet(TabSheetMain);
-
-}
+//
 
 }
 //---------------------------------------------------------------------------
@@ -419,7 +433,7 @@ else{
 //メインパネル
 //-----------------------------------
 lblMain->Left = TabSheetMain->Width/2 - lblMain->Width/2;
-lblMain->Top = TabSheetMain->Height/2 - lblMain->Height/2;
+lblMain->Top = TabSheetMain->Height/2 - lblMain->Height/2 - 32;
 
 //-----------------------------------
 //暗号化パスワード入力パネル
@@ -551,8 +565,8 @@ for (PosY = 0; PosY < this->Height; PosY+=24) {
 
 //ドロップ矢印
 PaintBoxMain->Canvas->Draw(
-	PaintBoxMain->Width/2-imgDropFileIn->Width/2, lblMain->Top-imgDropFileIn->Height,
-	imgDropFileIn->Picture->Icon);
+	PaintBoxMain->Width/2-imgArrow->Width/2, lblMain->BoundsRect.Bottom+8,
+	imgArrow->Picture->Icon);
 
 
 }
@@ -565,8 +579,8 @@ this->Canvas->Brush->Color = clBtnFace;
 this->Canvas->FillRect(Rect(0, 0, this->Width, this->Height));
 
 //ドロップ矢印をクリア
-TRect rc = TRect(lblMain->Left, lblMain->Top-imgDropFileIn->Height,
-				lblMain->Left + lblMain->Width, lblMain->Top);
+TRect rc = TRect(lblMain->Left, lblMain->BoundsRect.Bottom,
+								 lblMain->BoundsRect.Right, lblMain->BoundsRect.Bottom+imgArrow->Height+8);
 PaintBoxMain->Canvas->Brush->Color = clWhite;
 PaintBoxMain->Canvas->FillRect(rc);
 
@@ -1410,11 +1424,25 @@ if(CoCreateInstance(CLSID_TaskbarList, NULL, CLSCTX_ALL, IID_ITaskbarList3, (voi
 	tskpbr->SetProgressState(this->Handle, TBPF_NORMAL);
 }
 
+//常にウィンドウを最小化して処理する
+if (opthdl->fMainWindowMinimize == true) {
+	Application->Minimize();
+}
+
 //進捗をTimerで監視
 TimerEncrypt->Enabled = true;
 
 //暗号化の実行
 encrypt->Start();
+
+//タスクトレイアイコンが表示されているならバルーンヒント
+if (TrayIcon1->Visible == true) {
+	TrayIcon1->BalloonFlags = bfInfo;
+	//'暗号化の処理を開始しました...';
+	TrayIcon1->BalloonTitle = LoadResourceString(&Msgunit1::_LABEL_STATUS_TITLE_ENCRYPT_START);
+	TrayIcon1->BalloonHint = encrypt->OutFilePath;
+	TrayIcon1->ShowBalloonHint();
+}
 
 
 }
@@ -1578,6 +1606,12 @@ if ( FileList->Count > 0) {
 	//-----------------------------------
 	//復号の実行
 	//-----------------------------------
+
+  //常にウィンドウを最小化して処理する
+	if (opthdl->fMainWindowMinimize == true) {
+		Application->Minimize();
+	}
+
 	if (FileVersion < 104 ) {
 		decrypt1->Start();
 	}
@@ -1594,6 +1628,15 @@ if ( FileList->Count > 0) {
 	}
 	//進捗をTimerで監視
 	TimerDecrypt->Enabled = true;
+
+	//タスクトレイアイコンが表示されているならバルーンヒント
+	if (TrayIcon1->Visible == true) {
+		TrayIcon1->BalloonFlags = bfInfo;
+		//'復号処理を開始しました...';
+		TrayIcon1->BalloonTitle = LoadResourceString(&Msgunit1::_LABEL_STATUS_TITLE_DECRYPT_START);
+		TrayIcon1->BalloonHint = decrypt2->AtcFilePath;
+		TrayIcon1->ShowBalloonHint();
+	}
 
 }
 
@@ -1652,8 +1695,22 @@ decrypt2->SetPasswordBinary(password);
 
 encrypt = NULL;
 
+//常にウィンドウを最小化して処理する
+if (opthdl->fMainWindowMinimize == true) {
+	Application->Minimize();
+}
+
 //コンペア（復号）の実行
 decrypt2->Start();
+
+//タスクトレイアイコンが表示されているならバルーンヒント
+if (TrayIcon1->Visible == true) {
+	TrayIcon1->BalloonFlags = bfInfo;
+	//'コンペアを開始しました...';
+	TrayIcon1->BalloonTitle = LoadResourceString(&Msgunit1::_LABEL_STATUS_TITLE_COMPARE_START);
+	TrayIcon1->BalloonHint = decrypt2->AtcFilePath;
+	TrayIcon1->ShowBalloonHint();
+}
 
 //タスクバー進捗表示（Win7）
 if(CoCreateInstance(CLSID_TaskbarList, NULL, CLSCTX_ALL, IID_ITaskbarList3, (void**)&tskpbr) != S_OK) {
@@ -1742,11 +1799,30 @@ if ( encrypt->StatusNum > 0 ) {
 	// "Cancel" → "OK"
 	cmdCancel->Caption = "&OK";
 
+	//タスクトレイアイコンが表示されているならバルーンヒント
+	if (TrayIcon1->Visible == true) {
+		TrayIcon1->BalloonFlags = bfInfo;
+		//'暗号化の処理は完了しました。';
+		TrayIcon1->BalloonTitle = LoadResourceString(&Msgunit1::_LABEL_STATUS_DETAIL_ENCRYPT_COMPLETED);
+		TrayIcon1->BalloonHint = lblMsg->Caption;
+		TrayIcon1->ShowBalloonHint();
+	}
+
 }
 else{
 	//エラーで終了してきた
 	TimerEncrypt->Enabled = false;
 	encrypt = NULL;
+
+	//タスクトレイアイコンが表示されているならバルーンヒント
+	if (TrayIcon1->Visible == true) {
+		TrayIcon1->BalloonFlags = bfError;
+		//'暗号化に失敗しました。';
+		TrayIcon1->BalloonTitle = LoadResourceString(&Msgunit1::_LABEL_STATUS_DETAIL_FAILED_ENCRYPT);
+		TrayIcon1->BalloonHint = lblMsg->Caption;
+		TrayIcon1->ShowBalloonHint();
+	}
+
 }
 
 
@@ -1849,6 +1925,15 @@ if ( ret > 0 ) {
 		cmdCancel->Caption = "&OK";
 	}
 
+	//タスクトレイアイコンが表示されているならバルーンヒント
+	if (TrayIcon1->Visible == true) {
+		TrayIcon1->BalloonFlags = bfInfo;
+		//'復号処理は完了しました。';
+		TrayIcon1->BalloonTitle = LoadResourceString(&Msgunit1::_LABEL_STATUS_DETAIL_DECRYPT_COMPLETED);
+		TrayIcon1->BalloonHint = lblMsg->Caption;
+		TrayIcon1->ShowBalloonHint();
+	}
+
 }
 //-----------------------------------
 //復号に失敗
@@ -1901,6 +1986,17 @@ else{
 	decrypt1 = NULL;
 	decrypt2 = NULL;
 
+	//タスクトレイアイコンが表示されているならバルーンヒント
+	if (TrayIcon1->Visible == true) {
+		TrayIcon1->BalloonFlags = bfError;
+		//'復号に失敗しました。';
+		TrayIcon1->BalloonTitle = LoadResourceString(&Msgunit1::_LABEL_STATUS_DETAIL_FAILED_DECRYPT);
+		TrayIcon1->BalloonHint = lblMsg->Caption;
+		TrayIcon1->ShowBalloonHint();
+	}
+
+
+
 }
 
 }
@@ -1934,19 +2030,39 @@ if ( cmpdel->StatusNum < 0 ) {
 	//'一部のファイル/フォルダーが削除できずに残ってしまった可能性があります。';
 	MsgText = LoadResourceString(&Msgunit1::_MSG_ERROR_DELETE_FIlES_FAILED);
 	MessageDlg(MsgText, mtError, TMsgDlgButtons() << mbOK, 0);
-}
 
-//処理後に終了する
-if ( opthdl->fEndToExit == true && cmpdel->StatusNum > -1) {
-	//削除処理の終了
-	cmpdel = NULL;
-	Application->Terminate();
+	//タスクトレイアイコンが表示されているならバルーンヒント
+	if (TrayIcon1->Visible == true) {
+		TrayIcon1->BalloonFlags = bfError;
+		//'削除処理に失敗しました。';
+		TrayIcon1->BalloonTitle = LoadResourceString(&Msgunit1::_LABEL_STATUS_DETAIL_FAILED_DELETE);
+		TrayIcon1->BalloonHint = lblMsg->Caption;
+		TrayIcon1->ShowBalloonHint();
+	}
+
 }
 else{
-	// "Cancel" → "OK"
-	cmdCancel->Caption = "&OK";
-	cmpdel = NULL;
+	//処理後に終了する
+	if ( opthdl->fEndToExit == true ) {
+		//削除処理の終了
+		cmpdel = NULL;
+		Application->Terminate();
+	}
+
+	//タスクトレイアイコンが表示されているならバルーンヒント
+	if (TrayIcon1->Visible == true) {
+		TrayIcon1->BalloonFlags = bfInfo;
+		//'削除処理は完了しました。';
+		TrayIcon1->BalloonTitle = LoadResourceString(&Msgunit1::_LABEL_STATUS_DETAIL_DELETE_COMPLETED);
+		TrayIcon1->BalloonHint = lblMsg->Caption;
+		TrayIcon1->ShowBalloonHint();
+	}
+
 }
+
+// "Cancel" → "OK"
+cmdCancel->Caption = "&OK";
+cmpdel = NULL;
 
 }
 //---------------------------------------------------------------------------
@@ -2407,6 +2523,16 @@ Form3->PopupParent = Screen->ActiveForm;
 Form3->ShowModal();
 Form3->Release();
 
+//タスクトレイにアイコンを表示する
+if (opthdl->fTaskTrayIcon == true) {
+	TrayIcon1->Visible = true;
+}
+
+//フォームの状態を反映する
+if (opthdl->fTaskBarHide == true) {
+	this->Hide();
+	TrayIcon1->Visible = true;
+}
 
 }
 //---------------------------------------------------------------------------
@@ -2932,6 +3058,7 @@ if ( PageControl1->ActivePage == TabSheetMain ){
 	mnuEncryptDir->Enabled = true;
 	mnuDecrypt->Enabled = true;
 	mnuSetting->Enabled = true;
+	popSetting->Enabled = true;
 
 	txtEncryptPassword->Text = "";
 	txtPasswordConfirm->Text = "";
@@ -2959,6 +3086,7 @@ else if ( PageControl1->ActivePage == TabSheetInputEncPass ){
 	mnuEncryptDir->Enabled = true;
 	mnuDecrypt->Enabled = false;
 	mnuSetting->Enabled = false;
+	popSetting->Enabled = false;
 
 	chkExeFileOut->Checked = opthdl->fSaveToExeout;           //常に自己実行形式で出力する
 	chkExeFileOut->Visible = opthdl->fShowExeoutChkBox;       //メインフォームにチェックボックスを表示する
@@ -2996,6 +3124,7 @@ else if ( PageControl1->ActivePage == TabSheetInputEncPassConfirm ){
 	mnuEncryptDir->Enabled = false;
 	mnuDecrypt->Enabled = false;
 	mnuSetting->Enabled = false;
+	popSetting->Enabled = false;
 
 	chkExeFileOutConf->Visible = chkExeFileOut->Visible;
 	chkExeFileOutConf->Checked = chkExeFileOut->Checked;
@@ -3011,6 +3140,7 @@ else if ( PageControl1->ActivePage == TabSheetInputDecPass ){
 	mnuEncryptDir->Enabled = false;
 	mnuDecrypt->Enabled = true;
 	mnuSetting->Enabled = false;
+	popSetting->Enabled = false;
 
 	//「*」で隠さずパスワードを確認しながら入力する
 	if ( opthdl->fNoHidePassword == true ){
@@ -3032,6 +3162,7 @@ else if ( PageControl1->ActivePage == TabSheetExecute ){
 	mnuEncryptDir->Enabled = false;
 	mnuDecrypt->Enabled = false;
 	mnuSetting->Enabled = false;
+	popSetting->Enabled = false;
 
 }
 
@@ -3285,6 +3416,43 @@ SetFormComponent(Sender);
 //メニューを再描画
 PaintSideMenu();
 
+
+}
+//---------------------------------------------------------------------------
+//フォームの最小化
+void __fastcall TForm1::ApplicationEvents1Minimize(TObject *Sender)
+{
+
+if ( opthdl->fTaskBarHide == true ){
+	if ( Form1->Visible == true ) {
+		this->Hide();
+	}
+	TrayIcon1->Visible = true;
+}
+
+}
+//---------------------------------------------------------------------------
+//タスクトレイアイコンをクリック
+void __fastcall TForm1::TrayIcon1Click(TObject *Sender)
+{
+
+//表示を元に戻す
+this->Show();
+this->WindowState = wsNormal;
+Application->Restore();
+Application->BringToFront();
+
+}
+//---------------------------------------------------------------------------
+//タスクトレイアイコンのバルーンヒントをクリック
+void __fastcall TForm1::TrayIcon1BalloonClick(TObject *Sender)
+{
+
+//表示を元に戻す
+this->Show();
+this->WindowState = wsNormal;
+Application->Restore();
+Application->BringToFront();
 
 }
 //---------------------------------------------------------------------------

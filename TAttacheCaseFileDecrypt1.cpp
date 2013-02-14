@@ -310,7 +310,7 @@ DataList->LoadFromStream(pms, TEncoding::GetEncoding(932));  // shift-jis
 
 //===================================
 // デバッグ
-ShowMessage(DataList->Text);
+//ShowMessage(DataList->Text);
 //===================================
 
 delete pms;
