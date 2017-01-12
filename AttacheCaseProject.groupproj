@@ -1,60 +1,72 @@
-﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-		<PropertyGroup>
-			<ProjectGuid>{00B550AD-BE90-4D2A-8724-7D895DB3DB85}</ProjectGuid>
-		</PropertyGroup>
-		<ItemGroup>
-			<Projects Include="AttacheCase.cbproj">
-				<Dependencies/>
-			</Projects>
-			<Projects Include="exeout\exeout.cbproj">
-				<Dependencies/>
-			</Projects>
-			<Projects Include="AtcSetup\AtcSetup.cbproj">
-				<Dependencies/>
-			</Projects>
-		</ItemGroup>
-		<ProjectExtensions>
-			<Borland.Personality>Default.Personality.12</Borland.Personality>
-			<Borland.ProjectType/>
-			<BorlandProject>
-				<Default.Personality/>
-			</BorlandProject>
-		</ProjectExtensions>
-		<Target Name="AttacheCase">
-			<MSBuild Projects="AttacheCase.cbproj"/>
-		</Target>
-		<Target Name="AttacheCase:Clean">
-			<MSBuild Targets="Clean" Projects="AttacheCase.cbproj"/>
-		</Target>
-		<Target Name="AttacheCase:Make">
-			<MSBuild Targets="Make" Projects="AttacheCase.cbproj"/>
-		</Target>
-		<Target Name="exeout">
-			<MSBuild Projects="exeout\exeout.cbproj"/>
-		</Target>
-		<Target Name="exeout:Clean">
-			<MSBuild Targets="Clean" Projects="exeout\exeout.cbproj"/>
-		</Target>
-		<Target Name="exeout:Make">
-			<MSBuild Targets="Make" Projects="exeout\exeout.cbproj"/>
-		</Target>
-		<Target Name="AtcSetup">
-			<MSBuild Projects="AtcSetup\AtcSetup.cbproj"/>
-		</Target>
-		<Target Name="AtcSetup:Clean">
-			<MSBuild Targets="Clean" Projects="AtcSetup\AtcSetup.cbproj"/>
-		</Target>
-		<Target Name="AtcSetup:Make">
-			<MSBuild Targets="Make" Projects="AtcSetup\AtcSetup.cbproj"/>
-		</Target>
-		<Target Name="Build">
-			<CallTarget Targets="AttacheCase;exeout;AtcSetup"/>
-		</Target>
-		<Target Name="Clean">
-			<CallTarget Targets="AttacheCase:Clean;exeout:Clean;AtcSetup:Clean"/>
-		</Target>
-		<Target Name="Make">
-			<CallTarget Targets="AttacheCase:Make;exeout:Make;AtcSetup:Make"/>
-		</Target>
-		<Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
-	</Project>
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{00B550AD-BE90-4D2A-8724-7D895DB3DB85}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="AttacheCase.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="exeout\exeout.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="zlib-1.2.10\zlib1210.cbproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="\\Mac\Dropbox\GitHub\AttacheCase\AtcSetup\AtcSetup.cbproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="AttacheCase">
+        <MSBuild Projects="AttacheCase.cbproj"/>
+    </Target>
+    <Target Name="AttacheCase:Clean">
+        <MSBuild Projects="AttacheCase.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="AttacheCase:Make">
+        <MSBuild Projects="AttacheCase.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="exeout">
+        <MSBuild Projects="exeout\exeout.cbproj"/>
+    </Target>
+    <Target Name="exeout:Clean">
+        <MSBuild Projects="exeout\exeout.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="exeout:Make">
+        <MSBuild Projects="exeout\exeout.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="zlib1210">
+        <MSBuild Projects="zlib-1.2.10\zlib1210.cbproj"/>
+    </Target>
+    <Target Name="zlib1210:Clean">
+        <MSBuild Projects="zlib-1.2.10\zlib1210.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="zlib1210:Make">
+        <MSBuild Projects="zlib-1.2.10\zlib1210.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="AtcSetup">
+        <MSBuild Projects="\\Mac\Dropbox\GitHub\AttacheCase\AtcSetup\AtcSetup.cbproj"/>
+    </Target>
+    <Target Name="AtcSetup:Clean">
+        <MSBuild Projects="\\Mac\Dropbox\GitHub\AttacheCase\AtcSetup\AtcSetup.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="AtcSetup:Make">
+        <MSBuild Projects="\\Mac\Dropbox\GitHub\AttacheCase\AtcSetup\AtcSetup.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="AttacheCase;exeout;zlib1210;AtcSetup"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="AttacheCase:Clean;exeout:Clean;zlib1210:Clean;AtcSetup:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="AttacheCase:Make;exeout:Make;zlib1210:Make;AtcSetup:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

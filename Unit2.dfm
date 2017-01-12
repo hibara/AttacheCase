@@ -6,7 +6,7 @@ object Form2: TForm2
   BorderStyle = bsDialog
   Caption = 'Version'
   ClientHeight = 154
-  ClientWidth = 261
+  ClientWidth = 289
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -17,7 +17,7 @@ object Form2: TForm2
   Position = poMainFormCenter
   OnCreate = FormCreate
   DesignSize = (
-    261
+    289
     154)
   PixelsPerInch = 96
   TextHeight = 13
@@ -574,8 +574,8 @@ object Form2: TForm2
     ParentFont = False
   end
   object lblVersion: TLabel
-    Left = 191
-    Top = 24
+    Left = 226
+    Top = 26
     Width = 55
     Height = 13
     Alignment = taRightJustify
@@ -588,8 +588,8 @@ object Form2: TForm2
     ParentFont = False
   end
   object lblZlibVersion: TLabel
-    Left = 171
-    Top = 40
+    Left = 206
+    Top = 42
     Width = 75
     Height = 13
     Alignment = taRightJustify
@@ -602,8 +602,8 @@ object Form2: TForm2
     ParentFont = False
   end
   object lblLisence: TLabel
-    Left = 191
-    Top = 59
+    Left = 226
+    Top = 61
     Width = 55
     Height = 13
     Cursor = crHandPoint
@@ -621,8 +621,8 @@ object Form2: TForm2
     OnMouseEnter = lblLisenceMouseEnter
   end
   object lblCopyright: TLabel
-    Left = 189
-    Top = 78
+    Left = 224
+    Top = 80
     Width = 57
     Height = 13
     Alignment = taRightJustify
@@ -635,8 +635,8 @@ object Form2: TForm2
     ParentFont = False
   end
   object lblHomePage: TLabel
-    Left = 185
-    Top = 92
+    Left = 220
+    Top = 94
     Width = 61
     Height = 13
     Cursor = crHandPoint
@@ -653,7 +653,7 @@ object Form2: TForm2
     OnMouseEnter = lblHomePageMouseEnter
   end
   object cmdOK: TButton
-    Left = 178
+    Left = 206
     Top = 117
     Width = 75
     Height = 25
@@ -662,6 +662,7 @@ object Form2: TForm2
     Caption = '&OK'
     TabOrder = 0
     OnClick = cmdOKClick
+    ExplicitLeft = 178
   end
   object BalloonHint1: TBalloonHint
     Delay = 0

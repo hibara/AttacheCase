@@ -2,7 +2,7 @@
 /*
 
 アタッシェケース（AttachéCase）
-Copyright (c) 2002-2013, Mitsuhiro Hibara ( http://hibara.org )
+Copyright (c) 2002-2017, Mitsuhiro Hibara ( http://hibara.org )
 All rights reserved.
 
 Redistribution and use in source and binary forms,
@@ -118,6 +118,7 @@ String FilePath, FileName;
 // ファイルストリーム
 TFileStream *fsIn;
 TFileStream *fsOut;
+
 bool fInputFileOpen = false;
 bool fOutputFileOpen = false;
 
@@ -361,6 +362,13 @@ DataList->LoadFromStream(pms, TEncoding::GetEncoding(932));  // shift-jis
 //-----------------------------------
 // 復号正否（復号できたか）
 //-----------------------------------
+
+//MsgText = DataList->Strings[0];
+//MsgType = mtError;
+//MsgButtons = TMsgDlgButtons() << mbOK;
+//MsgDefaultButton = mbOK;
+//Synchronize(&PostConfirmMessageForm);
+
 if (DataList->Count == 0 || DataList->Strings[0].Pos("AttacheCase") == 0) {
 	fPasswordOk = false;
 }
@@ -444,7 +452,20 @@ for (i = 0; i < DataList->Count; i++) {
 	idx = DataList->IndexOfName(PrefixString+IntToStr(i));
 	if (idx > 0) {
 		tsv->DelimitedText = DataList->ValueFromIndex[idx];
-		FileList->Add(tsv->Strings[0]);
+
+		// ディレクトリトラバーサル対策（ver.2.8.3.0～）
+		if (tsv->Strings[0].Pos("..\\") > 0 ){
+			//'不正なファイルパスです。復号できません。';
+			MsgText = LoadResourceString(&Msgdecrypt::_MSG_ERROR_INVALID_FILE_PATH);
+			MsgType = mtError;
+			MsgButtons = TMsgDlgButtons() << mbOK;
+			MsgDefaultButton = mbOK;
+			Synchronize(&PostConfirmMessageForm);
+			delete DataList;
+			goto LabelTypeMiss;
+		}
+
+		FileList->Add(tsv->Strings[0]);                        // 0: ファイルパス
 		FileSizeList[i] = StrToIntDef(tsv->Strings[1], -1);    // 1: ファイルサイズ（フォルダは-1）
 		FileAttrList[i] = StrToIntDef(tsv->Strings[2], -1);    // 2: 属性
 		FileDtChangeList[i] = StrToIntDef(tsv->Strings[3], -1);// 3: 更新日
@@ -919,6 +940,19 @@ if (fsIn->Position+1 > fsIn->Size) {
 	}
 
 }
+
+static __int64 pos = 0;
+
+//TFileStream *fsDebug = new TFileStream("C:\\Users\\eb\\Desktop\\debug.dat", fmOpenWrite);
+//fsDebug->Seek(0,soFromEnd);
+//ShowMessage(IntToStr(fsDebug->Position));
+//pos += fsDebug->Write(source_buffer, BUF_SIZE);
+
+//ShowMessage(fsDebug->Size);
+//delete fsDebug;
+
+
+
 
 buff_size = BUF_SIZE;
 return(TotalSize);

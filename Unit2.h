@@ -45,7 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "MsgUnit2.hpp"
 
-#include "zlib.h"
+#include "zlib-1.2.10\zlib.h"
 #include "Unit1.h"
 
 #include "TGetAppInfoString.h"

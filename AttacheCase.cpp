@@ -2,7 +2,7 @@
 /*
 
 アタッシェケース（AttachéCase）
-Copyright (c) 2002-2013, Mitsuhiro Hibara ( http://hibara.org )
+Copyright (c) 2002-2017, Mitsuhiro Hibara ( http://hibara.org )
 All rights reserved.
 
 Redistribution and use in source and binary forms,
@@ -41,10 +41,10 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "MsgWinMain.hpp"
 
 //---------------------------------------------------------------------------
-USEFORM("Unit1.cpp", Form1);
+USEFORM("Unit3.cpp", Form3);
 USEFORM("Unit2.cpp", Form2);
 USEFORM("Unit4.cpp", Form4);
-USEFORM("Unit3.cpp", Form3);
+USEFORM("Unit1.cpp", Form1);
 //---------------------------------------------------------------------------
 HANDLE mx;
 void SendToMsgData(HWND handle);
@@ -71,6 +71,7 @@ try{
 		Application->Initialize();
 		Application->MainFormOnTaskBar = true;
 		Application->Title = ApplicationTitle;
+		Application->Title = "アタッシェケース";
 		Application->HelpFile = "AttacheCase.chm";
 		Application->CreateForm(__classid(TForm1), &Form1);
 		if ( handle != NULL && Form1->opthdl->fNoMultipleInstance == true){

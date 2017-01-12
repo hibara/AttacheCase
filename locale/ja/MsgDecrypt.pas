@@ -32,8 +32,8 @@ resourcestring
 	MSG_ERROR_COMPARE_DECRYPT_FILE         = '復号  :';
 	MSG_ERROR_COMPARE_NOT_READ_SOURCE      = 'コンペアを行う元のファイルを読み込むことができません。';
 	MSG_ERROR_COMPARE_DATA_NOT_MATCH       = 'データの一致しないファイルが見つかりました。';
+  MSG_ERROR_INVALID_FILE_PATH            = '不正なファイルパスが含まれています。復号できません。';
 
-	
 	MSG_ERROR_DRIVE_NO_FREE_SPACE          = '復号する先のドライブの空き容量が足りません。'+#13+
 	                                         '復号するには、約%.2fMBの空き容量が必要です。復号処理を中止します。';
 	MSG_CONFIRM_OVER_WRITE_SAME_FILE       = '同名のファイルが既に存在しています。上書きして復号しますか？';

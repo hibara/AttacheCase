@@ -1,271 +1,447 @@
-﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-		<PropertyGroup>
-			<ProjectGuid>{3A1F203F-4E07-44DE-90B6-CC57240E80E8}</ProjectGuid>
-			<ProjectVersion>12.0</ProjectVersion>
-			<MainSource>AttacheCase.cpp</MainSource>
-			<Config Condition="'$(Config)'==''">デバッグ</Config>
-		</PropertyGroup>
-		<PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
-			<Base>true</Base>
-		</PropertyGroup>
-		<PropertyGroup Condition="'$(Config)'=='デバッグ' or '$(Cfg_1)'!=''">
-			<Cfg_1>true</Cfg_1>
-			<CfgParent>Base</CfgParent>
-			<Base>true</Base>
-		</PropertyGroup>
-		<PropertyGroup Condition="'$(Config)'=='リリース' or '$(Cfg_2)'!=''">
-			<Cfg_2>true</Cfg_2>
-			<CfgParent>Base</CfgParent>
-			<Base>true</Base>
-		</PropertyGroup>
-		<PropertyGroup Condition="'$(Base)'!=''">
-			<BRCC_EnableMultiByte>true</BRCC_EnableMultiByte>
-			<FinalOutputDir>.</FinalOutputDir>
-			<BCC_OptimizeForSize>true</BCC_OptimizeForSize>
-			<Multithreaded>true</Multithreaded>
-			<ProjectType>CppVCLApplication</ProjectType>
-			<LinkPackageStatics>rtl.lib;vcl.lib;vclx.lib;vclimg.lib</LinkPackageStatics>
-			<PackageImports>vcl.bpi;rtl.bpi;bcbie.bpi;vclx.bpi;vclactnband.bpi;xmlrtl.bpi;bcbsmp.bpi;vclimg.bpi;dbrtl.bpi;vcldb.bpi;vcldbx.bpi;bdertl.bpi;vcltouch.bpi;dsnap.bpi;dsnapcon.bpi;TeeUI.bpi;TeeDB.bpi;Tee.bpi;vclib.bpi;ibxpress.bpi;adortl.bpi;IndyCore.bpi;IndySystem.bpi;IndyProtocols.bpi;inet.bpi;intrawebdb_100_140.bpi;Intraweb_100_140.bpi;vclie.bpi;inetdb.bpi;webdsnap.bpi;websnap.bpi;inetdbbde.bpi;inetdbxpress.bpi;soaprtl.bpi;vclribbon.bpi;DbxCommonDriver.bpi;DbxClientDriver.bpi;DBXInterBaseDriver.bpi;DBXMySQLDriver.bpi;dbexpress.bpi;dbxcds.bpi</PackageImports>
-			<AllPackageLibs>rtl.lib;vcl.lib;vclx.lib;vclimg.lib</AllPackageLibs>
-			<OutputExt>exe</OutputExt>
-			<DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
-			<IncludePath>zlib-1.2.7\;.;locale\ja\;$(BDS)\include;$(BDS)\include\dinkumware;$(BDS)\include\vcl;$(CG_BOOST_ROOT);$(IncludePath)</IncludePath>
-			<ILINK_LibraryPath>.;locale\ja\;$(BDS)\lib\obj;zlib-1.2.7\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
-			<BCC_wpar>false</BCC_wpar>
-			<BCC_ExtendedErrorInfo>true</BCC_ExtendedErrorInfo>
-			<ILINK_TranslatedLibraryPath>$(BDS)\lib\$(LANGDIR)</ILINK_TranslatedLibraryPath>
-		</PropertyGroup>
-		<PropertyGroup Condition="'$(Cfg_1)'!=''">
-			<BCC_OptimizeForSpeed>false</BCC_OptimizeForSpeed>
-			<BCC_DisableOptimizations>true</BCC_DisableOptimizations>
-			<DCC_Optimize>false</DCC_Optimize>
-			<DCC_DebugInfoInExe>true</DCC_DebugInfoInExe>
-			<Defines>_DEBUG;$(Defines)</Defines>
-			<BCC_InlineFunctionExpansion>false</BCC_InlineFunctionExpansion>
-			<IntermediateOutputDir>Debug</IntermediateOutputDir>
-			<BCC_UseRegisterVariables>None</BCC_UseRegisterVariables>
-			<DCC_Define>DEBUG</DCC_Define>
-			<BCC_DebugLineNumbers>true</BCC_DebugLineNumbers>
-			<TASM_DisplaySourceLines>true</TASM_DisplaySourceLines>
-			<BCC_StackFrames>true</BCC_StackFrames>
-			<ILINK_LibraryPath>$(BDS)\lib\debug;$(ILINK_LibraryPath)</ILINK_LibraryPath>
-			<ILINK_FullDebugInfo>true</ILINK_FullDebugInfo>
-			<TASM_Debugging>Full</TASM_Debugging>
-			<BCC_SourceDebuggingOn>true</BCC_SourceDebuggingOn>
-			<ILINK_TranslatedLibraryPath>$(BDS)\lib\$(LANGDIR)\debug;$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
-		</PropertyGroup>
-		<PropertyGroup Condition="'$(Cfg_2)'!=''">
-			<Defines>NDEBUG;$(Defines)</Defines>
-			<IntermediateOutputDir>Release</IntermediateOutputDir>
-			<ILINK_LibraryPath>$(BDS)\lib\release;$(ILINK_LibraryPath)</ILINK_LibraryPath>
-			<TASM_Debugging>None</TASM_Debugging>
-			<ILINK_TranslatedLibraryPath>$(BDS)\lib\$(LANGDIR)\release;$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
-		</PropertyGroup>
-		<ItemGroup>
-			<DelphiCompile Include="locale\ja\MsgDecrypt.pas">
-				<BuildOrder>19</BuildOrder>
-			</DelphiCompile>
-			<CppCompile Include="AttacheCase.cpp">
-				<BuildOrder>0</BuildOrder>
-			</CppCompile>
-			<RcItem Include="Icon\addicon02.ico">
-				<ResourceType>Icon</ResourceType>
-				<ResourceId>SUBICON2</ResourceId>
-			</RcItem>
-			<CppCompile Include="TAttacheCaseFileDecrypt2.cpp">
-				<DependentOn>TAttacheCaseFileDecrypt2.h</DependentOn>
-				<BuildOrder>12</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="isaac.c">
-				<BuildOrder>2</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="Unit1.cpp">
-				<Form>Form1</Form>
-				<DependentOn>Unit1.h</DependentOn>
-				<BuildOrder>6</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="Unit2.cpp">
-				<Form>Form2</Form>
-				<DependentOn>Unit2.h</DependentOn>
-				<BuildOrder>7</BuildOrder>
-			</CppCompile>
-			<None Include="rijndael.h">
-				<BuildOrder>8</BuildOrder>
-			</None>
-			<CppCompile Include="TAttacheCaseOptionHandle.cpp">
-				<DependentOn>TAttacheCaseOptionHandle.h</DependentOn>
-				<BuildOrder>26</BuildOrder>
-			</CppCompile>
-			<RcItem Include="Icon\addicon00.ico">
-				<ResourceType>Icon</ResourceType>
-				<ResourceId>SUBICON1</ResourceId>
-			</RcItem>
-			<CppCompile Include="TAttacheCaseDelete.cpp">
-				<DependentOn>TAttacheCaseDelete.h</DependentOn>
-				<BuildOrder>20</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="TAttacheCaseFileDecrypt1.cpp">
-				<DependentOn>TAttacheCaseFileDecrypt1.h</DependentOn>
-				<BuildOrder>33</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="blowfish.cpp">
-				<BuildOrder>18</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="TAttacheCaseFileEncrypt.cpp">
-				<DependentOn>TAttacheCaseFileEncrypt.h</DependentOn>
-				<BuildOrder>13</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="rijndael.c">
-				<BuildOrder>1</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="sha1.c">
-				<BuildOrder>27</BuildOrder>
-			</CppCompile>
-			<DelphiCompile Include="locale\ja\MsgOption.pas">
-				<BuildOrder>28</BuildOrder>
-			</DelphiCompile>
-			<None Include="standard.h">
-				<BuildOrder>12</BuildOrder>
-			</None>
-			<DelphiCompile Include="locale\ja\MsgUnit3.pas">
-				<BuildOrder>26</BuildOrder>
-			</DelphiCompile>
-			<CppCompile Include="TGetAppInfoString.cpp">
-				<DependentOn>TGetAppInfoString.h</DependentOn>
-				<BuildOrder>26</BuildOrder>
-			</CppCompile>
-			<DelphiCompile Include="locale\ja\MsgDelete.pas">
-				<BuildOrder>21</BuildOrder>
-			</DelphiCompile>
-			<None Include="isaac.h">
-				<BuildOrder>13</BuildOrder>
-			</None>
-			<DelphiCompile Include="locale\ja\MsgEncrypt.pas">
-				<BuildOrder>13</BuildOrder>
-			</DelphiCompile>
-			<DelphiCompile Include="locale\ja\MsgUnit4.pas">
-				<BuildOrder>26</BuildOrder>
-			</DelphiCompile>
-			<DelphiCompile Include="locale\ja\MsgWinMain.pas">
-				<BuildOrder>29</BuildOrder>
-			</DelphiCompile>
-			<CppCompile Include="Unit4.cpp">
-				<Form>Form4</Form>
-				<DependentOn>Unit4.h</DependentOn>
-				<BuildOrder>25</BuildOrder>
-			</CppCompile>
-			<RcItem Include="Icon\addicon01.ico">
-				<ResourceType>Icon</ResourceType>
-				<ResourceId>SUBICON0</ResourceId>
-			</RcItem>
-			<DelphiCompile Include="locale\ja\MsgUnit1.pas">
-				<BuildOrder>14</BuildOrder>
-			</DelphiCompile>
-			<DelphiCompile Include="locale\ja\MsgUnit2.pas">
-				<BuildOrder>31</BuildOrder>
-			</DelphiCompile>
-			<LibFiles Include="zlib127.lib">
-				<IgnorePath>true</IgnorePath>
-				<BuildOrder>30</BuildOrder>
-			</LibFiles>
-			<CppCompile Include="TDragAndDrop.cpp">
-				<BuildOrder>30</BuildOrder>
-			</CppCompile>
-			<CppCompile Include="Unit3.cpp">
-				<Form>Form3</Form>
-				<DependentOn>Unit3.h</DependentOn>
-				<BuildOrder>16</BuildOrder>
-			</CppCompile>
-			<ResFiles Include="AttacheCase.res">
-				<BuildOrder>1</BuildOrder>
-			</ResFiles>
-			<None Include="blowfish.h">
-				<BuildOrder>34</BuildOrder>
-			</None>
-			<None Include="blowfish.h2"/>
-			<FormResources Include="Unit1.dfm"/>
-			<FormResources Include="Unit2.dfm"/>
-			<FormResources Include="Unit4.dfm"/>
-			<FormResources Include="Unit3.dfm"/>
-			<BuildConfiguration Include="Base">
-				<Key>Base</Key>
-			</BuildConfiguration>
-			<BuildConfiguration Include="リリース">
-				<Key>Cfg_2</Key>
-				<CfgParent>Base</CfgParent>
-			</BuildConfiguration>
-			<BuildConfiguration Include="デバッグ">
-				<Key>Cfg_1</Key>
-				<CfgParent>Base</CfgParent>
-			</BuildConfiguration>
-		</ItemGroup>
-		<Import Project="$(BDS)\Bin\CodeGear.Cpp.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Cpp.Targets')"/>
-		<ProjectExtensions>
-			<Borland.Personality>CPlusPlusBuilder.Personality.12</Borland.Personality>
-			<Borland.ProjectType>CppVCLApplication</Borland.ProjectType>
-			<BorlandProject>
-				<CPlusPlusBuilder.Personality>
-					<VersionInfo>
-						<VersionInfo Name="IncludeVerInfo">True</VersionInfo>
-						<VersionInfo Name="AutoIncBuild">False</VersionInfo>
-						<VersionInfo Name="MajorVer">2</VersionInfo>
-						<VersionInfo Name="MinorVer">8</VersionInfo>
-						<VersionInfo Name="Release">2</VersionInfo>
-						<VersionInfo Name="Build">8</VersionInfo>
-						<VersionInfo Name="Debug">False</VersionInfo>
-						<VersionInfo Name="PreRelease">True</VersionInfo>
-						<VersionInfo Name="Special">False</VersionInfo>
-						<VersionInfo Name="Private">False</VersionInfo>
-						<VersionInfo Name="DLL">False</VersionInfo>
-						<VersionInfo Name="Locale">1041</VersionInfo>
-						<VersionInfo Name="CodePage">932</VersionInfo>
-					</VersionInfo>
-					<VersionInfoKeys>
-						<VersionInfoKeys Name="CompanyName">http://hibara.org/</VersionInfoKeys>
-						<VersionInfoKeys Name="FileDescription"/>
-						<VersionInfoKeys Name="FileVersion">2.8.2.8</VersionInfoKeys>
-						<VersionInfoKeys Name="InternalName"/>
-						<VersionInfoKeys Name="LegalCopyright">Copyright(C) 2013 M.Hibara, All rights reserved.</VersionInfoKeys>
-						<VersionInfoKeys Name="LegalTrademarks"/>
-						<VersionInfoKeys Name="OriginalFilename"/>
-						<VersionInfoKeys Name="ProductName">AttacheCase</VersionInfoKeys>
-						<VersionInfoKeys Name="ProductVersion">2.8.2.8</VersionInfoKeys>
-						<VersionInfoKeys Name="Comments"/>
-					</VersionInfoKeys>
-					<Debugging>
-						<Debugging Name="DebugSourceDirs"/>
-					</Debugging>
-					<Parameters>
-						<Parameters Name="RunParams"/>
-						<Parameters Name="Launcher"/>
-						<Parameters Name="UseLauncher">False</Parameters>
-						<Parameters Name="DebugCWD"/>
-						<Parameters Name="HostApplication"/>
-						<Parameters Name="RemoteHost"/>
-						<Parameters Name="RemotePath"/>
-						<Parameters Name="RemoteParams"/>
-						<Parameters Name="RemoteLauncher"/>
-						<Parameters Name="UseRemoteLauncher">False</Parameters>
-						<Parameters Name="RemoteCWD"/>
-						<Parameters Name="RemoteDebug">False</Parameters>
-						<Parameters Name="Debug Symbols Search Path"/>
-						<Parameters Name="LoadAllSymbols">True</Parameters>
-						<Parameters Name="LoadUnspecifiedSymbols">False</Parameters>
-					</Parameters>
-					<ProjectProperties>
-						<ProjectProperties Name="AutoShowDeps">False</ProjectProperties>
-						<ProjectProperties Name="ManagePaths">True</ProjectProperties>
-						<ProjectProperties Name="VerifyPackages">True</ProjectProperties>
-					</ProjectProperties>
-					<Source>
-						<Source Name="MainSource">AttacheCase.cpp</Source>
-					</Source>
-					<Excluded_Packages>
-						<Excluded_Packages Name="$(BDS)\bin\bcboffice2k140.bpl">Embarcadero C++Builder Office 2000 サーバー パッケージ</Excluded_Packages>
-						<Excluded_Packages Name="$(BDS)\bin\bcbofficexp140.bpl">Embarcadero C++Builder Office XP サーバー パッケージ</Excluded_Packages>
-					</Excluded_Packages>
-				</CPlusPlusBuilder.Personality>
-			</BorlandProject>
-			<ProjectFileVersion>12</ProjectFileVersion>
-		</ProjectExtensions>
-	</Project>
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{3A1F203F-4E07-44DE-90B6-CC57240E80E8}</ProjectGuid>
+        <ProjectVersion>14.6</ProjectVersion>
+        <MainSource>AttacheCase.cpp</MainSource>
+        <Config Condition="'$(Config)'==''">リリース</Config>
+        <FrameworkType>VCL</FrameworkType>
+        <Base>True</Base>
+        <Platform Condition="'$(Platform)'==''">Win32</Platform>
+        <TargetedPlatforms>1</TargetedPlatforms>
+        <AppType>Application</AppType>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Base)'=='true') or '$(Base_Win32)'!=''">
+        <Base_Win32>true</Base_Win32>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Base)'=='true') or '$(Base_Win64)'!=''">
+        <Base_Win64>true</Base_Win64>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='デバッグ' or '$(Cfg_1)'!=''">
+        <Cfg_1>true</Cfg_1>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_1)'=='true') or '$(Cfg_1_Win32)'!=''">
+        <Cfg_1_Win32>true</Cfg_1_Win32>
+        <CfgParent>Cfg_1</CfgParent>
+        <Cfg_1>true</Cfg_1>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Cfg_1)'=='true') or '$(Cfg_1_Win64)'!=''">
+        <Cfg_1_Win64>true</Cfg_1_Win64>
+        <CfgParent>Cfg_1</CfgParent>
+        <Cfg_1>true</Cfg_1>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Config)'=='リリース' or '$(Cfg_2)'!=''">
+        <Cfg_2>true</Cfg_2>
+        <CfgParent>Base</CfgParent>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win32' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win32)'!=''">
+        <Cfg_2_Win32>true</Cfg_2_Win32>
+        <CfgParent>Cfg_2</CfgParent>
+        <Cfg_2>true</Cfg_2>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="('$(Platform)'=='Win64' and '$(Cfg_2)'=='true') or '$(Cfg_2_Win64)'!=''">
+        <Cfg_2_Win64>true</Cfg_2_Win64>
+        <CfgParent>Cfg_2</CfgParent>
+        <Cfg_2>true</Cfg_2>
+        <Base>true</Base>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base)'!=''">
+        <VerInfo_MajorVer>2</VerInfo_MajorVer>
+        <VerInfo_MinorVer>8</VerInfo_MinorVer>
+        <VerInfo_Keys>CompanyName=http://hibara.org/;FileDescription=;FileVersion=2.8.2.8;InternalName=;LegalCopyright=Copyright(C) 2013 M.Hibara, All rights reserved.;LegalTrademarks=;OriginalFilename=;ProductName=AttacheCase;ProductVersion=2.8.2.8;Comments=</VerInfo_Keys>
+        <VerInfo_Locale>1041</VerInfo_Locale>
+        <VerInfo_Release>2</VerInfo_Release>
+        <VerInfo_PreRelease>true</VerInfo_PreRelease>
+        <DCC_Namespace>Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;System;Xml;Data;Datasnap;Web;Soap;$(DCC_Namespace)</DCC_Namespace>
+        <VerInfo_Build>8</VerInfo_Build>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <BRCC_EnableMultiByte>true</BRCC_EnableMultiByte>
+        <FinalOutputDir>.</FinalOutputDir>
+        <BCC_OptimizeForSize>true</BCC_OptimizeForSize>
+        <Multithreaded>true</Multithreaded>
+        <ProjectType>CppVCLApplication</ProjectType>
+        <LinkPackageStatics>rtl.lib;vcl.lib;vclx.lib;vclimg.lib</LinkPackageStatics>
+        <PackageImports>vcl.bpi;rtl.bpi;bcbie.bpi;vclx.bpi;vclactnband.bpi;xmlrtl.bpi;bcbsmp.bpi;vclimg.bpi;dbrtl.bpi;vcldb.bpi;vcldbx.bpi;bdertl.bpi;vcltouch.bpi;dsnap.bpi;dsnapcon.bpi;TeeUI.bpi;TeeDB.bpi;Tee.bpi;vclib.bpi;ibxpress.bpi;adortl.bpi;IndyCore.bpi;IndySystem.bpi;IndyProtocols.bpi;inet.bpi;intrawebdb_100_140.bpi;Intraweb_100_140.bpi;vclie.bpi;inetdb.bpi;webdsnap.bpi;websnap.bpi;inetdbbde.bpi;inetdbxpress.bpi;soaprtl.bpi;vclribbon.bpi;DbxCommonDriver.bpi;DbxClientDriver.bpi;DBXInterBaseDriver.bpi;DBXMySQLDriver.bpi;dbexpress.bpi;dbxcds.bpi;$(PackageImports)</PackageImports>
+        <AllPackageLibs>rtl.lib;vcl.lib;vclx.lib;vclimg.lib</AllPackageLibs>
+        <OutputExt>exe</OutputExt>
+        <DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
+        <IncludePath>zlib-1.2.10\;zlib-1.2.7\;.;locale\ja\;$(BDS)\include;$(BDS)\include\vcl;$(CG_BOOST_ROOT);$(IncludePath)</IncludePath>
+        <ILINK_LibraryPath>zlib-1.2.10\;.;locale\ja\;$(BDS)\lib\obj;zlib-1.2.7\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <BCC_wpar>false</BCC_wpar>
+        <BCC_ExtendedErrorInfo>true</BCC_ExtendedErrorInfo>
+        <ILINK_TranslatedLibraryPath>$(BDS)\lib\$(LANGDIR)</ILINK_TranslatedLibraryPath>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base_Win32)'!=''">
+        <ILINK_LibraryPath>\\Mac\Dropbox\GitHub\AttacheCase\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
+        <IncludePath>$(BDSINCLUDE)\windows\vcl;$(IncludePath)</IncludePath>
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <Icon_MainIcon>AttacheCase_Icon.ico</Icon_MainIcon>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
+        <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Base_Win64)'!=''">
+        <IncludePath>$(BDSINCLUDE)\windows\vcl;$(IncludePath)</IncludePath>
+        <Icon_MainIcon>AttacheCase_Icon.ico</Icon_MainIcon>
+        <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1)'!=''">
+        <BCC_OptimizeForSpeed>false</BCC_OptimizeForSpeed>
+        <BCC_DisableOptimizations>true</BCC_DisableOptimizations>
+        <DCC_Optimize>false</DCC_Optimize>
+        <DCC_DebugInfoInExe>true</DCC_DebugInfoInExe>
+        <BCC_InlineFunctionExpansion>false</BCC_InlineFunctionExpansion>
+        <IntermediateOutputDir>Debug</IntermediateOutputDir>
+        <BCC_UseRegisterVariables>None</BCC_UseRegisterVariables>
+        <DCC_Define>DEBUG</DCC_Define>
+        <BCC_DebugLineNumbers>true</BCC_DebugLineNumbers>
+        <TASM_DisplaySourceLines>true</TASM_DisplaySourceLines>
+        <BCC_StackFrames>true</BCC_StackFrames>
+        <ILINK_LibraryPath>$(BDS)\lib\debug;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <ILINK_FullDebugInfo>true</ILINK_FullDebugInfo>
+        <TASM_Debugging>Full</TASM_Debugging>
+        <BCC_SourceDebuggingOn>true</BCC_SourceDebuggingOn>
+        <ILINK_TranslatedLibraryPath>$(BDS)\lib\$(LANGDIR)\debug;$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <VerInfo_PreRelease>false</VerInfo_PreRelease>
+        <VerInfo_Build>0</VerInfo_Build>
+        <VerInfo_Keys>CompanyName=https://hibara.org;FileDescription=;FileVersion=2.8.3.0;InternalName=;LegalCopyright=Copyright© 2002-2017 M.Hibara, All Rights Reserved.;LegalTrademarks=;OriginalFilename=;ProductName=アタッシェケース;ProductVersion=2.8.3.0;Comments=</VerInfo_Keys>
+        <VerInfo_Release>3</VerInfo_Release>
+        <Defines>_DEBUG;$(Defines)</Defines>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
+        <Defines>_DEBUG;$(Defines)</Defines>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2)'!=''">
+        <IntermediateOutputDir>Release</IntermediateOutputDir>
+        <ILINK_LibraryPath>$(BDS)\lib\release;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <TASM_Debugging>None</TASM_Debugging>
+        <ILINK_TranslatedLibraryPath>$(BDS)\lib\$(LANGDIR)\release;$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <VerInfo_Build>0</VerInfo_Build>
+        <VerInfo_Release>3</VerInfo_Release>
+        <VerInfo_PreRelease>false</VerInfo_PreRelease>
+        <VerInfo_Keys>CompanyName=https://hibara.org;FileDescription=;FileVersion=2.8.3.0;InternalName=;LegalCopyright=Copyright© 2002-2017 M.Hibara, All Rights Reserved.;LegalTrademarks=;OriginalFilename=;ProductName=アタッシェケース;ProductVersion=2.8.3.0;Comments=</VerInfo_Keys>
+        <Defines>NDEBUG;$(Defines)</Defines>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
+        <Defines>NDEBUG;$(Defines)</Defines>
+    </PropertyGroup>
+    <ItemGroup>
+        <CppCompile Include="AttacheCase.cpp">
+            <BuildOrder>0</BuildOrder>
+        </CppCompile>
+        <ResFiles Include="AttacheCase.res">
+            <BuildOrder>1</BuildOrder>
+        </ResFiles>
+        <CppCompile Include="blowfish.cpp">
+            <BuildOrder>18</BuildOrder>
+        </CppCompile>
+        <None Include="blowfish.h">
+            <BuildOrder>34</BuildOrder>
+        </None>
+        <None Include="blowfish.h2"/>
+        <RcItem Include="Icon\addicon00.ico">
+            <ResourceType>Icon</ResourceType>
+            <ResourceId>SUBICON1</ResourceId>
+        </RcItem>
+        <RcItem Include="Icon\addicon01.ico">
+            <ResourceType>Icon</ResourceType>
+            <ResourceId>SUBICON0</ResourceId>
+        </RcItem>
+        <RcItem Include="Icon\addicon02.ico">
+            <ResourceType>Icon</ResourceType>
+            <ResourceId>SUBICON2</ResourceId>
+        </RcItem>
+        <CppCompile Include="isaac.c">
+            <BuildOrder>2</BuildOrder>
+        </CppCompile>
+        <None Include="isaac.h">
+            <BuildOrder>13</BuildOrder>
+        </None>
+        <DelphiCompile Include="locale\ja\MsgDecrypt.pas">
+            <BuildOrder>19</BuildOrder>
+        </DelphiCompile>
+        <DelphiCompile Include="locale\ja\MsgDelete.pas">
+            <BuildOrder>21</BuildOrder>
+        </DelphiCompile>
+        <DelphiCompile Include="locale\ja\MsgEncrypt.pas">
+            <BuildOrder>13</BuildOrder>
+        </DelphiCompile>
+        <DelphiCompile Include="locale\ja\MsgOption.pas">
+            <BuildOrder>28</BuildOrder>
+        </DelphiCompile>
+        <DelphiCompile Include="locale\ja\MsgUnit1.pas">
+            <BuildOrder>14</BuildOrder>
+        </DelphiCompile>
+        <DelphiCompile Include="locale\ja\MsgUnit2.pas">
+            <BuildOrder>31</BuildOrder>
+        </DelphiCompile>
+        <DelphiCompile Include="locale\ja\MsgUnit3.pas">
+            <BuildOrder>26</BuildOrder>
+        </DelphiCompile>
+        <DelphiCompile Include="locale\ja\MsgUnit4.pas">
+            <BuildOrder>26</BuildOrder>
+        </DelphiCompile>
+        <DelphiCompile Include="locale\ja\MsgWinMain.pas">
+            <BuildOrder>29</BuildOrder>
+        </DelphiCompile>
+        <CppCompile Include="rijndael.c">
+            <BuildOrder>1</BuildOrder>
+        </CppCompile>
+        <None Include="rijndael.h">
+            <BuildOrder>8</BuildOrder>
+        </None>
+        <CppCompile Include="sha1.c">
+            <BuildOrder>27</BuildOrder>
+        </CppCompile>
+        <None Include="standard.h">
+            <BuildOrder>12</BuildOrder>
+        </None>
+        <CppCompile Include="TAttacheCaseDelete.cpp">
+            <DependentOn>TAttacheCaseDelete.h</DependentOn>
+            <BuildOrder>20</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="TAttacheCaseFileDecrypt1.cpp">
+            <DependentOn>TAttacheCaseFileDecrypt1.h</DependentOn>
+            <BuildOrder>33</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="TAttacheCaseFileDecrypt2.cpp">
+            <DependentOn>TAttacheCaseFileDecrypt2.h</DependentOn>
+            <BuildOrder>12</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="TAttacheCaseFileEncrypt.cpp">
+            <DependentOn>TAttacheCaseFileEncrypt.h</DependentOn>
+            <BuildOrder>13</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="TAttacheCaseOptionHandle.cpp">
+            <DependentOn>TAttacheCaseOptionHandle.h</DependentOn>
+            <BuildOrder>26</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="TDragAndDrop.cpp">
+            <BuildOrder>30</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="TGetAppInfoString.cpp">
+            <DependentOn>TGetAppInfoString.h</DependentOn>
+            <BuildOrder>26</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Unit1.cpp">
+            <Form>Form1</Form>
+            <DependentOn>Unit1.h</DependentOn>
+            <BuildOrder>6</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Unit2.cpp">
+            <Form>Form2</Form>
+            <DependentOn>Unit2.h</DependentOn>
+            <BuildOrder>7</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Unit3.cpp">
+            <Form>Form3</Form>
+            <DependentOn>Unit3.h</DependentOn>
+            <BuildOrder>16</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="Unit4.cpp">
+            <Form>Form4</Form>
+            <DependentOn>Unit4.h</DependentOn>
+            <BuildOrder>25</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="zlib-1.2.10\adler32.c">
+            <BuildOrder>60</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="zlib-1.2.10\compress.c">
+            <BuildOrder>59</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="zlib-1.2.10\crc32.c">
+            <BuildOrder>58</BuildOrder>
+        </CppCompile>
+        <None Include="zlib-1.2.10\crc32.h">
+            <BuildOrder>45</BuildOrder>
+        </None>
+        <CppCompile Include="zlib-1.2.10\deflate.c">
+            <BuildOrder>57</BuildOrder>
+        </CppCompile>
+        <None Include="zlib-1.2.10\deflate.h">
+            <BuildOrder>44</BuildOrder>
+        </None>
+        <CppCompile Include="zlib-1.2.10\gzclose.c">
+            <BuildOrder>56</BuildOrder>
+        </CppCompile>
+        <None Include="zlib-1.2.10\gzguts.h">
+            <BuildOrder>43</BuildOrder>
+        </None>
+        <CppCompile Include="zlib-1.2.10\gzlib.c">
+            <BuildOrder>55</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="zlib-1.2.10\gzread.c">
+            <BuildOrder>54</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="zlib-1.2.10\gzwrite.c">
+            <BuildOrder>53</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="zlib-1.2.10\infback.c">
+            <BuildOrder>52</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="zlib-1.2.10\inffast.c">
+            <BuildOrder>51</BuildOrder>
+        </CppCompile>
+        <None Include="zlib-1.2.10\inffast.h">
+            <BuildOrder>42</BuildOrder>
+        </None>
+        <None Include="zlib-1.2.10\inffixed.h">
+            <BuildOrder>41</BuildOrder>
+        </None>
+        <CppCompile Include="zlib-1.2.10\inflate.c">
+            <BuildOrder>50</BuildOrder>
+        </CppCompile>
+        <None Include="zlib-1.2.10\inflate.h">
+            <BuildOrder>40</BuildOrder>
+        </None>
+        <CppCompile Include="zlib-1.2.10\inftrees.c">
+            <BuildOrder>49</BuildOrder>
+        </CppCompile>
+        <None Include="zlib-1.2.10\inftrees.h">
+            <BuildOrder>39</BuildOrder>
+        </None>
+        <CppCompile Include="zlib-1.2.10\trees.c">
+            <BuildOrder>48</BuildOrder>
+        </CppCompile>
+        <None Include="zlib-1.2.10\trees.h">
+            <BuildOrder>38</BuildOrder>
+        </None>
+        <CppCompile Include="zlib-1.2.10\uncompr.c">
+            <BuildOrder>47</BuildOrder>
+        </CppCompile>
+        <None Include="zlib-1.2.10\zconf.h">
+            <BuildOrder>37</BuildOrder>
+        </None>
+        <None Include="zlib-1.2.10\zlib.h">
+            <BuildOrder>36</BuildOrder>
+        </None>
+        <CppCompile Include="zlib-1.2.10\zutil.c">
+            <BuildOrder>46</BuildOrder>
+        </CppCompile>
+        <None Include="zlib-1.2.10\zutil.h">
+            <BuildOrder>35</BuildOrder>
+        </None>
+        <FormResources Include="Unit3.dfm"/>
+        <FormResources Include="Unit2.dfm"/>
+        <FormResources Include="Unit4.dfm"/>
+        <FormResources Include="Unit1.dfm"/>
+        <BuildConfiguration Include="リリース">
+            <Key>Cfg_2</Key>
+            <CfgParent>Base</CfgParent>
+        </BuildConfiguration>
+        <BuildConfiguration Include="Base">
+            <Key>Base</Key>
+        </BuildConfiguration>
+        <BuildConfiguration Include="デバッグ">
+            <Key>Cfg_1</Key>
+            <CfgParent>Base</CfgParent>
+        </BuildConfiguration>
+    </ItemGroup>
+    <Import Project="$(BDS)\Bin\CodeGear.Cpp.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Cpp.Targets')"/>
+    <ProjectExtensions>
+        <Borland.Personality>CPlusPlusBuilder.Personality.12</Borland.Personality>
+        <Borland.ProjectType>CppVCLApplication</Borland.ProjectType>
+        <BorlandProject>
+            <CPlusPlusBuilder.Personality>
+                <VersionInfo>
+                    <VersionInfo Name="IncludeVerInfo">True</VersionInfo>
+                    <VersionInfo Name="AutoIncBuild">False</VersionInfo>
+                    <VersionInfo Name="MajorVer">2</VersionInfo>
+                    <VersionInfo Name="MinorVer">8</VersionInfo>
+                    <VersionInfo Name="Release">2</VersionInfo>
+                    <VersionInfo Name="Build">8</VersionInfo>
+                    <VersionInfo Name="Debug">False</VersionInfo>
+                    <VersionInfo Name="PreRelease">True</VersionInfo>
+                    <VersionInfo Name="Special">False</VersionInfo>
+                    <VersionInfo Name="Private">False</VersionInfo>
+                    <VersionInfo Name="DLL">False</VersionInfo>
+                    <VersionInfo Name="Locale">1041</VersionInfo>
+                    <VersionInfo Name="CodePage">932</VersionInfo>
+                </VersionInfo>
+                <VersionInfoKeys>
+                    <VersionInfoKeys Name="CompanyName">http://hibara.org/</VersionInfoKeys>
+                    <VersionInfoKeys Name="FileDescription"/>
+                    <VersionInfoKeys Name="FileVersion">2.8.2.8</VersionInfoKeys>
+                    <VersionInfoKeys Name="InternalName"/>
+                    <VersionInfoKeys Name="LegalCopyright">Copyright(C) 2013 M.Hibara, All rights reserved.</VersionInfoKeys>
+                    <VersionInfoKeys Name="LegalTrademarks"/>
+                    <VersionInfoKeys Name="OriginalFilename"/>
+                    <VersionInfoKeys Name="ProductName">AttacheCase</VersionInfoKeys>
+                    <VersionInfoKeys Name="ProductVersion">2.8.2.8</VersionInfoKeys>
+                    <VersionInfoKeys Name="Comments"/>
+                    <VersionInfoKeys Name="CFBundleName"/>
+                    <VersionInfoKeys Name="CFBundleDisplayName"/>
+                    <VersionInfoKeys Name="UIDeviceFamily"/>
+                    <VersionInfoKeys Name="CFBundleIdentifier"/>
+                    <VersionInfoKeys Name="CFBundleVersion"/>
+                    <VersionInfoKeys Name="CFBundlePackageType"/>
+                    <VersionInfoKeys Name="CFBundleSignature"/>
+                    <VersionInfoKeys Name="CFBundleAllowMixedLocalizations"/>
+                    <VersionInfoKeys Name="UISupportedInterfaceOrientations"/>
+                    <VersionInfoKeys Name="CFBundleExecutable"/>
+                    <VersionInfoKeys Name="CFBundleResourceSpecification"/>
+                    <VersionInfoKeys Name="LSRequiresIPhoneOS"/>
+                    <VersionInfoKeys Name="CFBundleInfoDictionaryVersion"/>
+                    <VersionInfoKeys Name="CFBundleDevelopmentRegion"/>
+                </VersionInfoKeys>
+                <Debugging>
+                    <Debugging Name="DebugSourceDirs"/>
+                </Debugging>
+                <Parameters>
+                    <Parameters Name="RunParams"/>
+                    <Parameters Name="Launcher"/>
+                    <Parameters Name="UseLauncher">False</Parameters>
+                    <Parameters Name="DebugCWD"/>
+                    <Parameters Name="HostApplication"/>
+                    <Parameters Name="RemoteHost"/>
+                    <Parameters Name="RemotePath"/>
+                    <Parameters Name="RemoteParams"/>
+                    <Parameters Name="RemoteLauncher"/>
+                    <Parameters Name="UseRemoteLauncher">False</Parameters>
+                    <Parameters Name="RemoteCWD"/>
+                    <Parameters Name="RemoteDebug">False</Parameters>
+                    <Parameters Name="Debug Symbols Search Path"/>
+                    <Parameters Name="LoadAllSymbols">True</Parameters>
+                    <Parameters Name="LoadUnspecifiedSymbols">False</Parameters>
+                </Parameters>
+                <ProjectProperties>
+                    <ProjectProperties Name="AutoShowDeps">False</ProjectProperties>
+                    <ProjectProperties Name="ManagePaths">True</ProjectProperties>
+                    <ProjectProperties Name="VerifyPackages">True</ProjectProperties>
+                </ProjectProperties>
+                <Source>
+                    <Source Name="MainSource">AttacheCase.cpp</Source>
+                </Source>
+                <Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k180.bpl">Embarcadero C++Builder Office 2000 サーバー パッケージ</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp180.bpl">Embarcadero C++Builder Office XP サーバー パッケージ</Excluded_Packages>
+                </Excluded_Packages>
+            </CPlusPlusBuilder.Personality>
+            <Platforms>
+                <Platform value="Win32">True</Platform>
+                <Platform value="Win64">False</Platform>
+            </Platforms>
+        </BorlandProject>
+        <ProjectFileVersion>12</ProjectFileVersion>
+    </ProjectExtensions>
+    <Import Project="$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj" Condition="Exists('$(APPDATA)\Embarcadero\$(BDSAPPDATABASEDIR)\$(PRODUCTVERSION)\UserTools.proj')"/>
+</Project>
