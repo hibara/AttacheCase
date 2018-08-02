@@ -2,7 +2,7 @@
 /*
 
 アタッシェケース（AttachéCase）
-Copyright (c) 2002-2017, Mitsuhiro Hibara ( http://hibara.org )
+Copyright (c) 2002-2018, Mitsuhiro Hibara ( http://hibara.org )
 All rights reserved.
 
 Redistribution and use in source and binary forms,
@@ -41,9 +41,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "MsgWinMain.hpp"
 
 //---------------------------------------------------------------------------
-USEFORM("Unit3.cpp", Form3);
-USEFORM("Unit2.cpp", Form2);
 USEFORM("Unit4.cpp", Form4);
+USEFORM("Unit2.cpp", Form2);
+USEFORM("Unit3.cpp", Form3);
 USEFORM("Unit1.cpp", Form1);
 //---------------------------------------------------------------------------
 HANDLE mx;

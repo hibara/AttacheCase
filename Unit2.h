@@ -2,7 +2,7 @@
 /*
 
 アタッシェケース（AttachéCase）
-Copyright (c) 2002-2013, Mitsuhiro Hibara ( http://hibara.org )
+Copyright (c) 2002-2018, Mitsuhiro Hibara ( http://hibara.org )
 All rights reserved.
 
 Redistribution and use in source and binary forms,
@@ -45,7 +45,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "MsgUnit2.hpp"
 
-#include "zlib-1.2.10\zlib.h"
+#include "zlib-1.2.11\zlib.h"
 #include "Unit1.h"
 
 #include "TGetAppInfoString.h"

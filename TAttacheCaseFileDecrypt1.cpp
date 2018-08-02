@@ -2,7 +2,7 @@
 /*
 
 アタッシェケース（AttachéCase）
-Copyright (c) 2002-2017, Mitsuhiro Hibara ( http://hibara.org )
+Copyright (c) 2002-2018, Mitsuhiro Hibara ( http://hibara.org )
 All rights reserved.
 
 Redistribution and use in source and binary forms,
@@ -40,6 +40,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "Unit1.h"
 #include "TAttacheCaseFileDecrypt1.h"
+#include <RegularExpressions.hpp>
 
 #pragma package(smart_init)
 // ---------------------------------------------------------------------------
@@ -345,8 +346,8 @@ for (i = 0; i < DataList->Count; i++) {
 	if (idx > 0) {
 		tsv->DelimitedText = DataList->ValueFromIndex[idx];
 
-		// ディレクトリトラバーサル対策（ver.2.8.3.0～）
-		if (tsv->Strings[0].Pos("..\\") > 0 ){
+		// ディレクトリトラバーサル対策（ver.2.8.4.0～）
+		if (TRegEx::IsMatch(tsv->Strings[0], "^[a-zA-Z]:|\.\.\s*[\\/]|\\\\")){
 			//'不正なファイルパスです。復号できません。';
 			MsgText = LoadResourceString(&Msgdecrypt::_MSG_ERROR_INVALID_FILE_PATH);
 			MsgType = mtError;

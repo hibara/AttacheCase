@@ -662,7 +662,6 @@ object Form2: TForm2
     Caption = '&OK'
     TabOrder = 0
     OnClick = cmdOKClick
-    ExplicitLeft = 178
   end
   object BalloonHint1: TBalloonHint
     Delay = 0

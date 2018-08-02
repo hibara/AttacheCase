@@ -77,19 +77,22 @@
         <AllPackageLibs>rtl.lib;vcl.lib;vclx.lib;vclimg.lib</AllPackageLibs>
         <OutputExt>exe</OutputExt>
         <DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
-        <IncludePath>zlib-1.2.10\;zlib-1.2.7\;.;locale\ja\;$(BDS)\include;$(BDS)\include\vcl;$(CG_BOOST_ROOT);$(IncludePath)</IncludePath>
-        <ILINK_LibraryPath>zlib-1.2.10\;.;locale\ja\;$(BDS)\lib\obj;zlib-1.2.7\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <IncludePath>zlib-1.2.11\;.;locale\ja\;$(BDS)\include;$(CG_BOOST_ROOT);$(IncludePath)</IncludePath>
+        <ILINK_LibraryPath>zlib-1.2.11\;.;locale\ja\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <BCC_wpar>false</BCC_wpar>
         <BCC_ExtendedErrorInfo>true</BCC_ExtendedErrorInfo>
         <ILINK_TranslatedLibraryPath>$(BDS)\lib\$(LANGDIR)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base_Win32)'!=''">
-        <ILINK_LibraryPath>\\Mac\Dropbox\GitHub\AttacheCase\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <VerInfo_MajorVer>1</VerInfo_MajorVer>
+        <VerInfo_MinorVer>0</VerInfo_MinorVer>
+        <VerInfo_Build>0</VerInfo_Build>
+        <VerInfo_Release>0</VerInfo_Release>
+        <ILINK_LibraryPath>\\Mac\Dropbox\AttacheCase\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <DCC_Namespace>Winapi;System.Win;Data.Win;Datasnap.Win;Web.Win;Soap.Win;Xml.Win;Bde;$(DCC_Namespace)</DCC_Namespace>
         <IncludePath>$(BDSINCLUDE)\windows\vcl;$(IncludePath)</IncludePath>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Icon_MainIcon>AttacheCase_Icon.ico</Icon_MainIcon>
-        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_Keys>CompanyName=;FileDescription=;FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProductName=;ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <Manifest_File>$(BDS)\bin\default_app.manifest</Manifest_File>
     </PropertyGroup>
@@ -117,10 +120,10 @@
         <ILINK_TranslatedLibraryPath>$(BDS)\lib\$(LANGDIR)\debug;$(ILINK_TranslatedLibraryPath)</ILINK_TranslatedLibraryPath>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win32)'!=''">
-        <VerInfo_Locale>1033</VerInfo_Locale>
+        <VerInfo_Locale>2840</VerInfo_Locale>
         <VerInfo_PreRelease>false</VerInfo_PreRelease>
         <VerInfo_Build>0</VerInfo_Build>
-        <VerInfo_Keys>CompanyName=https://hibara.org;FileDescription=;FileVersion=2.8.3.0;InternalName=;LegalCopyright=Copyright© 2002-2017 M.Hibara, All Rights Reserved.;LegalTrademarks=;OriginalFilename=;ProductName=アタッシェケース;ProductVersion=2.8.3.0;Comments=</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=https://hibara.org;FileDescription=;FileVersion=2.8.3.0;InternalName=;LegalCopyright=Copyright© 2002-2018 M.Hibara, All Rights Reserved.;LegalTrademarks=;OriginalFilename=;ProductName=アタッシェケース;ProductVersion=2.8.4.0;Comments=</VerInfo_Keys>
         <VerInfo_Release>3</VerInfo_Release>
         <Defines>_DEBUG;$(Defines)</Defines>
     </PropertyGroup>
@@ -136,15 +139,16 @@
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
         <VerInfo_Locale>1033</VerInfo_Locale>
         <VerInfo_Build>0</VerInfo_Build>
-        <VerInfo_Release>3</VerInfo_Release>
+        <VerInfo_Release>4</VerInfo_Release>
         <VerInfo_PreRelease>false</VerInfo_PreRelease>
-        <VerInfo_Keys>CompanyName=https://hibara.org;FileDescription=;FileVersion=2.8.3.0;InternalName=;LegalCopyright=Copyright© 2002-2017 M.Hibara, All Rights Reserved.;LegalTrademarks=;OriginalFilename=;ProductName=アタッシェケース;ProductVersion=2.8.3.0;Comments=</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=https://hibara.org;FileDescription=;FileVersion=2.8.4.0;InternalName=;LegalCopyright=Copyright© 2002-2018 M.Hibara, All Rights Reserved.;LegalTrademarks=;OriginalFilename=;ProductName=アタッシェケース;ProductVersion=2.8.4.0;Comments=</VerInfo_Keys>
         <Defines>NDEBUG;$(Defines)</Defines>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>
     </PropertyGroup>
     <ItemGroup>
+        <None Include="\\Mac\Dropbox\AttacheCase"/>
         <CppCompile Include="AttacheCase.cpp">
             <BuildOrder>0</BuildOrder>
         </CppCompile>
@@ -262,87 +266,76 @@
             <DependentOn>Unit4.h</DependentOn>
             <BuildOrder>25</BuildOrder>
         </CppCompile>
-        <CppCompile Include="zlib-1.2.10\adler32.c">
-            <BuildOrder>60</BuildOrder>
+        <LibFiles Include="zlib-1.2.11.lib" Condition="'$(Platform)'=='Win32'">
+            <BuildOrder>84</BuildOrder>
+            <IgnorePath>true</IgnorePath>
+        </LibFiles>
+        <CppCompile Include="zlib-1.2.11\adler32.c">
+            <BuildOrder>69</BuildOrder>
         </CppCompile>
-        <CppCompile Include="zlib-1.2.10\compress.c">
-            <BuildOrder>59</BuildOrder>
+        <None Include="zlib-1.2.11\ChangeLog"/>
+        <None Include="zlib-1.2.11\CMakeLists.txt"/>
+        <CppCompile Include="zlib-1.2.11\compress.c">
+            <BuildOrder>70</BuildOrder>
         </CppCompile>
-        <CppCompile Include="zlib-1.2.10\crc32.c">
-            <BuildOrder>58</BuildOrder>
+        <None Include="zlib-1.2.11\configure"/>
+        <CppCompile Include="zlib-1.2.11\crc32.c">
+            <BuildOrder>71</BuildOrder>
         </CppCompile>
-        <None Include="zlib-1.2.10\crc32.h">
-            <BuildOrder>45</BuildOrder>
-        </None>
-        <CppCompile Include="zlib-1.2.10\deflate.c">
-            <BuildOrder>57</BuildOrder>
+        <CppCompile Include="zlib-1.2.11\deflate.c">
+            <BuildOrder>72</BuildOrder>
         </CppCompile>
-        <None Include="zlib-1.2.10\deflate.h">
-            <BuildOrder>44</BuildOrder>
-        </None>
-        <CppCompile Include="zlib-1.2.10\gzclose.c">
-            <BuildOrder>56</BuildOrder>
+        <None Include="zlib-1.2.11\FAQ"/>
+        <CppCompile Include="zlib-1.2.11\gzclose.c">
+            <BuildOrder>73</BuildOrder>
         </CppCompile>
-        <None Include="zlib-1.2.10\gzguts.h">
-            <BuildOrder>43</BuildOrder>
-        </None>
-        <CppCompile Include="zlib-1.2.10\gzlib.c">
-            <BuildOrder>55</BuildOrder>
+        <CppCompile Include="zlib-1.2.11\gzlib.c">
+            <BuildOrder>74</BuildOrder>
         </CppCompile>
-        <CppCompile Include="zlib-1.2.10\gzread.c">
-            <BuildOrder>54</BuildOrder>
+        <CppCompile Include="zlib-1.2.11\gzread.c">
+            <BuildOrder>75</BuildOrder>
         </CppCompile>
-        <CppCompile Include="zlib-1.2.10\gzwrite.c">
-            <BuildOrder>53</BuildOrder>
+        <CppCompile Include="zlib-1.2.11\gzwrite.c">
+            <BuildOrder>76</BuildOrder>
         </CppCompile>
-        <CppCompile Include="zlib-1.2.10\infback.c">
-            <BuildOrder>52</BuildOrder>
+        <None Include="zlib-1.2.11\INDEX"/>
+        <CppCompile Include="zlib-1.2.11\infback.c">
+            <BuildOrder>77</BuildOrder>
         </CppCompile>
-        <CppCompile Include="zlib-1.2.10\inffast.c">
-            <BuildOrder>51</BuildOrder>
+        <CppCompile Include="zlib-1.2.11\inffast.c">
+            <BuildOrder>78</BuildOrder>
         </CppCompile>
-        <None Include="zlib-1.2.10\inffast.h">
-            <BuildOrder>42</BuildOrder>
-        </None>
-        <None Include="zlib-1.2.10\inffixed.h">
-            <BuildOrder>41</BuildOrder>
-        </None>
-        <CppCompile Include="zlib-1.2.10\inflate.c">
-            <BuildOrder>50</BuildOrder>
+        <CppCompile Include="zlib-1.2.11\inflate.c">
+            <BuildOrder>79</BuildOrder>
         </CppCompile>
-        <None Include="zlib-1.2.10\inflate.h">
-            <BuildOrder>40</BuildOrder>
-        </None>
-        <CppCompile Include="zlib-1.2.10\inftrees.c">
-            <BuildOrder>49</BuildOrder>
+        <CppCompile Include="zlib-1.2.11\inftrees.c">
+            <BuildOrder>80</BuildOrder>
         </CppCompile>
-        <None Include="zlib-1.2.10\inftrees.h">
-            <BuildOrder>39</BuildOrder>
-        </None>
-        <CppCompile Include="zlib-1.2.10\trees.c">
-            <BuildOrder>48</BuildOrder>
+        <None Include="zlib-1.2.11\Makefile"/>
+        <None Include="zlib-1.2.11\Makefile.in"/>
+        <None Include="zlib-1.2.11\make_vms.com"/>
+        <None Include="zlib-1.2.11\README"/>
+        <None Include="zlib-1.2.11\treebuild.xml"/>
+        <CppCompile Include="zlib-1.2.11\trees.c">
+            <BuildOrder>81</BuildOrder>
         </CppCompile>
-        <None Include="zlib-1.2.10\trees.h">
-            <BuildOrder>38</BuildOrder>
-        </None>
-        <CppCompile Include="zlib-1.2.10\uncompr.c">
-            <BuildOrder>47</BuildOrder>
+        <CppCompile Include="zlib-1.2.11\uncompr.c">
+            <BuildOrder>82</BuildOrder>
         </CppCompile>
-        <None Include="zlib-1.2.10\zconf.h">
-            <BuildOrder>37</BuildOrder>
-        </None>
-        <None Include="zlib-1.2.10\zlib.h">
-            <BuildOrder>36</BuildOrder>
-        </None>
-        <CppCompile Include="zlib-1.2.10\zutil.c">
-            <BuildOrder>46</BuildOrder>
+        <None Include="zlib-1.2.11\zconf.h.cmakein"/>
+        <None Include="zlib-1.2.11\zconf.h.in"/>
+        <None Include="zlib-1.2.11\zlib.3"/>
+        <None Include="zlib-1.2.11\zlib.3.pdf"/>
+        <None Include="zlib-1.2.11\zlib.map"/>
+        <None Include="zlib-1.2.11\zlib.pc.cmakein"/>
+        <None Include="zlib-1.2.11\zlib.pc.in"/>
+        <None Include="zlib-1.2.11\zlib2ansi"/>
+        <CppCompile Include="zlib-1.2.11\zutil.c">
+            <BuildOrder>83</BuildOrder>
         </CppCompile>
-        <None Include="zlib-1.2.10\zutil.h">
-            <BuildOrder>35</BuildOrder>
-        </None>
-        <FormResources Include="Unit3.dfm"/>
-        <FormResources Include="Unit2.dfm"/>
         <FormResources Include="Unit4.dfm"/>
+        <FormResources Include="Unit2.dfm"/>
+        <FormResources Include="Unit3.dfm"/>
         <FormResources Include="Unit1.dfm"/>
         <BuildConfiguration Include="リリース">
             <Key>Cfg_2</Key>

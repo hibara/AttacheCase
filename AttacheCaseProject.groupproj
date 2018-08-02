@@ -9,10 +9,10 @@
         <Projects Include="exeout\exeout.cbproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="zlib-1.2.10\zlib1210.cbproj">
+        <Projects Include="AtcSetup\AtcSetup.cbproj">
             <Dependencies/>
         </Projects>
-        <Projects Include="\\Mac\Dropbox\GitHub\AttacheCase\AtcSetup\AtcSetup.cbproj">
+        <Projects Include="M:\AttacheCase\zlib-1.2.11\zlib-1.2.11.cbproj">
             <Dependencies/>
         </Projects>
     </ItemGroup>
@@ -41,32 +41,32 @@
     <Target Name="exeout:Make">
         <MSBuild Projects="exeout\exeout.cbproj" Targets="Make"/>
     </Target>
-    <Target Name="zlib1210">
-        <MSBuild Projects="zlib-1.2.10\zlib1210.cbproj"/>
-    </Target>
-    <Target Name="zlib1210:Clean">
-        <MSBuild Projects="zlib-1.2.10\zlib1210.cbproj" Targets="Clean"/>
-    </Target>
-    <Target Name="zlib1210:Make">
-        <MSBuild Projects="zlib-1.2.10\zlib1210.cbproj" Targets="Make"/>
-    </Target>
     <Target Name="AtcSetup">
-        <MSBuild Projects="\\Mac\Dropbox\GitHub\AttacheCase\AtcSetup\AtcSetup.cbproj"/>
+        <MSBuild Projects="AtcSetup\AtcSetup.cbproj"/>
     </Target>
     <Target Name="AtcSetup:Clean">
-        <MSBuild Projects="\\Mac\Dropbox\GitHub\AttacheCase\AtcSetup\AtcSetup.cbproj" Targets="Clean"/>
+        <MSBuild Projects="AtcSetup\AtcSetup.cbproj" Targets="Clean"/>
     </Target>
     <Target Name="AtcSetup:Make">
-        <MSBuild Projects="\\Mac\Dropbox\GitHub\AttacheCase\AtcSetup\AtcSetup.cbproj" Targets="Make"/>
+        <MSBuild Projects="AtcSetup\AtcSetup.cbproj" Targets="Make"/>
+    </Target>
+    <Target Name="zlib-1_2_11">
+        <MSBuild Projects="M:\AttacheCase\zlib-1.2.11\zlib-1.2.11.cbproj"/>
+    </Target>
+    <Target Name="zlib-1_2_11:Clean">
+        <MSBuild Projects="M:\AttacheCase\zlib-1.2.11\zlib-1.2.11.cbproj" Targets="Clean"/>
+    </Target>
+    <Target Name="zlib-1_2_11:Make">
+        <MSBuild Projects="M:\AttacheCase\zlib-1.2.11\zlib-1.2.11.cbproj" Targets="Make"/>
     </Target>
     <Target Name="Build">
-        <CallTarget Targets="AttacheCase;exeout;zlib1210;AtcSetup"/>
+        <CallTarget Targets="AttacheCase;exeout;AtcSetup;zlib-1_2_11"/>
     </Target>
     <Target Name="Clean">
-        <CallTarget Targets="AttacheCase:Clean;exeout:Clean;zlib1210:Clean;AtcSetup:Clean"/>
+        <CallTarget Targets="AttacheCase:Clean;exeout:Clean;AtcSetup:Clean;zlib-1_2_11:Clean"/>
     </Target>
     <Target Name="Make">
-        <CallTarget Targets="AttacheCase:Make;exeout:Make;zlib1210:Make;AtcSetup:Make"/>
+        <CallTarget Targets="AttacheCase:Make;exeout:Make;AtcSetup:Make;zlib-1_2_11:Make"/>
     </Target>
     <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
 </Project>

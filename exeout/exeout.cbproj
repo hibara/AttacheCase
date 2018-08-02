@@ -77,8 +77,8 @@
         <BCC_OptimizeForSpeed>true</BCC_OptimizeForSpeed>
         <FinalOutputDir>.</FinalOutputDir>
         <DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
-        <IncludePath>..\locale\ja\;locale\ja\;..\zlib-1.2.7\;..\;$(BDS)\include;$(BDS)\include\vcl;$(CG_BOOST_ROOT);.;$(IncludePath)</IncludePath>
-        <ILINK_LibraryPath>..\locale\ja\;locale\ja\;..\;$(BDS)\lib\obj;..\zlib-1.2.7\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
+        <IncludePath>..\zlib-1.2.11\;..\locale\ja\;locale\ja\;..\zlib-1.2.7\;..\;$(BDS)\include;$(BDS)\include\vcl;$(CG_BOOST_ROOT);.;$(IncludePath)</IncludePath>
+        <ILINK_LibraryPath>..\zlib-1.2.11\;..\locale\ja\;locale\ja\;..\;$(BDS)\lib\obj;..\zlib-1.2.7\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <BCC_wpar>false</BCC_wpar>
         <BCC_ExtendedErrorInfo>true</BCC_ExtendedErrorInfo>
     </PropertyGroup>
@@ -135,8 +135,8 @@
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
         <VerInfo_Build>0</VerInfo_Build>
         <VerInfo_Locale>1033</VerInfo_Locale>
-        <VerInfo_Keys>CompanyName=https://hibara.org;FileDescription=;FileVersion=2.8.3.0;InternalName=;LegalCopyright=Copyright© 2017 M.Hibara. All Rights Reserved.;LegalTrademarks=;OriginalFilename=;ProductName=アタッシェケース（自己実行形式ファイル）;ProductVersion=2.8.3.0;Comments=</VerInfo_Keys>
-        <VerInfo_Release>3</VerInfo_Release>
+        <VerInfo_Keys>CompanyName=https://hibara.org;FileDescription=;FileVersion=2.8.4.0;InternalName=;LegalCopyright=Copyright© 2018 M.Hibara. All Rights Reserved.;LegalTrademarks=;OriginalFilename=;ProductName=アタッシェケース（自己実行形式ファイル）;ProductVersion=2.8.4.0;Comments=</VerInfo_Keys>
+        <VerInfo_Release>4</VerInfo_Release>
         <Defines>NDEBUG;$(Defines)</Defines>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
@@ -183,10 +183,51 @@
             <DependentOn>..\TGetAppInfoString.h</DependentOn>
             <BuildOrder>7</BuildOrder>
         </CppCompile>
-        <LibFiles Include="..\zlib1210.lib" Condition="'$(Platform)'=='Win32'">
-            <BuildOrder>11</BuildOrder>
-            <IgnorePath>true</IgnorePath>
-        </LibFiles>
+        <CppCompile Include="..\zlib-1.2.11\adler32.c">
+            <BuildOrder>12</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\zlib-1.2.11\compress.c">
+            <BuildOrder>13</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\zlib-1.2.11\crc32.c">
+            <BuildOrder>14</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\zlib-1.2.11\deflate.c">
+            <BuildOrder>15</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\zlib-1.2.11\gzclose.c">
+            <BuildOrder>16</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\zlib-1.2.11\gzlib.c">
+            <BuildOrder>17</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\zlib-1.2.11\gzread.c">
+            <BuildOrder>18</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\zlib-1.2.11\gzwrite.c">
+            <BuildOrder>19</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\zlib-1.2.11\infback.c">
+            <BuildOrder>20</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\zlib-1.2.11\inffast.c">
+            <BuildOrder>21</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\zlib-1.2.11\inflate.c">
+            <BuildOrder>22</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\zlib-1.2.11\inftrees.c">
+            <BuildOrder>23</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\zlib-1.2.11\trees.c">
+            <BuildOrder>24</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\zlib-1.2.11\uncompr.c">
+            <BuildOrder>25</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="..\zlib-1.2.11\zutil.c">
+            <BuildOrder>26</BuildOrder>
+        </CppCompile>
         <FormResources Include="Unit2.dfm"/>
         <FormResources Include="Unit1.dfm"/>
         <BuildConfiguration Include="リリース">

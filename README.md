@@ -10,7 +10,7 @@
 インストーラーなどのアーカイブも、併せてここにホストしてありますが、
 以下の公式サイトでも配布しております。そちらかもどうぞ。
 
-http://hibara.org/attachecase/
+https://hibara.org/attachecase/
 
 ソフトウェアの個人使用、商用に関わらず、使用・改変・再頒布をすることが
 できます。そこは以下にあるLicenseの項目を参照ください。
@@ -19,7 +19,7 @@ http://hibara.org/attachecase/
 Screenshots
 -----------------------------------
 
-![ScreenShot-00](http://hibara.org/software/img/attachecase_screenshot_00.png)
+![ScreenShot-00](https://hibara.org/software/img/attachecase_screenshot_00.png)
 
 
 License
@@ -28,7 +28,7 @@ License
 The BSD 3-Clause License
 
 アタッシェケース（AttachéCase）
-Copyright (c) 2002-2013, Mitsuhiro Hibara ( http://hibara.org )
+Copyright (c) 2002-2018, Mitsuhiro Hibara ( https://hibara.org )
 All rights reserved.
 
 Redistribution and use in source and binary forms, 

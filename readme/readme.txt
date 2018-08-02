@@ -1,6 +1,6 @@
 ======================================================================
-#アタッシェケース    ver.2.8.3.0               2017/01/12
-Copyright(C) 2002-2017 ひばら みつひろ http://hibara.org/
+#アタッシェケース    ver.2.8.4.0               2018/08/03
+Copyright(C) 2002-2018 ひばら みつひろ http://hibara.org/
 ======================================================================
 
 ##ソフト説明
@@ -74,7 +74,7 @@ BSDライセンス（The BSD 3-Clause License）
 
 ======================================================================
 アタッシェケース（AttachéCase）
-Copyright (c) 2002-2017, Mitsuhiro Hibara ( http://hibara.org )
+Copyright (c) 2002-2018, Mitsuhiro Hibara ( http://hibara.org )
 All rights reserved.
 
 Redistribution and use in source and binary forms, 
@@ -175,6 +175,10 @@ https://github.com/hibara/AttacheCase/issues
 ##改版履歴
 -------------------
 『アタッシェケース』の改版履歴は以下の通りです。
+
+ver.2.8.4.0　  2018/08/03
+              ・さらなるディレクトリトラバーサル対策。
+              ・zlibライブラリを更新（ver.1.2.11）
 
 ver.2.8.3.0　  2017/01/12
               ・ディレクトリトラバーサル対策。
