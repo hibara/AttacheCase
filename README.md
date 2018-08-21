@@ -19,7 +19,7 @@ https://hibara.org/attachecase/
 Screenshots
 -----------------------------------
 
-![ScreenShot-00](https://hibara.org/software/img/attachecase_screenshot_00.png)
+![ScreenShot-00](./readme/attachecase_screenshot_00.png)
 
 
 License
