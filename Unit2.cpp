@@ -78,7 +78,7 @@ lblLisence->Caption = "The BSD 3-Clause License";
 //著作権表示
 lblCopyright->Caption = pAppInfoString->LegalCopyright;
 //サイト表示
-lblHomePage->Caption = "http://hibara.org/software/";
+lblHomePage->Caption = "https://hibara.org/software/";
 
 delete pAppInfoString;
 
@@ -114,7 +114,7 @@ void __fastcall TForm2::lblLisenceClick(TObject *Sender)
 {
 
 //ブラウザ起動
-String Link = "http://opensource.org/licenses/BSD-3-Clause";
+String Link = "https://opensource.org/licenses/BSD-3-Clause";
 ShellExecuteW(NULL, L"open", Link.c_str(), NULL, NULL, SW_NORMAL);
 Close();
 
@@ -142,7 +142,7 @@ void __fastcall TForm2::lblHomePageClick(TObject *Sender)
 //ピリオド抜きのバージョン番号を取得する
 String VerString = StringReplace(VersionString, ".", "", TReplaceFlags()<<rfReplaceAll);
 //ブラウザ起動
-String Link = "http://hibara.org/software/?s=atc&v="+VerString;
+String Link = "https://hibara.org/software/?s=atc&v="+VerString;
 ShellExecuteW(NULL, L"open", Link.c_str(), NULL, NULL, SW_NORMAL);
 Close();
 
@@ -151,7 +151,7 @@ Close();
 void __fastcall TForm2::lblLisenceMouseEnter(TObject *Sender)
 {
 
-BalloonHint1->Title = "http://opensource.org/licenses/BSD-3-Clause";
+BalloonHint1->Title = "https://opensource.org/licenses/BSD-3-Clause";
 //BalloonHint1->Description = "クリックするとブラウザが起動します。";
 BalloonHint1->Description = LoadResourceString(&Msgunit2::_BALLOON_HINT_MSG);
 BalloonHint1->ShowHint(lblLisence->ClientToScreen(CenterPoint(lblLisence->ClientRect)));
@@ -161,7 +161,7 @@ BalloonHint1->ShowHint(lblLisence->ClientToScreen(CenterPoint(lblLisence->Client
 void __fastcall TForm2::lblHomePageMouseEnter(TObject *Sender)
 {
 
-BalloonHint1->Title = "http://hibara.org/software/";
+BalloonHint1->Title = "https://hibara.org/software/";
 //BalloonHint1->Description = "クリックするとブラウザが起動します。";
 BalloonHint1->Description = LoadResourceString(&Msgunit2::_BALLOON_HINT_MSG);
 BalloonHint1->ShowHint(lblHomePage->ClientToScreen(CenterPoint(lblHomePage->ClientRect)));

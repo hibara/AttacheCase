@@ -36,12 +36,16 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <vcl.h>
 
+#include <stdio.h>
+#include <windows.h>
+#include <shlwapi.h>
+#pragma comment(lib, "shlwapi.lib")
+
 #pragma link "msvcrt.lib"
 #pragma hdrstop
 
 #include "Unit1.h"
 #include "TAttacheCaseFileDecrypt2.h"
-#include <RegularExpressions.hpp>
 
 #pragma package(smart_init)
 // ---------------------------------------------------------------------------
@@ -112,7 +116,7 @@ char output_buffer[LARGE_BUF_SIZE];
 char *headerbuffer;
 
 //パスワード
-bool fPasswordOk = false;
+bool fPasswordOk;
 //const int KeyArrayNum = sizeof(key)/sizeof(key[0]);
 
 String FilePath, FileName;
@@ -450,16 +454,37 @@ tsv = new TStringList;
 tsv->Delimiter = '\t';
 tsv->StrictDelimiter = true;
 
+char lpPath[MAX_PATH];
+
 for (i = 0; i < DataList->Count; i++) {
 	idx = DataList->IndexOfName(PrefixString+IntToStr(i));
 	if (idx > 0) {
 		tsv->DelimitedText = DataList->ValueFromIndex[idx];
 
-		// ディレクトリ・トラバーサル対策（ver.2.8.4.0～）
-		// Directory traversal countermeasures
-		if (TRegEx::IsMatch(tsv->Strings[0], "^[a-zA-Z]:|\.\.\s*[\\/]|\\\\")){
-			//'不正なファイルパスです。復号できません。';
-			MsgText = LoadResourceString(&Msgdecrypt::_MSG_ERROR_INVALID_FILE_PATH);
+		// ディレクトリ・トラバーサル対策（ver.2.8.5.0～）
+		bool fDirectoryTraversal = false;
+		AnsiString CanonicalizePath = AnsiString(OutDirPath + tsv->Strings[0]);
+
+		if (CanonicalizePath.Length() < MAX_PATH) {
+			// ファイルパスを正規化
+			if (PathCanonicalize(lpPath, CanonicalizePath.c_str()) == true) {
+				// 正規化したパスが保存先と一致するか
+				if (AnsiString(lpPath).Pos(OutDirPath) != 1 ){
+					fDirectoryTraversal = true;
+				}
+			}
+			else{
+				fDirectoryTraversal = true;
+			}
+		}
+		else{
+			fDirectoryTraversal = true;
+		}
+
+		if (fDirectoryTraversal == true) {
+			//'不正なファイルパスが含まれています。復号できません。';
+			MsgText = LoadResourceString(&Msgdecrypt::_MSG_ERROR_INVALID_FILE_PATH) +
+								"\n" + CanonicalizePath;
 			MsgType = mtError;
 			MsgButtons = TMsgDlgButtons() << mbOK;
 			MsgDefaultButton = mbOK;
@@ -882,7 +907,7 @@ __int64 __fastcall TAttacheCaseFileDecrypt2::InputBuffer
 char i;
 int len;
 
-char paddingNum = 0;
+char paddingNum;
 char temp_buffer[BUF_SIZE];
 
 // 入力ファイルが開かれていない
@@ -944,7 +969,7 @@ if (fsIn->Position+1 > fsIn->Size) {
 
 }
 
-static __int64 pos = 0;
+//static __int64 pos = 0;
 
 //TFileStream *fsDebug = new TFileStream("C:\\Users\\eb\\Desktop\\debug.dat", fmOpenWrite);
 //fsDebug->Seek(0,soFromEnd);
@@ -953,9 +978,6 @@ static __int64 pos = 0;
 
 //ShowMessage(fsDebug->Size);
 //delete fsDebug;
-
-
-
 
 buff_size = BUF_SIZE;
 return(TotalSize);
@@ -977,7 +999,7 @@ int __fastcall TAttacheCaseFileDecrypt2::OutputBuffer
 
 int res;
 
-bool fCompareError = false;
+bool fCompareError;
 
 int rest;
 String FileName, FilePath, DirPath;

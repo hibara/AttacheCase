@@ -124,7 +124,7 @@ int FileIndex;
 String FilePath;
 
 int HeaderSize;                          //ヘッダデータサイズ
-__int64 CurrentDriveFreeSpaceSize = -1;  //保存するドライブの空き容量
+__int64 CurrentDriveFreeSpaceSize;       //保存するドライブの空き容量
 
 //実行可能形式出力ファイルのデータサイズ
 __int64 ExeAllSize = 0;
@@ -132,7 +132,7 @@ __int64 ExeSize    = 0;
 
 //全体のファイルサイズ
 AllTotalSize = 0;
-__int64 TotalSize = 0;
+__int64 TotalSize;
 
 //バッファ
 char source_buffer[BUF_SIZE];
@@ -156,7 +156,7 @@ TMemoryStream *pms = new TMemoryStream;
 int MarginBufSize = MARGIN_BUF_SIZE;
 
 // PKCS #7 Pading num.
-unsigned char paddingNum = 0;
+unsigned char paddingNum;
 
 //---------------------------------------
 // 同名ファイルがあるのでダイアログ表示
@@ -763,7 +763,7 @@ int i, c;
 
 int ret;
 int Index = 0;
-int HeaderSizeAddress = 0;
+int HeaderSizeAddress;
 TSearchRec sr;
 String OneLine;
 String DirPath, FileName;

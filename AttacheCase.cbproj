@@ -3,7 +3,7 @@
         <ProjectGuid>{3A1F203F-4E07-44DE-90B6-CC57240E80E8}</ProjectGuid>
         <ProjectVersion>14.6</ProjectVersion>
         <MainSource>AttacheCase.cpp</MainSource>
-        <Config Condition="'$(Config)'==''">リリース</Config>
+        <Config Condition="'$(Config)'==''">デバッグ</Config>
         <FrameworkType>VCL</FrameworkType>
         <Base>True</Base>
         <Platform Condition="'$(Platform)'==''">Win32</Platform>

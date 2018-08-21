@@ -210,6 +210,9 @@ bool __fastcall TAttacheCaseOptionHandle::LoadOptionData(String IniFilePath)
 
 int CurrentVersion;
 
+TForm *dlgconf;
+bool fLoadIniFile = false;
+
 TRegistry *reg;
 TCustomIniFile *pOpt;
 TGetAppInfoString *pAppInfoString;
@@ -217,6 +220,24 @@ TGetAppInfoString *pAppInfoString;
 try{
 
 	if ( FileExists(IniFilePath) == true ){
+		// 以下にある場所の設定ファイル（.ini）を読み込もうとしています。'+#13+
+		// よろしいですか？';
+		String MsgText = LoadResourceString(&Msgoption::_MSG_CONFIRM_OPEN_INI_FILE) + "\n" +
+											IniFilePath;
+		dlgconf = CreateMessageDialog(
+			MsgText, mtConfirmation, TMsgDlgButtons()<<mbYes<<mbNo, mbNo
+
+		);
+		dlgconf->Caption = LoadResourceString(&Msgoption::_MSG_CAPTION_CONFIRMATION);	//'確認'
+		int ret = dlgconf->ShowModal();
+		delete dlgconf;
+
+		if (ret == mrYes) {
+			fLoadIniFile = true;
+		}
+	}
+
+	if (fLoadIniFile == true) {
 		// INIファイルから読み込み
 		OptionPath = IniFilePath;
 		pOpt = new TIniFile(OptionPath);

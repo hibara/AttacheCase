@@ -106,7 +106,7 @@ char output_buffer[LARGE_BUF_SIZE];
 char *headerbuffer;
 
 //パスワード
-bool fPasswordOk = false;
+bool fPasswordOk;
 
 String FilePath, FileName;
 
@@ -341,15 +341,37 @@ tsv = new TStringList;
 tsv->Delimiter = '\t';
 tsv->StrictDelimiter = true;
 
+char lpPath[MAX_PATH];
+
 for (i = 0; i < DataList->Count; i++) {
 	idx = DataList->IndexOfName(PrefixString+IntToStr(i));
 	if (idx > 0) {
 		tsv->DelimitedText = DataList->ValueFromIndex[idx];
 
-		// ディレクトリトラバーサル対策（ver.2.8.4.0～）
-		if (TRegEx::IsMatch(tsv->Strings[0], "^[a-zA-Z]:|\.\.\s*[\\/]|\\\\")){
-			//'不正なファイルパスです。復号できません。';
-			MsgText = LoadResourceString(&Msgdecrypt::_MSG_ERROR_INVALID_FILE_PATH);
+		// ディレクトリ・トラバーサル対策（ver.2.8.5.0～）
+		bool fDirectoryTraversal = false;
+		AnsiString CanonicalizePath = AnsiString(OutDirPath + tsv->Strings[0]);
+
+		if (CanonicalizePath.Length() < MAX_PATH) {
+			// ファイルパスを正規化
+			if (PathCanonicalize(lpPath, CanonicalizePath.c_str()) == true) {
+				// 正規化したパスが保存先と一致するか
+				if (AnsiString(lpPath).Pos(OutDirPath) != 1 ){
+					fDirectoryTraversal = true;
+				}
+			}
+			else{
+				fDirectoryTraversal = true;
+			}
+		}
+		else{
+			fDirectoryTraversal = true;
+		}
+
+		if (fDirectoryTraversal == true) {
+			//'不正なファイルパスが含まれています。復号できません。';
+			MsgText = LoadResourceString(&Msgdecrypt::_MSG_ERROR_INVALID_FILE_PATH) +
+								"\n" + CanonicalizePath;
 			MsgType = mtError;
 			MsgButtons = TMsgDlgButtons() << mbOK;
 			MsgDefaultButton = mbOK;
