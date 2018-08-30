@@ -198,6 +198,10 @@ __published:	// IDE 管理のコンポーネント
 	void __fastcall ApplicationEvents1Minimize(TObject *Sender);
 	void __fastcall TrayIcon1Click(TObject *Sender);
 	void __fastcall TrayIcon1BalloonClick(TObject *Sender);
+	void __fastcall txtEncryptPasswordKeyPress(TObject *Sender, System::WideChar &Key);
+	void __fastcall txtPasswordConfirmKeyPress(TObject *Sender, System::WideChar &Key);
+
+
 
 
 

@@ -94,4 +94,7 @@ Thumbs.db
 *.ilf
 *.ils
 
+# Repository Avater for SourceTree
+icon.png
+
 

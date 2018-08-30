@@ -130,11 +130,11 @@ $(PostBuildEvent)]]></PostBuildEvent>
         <TASM_Debugging>None</TASM_Debugging>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win32)'!=''">
-        <VerInfo_Release>4</VerInfo_Release>
+        <VerInfo_Release>5</VerInfo_Release>
         <VerInfo_Locale>1033</VerInfo_Locale>
         <Defines>NDEBUG;$(Defines)</Defines>
         <VerInfo_Build>0</VerInfo_Build>
-        <VerInfo_Keys>CompanyName=https://hibara.org;FileDescription=;FileVersion=2.8.4.0;InternalName=;LegalCopyright=Copyright© 2018 M.Hibara. All Rights Reserved.;LegalTrademarks=;OriginalFilename=;ProductName=AtcSetup;ProductVersion=2.8.4.0;Comments=</VerInfo_Keys>
+        <VerInfo_Keys>CompanyName=https://hibara.org;FileDescription=;FileVersion=2.8.5.0;InternalName=;LegalCopyright=Copyright© 2018 M.Hibara. All Rights Reserved.;LegalTrademarks=;OriginalFilename=;ProductName=AtcSetup;ProductVersion=2.8.5.0;Comments=</VerInfo_Keys>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
         <Defines>NDEBUG;$(Defines)</Defines>

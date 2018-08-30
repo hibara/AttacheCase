@@ -2704,10 +2704,24 @@ if (Key == VK_RETURN) {
 }
 }
 //---------------------------------------------------------------------------
+void __fastcall TForm1::txtEncryptPasswordKeyPress(TObject *Sender, System::WideChar &Key)
+{
+if (Key == VK_RETURN){
+	Key = 0;
+}
+}
+//---------------------------------------------------------------------------
 void __fastcall TForm1::txtPasswordConfirmKeyDown(TObject *Sender, WORD &Key, TShiftState Shift)
 {
 if (Key == VK_RETURN) {
 	cmdConfirmOKClick(Sender);
+}
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::txtPasswordConfirmKeyPress(TObject *Sender, System::WideChar &Key)
+{
+if (Key == VK_RETURN){
+	Key = 0;
 }
 }
 //---------------------------------------------------------------------------

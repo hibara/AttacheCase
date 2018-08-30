@@ -424,6 +424,10 @@ if (PrefixString == "Fn_") {
 //ShowMessage(DataList->Text);
 //===================================
 
+#ifdef _DEBUG
+DataList->SaveToFile(OutDirPath + ExtractFileName(AtcFilePath) + ".txt");
+#endif
+
 delete pms;
 
 

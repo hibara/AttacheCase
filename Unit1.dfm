@@ -3893,7 +3893,7 @@ object Form1: TForm1
     Margins.Top = 4
     Margins.Right = 4
     Margins.Bottom = 4
-    ActivePage = TabSheetMain
+    ActivePage = TabSheetInputEncPassConfirm
     DoubleBuffered = False
     ParentDoubleBuffered = False
     TabOrder = 1
@@ -5011,6 +5011,7 @@ object Form1: TForm1
         TabOrder = 0
         OnChange = txtEncryptPasswordChange
         OnKeyDown = txtEncryptPasswordKeyDown
+        OnKeyPress = txtEncryptPasswordKeyPress
       end
       object cmdEncryptPasswordOK: TButton
         Left = 29
@@ -5089,6 +5090,7 @@ object Form1: TForm1
         TabOrder = 0
         OnChange = txtPasswordConfirmChange
         OnKeyDown = txtPasswordConfirmKeyDown
+        OnKeyPress = txtPasswordConfirmKeyPress
       end
       object cmdConfirmOK: TButton
         Left = 32

@@ -221,11 +221,11 @@ try{
 
 	if ( FileExists(IniFilePath) == true ){
 		// 以下にある場所の設定ファイル（.ini）を読み込もうとしています。'+#13+
-		// よろしいですか？';
+		// よろしいですか？;
 		String MsgText = LoadResourceString(&Msgoption::_MSG_CONFIRM_OPEN_INI_FILE) + "\n" +
 											IniFilePath;
 		dlgconf = CreateMessageDialog(
-			MsgText, mtConfirmation, TMsgDlgButtons()<<mbYes<<mbNo, mbNo
+			MsgText, mtWarning, TMsgDlgButtons()<<mbYes<<mbNo, mbNo
 
 		);
 		dlgconf->Caption = LoadResourceString(&Msgoption::_MSG_CAPTION_CONFIRMATION);	//'確認'
